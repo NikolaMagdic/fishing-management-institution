@@ -22,7 +22,7 @@ public class JWTokenUtils {
     @Value("fishing-management-application")
     private String APP_NAME;
     
-    @Value("secret")
+    @Value("DprLrW2OyqiAFiuWs14WO2TWp2EHtaX7a63dqrklkxrjaZMrcPhpX4hkZw803SQx5HpGc7VYBX8l82XlMZgggasf32g")
     public String SECRET;
     
     @Value("1200000")
