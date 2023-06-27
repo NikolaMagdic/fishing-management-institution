@@ -1,5 +1,6 @@
 DROP TABLE app_user;
 DROP TABLE admin;
+DROP TABLE fishing_area;
 
 CREATE TABLE app_user (
 	id 		 				 INTEGER 	   NOT NULL AUTO_INCREMENT,
@@ -16,3 +17,9 @@ CREATE TABLE admin (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE fishing_area (
+	id 			INTEGER NOT NULL AUTO_INCREMENT,
+	name 		VARCHAR(20) NOT NULL,
+	area_type 	INTEGER,
+	PRIMARY KEY (id)
+);

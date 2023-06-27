@@ -62,6 +62,7 @@ public class WebSecurityConfig {
         http.exceptionHandling((exception) -> exception.authenticationEntryPoint(restAuthenticationEntryPoint));
         http.authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/api/login/**").permitAll()
+                .requestMatchers("/api/fishing-area/**").permitAll()
                 .anyRequest().authenticated());
         http.cors(cors -> cors.disable());
         http.csrf(csrf -> csrf.disable());
