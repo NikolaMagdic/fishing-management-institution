@@ -1,0 +1,26 @@
+<html>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Ribolovne vode
+        </div>
+        <div class="table responsive">
+            <div>{{pozdravna_poruka}}</div>
+            <table class="table" *ngIf="fishing_areas && fishing_areas.length">
+                <thead>
+                    <tr>
+                        <th>SLIKA</th>
+                        <th>Naziv</th>
+                        <th>Tip vode</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let fishing_area of fishing_areas">
+                    <tr>
+                        <td></td>
+                        <td>{{fishing_area.name}}</td>
+                        <td>{{fishing_area.type}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</html>

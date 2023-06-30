@@ -63,6 +63,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/api/login/**").permitAll()
                 .requestMatchers("/api/fishing-area/**").permitAll()
+                .requestMatchers("/api/fish-species/**").permitAll()
                 .anyRequest().authenticated());
         http.cors(cors -> cors.disable());
         http.csrf(csrf -> csrf.disable());

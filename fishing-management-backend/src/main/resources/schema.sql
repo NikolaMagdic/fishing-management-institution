@@ -1,6 +1,7 @@
-DROP TABLE app_user;
-DROP TABLE admin;
-DROP TABLE fishing_area;
+DROP TABLE IF EXISTS app_user;
+DROP TABLE IF EXISTS admin;
+DROP TABLE IF EXISTS fishing_area;
+DROP TABLE IF EXISTS fish_species;
 
 CREATE TABLE app_user (
 	id 		 				 INTEGER 	   NOT NULL AUTO_INCREMENT,
@@ -21,5 +22,19 @@ CREATE TABLE fishing_area (
 	id 			INTEGER NOT NULL AUTO_INCREMENT,
 	name 		VARCHAR(20) NOT NULL,
 	area_type 	INTEGER,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE fish_species (
+	id 			 	  INTEGER NOT NULL AUTO_INCREMENT,
+	name 		 	  VARCHAR(20) NOT NULL,
+	latin_name   	  VARCHAR(30) NOT NULL,
+	category	 	  INTEGER NOT NULL,
+	min_size	 	  INTEGER,
+	max_quantity 	  INTEGER,
+	max_weight   	  INTEGER,
+	fishing_ban_start DATE,
+	fishing_ban_end   DATE,
+	permanent_fishing_ban BOOLEAN,
 	PRIMARY KEY (id)
 );
