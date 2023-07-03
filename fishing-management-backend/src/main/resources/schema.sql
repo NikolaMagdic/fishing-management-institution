@@ -1,7 +1,8 @@
-DROP TABLE IF EXISTS app_user;
+/*DROP TABLE IF EXISTS app_user;
 DROP TABLE IF EXISTS admin;
 DROP TABLE IF EXISTS fishing_area;
 DROP TABLE IF EXISTS fish_species;
+DROP TABLE IF EXISTS fisherman;
 
 CREATE TABLE app_user (
 	id 		 				 INTEGER 	   NOT NULL AUTO_INCREMENT,
@@ -38,3 +39,16 @@ CREATE TABLE fish_species (
 	permanent_fishing_ban BOOLEAN,
 	PRIMARY KEY (id)
 );
+
+CREATE TABLE fisherman (
+	id                INTEGER NOT NULL AUTO_INCREMENT,
+	first_name 		  VARCHAR(20) NOT NULL,
+	last_name 		  VARCHAR(30) NOT NULL,
+	date_of_birth	  DATE,
+	address 		  VARCHAR(50),
+	city			  VARCHAR(30),
+	category          INTEGER,
+	PRIMARY KEY(id)
+
+);
+*/

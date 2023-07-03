@@ -4,8 +4,16 @@
             Ribolovne vode
         </div>
         <div class="table responsive">
-            <div>{{pozdravna_poruka}}</div>
-            <table class="table" *ngIf="fishing_areas && fishing_areas.length">
+            <div>{{pozdravnaPoruka}}</div>
+            <!--Ovo je primer two-way bindinga; da bi se koristio ngModel mora se importovati FormsModule -->
+            <div>
+                Prijavljeni korisnik {{loggedInUserName}}
+                <input type="text" [(ngModel)]="loggedInUserName"/>
+                
+            </div>
+            <!--Ovo je primer event bindinga bindinga-->
+            <button (click)="toggleImages()">{{!imagesShown ? "Prikazi" : "Sakrij"}} slike ribolovnih voda</button>
+            <table class="table" *ngIf="fishingAreas && fishingAreas.length">
                 <thead>
                     <tr>
                         <th>SLIKA</th>
@@ -13,11 +21,18 @@
                         <th>Tip vode</th>
                     </tr>
                 </thead>
-                <tbody *ngFor="let fishing_area of fishing_areas">
+                <tbody *ngFor="let fishingArea of fishingAreas">
                     <tr>
-                        <td></td>
-                        <td>{{fishing_area.name}}</td>
-                        <td>{{fishing_area.type}}</td>
+                        <!--Ovo je property binding, prakticno isto sto i interpolacija (obadva su one-way), 
+                            ako zelimo da dobijemo isti rezultat interpolacijom pisemo src="{{fishing_area.image}}"-->
+                        <td>
+                            <img [src]="fishingArea.image" [title]="fishingArea.name" [style.width.px]="imageWidth" 
+                                *ngIf="imagesShown">
+                        </td>
+                        <!--Ovo je interpolacija-->
+                        <td>{{fishingArea.name}}</td>
+                        <td>{{fishingArea.type | uppercase}}</td><!--Primer upotrebe pipe-a za formatiranje ispisa
+                                                                    zgodno za  | currency:"RSD":"symbol":"1.2-2"--> 
                     </tr>
                 </tbody>
             </table>

@@ -7,16 +7,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.AuthenticationRequestDTO;
+import com.example.fishingmanagementbackend.dto.PasswordChangeRequestDTO;
 import com.example.fishingmanagementbackend.model.User;
 import com.example.fishingmanagementbackend.security.JWTokenUtils;
+import com.example.fishingmanagementbackend.service.UserService;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("api/auth")
 public class AuthenticationController {
     
     @Autowired 
@@ -24,6 +27,9 @@ public class AuthenticationController {
     
     @Autowired
     private JWTokenUtils tokenUtils;
+    
+    @Autowired
+    private UserService userService;
     
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthenticationRequestDTO authRequest) {
@@ -38,4 +44,15 @@ public class AuthenticationController {
         // razmotriti da li je potrebno ovde da vracam DTO koji ukljucuje i expiresIn atribut
         return ResponseEntity.ok(jwt);
     }
+    
+    @PutMapping
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangeRequestDTO passwordChangeRequest) {
+
+        userService.changePassword(passwordChangeRequest.getOldPassword(), passwordChangeRequest.getNewPassword());
+        return ResponseEntity.ok().build();
+    
+    }
+    
+    
+    
 }

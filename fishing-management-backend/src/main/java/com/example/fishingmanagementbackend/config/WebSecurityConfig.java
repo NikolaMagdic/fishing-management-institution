@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -61,11 +62,12 @@ public class WebSecurityConfig {
         http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.exceptionHandling((exception) -> exception.authenticationEntryPoint(restAuthenticationEntryPoint));
         http.authorizeHttpRequests((authz) -> authz
-                .requestMatchers("/api/login/**").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/fishing-area/**").permitAll()
                 .requestMatchers("/api/fish-species/**").permitAll()
+                .requestMatchers("/api/fisherman/**").permitAll()
                 .anyRequest().authenticated());
-        http.cors(cors -> cors.disable());
+        http.cors();
         http.csrf(csrf -> csrf.disable());
         http.addFilterBefore(new TokenAuthenticationFilter(token, userService), BasicAuthenticationFilter.class);
         
@@ -76,6 +78,8 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> {
             web.ignoring().requestMatchers(HttpMethod.POST, "/auth/login");
+            web.ignoring().requestMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
+                    "/**/*.css", "/**/*.js");
         };
     }
 }

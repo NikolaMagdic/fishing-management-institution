@@ -67,9 +67,10 @@ public class JWTokenUtils {
     private Claims getAllClaimsFromToken(String token) {
         Claims claims;
         try {
-            claims = Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJwt(token).getBody();
+            claims = Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
         } catch (Exception e) {
             claims = null;
+            e.printStackTrace();
         }
         return claims;
     }
@@ -81,6 +82,7 @@ public class JWTokenUtils {
             username = claims.getSubject();
         } catch (Exception e) {
             username = null;
+            e.printStackTrace();
         }
         return username;
     }

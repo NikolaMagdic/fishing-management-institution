@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,6 +35,9 @@ public class User implements UserDetails {
 
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
+    
+    @OneToOne(mappedBy = "user")
+    private Fisherman fisherman;
     
     public User() {}
     
