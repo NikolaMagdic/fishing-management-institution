@@ -7,11 +7,11 @@
             <div>{{pozdravnaPoruka}}</div>
             <!--Ovo je primer two-way bindinga; da bi se koristio ngModel mora se importovati FormsModule -->
             <div>
-                Prijavljeni korisnik {{loggedInUserName}}
-                <input type="text" [(ngModel)]="loggedInUserName"/>
+                Sta pise u inputu? {{filter}}
+                <input type="text" id="input" [(ngModel)]="filter" (input)="doFilter()"/>
                 
             </div>
-            <!--Ovo je primer event bindinga bindinga-->
+            <!--Ovo je primer event bindinga-->
             <button (click)="toggleImages()">{{!imagesShown ? "Prikazi" : "Sakrij"}} slike ribolovnih voda</button>
             <table class="table" *ngIf="fishingAreas && fishingAreas.length">
                 <thead>
@@ -21,7 +21,7 @@
                         <th>Tip vode</th>
                     </tr>
                 </thead>
-                <tbody *ngFor="let fishingArea of fishingAreas">
+                <tbody *ngFor="let fishingArea of filteredFishingAreas">
                     <tr>
                         <!--Ovo je property binding, prakticno isto sto i interpolacija (obadva su one-way), 
                             ako zelimo da dobijemo isti rezultat interpolacijom pisemo src="{{fishing_area.image}}"-->

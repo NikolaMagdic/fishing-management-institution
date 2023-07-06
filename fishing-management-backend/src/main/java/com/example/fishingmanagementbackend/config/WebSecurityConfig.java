@@ -66,6 +66,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/fishing-area/**").permitAll()
                 .requestMatchers("/api/fish-species/**").permitAll()
                 .requestMatchers("/api/fisherman/**").permitAll()
+                .requestMatchers("/api/keeper/**").permitAll()
                 .anyRequest().authenticated());
         http.cors();
         http.csrf(csrf -> csrf.disable());
@@ -78,8 +79,8 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> {
             web.ignoring().requestMatchers(HttpMethod.POST, "/auth/login");
-            web.ignoring().requestMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
-                    "/**/*.css", "/**/*.js");
+//            web.ignoring().requestMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
+//                    "/**/*.css", "/**/*.js");
         };
     }
 }
