@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,8 +15,10 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column
     private String username;
     
+    @Column
     private String password;
     
     public Admin() {}

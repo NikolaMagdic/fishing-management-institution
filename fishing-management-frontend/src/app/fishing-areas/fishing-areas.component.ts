@@ -49,6 +49,10 @@ export class FishingAreasListComponent {
         
     }
 
+    onRatingClicked(message: string) : void {
+        this.pozdravnaPoruka = this.pozdravnaPoruka + " " + message;
+    }
+
     ngOnInit() : void {
         console.log("Ova metoda se poziva automatski kada se komponenta ucita i na ovom mestu se radi inicijalizacija podataka");
     }

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,16 +24,22 @@ public class Fisherman implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String firstName;
     
+    @Column
     private String lastName;
     
+    @Column
     private Date dateOfBirth;
     
+    @Column
     private String address;
     
+    @Column
     private String city;
     
+    @Column
     private FishermanCategory category;
     
     @OneToOne

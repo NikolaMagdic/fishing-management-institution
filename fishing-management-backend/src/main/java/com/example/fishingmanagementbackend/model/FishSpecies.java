@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.example.fishingmanagementbackend.enumerations.FishCategory;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,23 +20,32 @@ public class FishSpecies {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column
     private String name;
     
+    @Column
     private String latinName;
     
+    @Column
     private FishCategory category;
     
+    @Column
     private int minSize;
     
+    @Column
     private int maxQuantity;
     
+    @Column
     private int maxWeight;
     
     // mozda izdvojiti ovo u klasu FishingBan, da se ne buni SonarLint
+    @Column
     private Date fishingBanStart;
     
+    @Column
     private Date fishingBanEnd;
     
+    @Column
     boolean permanentFishingBan;
 
     @ManyToMany(mappedBy = "fishSpecies")

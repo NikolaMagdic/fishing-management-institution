@@ -67,6 +67,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/fish-species/**").permitAll()
                 .requestMatchers("/api/fisherman/**").permitAll()
                 .requestMatchers("/api/keeper/**").permitAll()
+                .requestMatchers("/api/fishing-spot/**").permitAll()
                 .anyRequest().authenticated());
         http.cors();
         http.csrf(csrf -> csrf.disable());
