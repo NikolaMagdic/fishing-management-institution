@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { FishingAreaService } from '../services/fishing-area.service';
 
 @Component({
     selector: 'fishing-areas',
@@ -14,24 +15,13 @@ export class FishingAreasListComponent {
     filteredFishingAreas: any = [];
 
     // Mozemo napraviti interface fishingAreas kako bismo ga tipizirali i na taj nacin imali odmah i neku vrstu validacije, za sad to necu jer je to cist typescritp
-    fishingAreas: any = [
-        {
-            "id": 1,
-            "name": "Borkovac",
-            "type": "Jezero",
-            "image": "https://www.gradnja.rs/wp-content/uploads/2022/04/borkovac-ruma-naslovna.jpg"
-        },
-        {
-            "id": 2,
-            "name": "Sava",
-            "type": "Reka",
-            "image": "https://turizamusrbiji.rs/wp-content/uploads/2014/10/belgrade-sava-river.jpg"
-        }
-    ]
+    fishingAreas: any = []
 
-    // Funkcija koja se izvrsava kada se prvi put inicijalizuje komponenta, ne znam u cemu je razlika sa ngOnInit
-    constructor() {
-        this.filteredFishingAreas = this.fishingAreas;
+    errorMessage: string = "";
+
+    // Konstruktor koji se poziva prilikom inicijalizacije komponente, izvrsava se pre ngOnInit
+    constructor(private _fishingAreaService: FishingAreaService) {
+        // Ovo gore je sintaksni secer koji uproscava konstruktor koji je inace u osnovi isti kao i u Javi
     }
 
     toggleImages() : void {
@@ -55,5 +45,13 @@ export class FishingAreasListComponent {
 
     ngOnInit() : void {
         console.log("Ova metoda se poziva automatski kada se komponenta ucita i na ovom mestu se radi inicijalizacija podataka");
+        this._fishingAreaService.getFishingAreas().subscribe({
+            next: fishingAreas => { 
+                this.fishingAreas = fishingAreas,
+                this.filteredFishingAreas = this.fishingAreas},
+            error: err => this.errorMessage = err
+        });
+                
+       
     }
 }

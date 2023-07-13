@@ -28,6 +28,30 @@ public class FishSpeciesService {
         return fishSpeciesDTOs;
     }
     
+    /** Metoda koja vraca sve vrste riba koje pripadaju nekoj ribolovnoj vodi*/
+    public List<FishSpeciesDTO> getAllFishSpeciesinFishingArea(Long areaId) {
+        List<FishSpecies> fishSpeciesInArea = fishSpeciesRepository.findByFishingArea(areaId);
+        List<FishSpeciesDTO> fishSpeciesDTOs = new ArrayList<>();
+        for(FishSpecies fishSpecies : fishSpeciesInArea) {
+            FishSpeciesDTO fishSpeciesDTO = new FishSpeciesDTO(fishSpecies);
+            fishSpeciesDTOs.add(fishSpeciesDTO);
+        }
+        return fishSpeciesDTOs;
+    }
+    
+    /**Metoda koja vraca sve vrste riba koje ne pripadaju ribolovnoj vodi.
+     * Ovo je potrebno radi prikaza svih vrsta riba koje mogu da se dodaju u ribolovnu vodu*/
+    public List<FishSpeciesDTO> getAllFishSpeciesNotInFishingArea(Long areaId) {
+        List<FishSpecies> fishSpeciesNotInArea = fishSpeciesRepository.findNotInFishingArea(areaId);
+        List<FishSpeciesDTO> fishSpeciesDTOs = new ArrayList<>();
+        for(FishSpecies fishSpecies : fishSpeciesNotInArea) {
+            FishSpeciesDTO fishSpeciesDTO = new FishSpeciesDTO(fishSpecies);
+            fishSpeciesDTOs.add(fishSpeciesDTO);
+        }
+        return fishSpeciesDTOs;
+    }
+    
+    
     /**@return Vrsta ribe sa prosledjenim id*/
     public FishSpeciesDTO getFishSpecies(Long id) {
         FishSpecies fishSpecies = fishSpeciesRepository.getReferenceById(id);

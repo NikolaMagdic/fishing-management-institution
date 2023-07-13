@@ -33,6 +33,21 @@ public class FishSpeciesController {
     
     }
     
+    @GetMapping("/area/{areaId}")
+    public ResponseEntity<List<FishSpeciesDTO>> getAllFishSpeciesInFishingArea(@PathVariable("areaId") Long id) {
+        
+        List<FishSpeciesDTO> fishSpeciesDTOs = fishSpeciesService.getAllFishSpeciesinFishingArea(id);
+        
+        return ResponseEntity.ok(fishSpeciesDTOs);
+    }
+    
+    @GetMapping("/outside-area/{areaId}")
+    public ResponseEntity<List<FishSpeciesDTO>> getAllFishSpeciesNotInFishingArea(@PathVariable("areaId") Long id) {
+        
+        List<FishSpeciesDTO> fishSpeciesDTOs = fishSpeciesService.getAllFishSpeciesNotInFishingArea(id);
+        return ResponseEntity.ok(fishSpeciesDTOs);
+    }
+    
     @GetMapping("/{id}")
     public ResponseEntity<FishSpeciesDTO> getFishSpecies(@PathVariable("id") Long id) {
         

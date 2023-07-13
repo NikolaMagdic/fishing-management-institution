@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.FishingAreaDTO;
+import com.example.fishingmanagementbackend.model.FishSpecies;
 import com.example.fishingmanagementbackend.model.FishingArea;
+import com.example.fishingmanagementbackend.repository.FishSpeciesRepository;
 import com.example.fishingmanagementbackend.repository.FishingAreaRepository;
 
 @Service
@@ -16,6 +18,9 @@ public class FishingAreaService {
     @Autowired
     private FishingAreaRepository fishingAreaRepository;
     
+    @Autowired
+    private FishSpeciesRepository fishSpeciesRepository;
+    
     public List<FishingAreaDTO> getFishingAreas() {
         List<FishingArea> fishingAreas = fishingAreaRepository.findAll();
         List<FishingAreaDTO> fishingAreaDTOs = new ArrayList<>();
@@ -23,7 +28,7 @@ public class FishingAreaService {
             FishingAreaDTO fishingAreaDTO = new FishingAreaDTO(fishingArea);
             fishingAreaDTOs.add(fishingAreaDTO);
         }
-        
+
         return fishingAreaDTOs;
     }
     
@@ -48,6 +53,34 @@ public class FishingAreaService {
         
         return fishingAreaRepository.save(fishingArea);
     }
+    
+    public boolean addFishSpeciesToArea(Long areaId, Long fishSpeciesId) {
+        FishingArea fishingArea = fishingAreaRepository.getReferenceById(areaId);
+        FishSpecies fishSpecies = fishSpeciesRepository.getReferenceById(fishSpeciesId);
+        // TODO: Ovde dodati rukovanje izuzecima
+        fishingArea.getFishSpecies().add(fishSpecies);
+        fishSpecies.getFishingAreas().add(fishingArea);
+        
+        fishingAreaRepository.save(fishingArea);
+        fishSpeciesRepository.save(fishSpecies);
+        
+        return true;
+    }
+    
+    public boolean removeFishSpeciesFromArea(Long areaId, Long fishSpeciesId) {
+        FishingArea fishingArea = fishingAreaRepository.getReferenceById(areaId);
+        FishSpecies fishSpecies = fishSpeciesRepository.getReferenceById(fishSpeciesId);
+        // TODO: I ovde obraditi izuzetke i vratiti false ako postoje
+        fishingArea.getFishSpecies().remove(fishSpecies);
+        fishSpecies.getFishingAreas().remove(fishingArea);
+        
+        fishingAreaRepository.save(fishingArea);
+        fishSpeciesRepository.save(fishSpecies);
+        
+        return true;
+    }
+    
+    
     
 //    public FishingArea deleteFishingArea(Long id) {
 //        

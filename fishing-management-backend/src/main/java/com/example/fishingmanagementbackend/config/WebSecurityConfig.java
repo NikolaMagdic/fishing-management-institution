@@ -68,8 +68,9 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/fisherman/**").permitAll()
                 .requestMatchers("/api/keeper/**").permitAll()
                 .requestMatchers("/api/fishing-spot/**").permitAll()
+                .requestMatchers("/api/reservation/**").permitAll()
                 .anyRequest().authenticated());
-        http.cors();
+        http.cors(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());
         http.addFilterBefore(new TokenAuthenticationFilter(token, userService), BasicAuthenticationFilter.class);
         

@@ -30,6 +30,7 @@ public class FishingAreaController {
         
         List<FishingAreaDTO> fishingAreaDTOs = fishingAreaService.getFishingAreas();
         return ResponseEntity.ok().body(fishingAreaDTOs);
+        
     }
     
     @GetMapping("/{id}")
@@ -61,5 +62,17 @@ public class FishingAreaController {
         }
         
         return ResponseEntity.ok().body(new FishingAreaDTO(fishingArea));
+    }
+    
+    @PutMapping("/{areaId}/add-fish-species/{speciesId}")
+    public ResponseEntity<Boolean> addFishSpeciesToFishingArea(@PathVariable("areaId") Long areaId, @PathVariable("speciesId") Long speciesId) {
+        fishingAreaService.addFishSpeciesToArea(areaId, speciesId);
+        return ResponseEntity.ok(true);
+    }
+    
+    @PutMapping("/{areaId}/remove-fish-species/{speciesId}")
+    public ResponseEntity<Boolean> removeFishSpeciesFromFishingArea(@PathVariable("areaId") Long areaId, @PathVariable("speciesId") Long speciesId) {
+        fishingAreaService.removeFishSpeciesFromArea(areaId, speciesId);
+        return ResponseEntity.ok(true);
     }
 }
