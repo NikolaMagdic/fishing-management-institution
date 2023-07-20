@@ -1,3 +1,14 @@
+<div>
+    <nav class="navbar navbar-expand navbar-light bg-light">  
+            <a class="navbar-brand">Fishing Management</a>
+            <ul class="nav nav-pills">
+                <li><a class="nav-link" routerLink="">Početna strana</a></li>
+                <li><a class="nav-link" routerLink="fishing-areas">Ribolovne vode</a></li>
+            </ul>
+    </nav>
+</div>
 
-<fishing-areas></fishing-areas>
-<router-outlet></router-outlet>
+<div class="container">
+    <!--Na ovom mestu ce se prikazati view komponente ciju rutu smo odabrali, za to nam sluzi router-outlet direktiva-->
+    <router-outlet></router-outlet>
+</div>

@@ -5,6 +5,8 @@ import com.example.fishingmanagementbackend.model.FishingArea;
 
 public class FishingAreaDTO {
     
+    private Long id;
+    
     private String name;
     
     private FishingAreaType type;
@@ -12,10 +14,19 @@ public class FishingAreaDTO {
     public FishingAreaDTO() {}
     
     public FishingAreaDTO(FishingArea fishingArea) {
+        this.id = fishingArea.getId();
         this.name = fishingArea.getName();
         this.type = fishingArea.getType();
     }
     
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }

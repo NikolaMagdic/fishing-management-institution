@@ -4,10 +4,10 @@
     </div>
     <div class="table responsive">
         <div>{{pozdravnaPoruka}} Ocena nase aplikacije <fm-rating [rating]="5" (ratingClicked)="onRatingClicked($event)"></fm-rating></div>
-        <!--Ovo je primer two-way bindinga; da bi se koristio ngModel mora se importovati FormsModule -->
+        <!--Ovo je primer two-way bindinga; da bi se koristio ngModel mora se importovati FormsModule, ali je on deprecated u najnovijoj verziji angulara -->
         <div>
             Sta pise u inputu? {{filter}}
-            <input type="text" id="input" [(ngModel)]="filter" (input)="doFilter()"/>
+            <input type="text" id="input" [value]="doFilter()" (input)="onFilterChange($any($event.target).value)"/>
                
         </div>
         <!--Ovo je primer event bindinga-->
@@ -28,8 +28,9 @@
                         <img [src]="fishingArea.image" [title]="fishingArea.name" [style.width.px]="imageWidth" 
                             *ngIf="imagesShown">
                     </td>
-                    <!--Ovo je interpolacija-->
-                    <td>{{fishingArea.name}}</td>
+                    <!--Ovo je interpolacija: {{fishingArea.name}}-->
+                    <!--Nacin da nam red u tabeli bude link ka stranici sa detaljima-->
+                    <td><a [routerLink]="['/fishing-areas', fishingArea.id]">{{fishingArea.name}}</a></td>
                     <td>{{fishingArea.type | uppercase}}</td><!--Primer upotrebe pipe-a za formatiranje ispisa
                                                                     zgodno za  | currency:"RSD":"symbol":"1.2-2"--> 
                 </tr>

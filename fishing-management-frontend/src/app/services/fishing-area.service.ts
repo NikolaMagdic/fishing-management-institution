@@ -26,6 +26,10 @@ export class FishingAreaService {
         return throwError(() => err.message);
     }
 
+    getFishingAreaById(id: number) {
+        return this.http.get(this.url + "/" + id);
+    }
+
                 // {
             //     "id": 1,
             //     "name": "Borkovac",

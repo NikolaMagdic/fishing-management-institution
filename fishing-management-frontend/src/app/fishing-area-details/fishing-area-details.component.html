@@ -1,0 +1,10 @@
+<div class="panel panel-primary" *ngIf="fishingArea"> <!--ngIf ako se fishingArea ne ucita odmah posto je http asinhron, pa da ne pise undefined-->
+    <div class="panel-heading">
+        {{pageTitle + ": " + fishingArea.name}}
+    </div>
+    <div class="panel-footer">
+        <a class="btn btn-outline-secondary" (click)="onBack()" style="width:80px">
+            <i class="fa fa-chevron-left"></i> Back
+        </a>
+    </div>
+</div>

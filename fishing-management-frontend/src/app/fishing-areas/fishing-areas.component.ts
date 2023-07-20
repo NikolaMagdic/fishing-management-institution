@@ -39,6 +39,10 @@ export class FishingAreasListComponent {
         
     }
 
+    onFilterChange(value: string) {
+        this.filter = value;
+    }
+
     onRatingClicked(message: string) : void {
         this.pozdravnaPoruka = this.pozdravnaPoruka + " " + message;
     }
