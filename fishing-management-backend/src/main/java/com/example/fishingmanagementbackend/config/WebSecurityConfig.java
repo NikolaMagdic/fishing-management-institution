@@ -69,6 +69,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/keeper/**").permitAll()
                 .requestMatchers("/api/fishing-spot/**").permitAll()
                 .requestMatchers("/api/reservation/**").permitAll()
+                .requestMatchers("/api/catch/**").permitAll()
                 .anyRequest().authenticated());
         http.cors(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());

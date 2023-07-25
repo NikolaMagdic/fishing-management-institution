@@ -40,7 +40,7 @@ public class FishingAreaService {
     
     public FishingArea createFishingArea(FishingAreaDTO fishingAreaDTO) {
         
-        FishingArea fishingArea = new FishingArea(fishingAreaDTO.getName(), fishingAreaDTO.getType());
+        FishingArea fishingArea = new FishingArea(fishingAreaDTO.getName(), fishingAreaDTO.getType(), fishingAreaDTO.getImage());
         return fishingAreaRepository.save(fishingArea);
 
     } 

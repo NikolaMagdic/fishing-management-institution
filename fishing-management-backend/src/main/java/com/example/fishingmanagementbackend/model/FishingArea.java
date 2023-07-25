@@ -27,6 +27,10 @@ public class FishingArea {
     @Column(name = "area_type")
     private FishingAreaType areaType;
     
+    // trenutno su slike samo String sa linkom, videti da li treba raditi upload i koliko slika je potrebno
+    @Column(name = "image")
+    private String image;
+    
     @ManyToMany
     @JoinTable(name = "containing", 
                 joinColumns = @JoinColumn(name = "fish_species_id", referencedColumnName = "id"),
@@ -35,9 +39,10 @@ public class FishingArea {
     
     public FishingArea() {}
     
-    public FishingArea(String name, FishingAreaType type) {
+    public FishingArea(String name, FishingAreaType type, String image) {
         this.name = name;
         this.areaType = type;
+        this.image = image;
     }
 
     public Long getId() {
@@ -63,7 +68,15 @@ public class FishingArea {
     public void setType(FishingAreaType type) {
         this.areaType = type;
     }
-    
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Set<FishSpecies> getFishSpecies() {
         return fishSpecies;
     }
@@ -74,7 +87,7 @@ public class FishingArea {
 
     @Override
     public String toString() {
-        return "FishingArea [id=" + id + ", name=" + name + ", areaType=" + areaType + "]";
+        return "FishingArea [id=" + id + ", name=" + name + ", areaType=" + areaType + ", image" + image + "]";
     }
     
     

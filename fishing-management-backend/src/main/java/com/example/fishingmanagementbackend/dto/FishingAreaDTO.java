@@ -10,6 +10,8 @@ public class FishingAreaDTO {
     private String name;
     
     private FishingAreaType type;
+    
+    private String image;
 
     public FishingAreaDTO() {}
     
@@ -17,6 +19,7 @@ public class FishingAreaDTO {
         this.id = fishingArea.getId();
         this.name = fishingArea.getName();
         this.type = fishingArea.getType();
+        this.image = fishingArea.getImage();
     }
     
     public Long getId() {
@@ -42,6 +45,15 @@ public class FishingAreaDTO {
     public void setType(FishingAreaType type) {
         this.type = type;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
     
     
 }
