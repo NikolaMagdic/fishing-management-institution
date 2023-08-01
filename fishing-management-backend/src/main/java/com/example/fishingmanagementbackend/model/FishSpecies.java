@@ -46,7 +46,9 @@ public class FishSpecies {
     private Date fishingBanEnd;
     
     @Column
-    boolean permanentFishingBan;
+    private boolean permanentFishingBan;
+    
+    private String image;
 
     @ManyToMany(mappedBy = "fishSpecies")
     private Set<FishingArea> fishingAreas = new HashSet<>();
@@ -56,7 +58,7 @@ public class FishSpecies {
     }
     
     public FishSpecies(String name, String latinName, FishCategory category, int minSize, int maxQuantity,
-            int maxWeight, Date fishingBanStart, Date fishingBanEnd, boolean permanentFishingBan) {
+            int maxWeight, Date fishingBanStart, Date fishingBanEnd, boolean permanentFishingBan, String image) {
         this.name = name;
         this.latinName = latinName;
         this.category = category;
@@ -66,6 +68,7 @@ public class FishSpecies {
         this.fishingBanStart = fishingBanStart;
         this.fishingBanEnd = fishingBanEnd;
         this.permanentFishingBan = permanentFishingBan;
+        this.image = image;
     }
 
     public Long getId() {
@@ -156,12 +159,20 @@ public class FishSpecies {
         this.fishingAreas = fishingAreas;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "FishSpecies [id=" + id + ", name=" + name + ", latinName=" + latinName + ", category=" + category
                 + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", maxWeight=" + maxWeight
                 + ", fishingBanStart=" + fishingBanStart + ", fishingBanEnd=" + fishingBanEnd + ", permanentFishingBan="
-                + permanentFishingBan + "]";
+                + permanentFishingBan + ", image=" + image + "]";
     }
     
     

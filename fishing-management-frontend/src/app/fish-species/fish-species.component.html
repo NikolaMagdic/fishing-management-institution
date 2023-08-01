@@ -1,0 +1,92 @@
+
+<div>    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Slika</th>
+                <th>Naziv</th>
+                <th>Latinski naziv</th>
+                <th>Kategorija</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let fish of fishSpecies">
+            <tr>
+                <td>
+                    <img [src]="fish.image" [title]="fish.name" [style.width.px]="150">
+                </td>
+                <td>
+                    {{fish.name}}
+                </td>
+                <td>
+                    {{fish.latinName}}
+                </td>
+                <td>
+                    {{fish.category}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Dodaj novu vrstu ribe</button>
+    <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="createFishSpecies()" #form="ngForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Dodaj novu vrstu ribe</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Naziv</label>
+                            <input type="text" required name="name" class="form-control" [(ngModel)]="newFish.name" #name="ngModel">
+                            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Latinski Naziv</label>
+                            <input type="text" required name="latinName" class="form-control" [(ngModel)]="newFish.latinName" #latinName="ngModel">
+                            <div [hidden]="latinName.valid || latinName.pristine" class="alert alert-danger">Ovo polje je obavezno </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kategorija</label>
+                            <select class="form-select" name="category" required [(ngModel)]="newFish.category">
+                                <option value="NOBLE">Plemenita</option>
+                                <option value="INDIGENOUS">Autohtona</option>
+                                <option value="NON_NATIVE">Alohtona</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Minimalna dozvoljena veličina</label>
+                            <input type="number" name="minSize" class="form-control" [(ngModel)]="newFish.minSize">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Maksimalno komada</label>
+                            <input type="number" name="maxQuantity" class="form-control" [(ngModel)]="newFish.maxQuantity">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Maksimalna težina</label>
+                            <input type="number" name="maxWeight" class="form-control" [(ngModel)]="newFish.maxWeight">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Početak lovostaja</label>
+                            <input type="date" class="form-control" [(ngModel)]="newFish.fishingBanStart">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kraj lovostaja</label>
+                            <input type="date" class="form-control" [(ngModel)]="newFish.fishingBanEnd">
+                        </div>
+                        <div class="mb-3">
+                            <input type="checkbox" class="form-check-input">
+                            <label class="form-check-label" [(ngModel)]="newFish.permanentFishingBan">Trajni lovostaj</label>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Slika</label>
+                            <input type="text" name="image" class="form-control" [(ngModel)]="newFish.image">
+                        </div>                                                                 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Dodaj</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

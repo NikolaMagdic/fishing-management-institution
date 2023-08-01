@@ -23,7 +23,9 @@ public class FishSpeciesDTO {
     
     private Date fishingBanEnd;
     
-    boolean permanentFishingBan;
+    private boolean permanentFishingBan;
+    
+    private String image;
     
     public FishSpeciesDTO() {
         
@@ -39,6 +41,7 @@ public class FishSpeciesDTO {
         this.fishingBanStart = fishSpecies.getFishingBanStart();
         this.fishingBanEnd = fishSpecies.getFishingBanEnd();
         this.permanentFishingBan = fishSpecies.isPermanentFishingBan();
+        this.image = fishSpecies.getImage();
     }
 
     public String getName() {
@@ -113,12 +116,20 @@ public class FishSpeciesDTO {
         this.permanentFishingBan = permanentFishingBan;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "FishSpeciesDTO [name=" + name + ", latinName=" + latinName + ", category=" + category + ", minSize="
                 + minSize + ", maxQuantity=" + maxQuantity + ", maxWeight=" + maxWeight + ", fishingBanStart="
                 + fishingBanStart + ", fishingBanEnd=" + fishingBanEnd + ", permanentFishingBan=" + permanentFishingBan
-                + "]";
+                + ", image=" + image + "]";
     }
     
     

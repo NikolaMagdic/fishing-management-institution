@@ -59,7 +59,8 @@ public class FishSpeciesService {
     }
     
     public FishSpecies createFishSpecies(FishSpeciesDTO fishSpeciesDTO) {
-        FishSpecies fishSpecies = new FishSpecies(fishSpeciesDTO.getName(), fishSpeciesDTO.getLatinName(), fishSpeciesDTO.getCategory(), fishSpeciesDTO.getMinSize(), fishSpeciesDTO.getMaxQuantity(), fishSpeciesDTO.getMaxWeight(), fishSpeciesDTO.getFishingBanStart(), fishSpeciesDTO.getFishingBanEnd(), fishSpeciesDTO.isPermanentFishingBan());
+
+        FishSpecies fishSpecies = new FishSpecies(fishSpeciesDTO.getName(), fishSpeciesDTO.getLatinName(), fishSpeciesDTO.getCategory(), fishSpeciesDTO.getMinSize(), fishSpeciesDTO.getMaxQuantity(), fishSpeciesDTO.getMaxWeight(), fishSpeciesDTO.getFishingBanStart(), fishSpeciesDTO.getFishingBanEnd(), fishSpeciesDTO.isPermanentFishingBan(), fishSpeciesDTO.getImage());
         return fishSpeciesRepository.save(fishSpecies);
     }
     
