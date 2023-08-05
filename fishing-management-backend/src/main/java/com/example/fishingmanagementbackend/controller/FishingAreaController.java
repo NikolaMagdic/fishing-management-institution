@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -64,13 +65,14 @@ public class FishingAreaController {
         return ResponseEntity.ok().body(new FishingAreaDTO(fishingArea));
     }
     
-    @PutMapping("/{areaId}/add-fish-species/{speciesId}")
+    @PatchMapping("/{areaId}/add-fish-species/{speciesId}")
     public ResponseEntity<Boolean> addFishSpeciesToFishingArea(@PathVariable("areaId") Long areaId, @PathVariable("speciesId") Long speciesId) {
+        System.out.println("areaID:" + areaId + ", fishId:" + speciesId);
         fishingAreaService.addFishSpeciesToArea(areaId, speciesId);
         return ResponseEntity.ok(true);
     }
     
-    @PutMapping("/{areaId}/remove-fish-species/{speciesId}")
+    @PatchMapping("/{areaId}/remove-fish-species/{speciesId}")
     public ResponseEntity<Boolean> removeFishSpeciesFromFishingArea(@PathVariable("areaId") Long areaId, @PathVariable("speciesId") Long speciesId) {
         fishingAreaService.removeFishSpeciesFromArea(areaId, speciesId);
         return ResponseEntity.ok(true);

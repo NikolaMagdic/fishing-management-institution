@@ -1,10 +1,57 @@
-<div class="panel panel-primary" *ngIf="fishingArea"> <!--ngIf ako se fishingArea ne ucita odmah posto je http asinhron, pa da ne pise undefined-->
-    <div class="panel-heading">
+<div class="card" *ngIf="fishingArea"> <!--ngIf ako se fishingArea ne ucita odmah posto je http asinhron, pa da ne pise undefined-->
+    <div class="card-header">
         {{pageTitle + ": " + fishingArea.name}}
     </div>
-    <div class="panel-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="{{fishingArea.image}}" alt="Slika ribolovne vode" title="{{fishingArea.name}}" style="width: 500px;">
+            </div>
+            <div class="col">
+                <p>{{fishingArea.description}}</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row row-cols-5">
+                <div class="col" *ngFor="let fish of fishSpeciesInArea">
+                    <div class="card">
+                        <div class="card-header">
+                            <div><b>{{fish.name}}</b></div>
+                        </div>
+                        <div class="card-body">
+                            <img src="{{fish.image}}" [style.width.px]="150" [style.height.px]="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Dodaj vrstu ribe</button>
         <a class="btn btn-outline-secondary" (click)="onBack()" style="width:80px">
             <i class="fa fa-chevron-left"></i> Back
         </a>
+    </div>
+    <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="addFishSpecies()" #form="ngForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Dodaj novu vrstu ribe u ribolovnu vodu</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Vrsta ribe</label>
+                            <select class="form-select" name="fishNotInArea" id="fishNotInArea" required [(ngModel)]="selectedFish">
+                                <option *ngFor="let fish of fishSpeciesNotInArea" [ngValue]="fish">{{fish.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

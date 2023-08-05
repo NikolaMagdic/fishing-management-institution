@@ -18,4 +18,12 @@ export class FishSpeciesService {
   createFishSpecies(fish: FishSpecies) {
     return this.http.post(this.url, fish);
   }
+
+  getFishSpeciesOutsideArea(id: number) {
+    return this.http.get(this.url + "/outside-area/" + id);
+  }
+
+  getFishSpeciesInArea(id: number) {
+    return this.http.get(this.url + "/area/" + id);
+  }
 }

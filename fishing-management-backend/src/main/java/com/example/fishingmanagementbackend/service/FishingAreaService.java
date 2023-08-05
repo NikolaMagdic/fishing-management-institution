@@ -40,7 +40,7 @@ public class FishingAreaService {
     
     public FishingArea createFishingArea(FishingAreaDTO fishingAreaDTO) {
         
-        FishingArea fishingArea = new FishingArea(fishingAreaDTO.getName(), fishingAreaDTO.getType(), fishingAreaDTO.getImage());
+        FishingArea fishingArea = new FishingArea(fishingAreaDTO.getName(), fishingAreaDTO.getDescription(), fishingAreaDTO.getType(), fishingAreaDTO.getImage());
         return fishingAreaRepository.save(fishingArea);
 
     } 
@@ -49,6 +49,7 @@ public class FishingAreaService {
         FishingArea fishingArea = fishingAreaRepository.getReferenceById(id);
         
         fishingArea.setName(fishingAreaDTO.getName());
+        fishingArea.setDescription(fishingAreaDTO.getDescription());
         fishingArea.setType(fishingAreaDTO.getType());
         
         return fishingAreaRepository.save(fishingArea);
@@ -58,9 +59,11 @@ public class FishingAreaService {
         FishingArea fishingArea = fishingAreaRepository.getReferenceById(areaId);
         FishSpecies fishSpecies = fishSpeciesRepository.getReferenceById(fishSpeciesId);
         // TODO: Ovde dodati rukovanje izuzecima
+        System.out.println("areaID:" + areaId + ", fishId:" + fishSpeciesId);
         fishingArea.getFishSpecies().add(fishSpecies);
         fishSpecies.getFishingAreas().add(fishingArea);
-        
+        System.out.println(fishingArea.getFishSpecies());
+        System.out.println(fishSpecies.getFishingAreas());
         fishingAreaRepository.save(fishingArea);
         fishSpeciesRepository.save(fishSpecies);
         

@@ -24,6 +24,9 @@ public class FishingArea {
     @Column(name = "name")
     private String name;
     
+    @Column(name = "description")
+    private String description;
+    
     @Column(name = "area_type")
     private FishingAreaType areaType;
     
@@ -33,14 +36,15 @@ public class FishingArea {
     
     @ManyToMany
     @JoinTable(name = "containing", 
-                joinColumns = @JoinColumn(name = "fish_species_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name = "fishing_area_id", referencedColumnName = "id"))
+                joinColumns = @JoinColumn(name = "fishing_area_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(name = "fish_species_id", referencedColumnName = "id"))
     private Set<FishSpecies> fishSpecies = new HashSet<>();
     
     public FishingArea() {}
     
-    public FishingArea(String name, FishingAreaType type, String image) {
+    public FishingArea(String name, String description, FishingAreaType type, String image) {
         this.name = name;
+        this.description = description;
         this.areaType = type;
         this.image = image;
     }
@@ -59,6 +63,14 @@ public class FishingArea {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public FishingAreaType getType() {
@@ -87,7 +99,7 @@ public class FishingArea {
 
     @Override
     public String toString() {
-        return "FishingArea [id=" + id + ", name=" + name + ", areaType=" + areaType + ", image" + image + "]";
+        return "FishingArea [id=" + id + ", name=" + name + ", description=" + description + ", areaType=" + areaType + ", image" + image + "]";
     }
     
     

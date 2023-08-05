@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable, catchError, throwError, tap } from "rxjs";
+import { FishingArea } from "../models/fishing-area";
 
 @Injectable()
 export class FishingAreaService {
@@ -30,16 +31,11 @@ export class FishingAreaService {
         return this.http.get(this.url + "/" + id);
     }
 
-                // {
-            //     "id": 1,
-            //     "name": "Borkovac",
-            //     "type": "Jezero",
-            //     "image": "https://www.gradnja.rs/wp-content/uploads/2022/04/borkovac-ruma-naslovna.jpg"
-            // },
-            // {
-            //     "id": 2,
-            //     "name": "Sava",
-            //     "type": "Reka",
-            //     "image": "https://turizamusrbiji.rs/wp-content/uploads/2014/10/belgrade-sava-river.jpg"
-            // }
+    createFishingArea(fishingArea: FishingArea) {
+        return this.http.post(this.url, fishingArea);   
+    }
+
+    addFishSpeciesToArea(areaId: number, fishId: number) {
+        return this.http.patch(this.url + "/" + areaId + "/add-fish-species/" + fishId, null);
+    }
 }

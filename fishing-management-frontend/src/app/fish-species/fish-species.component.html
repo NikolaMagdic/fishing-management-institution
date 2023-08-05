@@ -67,15 +67,15 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Početak lovostaja</label>
-                            <input type="date" class="form-control" [(ngModel)]="newFish.fishingBanStart">
+                            <input type="date" name="fishingBanStart" class="form-control" [(ngModel)]="newFish.fishingBanStart">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Kraj lovostaja</label>
-                            <input type="date" class="form-control" [(ngModel)]="newFish.fishingBanEnd">
+                            <input type="date" name="fishingBanEnd" class="form-control" [(ngModel)]="newFish.fishingBanEnd">
                         </div>
                         <div class="mb-3">
                             <input type="checkbox" class="form-check-input">
-                            <label class="form-check-label" [(ngModel)]="newFish.permanentFishingBan">Trajni lovostaj</label>
+                            <label class="form-check-label" name="permanentFishingBan" [(ngModel)]="newFish.permanentFishingBan" ngDefaultControl>Trajni lovostaj</label>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Slika</label>

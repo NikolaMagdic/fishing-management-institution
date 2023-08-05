@@ -6,6 +6,8 @@ import com.example.fishingmanagementbackend.enumerations.FishCategory;
 import com.example.fishingmanagementbackend.model.FishSpecies;
 
 public class FishSpeciesDTO {
+    
+    private Long id;
 
     private String name;
     
@@ -32,6 +34,7 @@ public class FishSpeciesDTO {
     }
 
     public FishSpeciesDTO(FishSpecies fishSpecies) {
+        this.id = fishSpecies.getId();
         this.name = fishSpecies.getName();
         this.latinName = fishSpecies.getLatinName();
         this.category = fishSpecies.getCategory();
@@ -42,6 +45,14 @@ public class FishSpeciesDTO {
         this.fishingBanEnd = fishSpecies.getFishingBanEnd();
         this.permanentFishingBan = fishSpecies.isPermanentFishingBan();
         this.image = fishSpecies.getImage();
+    }
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -126,7 +137,7 @@ public class FishSpeciesDTO {
 
     @Override
     public String toString() {
-        return "FishSpeciesDTO [name=" + name + ", latinName=" + latinName + ", category=" + category + ", minSize="
+        return "FishSpeciesDTO [id=" + id + ", name=" + name + ", latinName=" + latinName + ", category=" + category + ", minSize="
                 + minSize + ", maxQuantity=" + maxQuantity + ", maxWeight=" + maxWeight + ", fishingBanStart="
                 + fishingBanStart + ", fishingBanEnd=" + fishingBanEnd + ", permanentFishingBan=" + permanentFishingBan
                 + ", image=" + image + "]";

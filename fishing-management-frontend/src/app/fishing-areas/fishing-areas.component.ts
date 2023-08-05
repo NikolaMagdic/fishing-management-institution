@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { FishingArea } from '../models/fishing-area';
 import { FishingAreaService } from '../services/fishing-area.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class FishingAreasListComponent {
     fishingAreas: any = []
 
     errorMessage: string = "";
+    fishingArea: FishingArea = new FishingArea(0, "", "", "", "");
 
     // Konstruktor koji se poziva prilikom inicijalizacije komponente, izvrsava se pre ngOnInit
     constructor(private _fishingAreaService: FishingAreaService) {
@@ -45,6 +47,14 @@ export class FishingAreasListComponent {
 
     onRatingClicked(message: string) : void {
         this.pozdravnaPoruka = this.pozdravnaPoruka + " " + message;
+    }
+
+    createFishingArea() { // Kod post zahteva mora subscribe inace nece biti pozvan
+        this._fishingAreaService.createFishingArea(this.fishingArea).subscribe({
+            next: () => {
+                window.location.reload();
+            }
+        });
     }
 
     ngOnInit() : void {

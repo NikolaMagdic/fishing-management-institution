@@ -35,8 +35,8 @@ public class Keeper {
     
     @ManyToMany
     @JoinTable(name = "keeps",
-               joinColumns = @JoinColumn(name = "fishing_area_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "keeper_id", referencedColumnName = "id"))
+               joinColumns = @JoinColumn(name = "keeper_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "fishing_area_id", referencedColumnName = "id"))
     private Set<FishingArea> fishingAreas = new HashSet<>();
     
     public Keeper() {}
