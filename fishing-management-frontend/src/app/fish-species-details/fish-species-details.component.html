@@ -1,0 +1,60 @@
+<div class="card" *ngIf="fishSpecies">
+    <div class="card-header">
+        Vrsta ribe: {{fishSpecies.name}}
+    </div>
+    <div class="card-body">
+        <form (ngSubmit)="updateFishSpecies()" #form="ngForm">
+            <fieldset #fieldset disabled="disabled">
+                <div class="mb-3">
+                    <img src="{{fishSpecies.image}}" alt="{{fishSpecies.name}}" style="width: 500px;">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Naziv</label>
+                    <input class="form-control" value="{{fishSpecies.name}}" required name="name" [(ngModel)]="fishSpecies.name" #name="ngModel">
+                    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Latinski naziv</label>
+                    <input class="form-control" value="{{fishSpecies.latinName}}" required name="latinName" [(ngModel)]="fishSpecies.latinName" #latinName="ngModel">
+                    <div [hidden]="latinName.valid || latinName.pristine" class="alert alert-danger">Ovo polje je obavezno </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Kategorija</label>
+                    <select class="form-select" name="category" [(ngModel)]="fishSpecies.category">
+                        <option value="NOBLE">Plemenita</option>
+                        <option value="INDIGENOUS">Autohtona</option>
+                        <option value="NON_NATIVE">Alohtona</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Minimalna dozvoljena veličina</label>
+                    <input class="form-control" type="number" value="{{fishSpecies.minSize}}" name="minSize" [(ngModel)]="fishSpecies.minSize">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Maksimalno komada</label>
+                    <input class="form-control" type="number" value="{{fishSpecies.maxQuantity}}" name="maxQuantity" [(ngModel)]="fishSpecies.maxQuantity">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Maksimalna težina</label>
+                    <input class="form-control" type="number" value="{{fishSpecies.maxWeight}}" name="maxWeight" [(ngModel)]="fishSpecies.maxWeight">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Početak lovostaja</label>
+                    <input class="form-control" type="date" value="{{fishSpecies.fishingBanStart}}" name="fishingBanStart" [(ngModel)]="fishSpecies.fishingBanStart">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Kraj lovostaja</label>
+                    <input class="form-control" type="date" value="{{fishSpecies.fishingBanEnd}}" name="fishingBanEnd" [(ngModel)]="fishSpecies.fishingBanEnd">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Trajni lovostaj</label>
+                    <input type="checkbox" class="form-check-input" [checked]="fishSpecies.permanentFishingBan" name="permanentFishingBan" [(ngModel)]="fishSpecies.permanentFishingBan">
+                </div>
+                <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden" [disabled]="!form.form.valid">Potvrdi izmenu</button>
+            </fieldset>
+        </form>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-primary" (click)="enableForm()" #changeButton>Izmeni</button>
+    </div>
+</div>

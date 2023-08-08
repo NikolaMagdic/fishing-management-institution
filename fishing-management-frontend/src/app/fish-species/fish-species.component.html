@@ -23,6 +23,9 @@
                 <td>
                     {{fish.category}}
                 </td>
+                <td>
+                    <button class="btn btn-primary" (click)="viewFishSpeciesDetails(fish.id)">Detalji</button>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -74,8 +77,8 @@
                             <input type="date" name="fishingBanEnd" class="form-control" [(ngModel)]="newFish.fishingBanEnd">
                         </div>
                         <div class="mb-3">
-                            <input type="checkbox" class="form-check-input">
-                            <label class="form-check-label" name="permanentFishingBan" [(ngModel)]="newFish.permanentFishingBan" ngDefaultControl>Trajni lovostaj</label>
+                            <input type="checkbox" class="form-check-input" name="permanentFishingBan" [(ngModel)]="newFish.permanentFishingBan">
+                            <label class="form-check-label">Trajni lovostaj</label>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Slika</label>

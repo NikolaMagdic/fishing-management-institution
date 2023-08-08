@@ -33,4 +33,8 @@ export class FishSpeciesComponent {
       }
     })
   }
+
+  viewFishSpeciesDetails(id: number) {
+    this.router.navigate(['/fish-species-details/' + id]);
+  }
 }

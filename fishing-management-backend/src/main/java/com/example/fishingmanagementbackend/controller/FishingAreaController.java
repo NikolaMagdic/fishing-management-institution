@@ -67,7 +67,7 @@ public class FishingAreaController {
     
     @PatchMapping("/{areaId}/add-fish-species/{speciesId}")
     public ResponseEntity<Boolean> addFishSpeciesToFishingArea(@PathVariable("areaId") Long areaId, @PathVariable("speciesId") Long speciesId) {
-        System.out.println("areaID:" + areaId + ", fishId:" + speciesId);
+
         fishingAreaService.addFishSpeciesToArea(areaId, speciesId);
         return ResponseEntity.ok(true);
     }

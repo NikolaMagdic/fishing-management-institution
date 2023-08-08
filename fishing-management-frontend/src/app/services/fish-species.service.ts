@@ -15,8 +15,16 @@ export class FishSpeciesService {
     return this.http.get(this.url);
   }
 
+  getFishSpeciesById(id: number) {
+    return this.http.get(this.url + "/" + id);
+  }
+
   createFishSpecies(fish: FishSpecies) {
     return this.http.post(this.url, fish);
+  }
+
+  updateFishSpecies(fish: FishSpecies) {
+    return this.http.put(this.url + "/" + fish.id, fish);
   }
 
   getFishSpeciesOutsideArea(id: number) {
