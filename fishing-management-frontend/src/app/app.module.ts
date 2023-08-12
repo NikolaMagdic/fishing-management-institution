@@ -12,6 +12,8 @@ import { FishingAreaGuardService } from './guards/fishing-area-guard.service';
 import { SharedModule } from './shared/shared.module';
 import { FishSpeciesComponent } from './fish-species/fish-species.component';
 import { FishSpeciesDetailsComponent } from './fish-species-details/fish-species-details.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { FishingSpotsComponent } from './fishing-spots/fishing-spots.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { FishSpeciesDetailsComponent } from './fish-species-details/fish-species
     FishingAreaDetailsComponent,
     LoginComponent,
     FishSpeciesComponent,
-    FishSpeciesDetailsComponent
+    FishSpeciesDetailsComponent,
+    RegistrationComponent,
+    FishingSpotsComponent,
   ],
   imports: [
     BrowserModule,

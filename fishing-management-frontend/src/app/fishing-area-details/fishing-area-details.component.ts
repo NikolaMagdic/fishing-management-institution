@@ -71,4 +71,9 @@ export class FishingAreaDetailsComponent implements OnInit{
       }
     });
   }
+
+  showFishingSpots() {
+    let id = Number(this._route.snapshot.paramMap.get('id'));
+    this._router.navigate(['/fishing-spots/' + id]);
+  }
 }

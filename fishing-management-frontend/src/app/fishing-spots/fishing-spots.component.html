@@ -1,0 +1,57 @@
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Broj mesta</th>
+                <th>Tip</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let spot of fishingSpots">
+            <tr>
+                <td>
+                    {{spot.id}}
+                </td>
+                <td>
+                    {{spot.type}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Dodaj ribolovno mesto</button>
+    <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="createFishingSpot()" #form="ngForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Dodaj novo zakazivo mesto za ribolov</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Tip</label>
+                            <select class="form-select" name="type" [(ngModel)]="newFishingSpot.type" required #type="ngModel">
+                                <option value="BOAT">Čamac</option>
+                                <option value="RAFT">Splav</option>
+                                <option value="FISHING_HOUSE">Vikendica za ribolov</option>
+                            </select>
+                            <div [hidden]="type.valid || type.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Geografska širina</label>
+                            <input class="form-control" type="number" name="latitute" [(ngModel)]="newFishingSpot.latitude" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Geografska dužina</label>
+                            <input class="form-control" type="number" name="longitude" [(ngModel)]="newFishingSpot.longitude" disabled>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Dodaj</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <h5>Označite na mapi lokaciju mesta za ribolov</h5>
+        <div id="map" style="height: 400px; width: 100%"></div>
+    </div>
+
+</div>

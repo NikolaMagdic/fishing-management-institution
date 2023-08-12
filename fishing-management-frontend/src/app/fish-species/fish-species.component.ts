@@ -2,7 +2,6 @@ import { Component, ɵdevModeEqual } from '@angular/core';
 import { FishSpeciesService } from '../services/fish-species.service';
 import { FishSpecies } from '../models/fish-species';
 import { Router } from '@angular/router';
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-fish-species',

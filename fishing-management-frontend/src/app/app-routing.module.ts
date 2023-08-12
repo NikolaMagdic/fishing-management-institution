@@ -4,8 +4,10 @@ import { FishSpeciesDetailsComponent } from './fish-species-details/fish-species
 import { FishSpeciesComponent } from './fish-species/fish-species.component';
 import { FishingAreaDetailsComponent } from './fishing-area-details/fishing-area-details.component';
 import { FishingAreasListComponent } from './fishing-areas/fishing-areas.component';
+import { FishingSpotsComponent } from './fishing-spots/fishing-spots.component';
 import { FishingAreaGuardService } from './guards/fishing-area-guard.service';
 import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
       { 
@@ -23,6 +25,14 @@ const routes: Routes = [
       {
         path: "fish-species-details/:id",
         component: FishSpeciesDetailsComponent
+      },
+      {
+        path: "fishing-spots/:id",
+        component: FishingSpotsComponent
+      },
+      {
+        path: "registration",
+        component: RegistrationComponent
       },
       { 
         path: "", component: LoginComponent 

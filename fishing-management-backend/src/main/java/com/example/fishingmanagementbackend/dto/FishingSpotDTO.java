@@ -5,15 +5,32 @@ import com.example.fishingmanagementbackend.model.FishingSpot;
 
 public class FishingSpotDTO {
 
+    private Long id;
+    
     private FishingSpotType type;
+    
+    private double latitude;
+    
+    private double longitude;
     
     private Long fishingAreaId;
     
     public FishingSpotDTO() {}
     
     public FishingSpotDTO (FishingSpot fishingSpot) {
+        this.id = fishingSpot.getId();
         this.type = fishingSpot.getType();
+        this.latitude = fishingSpot.getLatitude();
+        this.longitude = fishingSpot.getLongitude();
         this.fishingAreaId = fishingSpot.getFishingArea().getId();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public FishingSpotType getType() {
@@ -22,6 +39,22 @@ public class FishingSpotDTO {
 
     public void setType(FishingSpotType type) {
         this.type = type;
+    }
+    
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public Long getFishingAreaId() {
@@ -34,7 +67,8 @@ public class FishingSpotDTO {
 
     @Override
     public String toString() {
-        return "FishingSpotDTO [type=" + type + ", fishingAreaId=" + fishingAreaId + "]";
+        return "FishingSpotDTO [id=" + id + ", type=" + type + ", latitude=" + latitude + ", longitude=" + longitude
+                + ", fishingAreaId=" + fishingAreaId + "]";
     }
     
     

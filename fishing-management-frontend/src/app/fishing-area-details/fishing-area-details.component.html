@@ -1,3 +1,4 @@
+
 <div class="card" *ngIf="fishingArea"> <!--ngIf ako se fishingArea ne ucita odmah posto je http asinhron, pa da ne pise undefined-->
     <div class="card-header">
         {{pageTitle + ": " + fishingArea.name}}
@@ -6,6 +7,9 @@
         <div class="row">
             <div class="col">
                 <img src="{{fishingArea.image}}" alt="Slika ribolovne vode" title="{{fishingArea.name}}" style="width: 500px;">
+            </div>
+            <div class="col" >
+                
             </div>
             <div class="col">
                 <p>{{fishingArea.description}}</p>
@@ -18,7 +22,7 @@
                         <div class="card-header">
                             <div><b>{{fish.name}}</b></div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="overflow: hidden;">
                             <img src="{{fish.image}}" [style.width.px]="150" [style.height.px]="100">
                         </div>
                     </div>
@@ -28,6 +32,7 @@
     </div>
     <div class="card-footer">
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Dodaj vrstu ribe</button>
+        <button class="btn btn-primary" (click)="showFishingSpots()">Prikaži ribolovna mesta</button>
         <a class="btn btn-outline-secondary" (click)="onBack()" style="width:80px">
             <i class="fa fa-chevron-left"></i> Back
         </a>
