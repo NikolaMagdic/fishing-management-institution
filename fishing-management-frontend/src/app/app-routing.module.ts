@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CatchFormComponent } from './catch-form/catch-form.component';
 import { FishSpeciesDetailsComponent } from './fish-species-details/fish-species-details.component';
 import { FishSpeciesComponent } from './fish-species/fish-species.component';
 import { FishingAreaDetailsComponent } from './fishing-area-details/fishing-area-details.component';
 import { FishingAreasListComponent } from './fishing-areas/fishing-areas.component';
+import { FishingSpotDetailsComponent } from './fishing-spot-details/fishing-spot-details.component';
 import { FishingSpotsComponent } from './fishing-spots/fishing-spots.component';
 import { FishingAreaGuardService } from './guards/fishing-area-guard.service';
 import { LoginComponent } from './login/login.component';
@@ -31,8 +33,16 @@ const routes: Routes = [
         component: FishingSpotsComponent
       },
       {
+        path: "fishing-spot-details/:id",
+        component: FishingSpotDetailsComponent
+      },
+      {
         path: "registration",
         component: RegistrationComponent
+      },
+      {
+        path: "catch-form",
+        component: CatchFormComponent
       },
       { 
         path: "", component: LoginComponent 

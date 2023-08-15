@@ -36,6 +36,10 @@ public class Catch {
     @OneToOne
     private Reservation reservation;
     
+    @ManyToOne
+    @JoinColumn(name = "fishing_area_id", referencedColumnName = "id")
+    private FishingArea fishingArea;
+    
     public Catch() {}
     
     public Catch(LocalDate time, Set<CatchItem> catchItems) {
@@ -82,11 +86,19 @@ public class Catch {
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
+    
+    public FishingArea getFishingArea() {
+        return fishingArea;
+    }
+
+    public void setFishingArea(FishingArea fishingArea) {
+        this.fishingArea = fishingArea;
+    }
 
     @Override
     public String toString() {
-        return "DailyCatch [id=" + id + ", time=" + time + ", fisherman=" + fisherman + ", catchItems=" + catchItems
-                + ", reservation=" + reservation + "]";
+        return "Catch [id=" + id + ", time=" + time + ", fisherman=" + fisherman + ", catchItems=" + catchItems
+                + ", reservation=" + reservation + ", fishingArea=" + fishingArea + "]";
     }
     
     

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FishingSpot } from '../models/fishing-spot';
 import { FishingSpotService } from '../services/fishing-spot.service';
 import Map from 'ol/Map.js';
@@ -27,7 +27,8 @@ export class FishingSpotsComponent {
   map: Map | undefined;
 
   constructor(private fishingSpotService: FishingSpotService,
-              private route: ActivatedRoute) {}
+              private route: ActivatedRoute,
+              private router: Router) {}
 
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
@@ -48,7 +49,7 @@ export class FishingSpotsComponent {
       ],
       view: new View({
         center: fromLonLat([19.82, 45.04]),
-        zoom: 15,
+        zoom: 10,
       }),
     });
 
@@ -78,7 +79,6 @@ export class FishingSpotsComponent {
     });
 
     this.map.addLayer(markers);
-    console.log(this.map.getAllLayers());
 
   }
 
@@ -87,5 +87,8 @@ export class FishingSpotsComponent {
     window.location.reload();
   }
 
+  viewFishingSpotDetails(spotId: number) {
+    this.router.navigate(['/fishing-spot-details/' + spotId]);
+  }
 
 }

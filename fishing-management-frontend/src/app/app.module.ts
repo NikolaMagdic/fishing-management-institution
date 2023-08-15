@@ -14,6 +14,8 @@ import { FishSpeciesComponent } from './fish-species/fish-species.component';
 import { FishSpeciesDetailsComponent } from './fish-species-details/fish-species-details.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { FishingSpotsComponent } from './fishing-spots/fishing-spots.component';
+import { FishingSpotDetailsComponent } from './fishing-spot-details/fishing-spot-details.component';
+import { CatchFormComponent } from './catch-form/catch-form.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { FishingSpotsComponent } from './fishing-spots/fishing-spots.component';
     FishSpeciesDetailsComponent,
     RegistrationComponent,
     FishingSpotsComponent,
+    FishingSpotDetailsComponent,
+    CatchFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,19 +11,23 @@ public class CatchDTO {
 
     private Long id;
     
+    private Long fishingAreaId;
+    
     private LocalDate date;
     
     private Set<CatchItemDTO> catchItems = new HashSet<>();
     
     public CatchDTO() {}
     
-    public CatchDTO(LocalDate date, Set<CatchItemDTO> catchItems) {
+    public CatchDTO(Long fishingAreaId, LocalDate date, Set<CatchItemDTO> catchItems) {
+        this.fishingAreaId = fishingAreaId;
         this.date = date;
         this.catchItems = catchItems;
     }
     
     public CatchDTO(Catch dailyCatch) {
         this.id = dailyCatch.getId();
+        this.fishingAreaId = dailyCatch.getFishingArea().getId();
         this.date = dailyCatch.getTime();
         this.catchItems = transformCatchItemsToDTO(dailyCatch.getCatchItems());
     }
@@ -34,6 +38,14 @@ public class CatchDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public Long getFishingAreaId() {
+        return fishingAreaId;
+    }
+
+    public void setFishingAreaId(Long fishingAreaId) {
+        this.fishingAreaId = fishingAreaId;
     }
 
     public LocalDate getDate() {
@@ -54,7 +66,7 @@ public class CatchDTO {
 
     @Override
     public String toString() {
-        return "CatchDTO [id=" + id + ", date=" + date + ", catchItems=" + catchItems + "]";
+        return "CatchDTO [id=" + id + ", fishingAreaId=" + fishingAreaId + ", date=" + date + ", catchItems=" + catchItems + "]";
     }
     
     

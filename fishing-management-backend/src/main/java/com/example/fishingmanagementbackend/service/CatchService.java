@@ -14,9 +14,11 @@ import com.example.fishingmanagementbackend.model.Catch;
 import com.example.fishingmanagementbackend.model.CatchItem;
 import com.example.fishingmanagementbackend.model.FishSpecies;
 import com.example.fishingmanagementbackend.model.Fisherman;
+import com.example.fishingmanagementbackend.model.FishingArea;
 import com.example.fishingmanagementbackend.repository.CatchRepository;
 import com.example.fishingmanagementbackend.repository.FishSpeciesRepository;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
+import com.example.fishingmanagementbackend.repository.FishingAreaRepository;
 
 @Service
 public class CatchService {
@@ -29,6 +31,9 @@ public class CatchService {
     
     @Autowired
     private FishermanRepository fishermanRepository;
+    
+    @Autowired
+    private FishingAreaRepository fishingAreaRepository;
     
     public CatchDTO getCatchById(Long id) {
         Catch dailyCatch = catchRepository.getReferenceById(id);
@@ -54,6 +59,9 @@ public class CatchService {
         dailyCatch.setTime(dailyCatchDTO.getDate());
         Set<CatchItem> catches = changeCatchItemsToDTO(dailyCatchDTO.getCatchItems(), dailyCatch);
         dailyCatch.setCatchItems(catches);
+        
+        FishingArea area = fishingAreaRepository.getReferenceById(dailyCatchDTO.getFishingAreaId());
+        dailyCatch.setFishingArea(area);
         // TODO: Dodati ulogovanog ribolovca
         //dailyCatch.setFisherman();
 

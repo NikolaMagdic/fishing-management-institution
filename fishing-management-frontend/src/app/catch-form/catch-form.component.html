@@ -1,0 +1,69 @@
+<div>
+    <h1>Unesite novu evidenciju ulova</h1>
+    <form>
+        <div class="mb-3">
+            <label class="form-label">Ribolovna voda</label>
+            <select class="form-select" name="fishgingAreas" id="fishingAreas" [(ngModel)]="selectedArea" (change)="getFishSpeciesInArea()">
+                <option *ngFor="let area of fishingAreas" [ngValue]="area">{{area.name}}</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Datum</label>
+            <input class="form-control" type="date" name="date" [(ngModel)]="catch.date">
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Riba</th>
+                <th>Količina</th>
+                <th>Težina</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let item of catchItems">
+            <tr>
+                <td>
+                    {{findFishNameById(item.fishId)}}
+                </td>
+                <td>
+                    {{item.quantity}}
+                </td>
+                <td>
+                    {{item.weight}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [disabled]="addItemDisabled">Dodaj stavku ulova</button>
+    <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="addCatchItem()" #form="ngForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Unesite podatke o ulovljenoj ribi</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Vrsta ribe</label>
+                            <select class="form-select" name="fishSpecies" id="fishSpecies" [(ngModel)]="selectedFish">
+                                <option *ngFor="let fish of fishSpecies" [ngValue]="fish">{{fish.name}}</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Količina</label>
+                            <input type="number" name="quantity" class="form-control" [(ngModel)]="newItem.quantity">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Težina</label>
+                            <input class="form-control" type="number" name="weight" [(ngModel)]="newItem.weight">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" (click)="createCatch()">Potvrdi evidenciju ulova</button>
+</div>
