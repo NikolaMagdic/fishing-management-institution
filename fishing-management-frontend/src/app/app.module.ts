@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +16,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { FishingSpotsComponent } from './fishing-spots/fishing-spots.component';
 import { FishingSpotDetailsComponent } from './fishing-spot-details/fishing-spot-details.component';
 import { CatchFormComponent } from './catch-form/catch-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,10 @@ import { CatchFormComponent } from './catch-form/catch-form.component';
     AppRoutingModule, 
     FormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
   ],
   providers: [FishingAreaGuardService],
   bootstrap: [AppComponent]  // Definise pocetnu komponentu aplikacije

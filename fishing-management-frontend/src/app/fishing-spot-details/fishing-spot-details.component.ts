@@ -11,6 +11,9 @@ import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
 import { fromLonLat } from 'ol/proj';
 import { Point } from 'ol/geom';
+import { ReservationService } from '../services/reservation.service';
+import { Reservation } from '../models/reservation';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-fishing-spot-details',
@@ -22,8 +25,15 @@ export class FishingSpotDetailsComponent {
   fishingSpot: FishingSpot | any;
   map: Map | undefined;
 
-  constructor(private fishingSpotService: FishingSpotService, 
-              private route: ActivatedRoute) {}
+  futureReservations: Reservation[] = [];
+  datesReserved: Date[] = [];
+  minDate = new Date();
+  // Primer upotrebe FormControl za forme (Reactive forms u Angularu)
+  date = new FormControl();
+
+  constructor(private fishingSpotService: FishingSpotService,
+              private reservationService: ReservationService, 
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     let id = Number(this.route.snapshot.paramMap.get('id'));
@@ -61,10 +71,25 @@ export class FishingSpotDetailsComponent {
             zoom: 15
           })
         });
-
-        
       }
+      
     });
 
+    this.reservationService.getOccupiedDatesForFishingSpot(id).subscribe({
+      next: data => {
+        var dates = data as Date[];
+        // Moram pretvoriti u Date jer datepicker ne prepoznaje LocalDate
+        dates.forEach(date => {
+          let d = new Date(date);
+          console.log(date);
+          this.datesReserved.push(d);
+        });
+      }
+    })
+  }
+
+  createReservation() {
+    var reservation = new Reservation(0, this.date.value, this.fishingSpot.id);
+    this.reservationService.createReservation(reservation).subscribe({});
   }
 }

@@ -3,9 +3,9 @@ export class FishSpecies {
     public name: string;
     public latinName: string;
     public category: string;
-    public minSize: number;
-    public maxQuantity: number;
-    public maxWeight: number;
+    public minSize?: number;
+    public maxQuantity?: number;
+    public maxWeight?: number;
     public fishingBanStart: Date;
     public fishingBanEnd: Date;
     public permanentFishingBan: boolean;

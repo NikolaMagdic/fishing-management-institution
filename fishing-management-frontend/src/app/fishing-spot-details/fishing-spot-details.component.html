@@ -15,3 +15,25 @@
     
 </div>
 <div id="map" style="height: 400px; width: 100%"></div>
+<div class="container">
+    <h5>Rezerviši termin</h5>
+    <form (ngSubmit)="createReservation()">
+        <div class="row">
+            <div class="col-xs-12 col-12 col-md-4 form-group mb-3">
+              <input type="text"
+                     placeholder="Datepicker"
+                     class="form-control"
+                     bsDatepicker
+                     [isOpen]="true"
+                     [bsConfig]="{containerClass:'theme-dark-blue'}"
+                     [minDate]="minDate"
+                     [datesDisabled]="datesReserved"
+                     name="date"
+                     [formControl]="date">
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-primary" type="submit">Rezerviši</button>
+          </div>        
+    </form>
+</div>

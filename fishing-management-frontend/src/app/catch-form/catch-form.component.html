@@ -38,32 +38,32 @@
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form (ngSubmit)="addCatchItem()" #form="ngForm">
+                <form (ngSubmit)="addCatchItem()" #form="ngForm" [formGroup]="catchItemForm">
                     <div class="modal-header">
                         <h5 class="modal-title">Unesite podatke o ulovljenoj ribi</h5>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Vrsta ribe</label>
-                            <select class="form-select" name="fishSpecies" id="fishSpecies" [(ngModel)]="selectedFish">
+                            <label class="form-label">Vrsta ribe</label> <!--[ngModelOptions] je neophodan zato sto u formi kombinujem template-driven i reactive forme-->
+                            <select class="form-select" name="fishSpecies" id="fishSpecies" [(ngModel)]="selectedFish" [ngModelOptions]="{standalone: true}">
                                 <option *ngFor="let fish of fishSpecies" [ngValue]="fish">{{fish.name}}</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Količina</label>
-                            <input type="number" name="quantity" class="form-control" [(ngModel)]="newItem.quantity">
+                            <input type="number" name="quantity" class="form-control" formControlName="quantity">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Težina</label>
-                            <input class="form-control" type="number" name="weight" [(ngModel)]="newItem.weight">
+                            <input class="form-control" type="number" name="weight" formControlName="weight">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Dodaj</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <button class="btn btn-primary" (click)="createCatch()">Potvrdi evidenciju ulova</button>
+    <button class="btn btn-primary" (click)="createCatch()" [disabled]="addItemDisabled">Potvrdi evidenciju ulova</button>
 </div>

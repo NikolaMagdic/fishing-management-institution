@@ -3,6 +3,8 @@ package com.example.fishingmanagementbackend.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.example.fishingmanagementbackend.model.Reservation;
+
 public class ReservationDTO {
 
     private LocalDate arrivalDate;
@@ -27,6 +29,15 @@ public class ReservationDTO {
         this.departureTime = departureTime;
         this.fishingSpotId = fishingSpotId;
         this.fishermanId = fishermanId;
+    }
+    
+    public ReservationDTO(Reservation reservation) {
+        this.arrivalDate = reservation.getArrivalDate();
+        this.arrivalTime = reservation.getArrivalTime();
+        this.departureDate = reservation.getDepartureDate();
+        this.departureTime = reservation.getDepartureTime();
+        this.fishingSpotId = reservation.getFishingSpot().getId();
+        this.fishermanId = reservation.getFisherman().getId();
     }
 
     public LocalDate getArrivalDate() {
