@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { toStringHDMS } from 'ol/coordinate';
 import { Catch } from '../models/catch';
@@ -21,12 +21,14 @@ export class CatchFormComponent {
   fishingAreas: FishingArea[] = [];
   selectedArea: any;
   catchItems: any = [];
-  // newItem: CatchItem = new CatchItem(0, 0, 0);
   catch: Catch = new Catch(0, [], new Date());
   catchItemForm: FormGroup;
 
   // Da ne mogu da se dodaju stavke dok se ne izabere ribolovna voda (jer se na osnovu vode traze ponudjene vrste riba)
   addItemDisabled: boolean = true;
+
+  // Za success modal
+  @ViewChild('openModal') openModal: ElementRef | any;
   
   constructor(private catchService: CatchService,
               private fishSpeciesService: FishSpeciesService,
@@ -71,6 +73,9 @@ export class CatchFormComponent {
   createCatch() {
     this.catch.fishingAreaId = this.selectedArea.id;
     this.catchService.createCatch(this.catch).subscribe({
+      next: () => {
+        this.openModal.nativeElement.click();
+      }
     });
   }
 
@@ -79,4 +84,7 @@ export class CatchFormComponent {
     return filteredFish[0].name;
   }
 
+  reloadPage() {
+    window.location.reload();
+  }
 }

@@ -7,7 +7,7 @@ import { RegistrationRequest } from '../models/registration-request';
 })
 export class AuthenticationService {
 
-  private url = "http://localhost:8080/api/fisherman"
+  private url = "http://localhost:8080/api/fisherman";
   
   constructor(private http: HttpClient) { }
 

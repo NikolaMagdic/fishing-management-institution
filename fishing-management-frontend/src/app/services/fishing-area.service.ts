@@ -38,4 +38,12 @@ export class FishingAreaService {
     addFishSpeciesToArea(areaId: number, fishId: number) {
         return this.http.patch(this.url + "/" + areaId + "/add-fish-species/" + fishId, null);
     }
+
+    getFishingAreasNotManagedByKeeper(keeperId: number) {
+        return this.http.get(this.url + "/not-keeper/" + keeperId);
+    }
+
+    getFishingAreasManagedByKeeper(keeperId: number) {
+        return this.http.get(this.url + "/keeper/" + keeperId)
+    }
 }

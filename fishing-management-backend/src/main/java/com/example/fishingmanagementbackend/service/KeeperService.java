@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.KeeperDTO;
 import com.example.fishingmanagementbackend.dto.KeeperRegistrationDTO;
+import com.example.fishingmanagementbackend.model.FishingArea;
 import com.example.fishingmanagementbackend.model.Keeper;
 import com.example.fishingmanagementbackend.model.User;
+import com.example.fishingmanagementbackend.repository.FishingAreaRepository;
 import com.example.fishingmanagementbackend.repository.KeeperRepository;
 import com.example.fishingmanagementbackend.repository.UserRepository;
 
@@ -22,6 +24,9 @@ public class KeeperService {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired 
+    private FishingAreaRepository fishingAreaRepository;
     
     @Autowired
     private UserService userService;
@@ -66,10 +71,32 @@ public class KeeperService {
         Keeper keeper = keeperRepository.getReferenceById(id);
         
         keeper.setFirstName(keeperDTO.getFirstName());
-        keeper.setLastName(keeper.getLastName());
-        keeper.setDateOfBirth(keeper.getDateOfBirth());
+        keeper.setLastName(keeperDTO.getLastName());
+        keeper.setDateOfBirth(keeperDTO.getDateOfBirth());
         
         return keeperRepository.save(keeper);
+    }
+    
+    public boolean addKeeperToFishingArea(Long keeperId, Long areaId) {
+
+        Keeper keeper = keeperRepository.getReferenceById(keeperId);
+        FishingArea fishingArea = fishingAreaRepository.getReferenceById(areaId);
+        
+        keeper.getFishingAreas().add(fishingArea);
+        keeperRepository.save(keeper);
+        
+        return true;
+        
+    }
+    
+    public boolean removeKeeperFromFishingArea(Long keeperId, Long areaId) {
+        Keeper keeper = keeperRepository.getReferenceById(keeperId);
+        FishingArea fishingArea = fishingAreaRepository.getReferenceById(areaId);
+        
+        keeper.getFishingAreas().remove(fishingArea);
+        keeperRepository.save(keeper);
+        
+        return true;
     }
     
 }

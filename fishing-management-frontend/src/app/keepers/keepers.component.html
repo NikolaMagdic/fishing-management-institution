@@ -1,0 +1,27 @@
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Datum rođenja</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let keeper of keepers">
+            <tr>
+                <td>
+                    {{keeper.firstName}}
+                </td>
+                <td>
+                    {{keeper.lastName}}
+                </td>
+                <td>
+                    {{keeper.dateOfBirth | date: "dd.MM.yyyy."}}
+                </td>
+                <td>
+                    <button class="btn btn-primary" (click)="keeperDetails(keeper.id)">Detalji</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

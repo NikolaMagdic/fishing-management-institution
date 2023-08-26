@@ -1,0 +1,71 @@
+<div>
+    <h1 *ngIf="keeper">Ribočuvar {{keeper.firstName + " " + keeper.lastName}}</h1>
+    <form (ngSubmit)="updateKeeper()" #form="ngForm" [formGroup]="keeperForm">
+        <fieldset [disabled]="fieldsetDisabled">
+            <div class="mb-3">
+                <label class="form-label">Ime</label>
+                <input type="text" class="form-control" name="firstName" required formControlName="firstName">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Prezime</label>
+                <input type="text" class="form-control" name="lastName" required formControlName="lastName">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Datum rođenja</label>
+                <input type="date" class="form-control" name="dateOfBirth" formControlName="dateOfBirth">
+            </div>
+            <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden">Potvrdi izmenu</button>
+        </fieldset>
+    </form>
+    <button class="btn btn-primary" (click)="enableForm()" [hidden]="changeButtonHidden">Izmeni</button>
+    <button data-bs-toggle="modal" data-bs-target="#modalSuccess" hidden #openModalSuccess></button>
+    <div class="modal" id="modalSuccess" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Podaci o ribočuvaru izmenjeni uspešno</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modalSuccess"></button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modalSuccess">Zatvori</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Dodaj zaduženje</button>
+    <div class="container">
+        <h2>Ribolovne vode za koje je zadužen</h2>
+        <table class="table table-striped-columns table-hover">
+            <thead></thead>
+            <tbody *ngFor="let area of managedAreas">
+                <tr>
+                    <td>{{area.type}}</td>
+                    <td>{{area.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="addAreaToManage()" #form="ngForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Dodaj novu ribolovnu vodu u spisak zaduženja ribočuvara</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Ribolovna voda</label>
+                            <select class="form-select" name="notManagedAreas" id="notManagedAreas" required [(ngModel)]="selectedArea">
+                                <option *ngFor="let area of notManagedAreas" [ngValue]="area">{{area.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zatvori</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FishingSpot } from '../models/fishing-spot';
 import { FishingSpotService } from '../services/fishing-spot.service';
 import { Feature, Map, View } from 'ol';
@@ -31,9 +31,12 @@ export class FishingSpotDetailsComponent {
   // Primer upotrebe FormControl za forme (Reactive forms u Angularu)
   date = new FormControl();
 
+  @ViewChild('openModal') openModal: ElementRef | any;
+
   constructor(private fishingSpotService: FishingSpotService,
               private reservationService: ReservationService, 
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     let id = Number(this.route.snapshot.paramMap.get('id'));
@@ -90,6 +93,15 @@ export class FishingSpotDetailsComponent {
 
   createReservation() {
     var reservation = new Reservation(0, this.date.value, this.fishingSpot.id);
-    this.reservationService.createReservation(reservation).subscribe({});
+    this.reservationService.createReservation(reservation).subscribe({
+      next: () => {
+        this.openModal.nativeElement.click();
+      }
+    });
+  }
+
+  reloadPage() {
+    let id = Number(this.route.snapshot.paramMap.get('id'));
+    this.router.navigate(['/fishing-spot-details/' + id ]);
   }
 }

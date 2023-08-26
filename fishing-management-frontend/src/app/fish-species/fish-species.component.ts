@@ -12,7 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class FishSpeciesComponent {
   
   fishSpecies: any = [];
-  newFishForm: FormGroup
+  newFishForm: FormGroup;
 
   constructor(private fishSpeciesService: FishSpeciesService,
               private router: Router) {

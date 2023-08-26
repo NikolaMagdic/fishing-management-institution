@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,11 +33,13 @@ public class KeeperController {
         return ResponseEntity.ok(allKeepers);
     }
     
+    
     @GetMapping("/{id}")
     public ResponseEntity<KeeperDTO> getKeeperById(@PathVariable("id") Long id) {
         KeeperDTO keeperDTO;
         try {
             keeperDTO = keeperService.getKeeperById(id);
+            System.out.println(keeperDTO);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
@@ -64,5 +67,25 @@ public class KeeperController {
         }
         
         return ResponseEntity.ok(new KeeperDTO(keeper));
+    }
+    
+    @PatchMapping("{keeperId}/add-fishing-area/{areaId}")
+    public ResponseEntity<Boolean> addKeeperToFishingArea(@PathVariable("keeperId") Long keeperId, @PathVariable("areaId") Long areaId) {
+        try {
+            keeperService.addKeeperToFishingArea(keeperId, areaId);    
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(true);
+    }
+    
+    @PatchMapping("{keeperId}/remove-fishing-area/{areaId}")
+    public ResponseEntity<Boolean> removeKeeperFromFishingArea(@PathVariable("keeperId") Long keeperId, @PathVariable("areaId") Long areaId) {
+        try {
+            keeperService.removeKeeperFromFishingArea(keeperId, areaId);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(true);
     }
 }

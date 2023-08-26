@@ -18,6 +18,9 @@ import { FishingSpotDetailsComponent } from './fishing-spot-details/fishing-spot
 import { CatchFormComponent } from './catch-form/catch-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { KeeperDetailsComponent } from './keeper-details/keeper-details.component';
+import { KeepersComponent } from './keepers/keepers.component';
+import { KeeperFormComponent } from './keeper-form/keeper-form.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     FishingSpotsComponent,
     FishingSpotDetailsComponent,
     CatchFormComponent,
+    KeeperDetailsComponent,
+    KeepersComponent,
+    KeeperFormComponent,
   ],
   imports: [
     BrowserModule,

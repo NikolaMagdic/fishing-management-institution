@@ -82,6 +82,25 @@ public class FishingAreaService {
     }
     
     
+    public List<FishingAreaDTO> getAllFishingAreasThisKeeperKeeps(Long keeperId) {
+        List<FishingArea> fishingAreas = fishingAreaRepository.findKeptByKeeper(keeperId);
+        List<FishingAreaDTO> fishingAreaDTOs = new ArrayList<>();
+        for(FishingArea fishingArea: fishingAreas) {
+            FishingAreaDTO areaDTO = new FishingAreaDTO(fishingArea);
+            fishingAreaDTOs.add(areaDTO);
+        }
+        return fishingAreaDTOs;
+    }
+    
+    public List<FishingAreaDTO> getAllFishingAreasThisKeeperNotKeeps(Long keeperId) {
+        List<FishingArea> fishingAreas = fishingAreaRepository.findNotKeptByKeeper(keeperId);
+        List<FishingAreaDTO> fishingAreaDTOs = new ArrayList<>();
+        for(FishingArea fishingArea: fishingAreas) {
+            FishingAreaDTO areaDTO = new FishingAreaDTO(fishingArea);
+            fishingAreaDTOs.add(areaDTO);
+        }
+        return fishingAreaDTOs;
+    }
     
 //    public FishingArea deleteFishingArea(Long id) {
 //        

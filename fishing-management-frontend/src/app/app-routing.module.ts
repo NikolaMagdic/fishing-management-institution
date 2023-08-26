@@ -8,6 +8,9 @@ import { FishingAreasListComponent } from './fishing-areas/fishing-areas.compone
 import { FishingSpotDetailsComponent } from './fishing-spot-details/fishing-spot-details.component';
 import { FishingSpotsComponent } from './fishing-spots/fishing-spots.component';
 import { FishingAreaGuardService } from './guards/fishing-area-guard.service';
+import { KeeperDetailsComponent } from './keeper-details/keeper-details.component';
+import { KeeperFormComponent } from './keeper-form/keeper-form.component';
+import { KeepersComponent } from './keepers/keepers.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 
@@ -43,6 +46,17 @@ const routes: Routes = [
       {
         path: "catch-form",
         component: CatchFormComponent
+      },
+      {
+        path: "keeper",
+        component: KeeperFormComponent
+      },
+      {
+        path: "keeper/:id",
+        component: KeeperDetailsComponent      },
+      {
+        path: "keepers",
+        component: KeepersComponent
       },
       { 
         path: "", component: LoginComponent 

@@ -5,6 +5,8 @@ import java.util.Date;
 import com.example.fishingmanagementbackend.model.Keeper;
 
 public class KeeperDTO {
+    
+    private Long id;
 
     private String firstName;
     
@@ -14,13 +16,15 @@ public class KeeperDTO {
     
     public KeeperDTO() {}
     
-    public KeeperDTO(String firstName, String lastName, Date dateOfBirth) {
+    public KeeperDTO(Long id, String firstName, String lastName, Date dateOfBirth) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
     }
     
     public KeeperDTO(Keeper keeper) {
+        this.id = keeper.getId();
         this.firstName = keeper.getFirstName();
         this.lastName = keeper.getLastName();
         this.dateOfBirth = keeper.getDateOfBirth();
@@ -49,10 +53,18 @@ public class KeeperDTO {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {
-        return "KeeperDTO [firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + "]";
+        return "KeeperDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + "]";
     }
     
     

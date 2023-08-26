@@ -1,0 +1,40 @@
+<div>
+    <h1>Unesite podatke o ribočuvaru</h1>
+    <form (ngSubmit)="registerKeeper()" #form="ngForm" [formGroup]="keeperForm">
+        <div class="mb-3">
+            <label class="form-label">Korisničko ime</label>
+            <input type="text" class="form-control" name="username" required formControlName="username">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Lozinka</label>
+            <input type="password" class="form-control" name="password" required formControlName="password">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Ime</label>
+            <input type="text" class="form-control" name="firstName" required formControlName="firstName">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Prezime</label>
+            <input type="text" class="form-control" name="lastName" required formControlName="lastName">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Datum rođenja</label>
+            <input type="date" class="form-control" name="dateOfBirth" formControlName="dateOfBirth">
+        </div>
+        <button type="submit" class="btn btn-primary">Potvrdi</button>
+    </form>
+    <button data-bs-toggle="modal" data-bs-target="#modal" hidden #openModal></button>
+    <div class="modal" id="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novi čuvar registrovan uspešno</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zatvori</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

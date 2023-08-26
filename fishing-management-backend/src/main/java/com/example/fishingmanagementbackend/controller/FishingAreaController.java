@@ -65,6 +65,18 @@ public class FishingAreaController {
         return ResponseEntity.ok().body(new FishingAreaDTO(fishingArea));
     }
     
+    @GetMapping("/keeper/{keeperId}")
+    public ResponseEntity<List<FishingAreaDTO>> getAllFishingAreasThatThisKeeperKeeps(@PathVariable("keeperId") Long id) {
+        List<FishingAreaDTO> fishingAreaDTOs = fishingAreaService.getAllFishingAreasThisKeeperKeeps(id);
+        return ResponseEntity.ok(fishingAreaDTOs);
+    }
+    
+    @GetMapping("/not-keeper/{keeperId}")
+    public ResponseEntity<List<FishingAreaDTO>> getAllFishingAreasThatThisKeeperNotKeep(@PathVariable("keeperId") Long id) {
+        List<FishingAreaDTO> fishingAreaDTOs = fishingAreaService.getAllFishingAreasThisKeeperNotKeeps(id);
+        return ResponseEntity.ok(fishingAreaDTOs);
+    }
+    
     @PatchMapping("/{areaId}/add-fish-species/{speciesId}")
     public ResponseEntity<Boolean> addFishSpeciesToFishingArea(@PathVariable("areaId") Long areaId, @PathVariable("speciesId") Long speciesId) {
 
