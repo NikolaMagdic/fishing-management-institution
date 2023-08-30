@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +21,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { KeeperDetailsComponent } from './keeper-details/keeper-details.component';
 import { KeepersComponent } from './keepers/keepers.component';
 import { KeeperFormComponent } from './keeper-form/keeper-form.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { KeeperFormComponent } from './keeper-form/keeper-form.component';
     KeeperDetailsComponent,
     KeepersComponent,
     KeeperFormComponent,
+    ChangePasswordFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,14 @@ import { KeeperFormComponent } from './keeper-form/keeper-form.component';
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
   ],
-  providers: [FishingAreaGuardService],
+  providers: [
+    FishingAreaGuardService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]  // Definise pocetnu komponentu aplikacije
 })
 export class AppModule { }

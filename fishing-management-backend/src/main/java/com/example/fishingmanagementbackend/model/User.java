@@ -2,15 +2,20 @@ package com.example.fishingmanagementbackend.model;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -39,6 +44,12 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user")
     private Fisherman fisherman;
     
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_authority", 
+               joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
+               inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private Set<Authority> authorities;
+    
     public User() {}
     
     public User(String username, String password) {
@@ -48,8 +59,11 @@ public class User implements UserDetails {
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.authorities;
+    }
+    
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override

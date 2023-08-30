@@ -1,14 +1,14 @@
 <div>
     <h1>Unesite kredencijale za registraciju</h1>
     <img src="../../assets/fishing_rod.jpg" style="width: 400px;">
-    <form>
+    <form (ngSubmit)="login()" [formGroup]="loginForm">
         <div class="mb-3">
-            <label>Korisničko ime</label>
-            <input type="text" class="form-control">
+            <label class="form-label">Korisničko ime</label>
+            <input type="text" class="form-control" formControlName="username">
         </div>
         <div class="mb-3">
-            <label>Lozinka</label>
-            <input type="password" class="form-control">
+            <label class="form-label">Lozinka</label>
+            <input type="password" class="form-control" formControlName="password">
         </div>
         <button type="submit" class="btn btn-primary">Prijavi me</button>
     </form>

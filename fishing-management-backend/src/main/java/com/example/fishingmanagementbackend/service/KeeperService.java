@@ -2,6 +2,7 @@ package com.example.fishingmanagementbackend.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.KeeperDTO;
 import com.example.fishingmanagementbackend.dto.KeeperRegistrationDTO;
+import com.example.fishingmanagementbackend.model.Authority;
 import com.example.fishingmanagementbackend.model.FishingArea;
 import com.example.fishingmanagementbackend.model.Keeper;
 import com.example.fishingmanagementbackend.model.User;
@@ -30,6 +32,9 @@ public class KeeperService {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private AuthorityService authService;
     
     public List<KeeperDTO> getAllKeepers() {
         List<Keeper> allKeepers = keeperRepository.findAll();
@@ -61,6 +66,9 @@ public class KeeperService {
         
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = new User(newKeeper.getUsername(), encoder.encode(newKeeper.getPassword()));
+        
+        Set<Authority> authorities = authService.findByName("ROLE_KEEPER");
+        user.setAuthorities(authorities);
         keeper.setUser(user);
         
         userRepository.save(user);

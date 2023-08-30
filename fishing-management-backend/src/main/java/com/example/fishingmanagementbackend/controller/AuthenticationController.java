@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.AuthenticationRequestDTO;
 import com.example.fishingmanagementbackend.dto.PasswordChangeRequestDTO;
+import com.example.fishingmanagementbackend.dto.UserTokenState;
 import com.example.fishingmanagementbackend.model.User;
 import com.example.fishingmanagementbackend.security.JWTokenUtils;
 import com.example.fishingmanagementbackend.service.UserService;
@@ -32,7 +33,7 @@ public class AuthenticationController {
     private UserService userService;
     
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AuthenticationRequestDTO authRequest) {
+    public ResponseEntity<UserTokenState> login(@RequestBody AuthenticationRequestDTO authRequest) {
         
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(authToken);
@@ -41,8 +42,11 @@ public class AuthenticationController {
         
         User user = (User)authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getUsername());
-        // razmotriti da li je potrebno ovde da vracam DTO koji ukljucuje i expiresIn atribut
-        return ResponseEntity.ok(jwt);
+        int expiresIn = tokenUtils.getExpiredIn();
+        
+        UserTokenState userTokenState = new UserTokenState(jwt, expiresIn);
+        
+        return ResponseEntity.ok(userTokenState);
     }
     
     @PutMapping

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CatchFormComponent } from './catch-form/catch-form.component';
+import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 import { FishSpeciesDetailsComponent } from './fish-species-details/fish-species-details.component';
 import { FishSpeciesComponent } from './fish-species/fish-species.component';
 import { FishingAreaDetailsComponent } from './fishing-area-details/fishing-area-details.component';
@@ -57,6 +58,10 @@ const routes: Routes = [
       {
         path: "keepers",
         component: KeepersComponent
+      },
+      {
+        path: "change-password",
+        component: ChangePasswordFormComponent
       },
       { 
         path: "", component: LoginComponent 
