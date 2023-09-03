@@ -32,6 +32,12 @@ public class FishermanController {
         return ResponseEntity.ok().body(allFishermans);
     }
     
+    @GetMapping("/license-requests")
+    public ResponseEntity<List<FishermanDTO>> getAllFishermansWihtLicenseRequests() {
+        List<FishermanDTO> fishermansWithLicenseRequest = fishermanService.getFishermansWithLicenseRequest();
+        return ResponseEntity.ok().body(fishermansWithLicenseRequest);
+    }
+    
     @GetMapping("{id}")
     public ResponseEntity<FishermanDTO> getFishermanById(@PathVariable("id") Long id) {
         FishermanDTO fishermanDTO;

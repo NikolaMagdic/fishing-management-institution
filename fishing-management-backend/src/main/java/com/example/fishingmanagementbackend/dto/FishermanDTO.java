@@ -6,6 +6,8 @@ import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
 import com.example.fishingmanagementbackend.model.Fisherman;
 
 public class FishermanDTO {
+    
+    private Long id;
 
     private String firstName;
     
@@ -22,12 +24,21 @@ public class FishermanDTO {
     public FishermanDTO() {}
     
     public FishermanDTO(Fisherman fisherman) {
+        this.id = fisherman.getId();
         this.firstName = fisherman.getFirstName();
         this.lastName = fisherman.getLastName();
         this.dateOfBirth = fisherman.getDateOfBirth();
         this.address = fisherman.getAddress();
         this.city = fisherman.getCity();
         this.category = fisherman.getCategory();
+    }
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -80,7 +91,7 @@ public class FishermanDTO {
 
     @Override
     public String toString() {
-        return "FishermanDTO [firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
+        return "FishermanDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
                 + ", address=" + address + ", city=" + city + ", category=" + category + "]";
     }
     

@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.service;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.example.fishingmanagementbackend.model.Reservation;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.FishingSpotRepository;
 import com.example.fishingmanagementbackend.repository.ReservationRepository;
+import com.example.fishingmanagementbackend.repository.UserRepository;
 
 @Service
 public class ReservationService {
@@ -26,6 +28,9 @@ public class ReservationService {
     
     @Autowired 
     private FishermanRepository fishermanRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     public List<LocalDate> getFutureReservationsForFishingSpot(Long spotId) {
         List<Reservation> futureReservations = reservationRepository.findFutureReservationsForSpot(spotId);
@@ -37,14 +42,15 @@ public class ReservationService {
         return occupiedDates;
     }
     
-    public Reservation createReservation(ReservationDTO reservationDTO) {
-        // TODO: Ovo izmeniti da se uzme trenutno ulogovani korisnik
-        reservationDTO.setFishermanId(1L);
+    public Reservation createReservation(ReservationDTO reservationDTO, Principal principal) {
+        
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        
         Reservation reservation = new Reservation(reservationDTO.getArrivalDate(), reservationDTO.getArrivalTime(),
                 reservationDTO.getDepartureDate(), reservationDTO.getDepartureTime());
         
         FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(reservationDTO.getFishingSpotId());
-        Fisherman fisherman = fishermanRepository.getReferenceById(reservationDTO.getFishermanId());
+        Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
         
         reservation.setFishingSpot(fishingSpot);
         reservation.setFisherman(fisherman);    

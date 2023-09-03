@@ -38,16 +38,30 @@
     </form>
 </div>
 <div>
-    <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #openModal></button>
+    <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #successModal></button>
     <div class="modal" id="success-modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Evidentiranje ulova uspešno izvršeno</h5>
+                    <h5 *ngIf="validLicense" class="modal-title">Rezervisanje termina uspešno izvršeno</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="reloadPage()"></button>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="reloadPage()">Zatvori</button>
+                    <button *ngIf="validLicense" type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="reloadPage()">Zatvori</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button data-bs-toggle="modal" data-bs-target="#failure-modal" hidden #failureModal></button>
+    <div class="modal" id="failure-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 *ngIf="!validLicense" class="alert alert-danger">Nemate važeću dozvolu. Da li želite da kupite dnevnu dozvolu za navedeni termin?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="reloadPage()"></button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button *ngIf="!validLicense" type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="obtainDailyLicense()">Izvadi dnevnu dozvolu za navedeni datum</button>
                 </div>
             </div>
         </div>

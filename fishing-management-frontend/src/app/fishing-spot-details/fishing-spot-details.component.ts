@@ -14,6 +14,8 @@ import { Point } from 'ol/geom';
 import { ReservationService } from '../services/reservation.service';
 import { Reservation } from '../models/reservation';
 import { FormControl } from '@angular/forms';
+import { LicenseService } from '../services/license.service';
+import { License } from '../models/license';
 
 @Component({
   selector: 'app-fishing-spot-details',
@@ -31,10 +33,14 @@ export class FishingSpotDetailsComponent {
   // Primer upotrebe FormControl za forme (Reactive forms u Angularu)
   date = new FormControl();
 
-  @ViewChild('openModal') openModal: ElementRef | any;
+  @ViewChild('successModal') successModal: ElementRef | any;
+  @ViewChild('failureModal') failureModal: ElementRef | any;
+
+  validLicense: boolean = false;
 
   constructor(private fishingSpotService: FishingSpotService,
-              private reservationService: ReservationService, 
+              private reservationService: ReservationService,
+              private licenseService: LicenseService, 
               private route: ActivatedRoute,
               private router: Router) { }
 
@@ -89,19 +95,41 @@ export class FishingSpotDetailsComponent {
         });
       }
     })
+
+    this.licenseService.getExistingValidLicenses().subscribe({
+      next: data => {
+        if(data != null) {
+          this.validLicense = true;  
+        } 
+      }
+    });
   }
 
   createReservation() {
-    var reservation = new Reservation(0, this.date.value, this.fishingSpot.id);
-    this.reservationService.createReservation(reservation).subscribe({
-      next: () => {
-        this.openModal.nativeElement.click();
-      }
-    });
+    if(this.validLicense) {
+      var reservation = new Reservation(0, this.date.value, this.fishingSpot.id);
+      this.reservationService.createReservation(reservation).subscribe({
+        next: () => {
+          this.successModal.nativeElement.click();
+        }
+      });
+    } else {
+      this.failureModal.nativeElement.click();
+    }
   }
 
   reloadPage() {
     let id = Number(this.route.snapshot.paramMap.get('id'));
     this.router.navigate(['/fishing-spot-details/' + id ]);
+  }
+
+  obtainDailyLicense() {
+    const license: License = new License(0, "DAILY", this.date.value, 0)
+    this.licenseService.obtainLicence(license).subscribe({
+      next: () => {
+        this.validLicense = true;
+        this.createReservation();
+      }
+    })
   }
 }

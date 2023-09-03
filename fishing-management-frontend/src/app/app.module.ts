@@ -23,6 +23,8 @@ import { KeepersComponent } from './keepers/keepers.component';
 import { KeeperFormComponent } from './keeper-form/keeper-form.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
+import { LicenseComponent } from './license/license.component';
+import { LicenseRequestsComponent } from './license-requests/license-requests.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { ChangePasswordFormComponent } from './change-password-form/change-passw
     KeepersComponent,
     KeeperFormComponent,
     ChangePasswordFormComponent,
+    LicenseComponent,
+    LicenseRequestsComponent,
   ],
   imports: [
     BrowserModule,

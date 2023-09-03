@@ -111,6 +111,15 @@ public class User implements UserDetails {
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
+
+    public Fisherman getFisherman() {
+        return fisherman;
+    }
+
+    public void setFisherman(Fisherman fisherman) {
+        this.fisherman = fisherman;
+    }
+    
     
     
 }

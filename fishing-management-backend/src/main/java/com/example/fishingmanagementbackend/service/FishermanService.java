@@ -40,6 +40,15 @@ public class FishermanService {
         return allFishermanDTOs;
     }
     
+    public List<FishermanDTO> getFishermansWithLicenseRequest() {
+        List<Fisherman> fishermansWithLicenseRequests = fishermanRepository.findAllFishermansWithLicenseRequests();
+        List<FishermanDTO> fishermansWithLicenseRequestDTO = new ArrayList<>();
+        for(Fisherman f : fishermansWithLicenseRequests) {
+            fishermansWithLicenseRequestDTO.add(new FishermanDTO(f));
+        }
+        return fishermansWithLicenseRequestDTO;
+    }
+    
     public FishermanDTO getFishermanById(Long id) {
         Fisherman fisherman = fishermanRepository.getReferenceById(id);
         return new FishermanDTO(fisherman);

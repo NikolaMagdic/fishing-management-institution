@@ -12,6 +12,8 @@ import { FishingAreaGuardService } from './guards/fishing-area-guard.service';
 import { KeeperDetailsComponent } from './keeper-details/keeper-details.component';
 import { KeeperFormComponent } from './keeper-form/keeper-form.component';
 import { KeepersComponent } from './keepers/keepers.component';
+import { LicenseRequestsComponent } from './license-requests/license-requests.component';
+import { LicenseComponent } from './license/license.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 
@@ -62,6 +64,14 @@ const routes: Routes = [
       {
         path: "change-password",
         component: ChangePasswordFormComponent
+      },
+      {
+        path: "license",
+        component: LicenseComponent
+      },
+      {
+        path: "license-requests",
+        component: LicenseRequestsComponent
       },
       { 
         path: "", component: LoginComponent 

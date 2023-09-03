@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.controller;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,8 +31,13 @@ public class ReservationController {
     }
     
     @PostMapping
-    public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservationDTO) {
-        reservationService.createReservation(reservationDTO);
+    public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservationDTO, Principal principal) {
+        
+        if(principal == null) {
+            return ResponseEntity.status(401).build();
+        }
+        
+        reservationService.createReservation(reservationDTO, principal);
         return ResponseEntity.status(201).body(reservationDTO);
     }
 }
