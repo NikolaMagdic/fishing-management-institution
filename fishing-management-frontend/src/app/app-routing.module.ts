@@ -8,6 +8,7 @@ import { FishingAreaDetailsComponent } from './fishing-area-details/fishing-area
 import { FishingAreasListComponent } from './fishing-areas/fishing-areas.component';
 import { FishingSpotDetailsComponent } from './fishing-spot-details/fishing-spot-details.component';
 import { FishingSpotsComponent } from './fishing-spots/fishing-spots.component';
+import { AuthGuard } from './guards/auth.guard';
 import { FishingAreaGuardService } from './guards/fishing-area-guard.service';
 import { KeeperDetailsComponent } from './keeper-details/keeper-details.component';
 import { KeeperFormComponent } from './keeper-form/keeper-form.component';
@@ -20,27 +21,32 @@ import { RegistrationComponent } from './registration/registration.component';
 const routes: Routes = [
       { 
         path: "fishing-areas", 
-        component: FishingAreasListComponent 
+        component: FishingAreasListComponent,
+        canActivate: [AuthGuard] 
       },
       { 
         path: "fishing-areas/:id", 
-        canActivate: [ FishingAreaGuardService ], 
+        canActivate: [ FishingAreaGuardService, AuthGuard ], 
         component: FishingAreaDetailsComponent },
       {
         path: "fish-species",
-        component: FishSpeciesComponent
+        component: FishSpeciesComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: "fish-species-details/:id",
-        component: FishSpeciesDetailsComponent
+        component: FishSpeciesDetailsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: "fishing-spots/:id",
-        component: FishingSpotsComponent
+        component: FishingSpotsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: "fishing-spot-details/:id",
-        component: FishingSpotDetailsComponent
+        component: FishingSpotDetailsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: "registration",
@@ -48,30 +54,44 @@ const routes: Routes = [
       },
       {
         path: "catch-form",
-        component: CatchFormComponent
+        component: CatchFormComponent,
+        canActivate: [AuthGuard],
+        data: {roles: ["ROLE_FISHERMAN"]}
       },
       {
         path: "keeper",
-        component: KeeperFormComponent
+        component: KeeperFormComponent,
+        canActivate: [AuthGuard],
+        data: {roles: ["ROLE_ADMIN"]}
       },
       {
         path: "keeper/:id",
-        component: KeeperDetailsComponent      },
+        component: KeeperDetailsComponent,
+        canActivate: [AuthGuard],
+        data: {roles: ["ROLE_ADMIN", "ROLE_KEEPER"]}      
+      },
       {
         path: "keepers",
-        component: KeepersComponent
+        component: KeepersComponent,
+        canActivate: [AuthGuard],
+        data: {roles: ["ROLE_ADMIN"]}
       },
       {
         path: "change-password",
-        component: ChangePasswordFormComponent
+        component: ChangePasswordFormComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: "license",
-        component: LicenseComponent
+        component: LicenseComponent,
+        canActivate: [AuthGuard],
+        data: {roles: ["ROLE_FISHERMAN"]}
       },
       {
         path: "license-requests",
-        component: LicenseRequestsComponent
+        component: LicenseRequestsComponent,
+        canActivate: [AuthGuard],
+        data: {roles: ["ROLE_ADMIN"]}
       },
       { 
         path: "", component: LoginComponent 

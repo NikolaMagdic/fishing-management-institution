@@ -41,10 +41,12 @@ public class AuthenticationController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         
         User user = (User)authentication.getPrincipal();
+        
         String jwt = tokenUtils.generateToken(user.getUsername());
         int expiresIn = tokenUtils.getExpiredIn();
+        String role = user.getAuthorities().iterator().next().getAuthority();
         
-        UserTokenState userTokenState = new UserTokenState(jwt, expiresIn);
+        UserTokenState userTokenState = new UserTokenState(jwt, expiresIn, role);
         
         return ResponseEntity.ok(userTokenState);
     }

@@ -15,7 +15,8 @@ export class FishingAreaDetailsComponent implements OnInit{
   fishSpeciesInArea: FishSpecies[] | any = [];
   fishSpeciesNotInArea: FishSpecies[] | any = [];
   selectedFish: FishSpecies | any;
-
+  addFishButtonVisible = false;
+  
   constructor(private _route: ActivatedRoute, 
               private _fishingAreaService: FishingAreaService,
               private _router: Router,
@@ -42,6 +43,12 @@ export class FishingAreaDetailsComponent implements OnInit{
         this.fishSpeciesNotInArea = data;
       }
     });
+
+    const role = localStorage.getItem('role');
+    if(role == "ROLE_ADMIN") {
+      this.addFishButtonVisible = true;  
+    }
+    
   }
 
   // Primer rutiranja iz koda (bez koriscenja routerLink-a) ovo se najcesce

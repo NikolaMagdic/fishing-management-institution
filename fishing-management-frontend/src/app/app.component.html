@@ -1,18 +1,43 @@
 <div>
-    <nav class="navbar navbar-expand navbar-light bg-light">  
-            <a class="navbar-brand">Fishing Management</a>
-            <ul class="nav nav-pills">
-                <li><a class="nav-link" routerLink="">Početna strana</a></li>
-                <li><a class="nav-link" routerLink="fishing-areas">Ribolovne vode</a></li>
-                <li><a class="nav-link" routerLink="fish-species">Ribe</a></li>
-                <li><a class="nav-link" routerLink="registration">Registruj se</a></li>
-                <li><a class="nav-link" routerLink="catch-form">Evidencija ulova</a></li>
-                <li><a class="nav-link" routerLink="license">Dozvola</a></li>
-                <li><a class="nav-link" routerLink="license-requests">Zahtevi za dozvolu</a></li>
-                <li><a class="nav-link" routerLink="keeper">Dodaj novog ribočuvara</a></li>
-                <li><a class="nav-link" routerLink="keepers">Ribočuvari</a></li>
-                <li><a class="nav-link" routerLink="change-password">Promena lozinke</a></li>
-                <li><a class="nav-link" (click)="logout()">Odjava</a></li>
+    <nav class="navbar navbar-expand navbar-dark bg-primary">  
+            <a class="navbar-brand">
+                <img src="../assets/plovak.png" height="32px" width="32px">
+                Fishing Management
+            </a>
+            <ul class="nav navbar-nav me-auto mb-2 mb-lg-0">
+                <li *ngIf="!isLoggedIn">
+                    <a class="nav-link" routerLink="">Početna strana</a>
+                </li>
+                <li *ngIf="isLoggedIn">
+                    <a class="nav-link" routerLink="fishing-areas">Ribolovne vode</a>
+                </li>
+                <li *ngIf="isLoggedIn">
+                    <a class="nav-link" routerLink="fish-species">Ribe</a>
+                </li>
+                <li *ngIf="!isLoggedIn">
+                    <a class="nav-link" routerLink="registration">Registruj se</a>
+                </li>
+                <li *ngIf="role == 'ROLE_FISHERMAN'">
+                    <a class="nav-link" routerLink="catch-form">Evidencija ulova</a>
+                </li>
+                <li *ngIf="role == 'ROLE_FISHERMAN'">
+                    <a class="nav-link" routerLink="license">Dozvola</a>
+                </li>
+                <li *ngIf="role == 'ROLE_ADMIN'">
+                    <a class="nav-link" routerLink="license-requests">Zahtevi za dozvolu</a>
+                </li>
+                <li *ngIf="role == 'ROLE_ADMIN'">
+                    <a class="nav-link" routerLink="keeper">Dodaj novog ribočuvara</a>
+                </li>
+                <li *ngIf="role == 'ROLE_ADMIN'">
+                    <a class="nav-link" routerLink="keepers">Ribočuvari</a>
+                </li>
+                <li *ngIf="isLoggedIn">
+                    <a class="nav-link" routerLink="change-password">Promena lozinke</a>
+                </li>
+                <li *ngIf="isLoggedIn">
+                    <a class="nav-link" (click)="logout()">Odjava</a>
+                </li>
             </ul>
     </nav>
 </div>

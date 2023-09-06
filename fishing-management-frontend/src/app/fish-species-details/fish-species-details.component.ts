@@ -26,6 +26,8 @@ export class FishSpeciesDetailsComponent {
   banStart: Date | any;
   banEnd: Date | any;
 
+  updateButtonVisible = false;
+
   constructor(private route: ActivatedRoute,
               private fishSpeciesService: FishSpeciesService) {
       this.fishForm = new FormGroup({
@@ -60,6 +62,11 @@ export class FishSpeciesDetailsComponent {
         });
       }
     })
+
+    const role = localStorage.getItem('role');
+    if(role == "ROLE_ADMIN") {
+      this.updateButtonVisible = true;
+    }
   }
 
   enableForm() {

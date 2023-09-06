@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { AuthenticationRequest } from '../models/authentication-request';
@@ -16,6 +16,9 @@ export class AuthenticationService {
 
   private authResponse: AuthenticationResponse | any;
 
+  @Output() loginEvent = new EventEmitter<string>();
+  @Output() logoutEvent = new EventEmitter<boolean>();
+
   constructor(private http: HttpClient,
               private router: Router) { }
 
@@ -30,6 +33,11 @@ export class AuthenticationService {
           this.authResponse = res as AuthenticationResponse;
           localStorage.setItem('token', this.authResponse.jwtToken);
           localStorage.setItem('expiresIn', this.authResponse.expiresIn);
+          localStorage.setItem('role', this.authResponse.role);
+
+          // Objavljujem koju rolu ima prijavljeni korisnik kako bih to mogao uhvatiti u app.component
+          // i shodno tome izmeniti moguce opcije u meniju
+          this.loginEvent.emit(this.authResponse.role);
         })
       );
   }
@@ -37,6 +45,9 @@ export class AuthenticationService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiresIn');
+    localStorage.removeItem('role');
+
+    this.logoutEvent.emit(true);
     this.router.navigate(['/']);
   }
 

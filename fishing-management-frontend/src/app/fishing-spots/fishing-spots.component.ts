@@ -26,6 +26,8 @@ export class FishingSpotsComponent {
   newFishingSpot: FishingSpot = new FishingSpot(0, "", 0, 0, 0);
   map: Map | undefined;
 
+  addFishingSpotButtonVisible = false;
+
   constructor(private fishingSpotService: FishingSpotService,
               private route: ActivatedRoute,
               private router: Router) {}
@@ -80,6 +82,10 @@ export class FishingSpotsComponent {
 
     this.map.addLayer(markers);
 
+    const role = localStorage.getItem('role');
+    if(role == 'ROLE_ADMIN') {
+      this.addFishingSpotButtonVisible = true;
+    }
   }
 
   createFishingSpot() {

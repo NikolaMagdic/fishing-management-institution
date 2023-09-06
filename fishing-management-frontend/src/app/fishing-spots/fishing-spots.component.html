@@ -20,7 +20,7 @@
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Dodaj ribolovno mesto</button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishingSpotButtonVisible">Dodaj ribolovno mesto</button>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

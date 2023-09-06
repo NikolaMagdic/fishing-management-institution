@@ -29,7 +29,7 @@
             </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Dodaj novu vrstu ribe</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishButtonVisible">Dodaj novu vrstu ribe</button>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

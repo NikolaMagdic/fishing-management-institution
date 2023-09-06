@@ -21,6 +21,8 @@ export class FishingAreasListComponent {
     errorMessage: string = "";
     fishingArea: FishingArea = new FishingArea(0, "", "", "", "");
 
+    isAddButtonVisible = false;
+
     // Konstruktor koji se poziva prilikom inicijalizacije komponente, izvrsava se pre ngOnInit
     constructor(private _fishingAreaService: FishingAreaService) {
         // Ovo gore je sintaksni secer koji uproscava konstruktor koji je inace u osnovi isti kao i u Javi
@@ -66,6 +68,10 @@ export class FishingAreasListComponent {
             error: err => this.errorMessage = err
         });
                 
-       
+        let role = localStorage.getItem('role');
+        if(role == "ROLE_ADMIN") {
+            this.isAddButtonVisible = true;
+        }
     }
+    
 }

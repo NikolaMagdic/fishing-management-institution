@@ -11,12 +11,30 @@ import { FishingAreaService } from './services/fishing-area.service';
 })
 export class AppComponent {
   title = 'fishing-management-frontend';
+  isLoggedIn = this.authService.isLoggedIn();
+  role = localStorage.getItem('role');
 
   constructor(private authService: AuthenticationService,
               private router: Router) { }
+
+
+  ngOnInit() {
+    // za promenu menija
+    this.authService.loginEvent.subscribe(data => {
+      this.isLoggedIn = this.authService.isLoggedIn();
+      this.role = data;
+    });
+
+    this.authService.logoutEvent.subscribe(data => {
+      this.isLoggedIn = this.authService.isLoggedIn();
+      this.role = "";
+    });
+  }
 
   logout() {
     this.authService.logout();
     this.router.navigate(["/"]);
   }
+
+  changeNavbar(role: string) {}
 }

@@ -43,7 +43,7 @@ import { LicenseRequestsComponent } from './license-requests/license-requests.co
     KeeperFormComponent,
     ChangePasswordFormComponent,
     LicenseComponent,
-    LicenseRequestsComponent,
+    LicenseRequestsComponent
   ],
   imports: [
     BrowserModule,

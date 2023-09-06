@@ -13,6 +13,7 @@ export class FishSpeciesComponent {
   
   fishSpecies: any = [];
   newFishForm: FormGroup;
+  addFishButtonVisible = false;
 
   constructor(private fishSpeciesService: FishSpeciesService,
               private router: Router) {
@@ -57,6 +58,11 @@ export class FishSpeciesComponent {
         this.fishSpecies = data;
       }
     })
+
+    const role = localStorage.getItem('role');
+    if(role == "ROLE_ADMIN") {
+      this.addFishButtonVisible = true;  
+    }
   }
 
   viewFishSpeciesDetails(id: number) {
