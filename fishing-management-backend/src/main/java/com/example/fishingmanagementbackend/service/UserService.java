@@ -14,7 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.model.User;
+import com.example.fishingmanagementbackend.model.VerificationToken;
 import com.example.fishingmanagementbackend.repository.UserRepository;
+import com.example.fishingmanagementbackend.repository.VerificationTokenRepository;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -25,6 +27,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     @Lazy // zbog cirkularnih dependency-ja
     private AuthenticationManager authenticationManager;
+    
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -66,6 +71,18 @@ public class UserService implements UserDetailsService {
         user.setPassword(encoder.encode(newPassword));
         userRepository.save(user);
     
+    }
+    
+    public String confirmRegistration(String token) {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        User user = verificationToken.getUser();
+        
+        user.setEnabled(true);
+        userRepository.save(user);
+        
+        return "<html><head><meta charset=\"UTF-8\"><title>Registracija uspešna</title></head><body><h1>"
+                + "Uspešno ste se registrovali na aplikaciju sistema za upravljanje ribolovnim vodama.</h1>"
+                + " <p>Možete zatvoriti ovaj prozor i prijaviti se u aplikaciju sa vašim korisničkim imenom i lozinkom.</p><body></html>";
     }
 
 }

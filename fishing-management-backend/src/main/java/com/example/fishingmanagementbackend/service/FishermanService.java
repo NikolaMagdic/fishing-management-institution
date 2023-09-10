@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class FishermanService {
     
     @Autowired
     private AuthorityService authService;
+    
+    @Autowired
+    private EmailService emailService;
     
     public List<FishermanDTO> getAllFishermans() {
         List<FishermanDTO> allFishermanDTOs = new ArrayList<>();
@@ -60,6 +64,10 @@ public class FishermanService {
         if(existingUser != null) {
             return null;
         }
+        // Ovde bi trebalo vratiti bad request
+        if(!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
+            return null;
+        }
         
         Fisherman fisherman = new Fisherman(registrationDTO.getFirstName(),
                                             registrationDTO.getLastName(),
@@ -69,7 +77,8 @@ public class FishermanService {
                                             registrationDTO.getCategory());
         
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        User user = new User(registrationDTO.getUsername(), encoder.encode(registrationDTO.getPassword()));
+        // Nalog ribolovca nije enabled dok ga ne verifikuje preko mejla
+        User user = new User(registrationDTO.getUsername(), encoder.encode(registrationDTO.getPassword()), false);
         
         // Dodela role odnosno privilegija
         Set<Authority> authorities = authService.findByName("ROLE_FISHERMAN");
@@ -78,6 +87,14 @@ public class FishermanService {
         fisherman.setUser(user);
         
         userRepository.save(user);
+        // Saljemo mejl sa linkom za potvrdu registracije
+        try {
+            emailService.sendMailAsync(user, registrationDTO.getFirstName());
+        } catch (MailException | InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
         return fishermanRepository.save(fisherman);  
     }
     

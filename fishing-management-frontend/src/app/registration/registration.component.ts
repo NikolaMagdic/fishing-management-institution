@@ -10,13 +10,15 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class RegistrationComponent {
 
-  public registration: RegistrationRequest = new RegistrationRequest("", "", "", "", new Date(), "", "", "");
-  
+  public registration: RegistrationRequest = new RegistrationRequest("", "", "", "", "", new Date(), "", "", "");
+  passwordsMatch: boolean = false;
+
   @ViewChild('openModal') openModal: ElementRef | any;
-  modalText: string = "Registracija uspešno izvršena";
+  modalText: string = "Zahtev za registraciju poslat. Potvrdite zahtev klikom na link koji Vam je stigao na imejl adresu.";
 
   constructor(private authenticationService: AuthenticationService,
     private router: Router) {}
+
 
   register() {
     this.authenticationService.registerFisherman(this.registration).subscribe({
@@ -27,6 +29,14 @@ export class RegistrationComponent {
   }
 
   navigateOutside() {
-    this.router.navigate(['/fishing-areas']);
+    this.router.navigate(['']);
+  }
+
+  checkIfPasswordsMatch() {
+    if(this.registration.password === this.registration.confirmPassword) {
+      this.passwordsMatch = true;
+    } else {
+      this.passwordsMatch = false;
+    }
   }
 }

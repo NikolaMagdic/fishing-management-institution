@@ -31,6 +31,7 @@ export class KeeperFormComponent {
     var registration = new RegistrationRequest(
       this.keeperForm.value.username,
       this.keeperForm.value.password,
+      this.keeperForm.value.password,
       this.keeperForm.value.firstName,
       this.keeperForm.value.lastName,
       this.keeperForm.value.dateOfBirth,

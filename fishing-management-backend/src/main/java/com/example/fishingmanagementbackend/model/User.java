@@ -38,6 +38,9 @@ public class User implements UserDetails {
     @Column
     private String password;
 
+    @Column
+    private boolean enabled;
+    
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
     
@@ -52,9 +55,10 @@ public class User implements UserDetails {
     
     public User() {}
     
-    public User(String username, String password) {
+    public User(String username, String password, boolean enabled) {
         this.username = username;
         this.password = password;
+        this.enabled = enabled;
     }
     
     @Override
@@ -101,7 +105,11 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
+    }
+    
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Timestamp getLastPasswordResetDate() {

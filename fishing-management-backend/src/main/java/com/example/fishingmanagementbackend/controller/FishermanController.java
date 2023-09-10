@@ -56,10 +56,9 @@ public class FishermanController {
         
         Fisherman fisherman = fishermanService.createNewFisherman(registrationDTO);
         if(fisherman == null) {
-            // Ukoliko se bude radilo sa imejlom obavezno promeniti da ne bude 409 zbog sigurnosti
             return ResponseEntity.status(409).build();
         }
-
+        
         return ResponseEntity.status(201).body(new FishermanDTO(fisherman));
     }
     

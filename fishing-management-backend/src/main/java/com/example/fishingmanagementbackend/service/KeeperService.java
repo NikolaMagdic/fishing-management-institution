@@ -65,7 +65,7 @@ public class KeeperService {
                                  newKeeper.getDateOfBirth());
         
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        User user = new User(newKeeper.getUsername(), encoder.encode(newKeeper.getPassword()));
+        User user = new User(newKeeper.getUsername(), encoder.encode(newKeeper.getPassword()), true);
         
         Set<Authority> authorities = authService.findByName("ROLE_KEEPER");
         user.setAuthorities(authorities);

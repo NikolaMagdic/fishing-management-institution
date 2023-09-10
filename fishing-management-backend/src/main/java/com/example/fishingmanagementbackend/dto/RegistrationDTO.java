@@ -10,6 +10,8 @@ public class RegistrationDTO {
     
     private String password;
     
+    private String confirmPassword;
+    
     private String firstName;
     
     private String lastName;
@@ -40,6 +42,14 @@ public class RegistrationDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getFirstName() {
@@ -92,9 +102,10 @@ public class RegistrationDTO {
 
     @Override
     public String toString() {
-        return "RegistrationDTO [username=" + username + ", password=" + password + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + ", address=" + address + ", city=" + city
-                + ", category=" + category + "]";
+        return "RegistrationDTO [username=" + username + ", password=" + password + ", confirmPassword="
+                + confirmPassword + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
+                + dateOfBirth + ", address=" + address + ", city=" + city + ", category=" + category + "]";
     }
+
     
 }

@@ -6,10 +6,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.AuthenticationRequestDTO;
@@ -49,6 +51,12 @@ public class AuthenticationController {
         UserTokenState userTokenState = new UserTokenState(jwt, expiresIn, role);
         
         return ResponseEntity.ok(userTokenState);
+    }
+    
+    @GetMapping(value = "/confirm-registration", produces = "text/html; charset=utf-8")
+    public ResponseEntity<String> confirmRegistration(@RequestParam String token) {
+        String responseHtmlPage = userService.confirmRegistration(token);
+        return ResponseEntity.ok(responseHtmlPage);
     }
     
     @PutMapping
