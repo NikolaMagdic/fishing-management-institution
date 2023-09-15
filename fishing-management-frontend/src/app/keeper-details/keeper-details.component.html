@@ -17,7 +17,7 @@
             <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden">Potvrdi izmenu</button>
         </fieldset>
     </form>
-    <button class="btn btn-primary" (click)="enableForm()" [hidden]="changeButtonHidden">Izmeni</button>
+    <button class="btn btn-primary" (click)="enableForm()" [hidden]="changeButtonHidden || adminLoggedIn">Izmeni</button>
     <button data-bs-toggle="modal" data-bs-target="#modalSuccess" hidden #openModalSuccess></button>
     <div class="modal" id="modalSuccess" tabindex="-1">
         <div class="modal-dialog">
@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Dodaj zaduženje</button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!adminLoggedIn">Dodaj zaduženje</button>
     <div class="container">
         <h2>Ribolovne vode za koje je zadužen</h2>
         <table class="table table-striped-columns table-hover">
@@ -41,6 +41,7 @@
                 <tr>
                     <td>{{area.type}}</td>
                     <td>{{area.name}}</td>
+                    <td><button class="btn btn-danger" (click)="removeManagingArea(area.id)" [hidden]="!adminLoggedIn">Otkaži zaduženje</button></td>
                 </tr>
             </tbody>
         </table>

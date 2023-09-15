@@ -39,6 +39,10 @@ export class FishingAreaService {
         return this.http.patch(this.url + "/" + areaId + "/add-fish-species/" + fishId, null);
     }
 
+    removeFishSpeciesFromArea(areaId: number, fishId: number) {
+        return this.http.patch(this.url + "/" + areaId + "/remove-fish-species/" + fishId, null);
+    }
+
     getFishingAreasNotManagedByKeeper(keeperId: number) {
         return this.http.get(this.url + "/not-keeper/" + keeperId);
     }

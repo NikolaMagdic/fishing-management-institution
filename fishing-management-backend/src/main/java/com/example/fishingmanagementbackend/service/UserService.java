@@ -30,6 +30,7 @@ public class UserService implements UserDetailsService {
     
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
+
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -85,4 +86,26 @@ public class UserService implements UserDetailsService {
                 + " <p>Možete zatvoriti ovaj prozor i prijaviti se u aplikaciju sa vašim korisničkim imenom i lozinkom.</p><body></html>";
     }
 
+    public Long getIdOfUserInCorrespondingRoleTable(String username, String role) {
+        Long id;
+        
+        switch (role) {
+        case "ROLE_ADMIN": 
+            // TODO: Implementirati Admin Repository
+            id = 1L;
+            break;   
+        case "ROLE_FISHERMAN": 
+            id = this.userRepository.findByUsername(username).getFisherman().getId();
+            break;
+        case "ROLE_KEEPER":
+            id = this.userRepository.findByUsername(username).getKeeper().getId();
+            break;
+        default:
+            id = 0L;
+            break;
+        }
+        
+        return id;
+    }
+    
 }

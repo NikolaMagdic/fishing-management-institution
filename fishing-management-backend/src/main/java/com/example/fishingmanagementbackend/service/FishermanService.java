@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import com.example.fishingmanagementbackend.dto.FishermanDTO;
 import com.example.fishingmanagementbackend.dto.RegistrationDTO;
 import com.example.fishingmanagementbackend.model.Authority;
 import com.example.fishingmanagementbackend.model.Fisherman;
+import com.example.fishingmanagementbackend.model.Keeper;
 import com.example.fishingmanagementbackend.model.User;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.UserRepository;
@@ -51,6 +53,21 @@ public class FishermanService {
             fishermansWithLicenseRequestDTO.add(new FishermanDTO(f));
         }
         return fishermansWithLicenseRequestDTO;
+    }
+    
+    /** Vraca sve ribolovce sa nepotvrdjenim ulovima za prikaz ribocuvaru 
+     * koji je nadlezan za ribolovnu vodu na kojoj su ti ulovi ostvareni*/
+    public List<FishermanDTO> getAllFishermansWithNonConfirmedCatches(Principal principal) {
+        Keeper loggedKeeper = userRepository.findByUsername(principal.getName()).getKeeper();
+        
+        List<Fisherman> fishermansWithNonConfirmedCatches = fishermanRepository.findAllFishermansWithNonConfirmedCatches(loggedKeeper.getId());
+        List<FishermanDTO> fishermansDTO = new ArrayList<>();
+        
+        for(Fisherman f : fishermansWithNonConfirmedCatches) {
+            fishermansDTO.add(new FishermanDTO(f));
+        }
+        
+        return fishermansDTO;
     }
     
     public FishermanDTO getFishermanById(Long id) {

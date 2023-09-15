@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CatchFormComponent } from './catch-form/catch-form.component';
+import { CatchesComponent } from './catches/catches.component';
 import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 import { FishSpeciesDetailsComponent } from './fish-species-details/fish-species-details.component';
 import { FishSpeciesComponent } from './fish-species/fish-species.component';
+import { FishermanDetailsComponent } from './fisherman-details/fisherman-details.component';
+import { FishermansComponent } from './fishermans/fishermans.component';
 import { FishingAreaDetailsComponent } from './fishing-area-details/fishing-area-details.component';
 import { FishingAreasListComponent } from './fishing-areas/fishing-areas.component';
 import { FishingSpotDetailsComponent } from './fishing-spot-details/fishing-spot-details.component';
@@ -53,10 +56,25 @@ const routes: Routes = [
         component: RegistrationComponent
       },
       {
+        path: "fishermans",
+        component: FishermansComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: "fisherman/:id",
+        component: FishermanDetailsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
         path: "catch-form",
         component: CatchFormComponent,
         canActivate: [AuthGuard],
         data: {roles: ["ROLE_FISHERMAN"]}
+      },
+      {
+        path: "fisherman/:id/catches",
+        component: CatchesComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: "keeper",

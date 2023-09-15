@@ -25,7 +25,7 @@ export class KeeperDetailsComponent {
   managedAreas: FishingArea[] | any = [];
   notManagedAreas: FishingArea[] | any = [];
   selectedArea: FishingArea | any;
-
+  adminLoggedIn = false;
 
   constructor(private keeperService: KeeperService,
               private fishingAreaService: FishingAreaService,
@@ -64,6 +64,11 @@ export class KeeperDetailsComponent {
         this.notManagedAreas = data;
       }
     });
+
+    const role = localStorage.getItem('role');
+    if(role == "ROLE_ADMIN") {
+      this.adminLoggedIn = true;
+    }
   }
 
   enableForm() {
@@ -91,6 +96,14 @@ export class KeeperDetailsComponent {
         window.location.reload();
       }
     })
+  }
+
+  removeManagingArea(areaId: number) {
+    this.keeperService.removeManagedArea(this.keeper.id, areaId).subscribe({
+      next: () => {
+        window.location.reload();
+      }
+    });
   }
 
 }

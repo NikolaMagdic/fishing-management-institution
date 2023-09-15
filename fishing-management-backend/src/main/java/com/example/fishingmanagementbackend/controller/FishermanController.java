@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,13 @@ public class FishermanController {
         return ResponseEntity.ok().body(fishermansWithLicenseRequest);
     }
     
-    @GetMapping("{id}")
+    @GetMapping("/not-confirmed-catches")
+    public ResponseEntity<List<FishermanDTO>> getAllFishermansWithNotEvidentedCatches(Principal principal) {
+        List<FishermanDTO> fishermans = fishermanService.getAllFishermansWithNonConfirmedCatches(principal);
+        return ResponseEntity.ok().body(fishermans);
+    }
+    
+    @GetMapping("/{id}")
     public ResponseEntity<FishermanDTO> getFishermanById(@PathVariable("id") Long id) {
         FishermanDTO fishermanDTO;
         try {

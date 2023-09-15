@@ -15,7 +15,7 @@ export class FishingAreaDetailsComponent implements OnInit{
   fishSpeciesInArea: FishSpecies[] | any = [];
   fishSpeciesNotInArea: FishSpecies[] | any = [];
   selectedFish: FishSpecies | any;
-  addFishButtonVisible = false;
+  adminLoggedIn: boolean = false;
   
   constructor(private _route: ActivatedRoute, 
               private _fishingAreaService: FishingAreaService,
@@ -46,7 +46,7 @@ export class FishingAreaDetailsComponent implements OnInit{
 
     const role = localStorage.getItem('role');
     if(role == "ROLE_ADMIN") {
-      this.addFishButtonVisible = true;  
+      this.adminLoggedIn = true;  
     }
     
   }
@@ -82,5 +82,13 @@ export class FishingAreaDetailsComponent implements OnInit{
   showFishingSpots() {
     let id = Number(this._route.snapshot.paramMap.get('id'));
     this._router.navigate(['/fishing-spots/' + id]);
+  }
+
+  removeFishFromArea(fishId: number) {
+    this._fishingAreaService.removeFishSpeciesFromArea(this.fishingArea.id, fishId).subscribe({
+      next: () => {
+        window.location.reload();
+      }
+    });
   }
 }

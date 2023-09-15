@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.CatchDTO;
 import com.example.fishingmanagementbackend.dto.CatchItemDTO;
+import com.example.fishingmanagementbackend.dto.CatchResponseDTO;
 import com.example.fishingmanagementbackend.model.Catch;
 import com.example.fishingmanagementbackend.model.CatchItem;
 import com.example.fishingmanagementbackend.model.FishSpecies;
@@ -19,6 +21,7 @@ import com.example.fishingmanagementbackend.repository.CatchRepository;
 import com.example.fishingmanagementbackend.repository.FishSpeciesRepository;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.FishingAreaRepository;
+import com.example.fishingmanagementbackend.repository.UserRepository;
 
 @Service
 public class CatchService {
@@ -35,17 +38,21 @@ public class CatchService {
     @Autowired
     private FishingAreaRepository fishingAreaRepository;
     
+    @Autowired
+    private UserRepository userRepository;
+    
     public CatchDTO getCatchById(Long id) {
         Catch dailyCatch = catchRepository.getReferenceById(id);
         return new CatchDTO(dailyCatch);
     }
     
-    public List<CatchDTO> getCatchesOfFisherman(Long fishermanId) {
+    public List<CatchResponseDTO> getCatchesOfFisherman(Long fishermanId) {
         Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
         List<Catch> catches = catchRepository.findByFisherman(fisherman);
-        List<CatchDTO> catchesDTO = new ArrayList<>();
+
+        List<CatchResponseDTO> catchesDTO = new ArrayList<>();
         for (Catch c : catches) {
-            CatchDTO catchDTO = new CatchDTO(c);
+            CatchResponseDTO catchDTO = new CatchResponseDTO(c);
             catchesDTO.add(catchDTO);
         }
         
@@ -53,7 +60,7 @@ public class CatchService {
         
     }
     
-    public CatchDTO createCatch(CatchDTO dailyCatchDTO) {
+    public CatchDTO createCatch(CatchDTO dailyCatchDTO, Principal principal) {
 
         Catch dailyCatch = new Catch();
         dailyCatch.setTime(dailyCatchDTO.getDate());
@@ -62,8 +69,9 @@ public class CatchService {
         
         FishingArea area = fishingAreaRepository.getReferenceById(dailyCatchDTO.getFishingAreaId());
         dailyCatch.setFishingArea(area);
-        // TODO: Dodati ulogovanog ribolovca
-        //dailyCatch.setFisherman();
+
+        Fisherman fisherman = userRepository.findByUsername(principal.getName()).getFisherman();
+        dailyCatch.setFisherman(fisherman);
 
         dailyCatch = this.catchRepository.save(dailyCatch);
 
@@ -78,10 +86,28 @@ public class CatchService {
         return new CatchDTO(updatedDailyCatch);
     }
     
+    /**Metoda kojom ribocuvar potvrdjuje evidentirani ulov*/
+    public boolean confirmCatchItem(Long catchItemId) {
+        Catch dailyCatch = catchRepository.findByCatchItemId(catchItemId);
+        CatchItem item = new CatchItem();
+        for (CatchItem ci : dailyCatch.getCatchItems()) {
+            if(ci.getId().equals(catchItemId)) {
+                item = ci;
+                break;
+            }
+        }
+        item.setConfirmed(true);
+        catchRepository.save(dailyCatch);
+        if(item.getId() != null) {
+            return true;
+        }
+        return false;
+    }
+    
     public Set<CatchItem> changeCatchItemsToDTO(Set<CatchItemDTO> catchDTOs, Catch dailyCatch) {
         Set<CatchItem> catches = new HashSet<>();
         for (CatchItemDTO cDTO : catchDTOs) {
-            CatchItem c = new CatchItem(cDTO.getQuantity(), cDTO.getWeight());
+            CatchItem c = new CatchItem(cDTO.getQuantity(), cDTO.getWeight(), false);
             FishSpecies fish = fishSpeciesRepository.getReferenceById(cDTO.getFishId());
             c.setFish(fish);
             c.setDailyCatch(dailyCatch);

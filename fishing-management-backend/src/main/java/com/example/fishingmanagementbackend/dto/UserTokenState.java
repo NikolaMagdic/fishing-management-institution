@@ -8,16 +8,20 @@ public class UserTokenState {
     
     private String role;
     
+    private Long correspondingTableId;
+    
     public UserTokenState() {
         this.jwtToken = null;
         this.expiresIn = null;
         this.role = null;
+        this.correspondingTableId = null;
     }
     
-    public UserTokenState(String jwtToken, long expiresIn, String role) {
+    public UserTokenState(String jwtToken, long expiresIn, String role, Long correspondingTableId) {
         this.jwtToken = jwtToken;
         this.expiresIn = expiresIn;
         this.role = role;
+        this.correspondingTableId = correspondingTableId;
     }
 
     public String getJwtToken() {
@@ -44,10 +48,18 @@ public class UserTokenState {
         this.role = role;
     }
 
+    public Long getCorrespondingTableId() {
+        return correspondingTableId;
+    }
+
+    public void setCorrespondingTableId(Long correspondingTableId) {
+        this.correspondingTableId = correspondingTableId;
+    }
+
     @Override
     public String toString() {
-        return "UserTokenState [jwtToken=" + jwtToken + ", expiresIn=" + expiresIn + ", role=" + role + "]";
+        return "UserTokenState [jwtToken=" + jwtToken + ", expiresIn=" + expiresIn + ", role=" + role + ", correspondingTableId="
+                + correspondingTableId + "]";
     }
-    
     
 }

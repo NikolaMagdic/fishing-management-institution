@@ -1,0 +1,30 @@
+<div class="container">
+    <h1>Registrovani ribolovci</h1>
+    <button class="btn btn-primary" (click)="getFishermansWithNonConfirmedCatches()">Ribolovci sa neevidentirani ulovima</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Datum rođenja</th>
+                <th>Evidentirani ulovi</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let fisherman of fishermans">
+            <tr>
+                <td>
+                    {{fisherman.firstName}}
+                </td>
+                <td>
+                    {{fisherman.lastName}}
+                </td>
+                <td>
+                    {{fisherman.dateOfBirth | date: "dd.MM.yyyy."}}
+                </td>
+                <td>
+                    <button class="btn btn-primary" (click)="catchesOfFisherman(fisherman.id)">Prikaži ulove</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

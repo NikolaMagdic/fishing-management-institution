@@ -25,6 +25,9 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 import { LicenseComponent } from './license/license.component';
 import { LicenseRequestsComponent } from './license-requests/license-requests.component';
+import { FishermanDetailsComponent } from './fisherman-details/fisherman-details.component';
+import { CatchesComponent } from './catches/catches.component';
+import { FishermansComponent } from './fishermans/fishermans.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import { LicenseRequestsComponent } from './license-requests/license-requests.co
     KeeperFormComponent,
     ChangePasswordFormComponent,
     LicenseComponent,
-    LicenseRequestsComponent
+    LicenseRequestsComponent,
+    FishermanDetailsComponent,
+    CatchesComponent,
+    FishermansComponent
   ],
   imports: [
     BrowserModule,

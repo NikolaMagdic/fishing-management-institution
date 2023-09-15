@@ -13,6 +13,7 @@ export class AppComponent {
   title = 'fishing-management-frontend';
   isLoggedIn = this.authService.isLoggedIn();
   role = localStorage.getItem('role');
+  correspondingTableId: any = localStorage.getItem('correspondingTableId');
 
   constructor(private authService: AuthenticationService,
               private router: Router) { }
@@ -23,6 +24,7 @@ export class AppComponent {
     this.authService.loginEvent.subscribe(data => {
       this.isLoggedIn = this.authService.isLoggedIn();
       this.role = data;
+      this.correspondingTableId = localStorage.getItem('correspondingTableId');
     });
 
     this.authService.logoutEvent.subscribe(data => {
@@ -36,5 +38,5 @@ export class AppComponent {
     this.router.navigate(["/"]);
   }
 
-  changeNavbar(role: string) {}
+  
 }

@@ -14,11 +14,17 @@
                 <li *ngIf="isLoggedIn">
                     <a class="nav-link" routerLink="fish-species">Ribe</a>
                 </li>
+                <li *ngIf="role == 'ROLE_KEEPER'">
+                    <a class="nav-link" routerLink="fishermans">Ribolovci</a>
+                </li>
                 <li *ngIf="!isLoggedIn">
                     <a class="nav-link" routerLink="registration">Registruj se</a>
                 </li>
                 <li *ngIf="role == 'ROLE_FISHERMAN'">
                     <a class="nav-link" routerLink="catch-form">Evidencija ulova</a>
+                </li>
+                <li *ngIf="role == 'ROLE_FISHERMAN'">
+                    <a class="nav-link" routerLink="fisherman/{{correspondingTableId}}/catches">Ulovi</a>
                 </li>
                 <li *ngIf="role == 'ROLE_FISHERMAN'">
                     <a class="nav-link" routerLink="license">Dozvola</a>
@@ -32,11 +38,17 @@
                 <li *ngIf="role == 'ROLE_ADMIN'">
                     <a class="nav-link" routerLink="keepers">Ribočuvari</a>
                 </li>
+                <li *ngIf="role == 'ROLE_FISHERMAN'">
+                    <a class="nav-link" [routerLink]="['fisherman', correspondingTableId]">Profil</a>
+                </li>
+                <li *ngIf="role == 'ROLE_KEEPER'"> 
+                    <a class="nav-link" [routerLink]="['keeper', correspondingTableId]">Profil</a>
+                </li>
                 <li *ngIf="isLoggedIn">
                     <a class="nav-link" routerLink="change-password">Promena lozinke</a>
                 </li>
                 <li *ngIf="isLoggedIn">
-                    <a class="nav-link" (click)="logout()">Odjava</a>
+                    <a class="nav-link" (click)="logout()" style="cursor: pointer;">Odjava</a>
                 </li>
             </ul>
     </nav>

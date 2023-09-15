@@ -11,7 +11,15 @@ export class CatchService {
 
     constructor(private http: HttpClient) {    }
 
+    getAllCatchesOfFisherman(fishermanId: number) {
+        return this.http.get(this.url + "/fisherman/" + fishermanId);
+    }
+
     createCatch(c: Catch) {
         return this.http.post(this.url, c);
+    }
+
+    confirmCatch(itemId: number) {
+        return this.http.patch(this.url + "/confirm/" + itemId, null);
     }
 }

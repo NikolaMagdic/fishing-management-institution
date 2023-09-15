@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +16,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Keeper {
+public class Keeper implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

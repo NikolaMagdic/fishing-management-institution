@@ -47,6 +47,9 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user")
     private Fisherman fisherman;
     
+    @OneToOne(mappedBy = "user")
+    private Keeper keeper;
+    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority", 
                joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
@@ -126,6 +129,14 @@ public class User implements UserDetails {
 
     public void setFisherman(Fisherman fisherman) {
         this.fisherman = fisherman;
+    }
+
+    public Keeper getKeeper() {
+        return keeper;
+    }
+
+    public void setKeeper(Keeper keeper) {
+        this.keeper = keeper;
     }
     
     

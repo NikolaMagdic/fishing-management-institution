@@ -1,0 +1,35 @@
+<div class="container">
+    <form (ngSubmit)="updateFisherman()" #form="ngForm" [formGroup]="fishermanForm">
+        <fieldset [disabled]="fieldsetDisabled">
+            <div class="mb-3">
+                <label class="form-label">Ime</label>
+                <input type="text" class="form-control" name="firstName" required formControlName="firstName">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Prezime</label>
+                <input type="text" class="form-control" name="lastName" required formControlName="lastName">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Datum rođenja</label>
+                <input type="date" class="form-control" name="dateOfBirth" formControlName="dateOfBirth">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Adresa</label>
+                <input type="string" class="form-control" name="address" formControlName="address">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Grad</label>
+                <input type="string" class="form-control" name="city" formControlName="city">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Kategorija</label>
+                <select class="form-select" name="category" formControlName="category">
+                    <option value="RECREATIONAL">Rekreativni</option>
+                    <option value="PROFESSIONAL">Profesionalni</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden">Potvrdi izmene</button>
+        </fieldset>
+    </form>
+    <button class="btn btn-primary" (click)="enableForm()" [hidden]="updateButtonHidden">Izmeni</button>
+</div>

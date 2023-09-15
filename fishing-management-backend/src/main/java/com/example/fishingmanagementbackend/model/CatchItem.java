@@ -13,13 +13,16 @@ public class CatchItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long itemId;
     
     @Column
     private int quantity;
     
     @Column
     private double weight;
+    
+    @Column
+    private boolean confirmed;
     
     @ManyToOne
     @JoinColumn(name = "catch_id", referencedColumnName = "id", nullable = false)
@@ -31,17 +34,18 @@ public class CatchItem {
     
     public CatchItem() {}
     
-    public CatchItem(int quantity, double weight) {
+    public CatchItem(int quantity, double weight, boolean confirmed) {
         this.quantity = quantity;
         this.weight = weight;
+        this.confirmed = confirmed;
     }
 
     public Long getId() {
-        return id;
+        return itemId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long itemId) {
+        this.itemId = itemId;
     }
 
     public int getQuantity() {
@@ -60,6 +64,14 @@ public class CatchItem {
         this.weight = weight;
     }
     
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
     public Catch getDailyCatch() {
         return dailyCatch;
     }
@@ -78,9 +90,9 @@ public class CatchItem {
 
     @Override
     public String toString() {
-        return "Catch [id=" + id + ", quantity=" + quantity + ", weight=" + weight + ", fish=" + fish + "]";
+        return "CatchItem [id=" + itemId + ", quantity=" + quantity + ", weight=" + weight + ", confirmed=" + confirmed
+                + ", dailyCatchId=" + dailyCatch.getId() + ", fish=" + fish + "]";
     }
-    
     
     
 }

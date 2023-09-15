@@ -31,4 +31,8 @@ export class KeeperService {
     addAreaToManage(keeperId: number, areaId: number) {
         return this.http.patch(this.url + "/" + keeperId +  "/add-fishing-area/" + areaId, null);
     }
+
+    removeManagedArea(keeperId: number, areaId: number) {
+        return this.http.patch(this.url + "/" + keeperId + "/remove-fishing-area/" + areaId, null);
+    }
 }

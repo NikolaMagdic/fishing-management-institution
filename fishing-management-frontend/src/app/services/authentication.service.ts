@@ -34,6 +34,7 @@ export class AuthenticationService {
           localStorage.setItem('token', this.authResponse.jwtToken);
           localStorage.setItem('expiresIn', this.authResponse.expiresIn);
           localStorage.setItem('role', this.authResponse.role);
+          localStorage.setItem('correspondingTableId', this.authResponse.correspondingTableId);
 
           // Objavljujem koju rolu ima prijavljeni korisnik kako bih to mogao uhvatiti u app.component
           // i shodno tome izmeniti moguce opcije u meniju
@@ -46,6 +47,7 @@ export class AuthenticationService {
     localStorage.removeItem('token');
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('role');
+    localStorage.removeItem('correspondingTableId');
 
     this.logoutEvent.emit(true);
     this.router.navigate(['/']);

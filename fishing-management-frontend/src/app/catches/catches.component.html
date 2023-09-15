@@ -1,0 +1,39 @@
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ribolovna voda</th>
+                <th>Datum</th>
+                <th>Vrsta ribe</th>
+                <th>Količina</th>
+                <th>Težina</th>
+                <th>Potvrđeno od strane ribočuvara</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let catch of catches">
+                <tr *ngFor="let item of catch.catchItemsResponse">
+                    <td>{{catch.fishingAreaName}}</td>
+                    <td>
+                        {{catch.date | date: "dd.MM.yyyy."}}
+                    </td>
+                    <td>
+                        {{item.fishSpeciesName}}
+                    </td>
+                    <td>
+                        {{item.quantity}}
+                    </td>
+                    <td>
+                        {{item.weight}}
+                    </td>
+                    <td>
+                        <img *ngIf="item.confirmed" src="../../assets/confirmed.png">
+                    </td>
+                    <td *ngIf="!item.confirmed && keeperLoggedIn">
+                        <button class="btn btn-primary" (click)="confirmCatch(item.id)">Potvrdi</button>
+                    </td>
+                </tr>
+         
+        </tbody>
+    </table>
+</div>
