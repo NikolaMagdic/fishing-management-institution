@@ -60,7 +60,7 @@ public class FishSpeciesService {
     
     public FishSpecies createFishSpecies(FishSpeciesDTO fishSpeciesDTO) {
 
-        FishSpecies fishSpecies = new FishSpecies(fishSpeciesDTO.getName(), fishSpeciesDTO.getLatinName(), fishSpeciesDTO.getCategory(), fishSpeciesDTO.getMinSize(), fishSpeciesDTO.getMaxQuantity(), fishSpeciesDTO.getMaxWeight(), fishSpeciesDTO.getFishingBanStart(), fishSpeciesDTO.getFishingBanEnd(), fishSpeciesDTO.isPermanentFishingBan(), fishSpeciesDTO.getImage());
+        FishSpecies fishSpecies = new FishSpecies(fishSpeciesDTO.getName(), fishSpeciesDTO.getLatinName(), fishSpeciesDTO.getCategory(), fishSpeciesDTO.getMinSize(), fishSpeciesDTO.getMaxQuantity(), fishSpeciesDTO.getFishingBanStart(), fishSpeciesDTO.getFishingBanEnd(), fishSpeciesDTO.isPermanentFishingBan(), fishSpeciesDTO.getImage());
         return fishSpeciesRepository.save(fishSpecies);
     }
     
@@ -72,7 +72,6 @@ public class FishSpeciesService {
         fishSpecies.setCategory(fishSpeciesDTO.getCategory());
         fishSpecies.setMinSize(fishSpeciesDTO.getMinSize());
         fishSpecies.setMaxQuantity(fishSpeciesDTO.getMaxQuantity());
-        fishSpecies.setMaxWeight(fishSpeciesDTO.getMaxWeight());
         fishSpecies.setFishingBanStart(fishSpeciesDTO.getFishingBanStart());
         fishSpecies.setFishingBanEnd(fishSpeciesDTO.getFishingBanEnd());
         fishSpecies.setPermanentFishingBan(fishSpeciesDTO.isPermanentFishingBan());

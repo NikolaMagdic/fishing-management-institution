@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.LicenseDTO;
+import com.example.fishingmanagementbackend.dto.LicenseRequestDTO;
+import com.example.fishingmanagementbackend.enumerations.LicenseType;
 import com.example.fishingmanagementbackend.model.License;
 import com.example.fishingmanagementbackend.service.LicenseService;
 
@@ -38,14 +40,20 @@ public class LicenseController {
         return ResponseEntity.ok(licenseDTO);
     }
     
+    @GetMapping("/daily")
+    public ResponseEntity<List<LicenseDTO>> getExistingDailyLicensesOfFisherman(Principal principal) {
+        List<LicenseDTO> allDailyLicensesOfFisherman = licenseService.getAllDailyLicenses(principal);
+        return ResponseEntity.ok(allDailyLicensesOfFisherman);
+    }
+    
     @GetMapping("/requests")
-    public ResponseEntity<List<LicenseDTO>> getAllLicenseRequests() {
+    public ResponseEntity<List<LicenseRequestDTO>> getAllLicenseRequests() {
         List<License> notConfirmedValidLicenses = licenseService.getAllLicenseRequests(); 
-        List<LicenseDTO> notConfirmedValidLicensesDTO = new ArrayList<>();
+        List<LicenseRequestDTO> notConfirmedValidLicensesDTO = new ArrayList<>();
         
         for(License license: notConfirmedValidLicenses) {
-            LicenseDTO licenseDTO = new LicenseDTO(license);
-            notConfirmedValidLicensesDTO.add(licenseDTO);
+            LicenseRequestDTO licenseRequestDTO = new LicenseRequestDTO(license);
+            notConfirmedValidLicensesDTO.add(licenseRequestDTO);
         }
         return ResponseEntity.ok(notConfirmedValidLicensesDTO);
     }
@@ -53,7 +61,13 @@ public class LicenseController {
     @PostMapping
     public ResponseEntity<LicenseDTO> obtainLicense(@RequestBody LicenseDTO licenseDTO, Principal principal) {
         
-        License newLicense = licenseService.obtainLicense(licenseDTO, principal);
+        License newLicense;
+        if(licenseDTO.getType() == LicenseType.DAILY) {
+            newLicense = licenseService.obtainDayLicense(licenseDTO, principal);
+        } else {
+            newLicense = licenseService.obtainYearLicense(licenseDTO, principal);
+        }
+        
         if(newLicense == null) 
             return ResponseEntity.badRequest().build();
         
@@ -61,9 +75,15 @@ public class LicenseController {
         
     }
     
-    @PatchMapping("/{fishermanId}")
-    public ResponseEntity<Boolean> confirmLicenseRequest(@PathVariable("fishermanId") Long fishermanId) {
-        licenseService.confirmLicenseRequest(fishermanId);
+    @PatchMapping("/{licenseId}/confirm")
+    public ResponseEntity<Boolean> confirmLicenseRequest(@PathVariable("licenseId") Long licenseId) {
+        licenseService.confirmLicenseRequest(licenseId);
+        return ResponseEntity.ok(true);
+    }
+    
+    @PatchMapping("/{licenseId}/reject")
+    public ResponseEntity<Boolean> rejectLicenseRequest(@PathVariable("licenseId") Long licenseId) {
+        licenseService.rejectLicenseRequest(licenseId);
         return ResponseEntity.ok(true);
     }
 }

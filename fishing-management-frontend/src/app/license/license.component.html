@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Dozvola za sportski ribolov</h1>
-    <p *ngIf="validLicense && license.confirmed">
+    <p *ngIf="validLicense && license.status === 'CONFIRMED'">
         Vi imate važeću dozvolu za sportski ribolov za {{license.year}}. godinu.
     </p>
     <div *ngIf="!validLicense">
@@ -17,5 +17,18 @@
             <button type="submit" class="btn btn-primary">Izvadi dnevnu dozvolu</button>
         </form>
     </div>
-    <div *ngIf="validLicense && !license.confirmed">Zahtev za izdavanje dozvole za ribolov za {{license.year}} poslat.</div>
+    <div *ngIf="validLicense && license.status === 'CREATED'">Zahtev za izdavanje dozvole za ribolov za {{license.year}} poslat.</div>
+    <div *ngIf="dailyLicenses.length > 0" class="container">
+        <h2>Dnevne dozvole</h2>
+        <ol class="list-group list-group-numbered" *ngFor="let license of dailyLicenses">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">{{license.day | date: "dd.MM.yyyy."}}</div>
+                    <div *ngIf="license.status === 'CONFIRMED'">Odobrena</div>
+                    <div *ngIf="license.status === 'REJECTED'">Odbijena</div>
+                    <div *ngIf="license.status === 'CREATED'">Zahtev u obradi</div>
+                  </div>
+            </li>
+        </ol>
+    </div>
 </div>

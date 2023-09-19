@@ -15,12 +15,14 @@ export class KeeperFormComponent {
   @ViewChild('openModal') openModal: ElementRef | any;
   formDisabled: boolean = false;
   keeper: any;
+  passwordsMatch: boolean = false;
 
   constructor(private keeperService: KeeperService,
               private route: ActivatedRoute) { 
     this.keeperForm = new FormGroup({
       username: new FormControl(),
       password: new FormControl(),
+      confirmPassword: new FormControl(),
       firstName: new FormControl(),
       lastName: new FormControl(),
       dateOfBirth: new FormControl()
@@ -31,7 +33,7 @@ export class KeeperFormComponent {
     var registration = new RegistrationRequest(
       this.keeperForm.value.username,
       this.keeperForm.value.password,
-      this.keeperForm.value.password,
+      this.keeperForm.value.confirmPassword,
       this.keeperForm.value.firstName,
       this.keeperForm.value.lastName,
       this.keeperForm.value.dateOfBirth,
@@ -42,5 +44,17 @@ export class KeeperFormComponent {
         this.openModal.nativeElement.click();
       }
     });
+  }
+
+  reloadPage() {
+    window.location.reload();
+  }
+
+  checkIfPasswordsMatch() {
+    if(this.keeperForm.value.password === this.keeperForm.value.confirmPassword) {
+      this.passwordsMatch = true;
+    } else {
+      this.passwordsMatch = false;
+    }
   }
 }

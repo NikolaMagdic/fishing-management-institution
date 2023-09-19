@@ -15,11 +15,23 @@ export class LicenseService {
         return this.http.get(this.url);
     }
 
+    getDailyLicenses() {
+        return this.http.get(this.url + "/daily");
+    }
+
+    getAllLicenseRequests() {
+        return this.http.get(this.url + "/requests");    
+    }    
+
     obtainLicence(license: License) {
         return this.http.post(this.url, license);
     }
 
-    confirmLicenseRequest(fishermanId: number) {
-        return this.http.patch(this.url + "/" + fishermanId, null);
+    confirmLicenseRequest(licenseId: number) {
+        return this.http.patch(this.url + "/" + licenseId + "/confirm", null);
+    }
+
+    rejectLicenseRequest(licenseId: number) {
+        return this.http.patch(this.url + "/" + licenseId + "/reject", null);
     }
 }

@@ -45,15 +45,7 @@ public class FishermanService {
         }
         return allFishermanDTOs;
     }
-    
-    public List<FishermanDTO> getFishermansWithLicenseRequest() {
-        List<Fisherman> fishermansWithLicenseRequests = fishermanRepository.findAllFishermansWithLicenseRequests();
-        List<FishermanDTO> fishermansWithLicenseRequestDTO = new ArrayList<>();
-        for(Fisherman f : fishermansWithLicenseRequests) {
-            fishermansWithLicenseRequestDTO.add(new FishermanDTO(f));
-        }
-        return fishermansWithLicenseRequestDTO;
-    }
+
     
     /** Vraca sve ribolovce sa nepotvrdjenim ulovima za prikaz ribocuvaru 
      * koji je nadlezan za ribolovnu vodu na kojoj su ti ulovi ostvareni*/
@@ -81,7 +73,7 @@ public class FishermanService {
         if(existingUser != null) {
             return null;
         }
-        // Ovde bi trebalo vratiti bad request
+        // TODO: Ovde bi trebalo vratiti bad request
         if(!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
             return null;
         }

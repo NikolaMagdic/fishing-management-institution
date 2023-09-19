@@ -35,9 +35,6 @@ public class FishSpecies {
     @Column
     private int maxQuantity;
     
-    @Column
-    private int maxWeight;
-    
     // mozda izdvojiti ovo u klasu FishingBan, da se ne buni SonarLint
     @Column
     private Date fishingBanStart;
@@ -58,13 +55,12 @@ public class FishSpecies {
     }
     
     public FishSpecies(String name, String latinName, FishCategory category, int minSize, int maxQuantity,
-            int maxWeight, Date fishingBanStart, Date fishingBanEnd, boolean permanentFishingBan, String image) {
+            Date fishingBanStart, Date fishingBanEnd, boolean permanentFishingBan, String image) {
         this.name = name;
         this.latinName = latinName;
         this.category = category;
         this.minSize = minSize;
         this.maxQuantity = maxQuantity;
-        this.maxWeight = maxWeight;
         this.fishingBanStart = fishingBanStart;
         this.fishingBanEnd = fishingBanEnd;
         this.permanentFishingBan = permanentFishingBan;
@@ -119,14 +115,6 @@ public class FishSpecies {
         this.maxQuantity = maxQuantity;
     }
 
-    public int getMaxWeight() {
-        return maxWeight;
-    }
-
-    public void setMaxWeight(int maxWeight) {
-        this.maxWeight = maxWeight;
-    }
-
     public Date getFishingBanStart() {
         return fishingBanStart;
     }
@@ -170,10 +158,9 @@ public class FishSpecies {
     @Override
     public String toString() {
         return "FishSpecies [id=" + id + ", name=" + name + ", latinName=" + latinName + ", category=" + category
-                + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", maxWeight=" + maxWeight
-                + ", fishingBanStart=" + fishingBanStart + ", fishingBanEnd=" + fishingBanEnd + ", permanentFishingBan="
-                + permanentFishingBan + ", image=" + image + "]";
+                + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", fishingBanStart=" + fishingBanStart
+                + ", fishingBanEnd=" + fishingBanEnd + ", permanentFishingBan=" + permanentFishingBan + ", image="
+                + image + ", fishingAreas=" + fishingAreas + "]";
     }
-    
-    
+
 }

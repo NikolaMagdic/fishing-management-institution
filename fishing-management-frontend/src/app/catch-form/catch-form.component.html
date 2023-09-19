@@ -12,15 +12,16 @@
             <input class="form-control" type="date" name="date" [(ngModel)]="catch.date">
         </div>
     </form>
-    <table class="table table-striped">
+    <table class="table table-striped" *ngIf="catch.catchItems.length > 0">
         <thead>
             <tr>
                 <th>Riba</th>
                 <th>Količina</th>
                 <th>Težina</th>
+                <th>Ukloni</th>
             </tr>
         </thead>
-        <tbody *ngFor="let item of catchItems">
+        <tbody *ngFor="let item of catch.catchItems; let indexOfItem=index">
             <tr>
                 <td>
                     {{findFishNameById(item.fishId)}}
@@ -30,6 +31,9 @@
                 </td>
                 <td>
                     {{item.weight}}
+                </td>
+                <td>
+                    <button class="btn-close" (click)="removeCatchItem(indexOfItem)"></button>
                 </td>
             </tr>
         </tbody>
@@ -41,6 +45,7 @@
                 <form (ngSubmit)="addCatchItem()" #form="ngForm" [formGroup]="catchItemForm">
                     <div class="modal-header">
                         <h5 class="modal-title">Unesite podatke o ulovljenoj ribi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">

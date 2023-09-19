@@ -12,6 +12,7 @@ export class LicenseComponent {
   validLicense: boolean = false;
   license: License | any;
   licenseDate: Date = new Date();
+  dailyLicenses: any = [];
 
   constructor(private licenseService: LicenseService) { }
 
@@ -24,6 +25,8 @@ export class LicenseComponent {
         } 
       }
     });
+
+    this.getDailyLicenses();
   }
 
   obtainLicence() {
@@ -42,6 +45,15 @@ export class LicenseComponent {
         window.location.reload();
       }
     })
+  }
+
+  getDailyLicenses() {
+    this.licenseService.getDailyLicenses().subscribe({
+      next: data => {
+        this.dailyLicenses = data;
+        console.log(this.dailyLicenses);
+      }
+    });
   }
 
 }

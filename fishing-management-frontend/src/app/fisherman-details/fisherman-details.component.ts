@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { toStringHDMS } from 'ol/coordinate';
 import { Fisherman } from '../models/fisherman';
 import { FishermanService } from '../services/fisherman.service';
@@ -18,10 +18,12 @@ export class FishermanDetailsComponent {
   updateButtonHidden: boolean = false;
   submitButtonHidden: boolean = true;
   fieldsetDisabled: boolean = true;
+  catchesButtonHidden: boolean = true;
 
   constructor(
     private fishermanService: FishermanService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.fishermanForm = new FormGroup({
       firstName: new FormControl(),
@@ -34,8 +36,13 @@ export class FishermanDetailsComponent {
   }
 
   ngOnInit() {
-
     this.getFisherMan();
+
+    const role = localStorage.getItem('role');
+    if(role == "ROLE_ADMIN") {
+      this.updateButtonHidden = true;  
+      this.catchesButtonHidden = false;
+    }
   }
 
   getFisherMan() {
@@ -75,5 +82,9 @@ export class FishermanDetailsComponent {
     this.updateButtonHidden = true;
     this.submitButtonHidden = false;
     this.fieldsetDisabled = false; 
+  }
+
+  showCatches() {
+    this.router.navigate(["/fisherman/" + this.fisherman.id + "/catches"]);
   }
 }

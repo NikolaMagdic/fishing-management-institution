@@ -20,7 +20,6 @@ export class CatchFormComponent {
   selectedFish: any; 
   fishingAreas: FishingArea[] = [];
   selectedArea: any;
-  catchItems: any = [];
   catch: Catch = new Catch(0, [], new Date());
   catchItemForm: FormGroup;
 
@@ -66,7 +65,6 @@ export class CatchFormComponent {
   
     // Mora ovako jer ako se doda samo newItem to je samo referenca i svi objekti u nizu ce imati trenutnu vrednost newItem, bice isti
     // Na ovaj nacin pravim novi objekat pre dodavanja u niz
-    this.catchItems.push(JSON.parse(JSON.stringify(newItem)));
     this.catch.catchItems.push(JSON.parse(JSON.stringify(newItem)));
   }
 
@@ -83,6 +81,11 @@ export class CatchFormComponent {
     var filteredFish = this.fishSpecies.filter(fish => fish.id == fishId);
     return filteredFish[0].name;
   }
+
+  removeCatchItem(index: number) {
+    console.log(index);
+    this.catch.catchItems.splice(index, 1);
+  }  
 
   reloadPage() {
     window.location.reload();

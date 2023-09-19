@@ -19,8 +19,6 @@ public class FishSpeciesDTO {
     
     private int maxQuantity;
     
-    private int maxWeight;
-    
     private Date fishingBanStart;
     
     private Date fishingBanEnd;
@@ -40,7 +38,6 @@ public class FishSpeciesDTO {
         this.category = fishSpecies.getCategory();
         this.minSize = fishSpecies.getMinSize();
         this.maxQuantity = fishSpecies.getMaxQuantity();
-        this.maxWeight = fishSpecies.getMaxWeight();
         this.fishingBanStart = fishSpecies.getFishingBanStart();
         this.fishingBanEnd = fishSpecies.getFishingBanEnd();
         this.permanentFishingBan = fishSpecies.isPermanentFishingBan();
@@ -95,14 +92,6 @@ public class FishSpeciesDTO {
         this.maxQuantity = maxQuantity;
     }
 
-    public int getMaxWeight() {
-        return maxWeight;
-    }
-
-    public void setMaxWeight(int maxWeight) {
-        this.maxWeight = maxWeight;
-    }
-
     public Date getFishingBanStart() {
         return fishingBanStart;
     }
@@ -137,10 +126,10 @@ public class FishSpeciesDTO {
 
     @Override
     public String toString() {
-        return "FishSpeciesDTO [id=" + id + ", name=" + name + ", latinName=" + latinName + ", category=" + category + ", minSize="
-                + minSize + ", maxQuantity=" + maxQuantity + ", maxWeight=" + maxWeight + ", fishingBanStart="
-                + fishingBanStart + ", fishingBanEnd=" + fishingBanEnd + ", permanentFishingBan=" + permanentFishingBan
-                + ", image=" + image + "]";
+        return "FishSpeciesDTO [id=" + id + ", name=" + name + ", latinName=" + latinName + ", category=" + category
+                + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", fishingBanStart=" + fishingBanStart
+                + ", fishingBanEnd=" + fishingBanEnd + ", permanentFishingBan=" + permanentFishingBan + ", image="
+                + image + "]";
     }
     
     

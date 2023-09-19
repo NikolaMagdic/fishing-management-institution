@@ -10,6 +10,11 @@
             <input type="password" class="form-control" name="password" required formControlName="password">
         </div>
         <div class="mb-3">
+            <label class="form-label">Potvrdi lozinku</label>
+            <input type="password" class="form-control" name="confirmPassword" required formControlName="confirmPassword" (ngModelChange)="checkIfPasswordsMatch()">
+            <div *ngIf="(!keeperForm.get('confirmPassword')!.valid || !passwordsMatch) && (!keeperForm.get('confirmPassword')!.pristine || keeperForm.get('confirmPassword')!.touched)" class="alert alert-danger">Lozinke nisu jednake</div>
+        </div>
+        <div class="mb-3">
             <label class="form-label">Ime</label>
             <input type="text" class="form-control" name="firstName" required formControlName="firstName">
         </div>
@@ -21,7 +26,7 @@
             <label class="form-label">Datum rođenja</label>
             <input type="date" class="form-control" name="dateOfBirth" formControlName="dateOfBirth">
         </div>
-        <button type="submit" class="btn btn-primary">Potvrdi</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid || !passwordsMatch">Potvrdi</button>
     </form>
     <button data-bs-toggle="modal" data-bs-target="#modal" hidden #openModal></button>
     <div class="modal" id="modal" tabindex="-1">
@@ -29,10 +34,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Novi čuvar registrovan uspešno</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="reloadPage()"></button>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zatvori</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="reloadPage()">Zatvori</button>
                 </div>
             </div>
         </div>

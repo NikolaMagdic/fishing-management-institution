@@ -12,10 +12,10 @@ import { FishermanService } from '../services/fisherman.service';
 export class FishermansComponent {
 
   fishermans: Fisherman[] = [];
+  filteredFishermans: Fisherman[] = [];
 
   constructor(
     private fishermanService: FishermanService,
-    private catchService: CatchService,
     private router: Router
     ) {}
 
@@ -23,6 +23,7 @@ export class FishermansComponent {
     this.fishermanService.getAllFishermans().subscribe({
       next: data => {
         this.fishermans = data as Fisherman[];
+        this.filteredFishermans = this.fishermans;
       }
     });
   }
@@ -37,6 +38,17 @@ export class FishermansComponent {
         this.fishermans = data as Fisherman[];
       }
     });
+  }
+
+  filterFishermans(value: string) {
+    if(!value) {
+      this.filteredFishermans = this.fishermans;
+    }
+    
+    this.filteredFishermans = this.fishermans.filter(
+      fisherman => (fisherman?.firstName.toLowerCase()).concat(" ")
+                  .concat(fisherman?.lastName.toLowerCase()).includes(value.toLowerCase())
+    );
   }
 
 }

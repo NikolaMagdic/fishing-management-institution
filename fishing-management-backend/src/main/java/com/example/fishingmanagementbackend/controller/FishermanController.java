@@ -33,12 +33,6 @@ public class FishermanController {
         return ResponseEntity.ok().body(allFishermans);
     }
     
-    @GetMapping("/license-requests")
-    public ResponseEntity<List<FishermanDTO>> getAllFishermansWihtLicenseRequests() {
-        List<FishermanDTO> fishermansWithLicenseRequest = fishermanService.getFishermansWithLicenseRequest();
-        return ResponseEntity.ok().body(fishermansWithLicenseRequest);
-    }
-    
     @GetMapping("/not-confirmed-catches")
     public ResponseEntity<List<FishermanDTO>> getAllFishermansWithNotEvidentedCatches(Principal principal) {
         List<FishermanDTO> fishermans = fishermanService.getAllFishermansWithNonConfirmedCatches(principal);

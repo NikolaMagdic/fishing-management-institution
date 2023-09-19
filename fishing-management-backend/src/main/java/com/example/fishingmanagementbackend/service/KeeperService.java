@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,9 @@ public class KeeperService {
     @Autowired
     private AuthorityService authService;
     
+    @Autowired
+    private EmailService emailService;
+    
     public List<KeeperDTO> getAllKeepers() {
         List<Keeper> allKeepers = keeperRepository.findAll();
         List<KeeperDTO> allKeepersDTO = new ArrayList<>();
@@ -65,13 +69,20 @@ public class KeeperService {
                                  newKeeper.getDateOfBirth());
         
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        User user = new User(newKeeper.getUsername(), encoder.encode(newKeeper.getPassword()), true);
+        User user = new User(newKeeper.getUsername(), encoder.encode(newKeeper.getPassword()), false);
         
         Set<Authority> authorities = authService.findByName("ROLE_KEEPER");
         user.setAuthorities(authorities);
         keeper.setUser(user);
         
         userRepository.save(user);
+        
+        try {
+            emailService.sendMailAsync(user, newKeeper.getFirstName());
+        } catch (MailException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        
         return keeperRepository.save(keeper);
     }
     

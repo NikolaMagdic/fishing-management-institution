@@ -5,14 +5,13 @@ export class FishSpecies {
     public category: string;
     public minSize?: number;
     public maxQuantity?: number;
-    public maxWeight?: number;
     public fishingBanStart: Date;
     public fishingBanEnd: Date;
     public permanentFishingBan: boolean;
     public image: string;
 
     constructor($id: number, $name: string, $latinName: string, $category: string,
-        $minSize: number, $maxQuantity: number, $maxWeight: number, $fishingBanStart: Date,
+        $minSize: number, $maxQuantity: number, $fishingBanStart: Date,
         $fishingBanEnd: Date, $permanentFishingBan: boolean, $image: string) {
         this.id = $id;
         this.name = $name;
@@ -20,7 +19,6 @@ export class FishSpecies {
         this.category = $category;
         this.minSize = $minSize;
         this.maxQuantity = $maxQuantity;
-        this.maxWeight = $maxWeight;
         this.fishingBanStart = $fishingBanStart;
         this.fishingBanEnd = $fishingBanEnd;
         this.permanentFishingBan = $permanentFishingBan;

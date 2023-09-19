@@ -2,13 +2,14 @@ package com.example.fishingmanagementbackend.service;
 
 import java.security.Principal;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.LicenseDTO;
-import com.example.fishingmanagementbackend.enumerations.LicenseType;
+import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.model.License;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
@@ -27,7 +28,7 @@ public class LicenseService {
     @Autowired
     private UserRepository userRepository;
     
-    public License obtainLicense(LicenseDTO licenseDTO, Principal principal) {
+    public License obtainYearLicense(LicenseDTO licenseDTO, Principal principal) {
         
         Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
         
@@ -37,23 +38,38 @@ public class LicenseService {
         if(!existingValidLicenses.isEmpty()) {
             return null;
         } 
+               
+        Year year = Year.now();
+        License license = new License(licenseDTO.getType(), null, year);
         
-        License license;
-        System.out.println(licenseDTO);
-        if(licenseDTO.getType().equals(LicenseType.DAILY)) {
-            license = new License(licenseDTO.getType(), licenseDTO.getDay(), null);
-        } else {
-            Year year = Year.now();
-            license = new License(licenseDTO.getType(), null, year);
-        }
-        
-        license.setConfirmed(false);
-        //TODO: Uraditi proveru da se ne mogu izdati dve jednodnevne dozvole za isti datum
+        license.setStatus(LicenseStatus.CREATED);
+
         Fisherman fisherman = this.fishermanRepository.getReferenceById(fishermanId);
         license.setFisherman(fisherman);
         licenseRepository.save(license);
         
         return license;
+    }
+    
+    public License obtainDayLicense(LicenseDTO licenseDTO, Principal principal) {
+    
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        
+        List<License> licencesForThisDay = licenseRepository.getLicencesOfFishermanOnThisDay(fishermanId, licenseDTO.getDay());
+        // Vec je izvadjena dozvola za taj dan
+        if(!licencesForThisDay.isEmpty()) {
+            return null;
+        }
+        
+        License license = new License(licenseDTO.getType(), licenseDTO.getDay(), null);
+        license.setStatus(LicenseStatus.CREATED);
+        
+        Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
+        license.setFisherman(fisherman);
+        licenseRepository.save(license);
+        
+        return license;
+    
     }
     
     
@@ -71,6 +87,19 @@ public class LicenseService {
         return license;
     }
     
+    public List<LicenseDTO> getAllDailyLicenses(Principal principal) {
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        List<License> dailyLicensesIfFisherman = licenseRepository.getDailyLicensesOfFisherman(fishermanId);
+    
+        List<LicenseDTO> licensesDTO = new ArrayList<>();
+        for (License l : dailyLicensesIfFisherman) {
+            LicenseDTO licenseDTO = new LicenseDTO(l);
+            licensesDTO.add(licenseDTO);
+        }
+        
+        return licensesDTO;
+    }
+    
     public List<License> getAllLicenseRequests() {
         List<License> notConfirmedYearlyLicenses;
         notConfirmedYearlyLicenses = licenseRepository.getNotConfirmedLicences();
@@ -78,14 +107,20 @@ public class LicenseService {
         return notConfirmedYearlyLicenses;
     }
     
-    public License confirmLicenseRequest(Long fishermanId) {
+    public License confirmLicenseRequest(Long licenseId) {
         
-        List<License> licensesForConfirmation = licenseRepository.getNotConfirmedLicensesOfFisherman(fishermanId);
-        // U jednom trenutku moze postojati samo jedan zahtev za godisnju dozvolu tako da bi ovo trebalo da radi
-        License license = licensesForConfirmation.get(0);
-        license.setConfirmed(true);
+        License license = licenseRepository.getReferenceById(licenseId);
+        license.setStatus(LicenseStatus.CONFIRMED);
         
         return licenseRepository.save(license);
         
+    }
+    
+    public License rejectLicenseRequest(Long licenseId) {
+        
+        License license = licenseRepository.getReferenceById(licenseId);
+        license.setStatus(LicenseStatus.REJECTED);
+        
+        return licenseRepository.save(license);
     }
 }

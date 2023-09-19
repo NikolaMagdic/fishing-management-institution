@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Fisherman } from '../models/fisherman';
 import { FishermanService } from '../services/fisherman.service';
 import { LicenseService } from '../services/license.service';
@@ -10,24 +11,37 @@ import { LicenseService } from '../services/license.service';
 })
 export class LicenseRequestsComponent {
 
-  fishermans: Fisherman[] = [];
+  licenseRequests: any = [];
 
   constructor(private fishermanService: FishermanService,
-              private licenseService: LicenseService) {}
+              private licenseService: LicenseService,
+              private router: Router) {}
 
   ngOnInit() {
-    this.fishermanService.getFishermansWithLicenseRequest().subscribe({
+    this.licenseService.getAllLicenseRequests().subscribe({
       next: data => {
-        this.fishermans = data as Fisherman[];
+        this.licenseRequests = data; 
       }
     });
   }
 
-  acceptLicenseRequest(fishermanId: number) {
-    this.licenseService.confirmLicenseRequest(fishermanId).subscribe({
+  acceptLicenseRequest(licenseId: number) {
+    this.licenseService.confirmLicenseRequest(licenseId).subscribe({
       next: () => {
         window.location.reload();
       }
     });
+  }
+
+  rejectLicenseRequest(licenseId: number) {
+    this.licenseService.rejectLicenseRequest(licenseId).subscribe({
+      next: () => {
+        window.location.reload();
+      }
+    });
+  }
+
+  showFishermanDetails(fishermanId: number) {
+    this.router.navigate(["/fisherman/" + fishermanId]);
   }
 }

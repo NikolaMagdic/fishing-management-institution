@@ -3,6 +3,7 @@ package com.example.fishingmanagementbackend.model;
 import java.time.LocalDate;
 import java.time.Year;
 
+import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.enumerations.LicenseType;
 
 import jakarta.persistence.Column;
@@ -31,7 +32,7 @@ public class License {
     private Year year;
     
     @Column
-    private boolean confirmed;
+    private LicenseStatus status;
     
     @ManyToOne
     @JoinColumn(name = "fisherman_id", referencedColumnName = "id")
@@ -84,19 +85,19 @@ public class License {
     public void setFisherman(Fisherman fisherman) {
         this.fisherman = fisherman;
     }
-    
-    public boolean isConfirmed() {
-        return confirmed;
+
+    public LicenseStatus getStatus() {
+        return status;
     }
 
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
+    public void setStatus(LicenseStatus status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
-        return "License [licenseid=" + licenseId + ", type=" + type + ", day=" + day + ", year=" + year + ", fisherman=" + fisherman
-                + ", confirmed=" + confirmed + "]";
+        return "License [licenseId=" + licenseId + ", type=" + type + ", day=" + day + ", year=" + year + ", status="
+                + status + ", fisherman=" + fisherman + "]";
     }
     
     

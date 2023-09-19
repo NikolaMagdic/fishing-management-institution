@@ -10,9 +10,6 @@ import com.example.fishingmanagementbackend.model.Fisherman;
 
 @Repository
 public interface FishermanRepository extends JpaRepository<Fisherman, Long>{
-
-    @Query(value = "SELECT * FROM fisherman f LEFT OUTER JOIN license l ON f.id = l.fisherman_id WHERE confirmed = 0", nativeQuery = true)
-    List<Fisherman> findAllFishermansWithLicenseRequests();
     
     @Query(value = "SELECT f.id, f.first_name, f.last_name, f.date_of_birth, f.address, f.city, f.category, f.user_id "
             + "FROM fisherman f LEFT OUTER JOIN catch c ON f.id = c.fisherman_id "

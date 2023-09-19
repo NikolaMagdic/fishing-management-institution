@@ -1,6 +1,9 @@
 <div class="container">
     <h1>Registrovani ribolovci</h1>
     <button class="btn btn-primary" (click)="getFishermansWithNonConfirmedCatches()">Ribolovci sa neevidentirani ulovima</button>
+    <div class="container">
+        <input type="search" #filter (input)="filterFishermans(filter.value)"/>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -10,7 +13,7 @@
                 <th>Evidentirani ulovi</th>
             </tr>
         </thead>
-        <tbody *ngFor="let fisherman of fishermans">
+        <tbody *ngFor="let fisherman of filteredFishermans">
             <tr>
                 <td>
                     {{fisherman.firstName}}

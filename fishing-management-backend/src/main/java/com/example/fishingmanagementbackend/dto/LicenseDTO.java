@@ -3,6 +3,7 @@ package com.example.fishingmanagementbackend.dto;
 import java.time.LocalDate;
 import java.time.Year;
 
+import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.enumerations.LicenseType;
 import com.example.fishingmanagementbackend.model.License;
 
@@ -16,7 +17,7 @@ public class LicenseDTO {
     
     private Year year;
     
-    private boolean confirmed;
+    private LicenseStatus status;
     
     private Long fishermanId;
     
@@ -27,7 +28,7 @@ public class LicenseDTO {
         this.type = license.getType();
         this.day = license.getDay();
         this.year = license.getYear();
-        this.confirmed = license.isConfirmed();
+        this.status = license.getStatus();
         this.fishermanId = license.getFisherman().getId();
     }
 
@@ -63,14 +64,14 @@ public class LicenseDTO {
         this.year = year;
     }
 
-    public boolean isConfirmed() {
-        return confirmed;
+    public LicenseStatus getStatus() {
+        return status;
     }
 
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
+    public void setStatus(LicenseStatus status) {
+        this.status = status;
     }
-    
+
     public Long getFishermanId() {
         return fishermanId;
     }
@@ -81,8 +82,8 @@ public class LicenseDTO {
 
     @Override
     public String toString() {
-        return "LicenseDTO [id=" + id + ", type=" + type + ", day=" + day + ", year=" + year + ", confirmed="
-                + confirmed + "]";
+        return "LicenseDTO [id=" + id + ", type=" + type + ", day=" + day + ", year=" + year + ", status="
+                + status + "]";
     }
     
     
