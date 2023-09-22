@@ -1,7 +1,5 @@
 package com.example.fishingmanagementbackend.dto;
 
-import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
-import com.example.fishingmanagementbackend.enumerations.LicenseType;
 import com.example.fishingmanagementbackend.model.License;
 
 public class LicenseRequestDTO {
@@ -12,15 +10,15 @@ public class LicenseRequestDTO {
     
     private String fishermanLastName;
     
-    private FishermanCategory category;
+    private String category;
     
-    private LicenseType type;
+    private String type;
     
     private Long fishermanId;
     
     public LicenseRequestDTO() {}
 
-    public LicenseRequestDTO(Long licenseId, String fishermanFirstName, String fishermanLastName, FishermanCategory category, LicenseType type,
+    public LicenseRequestDTO(Long licenseId, String fishermanFirstName, String fishermanLastName, String category, String type,
             Long fishermanId) {
         this.licenseId = licenseId;
         this.fishermanFirstName = fishermanFirstName;
@@ -34,8 +32,8 @@ public class LicenseRequestDTO {
         this.licenseId = license.getLicenseId();
         this.fishermanFirstName = license.getFisherman().getFirstName();
         this.fishermanLastName = license.getFisherman().getLastName();
-        this.category = license.getFisherman().getCategory();
-        this.type = license.getType();
+        this.category = license.getFisherman().getCategory().toString();
+        this.type = license.getType().toString();
         this.fishermanId = license.getFisherman().getId();
     }
 
@@ -63,19 +61,19 @@ public class LicenseRequestDTO {
         this.fishermanLastName = fishermanLastName;
     }
 
-    public FishermanCategory getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(FishermanCategory category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    public LicenseType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(LicenseType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

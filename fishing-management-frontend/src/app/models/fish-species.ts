@@ -5,22 +5,27 @@ export class FishSpecies {
     public category: string;
     public minSize?: number;
     public maxQuantity?: number;
-    public fishingBanStart: Date;
-    public fishingBanEnd: Date;
+    public fishingBanStartDay: number;
+    public fishingBanStartMonth: number;
+    public fishingBanEndDay: number;
+    public fishingBanEndMonth: number;
     public permanentFishingBan: boolean;
     public image: string;
 
     constructor($id: number, $name: string, $latinName: string, $category: string,
-        $minSize: number, $maxQuantity: number, $fishingBanStart: Date,
-        $fishingBanEnd: Date, $permanentFishingBan: boolean, $image: string) {
+        $minSize: number, $maxQuantity: number, $fishingBanStartDay: number,
+        $fishingBanStartMonth: number, $fishingBanEndDay: number,
+        $fishingBanEndMonth: number, $permanentFishingBan: boolean, $image: string) {
         this.id = $id;
         this.name = $name;
         this.latinName = $latinName;
         this.category = $category;
         this.minSize = $minSize;
         this.maxQuantity = $maxQuantity;
-        this.fishingBanStart = $fishingBanStart;
-        this.fishingBanEnd = $fishingBanEnd;
+        this.fishingBanStartDay = $fishingBanStartDay;
+        this.fishingBanStartMonth = $fishingBanStartMonth;
+        this.fishingBanEndDay = $fishingBanEndDay;
+        this.fishingBanEndMonth = $fishingBanEndMonth;
         this.permanentFishingBan = $permanentFishingBan;
         this.image = $image;
     }

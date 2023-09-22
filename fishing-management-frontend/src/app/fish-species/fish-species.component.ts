@@ -23,8 +23,10 @@ export class FishSpeciesComponent {
                   category: new FormControl(),
                   minSize: new FormControl(),
                   maxQuantity: new FormControl(),
-                  fishingBanStart: new FormControl(),
-                  fishingBanEnd: new FormControl(),
+                  fishingBanStartDay: new FormControl(),
+                  fishingBanStartMonth: new FormControl(),
+                  fishingBanEndDay: new FormControl(),
+                  fishingBanEndMonth: new FormControl(),
                   permanentFishingBan: new FormControl(),
                   image: new FormControl()
                 });
@@ -37,8 +39,10 @@ export class FishSpeciesComponent {
       this.newFishForm.value.category,
       this.newFishForm.value.minSize,
       this.newFishForm.value.maxQuantity,
-      this.newFishForm.value.fishingBanStart,
-      this.newFishForm.value.fishingBanEnd,
+      this.newFishForm.value.fishingBanStartDay,
+      this.newFishForm.value.fishingBanStartMonth,
+      this.newFishForm.value.fishingBanEndDay,
+      this.newFishForm.value.fishingBanEndMonth,
       this.newFishForm.value.permanentFishingBan,
       this.newFishForm.value.image
     );

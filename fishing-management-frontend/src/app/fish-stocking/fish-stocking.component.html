@@ -1,0 +1,66 @@
+<div class="container">
+    <h1>Izvršena poribljavanja</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ribolovna voda</th>
+                <th>Vrsta ribe</th>
+                <th>Datum</th>
+                <th>Količina</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let stock of stockings">
+            <tr>
+                <td>
+                    {{stock.fishingAreaName}}
+                </td>
+                <td>
+                    {{stock.fishSpeciesName}}
+                </td>
+                <td>
+                    {{stock.date | date: "dd.MM.yyyy."}}
+                </td>
+                <td>
+                    {{stock.number}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Novo poribljavanje</button>
+    <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="makeFishStocking()" #form="ngForm" [formGroup]="fishStockingForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Unesite podatke o poribljavanju</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Ribolovna voda</label>
+                            <select class="form-select" name="fishingArea" required formControlName="fishingArea">
+                                <option *ngFor="let area of fishingAreas" [ngValue]="area">{{area.name}}</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Vrsta ribe</label>
+                            <select class="form-select" name="fishSpecies" required formControlName="fishSpecies">
+                                <option *ngFor="let fish of fishSpecies" [ngValue]="fish">{{fish.name}}</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Datum poribljavanja</label>
+                            <input type="date" class="form-control" required formControlName="date">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Broj jedinki</label>
+                            <input type="number" class="form-control" required formControlName="number">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Potvrdi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

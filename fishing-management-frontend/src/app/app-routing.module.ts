@@ -5,6 +5,7 @@ import { CatchesComponent } from './catches/catches.component';
 import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
 import { FishSpeciesDetailsComponent } from './fish-species-details/fish-species-details.component';
 import { FishSpeciesComponent } from './fish-species/fish-species.component';
+import { FishStockingComponent } from './fish-stocking/fish-stocking.component';
 import { FishermanDetailsComponent } from './fisherman-details/fisherman-details.component';
 import { FishermansComponent } from './fishermans/fishermans.component';
 import { FishingAreaDetailsComponent } from './fishing-area-details/fishing-area-details.component';
@@ -110,6 +111,12 @@ const routes: Routes = [
         component: LicenseRequestsComponent,
         canActivate: [AuthGuard],
         data: {roles: ["ROLE_ADMIN"]}
+      },
+      {
+        path: "fish-stocking",
+        component: FishStockingComponent,
+        canActivate: [AuthGuard],
+        data: {roles: ["ROLE_KEEPER"]}
       },
       { 
         path: "", component: LoginComponent 

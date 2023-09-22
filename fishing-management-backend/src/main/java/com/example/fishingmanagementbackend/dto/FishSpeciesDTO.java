@@ -1,8 +1,5 @@
 package com.example.fishingmanagementbackend.dto;
 
-import java.util.Date;
-
-import com.example.fishingmanagementbackend.enumerations.FishCategory;
 import com.example.fishingmanagementbackend.model.FishSpecies;
 
 public class FishSpeciesDTO {
@@ -13,15 +10,19 @@ public class FishSpeciesDTO {
     
     private String latinName;
     
-    private FishCategory category;
+    private String category;
     
     private int minSize;
     
     private int maxQuantity;
     
-    private Date fishingBanStart;
+    private int fishingBanStartDay;
     
-    private Date fishingBanEnd;
+    private int fishingBanStartMonth;
+    
+    private int fishingBanEndDay;
+    
+    private int fishingBanEndMonth;
     
     private boolean permanentFishingBan;
     
@@ -35,11 +36,13 @@ public class FishSpeciesDTO {
         this.id = fishSpecies.getId();
         this.name = fishSpecies.getName();
         this.latinName = fishSpecies.getLatinName();
-        this.category = fishSpecies.getCategory();
+        this.category = fishSpecies.getCategory().toString();
         this.minSize = fishSpecies.getMinSize();
         this.maxQuantity = fishSpecies.getMaxQuantity();
-        this.fishingBanStart = fishSpecies.getFishingBanStart();
-        this.fishingBanEnd = fishSpecies.getFishingBanEnd();
+        this.fishingBanStartDay = fishSpecies.getFishingBanStart().getDayOfMonth();
+        this.fishingBanStartMonth = fishSpecies.getFishingBanStart().getMonth().getValue();
+        this.fishingBanEndDay = fishSpecies.getFishingBanEnd().getDayOfMonth();
+        this.fishingBanEndMonth = fishSpecies.getFishingBanEnd().getMonth().getValue();
         this.permanentFishingBan = fishSpecies.isPermanentFishingBan();
         this.image = fishSpecies.getImage();
     }
@@ -68,11 +71,11 @@ public class FishSpeciesDTO {
         this.latinName = latinName;
     }
 
-    public FishCategory getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(FishCategory category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -92,20 +95,36 @@ public class FishSpeciesDTO {
         this.maxQuantity = maxQuantity;
     }
 
-    public Date getFishingBanStart() {
-        return fishingBanStart;
+    public int getFishingBanStartDay() {
+        return fishingBanStartDay;
     }
 
-    public void setFishingBanStart(Date fishingBanStart) {
-        this.fishingBanStart = fishingBanStart;
+    public void setFishingBanStartDay(int fishingBanStartDay) {
+        this.fishingBanStartDay = fishingBanStartDay;
     }
 
-    public Date getFishingBanEnd() {
-        return fishingBanEnd;
+    public int getFishingBanStartMonth() {
+        return fishingBanStartMonth;
     }
 
-    public void setFishingBanEnd(Date fishingBanEnd) {
-        this.fishingBanEnd = fishingBanEnd;
+    public void setFishingBanStartMonth(int fishingBanStartMonth) {
+        this.fishingBanStartMonth = fishingBanStartMonth;
+    }
+
+    public int getFishingBanEndDay() {
+        return fishingBanEndDay;
+    }
+
+    public void setFishingBanEndDay(int fishingBanEndDay) {
+        this.fishingBanEndDay = fishingBanEndDay;
+    }
+
+    public int getFishingBanEndMonth() {
+        return fishingBanEndMonth;
+    }
+
+    public void setFishingBanEndMonth(int fishingBanEndMonth) {
+        this.fishingBanEndMonth = fishingBanEndMonth;
     }
 
     public boolean isPermanentFishingBan() {
@@ -127,9 +146,10 @@ public class FishSpeciesDTO {
     @Override
     public String toString() {
         return "FishSpeciesDTO [id=" + id + ", name=" + name + ", latinName=" + latinName + ", category=" + category
-                + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", fishingBanStart=" + fishingBanStart
-                + ", fishingBanEnd=" + fishingBanEnd + ", permanentFishingBan=" + permanentFishingBan + ", image="
-                + image + "]";
+                + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", fishingBanStartDay=" + fishingBanStartDay
+                + ", fishingBanStartMonth=" + fishingBanStartMonth + ", fishingBanEndDay=" + fishingBanEndDay
+                + ", fishingBanEndMonth=" + fishingBanEndMonth + ", permanentFishingBan=" + permanentFishingBan
+                + ", image=" + image + "]";
     }
     
     

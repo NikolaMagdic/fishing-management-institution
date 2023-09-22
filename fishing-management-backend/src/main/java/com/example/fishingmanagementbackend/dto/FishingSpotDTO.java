@@ -1,13 +1,12 @@
 package com.example.fishingmanagementbackend.dto;
 
-import com.example.fishingmanagementbackend.enumerations.FishingSpotType;
 import com.example.fishingmanagementbackend.model.FishingSpot;
 
 public class FishingSpotDTO {
 
     private Long id;
     
-    private FishingSpotType type;
+    private String type;
     
     private double latitude;
     
@@ -19,7 +18,7 @@ public class FishingSpotDTO {
     
     public FishingSpotDTO (FishingSpot fishingSpot) {
         this.id = fishingSpot.getId();
-        this.type = fishingSpot.getType();
+        this.type = fishingSpot.getType().toString();
         this.latitude = fishingSpot.getLatitude();
         this.longitude = fishingSpot.getLongitude();
         this.fishingAreaId = fishingSpot.getFishingArea().getId();
@@ -33,11 +32,11 @@ public class FishingSpotDTO {
         this.id = id;
     }
 
-    public FishingSpotType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(FishingSpotType type) {
+    public void setType(String type) {
         this.type = type;
     }
     

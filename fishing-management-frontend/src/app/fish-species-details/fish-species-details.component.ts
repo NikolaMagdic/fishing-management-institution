@@ -22,10 +22,6 @@ export class FishSpeciesDetailsComponent {
 
   fishForm: FormGroup;
 
-  // Ovo mi je neophodno jer mora biti poseban format datuma da bi se prikazao u datepickeru
-  banStart: Date | any;
-  banEnd: Date | any;
-
   updateButtonVisible = false;
 
   constructor(private route: ActivatedRoute,
@@ -36,8 +32,10 @@ export class FishSpeciesDetailsComponent {
         category: new FormControl(),
         minSize: new FormControl(),
         maxQuantity: new FormControl(),
-        fishingBanStart: new FormControl(),
-        fishingBanEnd: new FormControl(),
+        fishingBanStartDay: new FormControl(),
+        fishingBanStartMonth: new FormControl(),
+        fishingBanEndDay: new FormControl(),
+        fishingBanEndMonth: new FormControl(),
         permanentFishingBan: new FormControl()
       }); 
   }
@@ -48,14 +46,17 @@ export class FishSpeciesDetailsComponent {
     this.fishSpeciesService.getFishSpeciesById(id).subscribe({
       next: data => {
         this.fishSpecies = data as FishSpecies;
+        console.log(this.fishSpecies);
         this.fishForm.setValue({
           name: this.fishSpecies.name,
           latinName: this.fishSpecies.latinName,
           category: this.fishSpecies.category,
           minSize: this.fishSpecies.minSize,
           maxQuantity: this.fishSpecies.maxQuantity,
-          fishingBanStart: formatDate(this.fishSpecies.fishingBanStart, 'yyyy-MM-dd', 'en'),
-          fishingBanEnd: formatDate(this.fishSpecies.fishingBanEnd, 'yyyy-MM-dd', 'en'),
+          fishingBanStartDay: this.fishSpecies.fishingBanStartDay,
+          fishingBanStartMonth: this.fishSpecies.fishingBanStartMonth,
+          fishingBanEndDay: this.fishSpecies.fishingBanEndDay,
+          fishingBanEndMonth: this.fishSpecies.fishingBanEndMonth,
           permanentFishingBan: this.fishSpecies.permanentFishingBan
         });
       }
@@ -80,8 +81,10 @@ export class FishSpeciesDetailsComponent {
         this.fishForm.value.category,
         this.fishForm.value.minSize,
         this.fishForm.value.maxQuantity,
-        this.fishForm.value.fishingBanStart,
-        this.fishForm.value.fishingBanEnd,
+        this.fishForm.value.fishingBanStartDay,
+        this.fishForm.value.fishingBanStartMonth,
+        this.fishForm.value.fishingBanEndDay,
+        this.fishForm.value.fishingBanEndMonth,
         this.fishForm.value.permanentFishingBan,
         this.fishSpecies.image);
 

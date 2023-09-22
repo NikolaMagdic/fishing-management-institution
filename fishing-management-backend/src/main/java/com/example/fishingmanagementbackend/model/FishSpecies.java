@@ -1,6 +1,6 @@
 package com.example.fishingmanagementbackend.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,10 +37,10 @@ public class FishSpecies {
     
     // mozda izdvojiti ovo u klasu FishingBan, da se ne buni SonarLint
     @Column
-    private Date fishingBanStart;
+    private LocalDate fishingBanStart;
     
     @Column
-    private Date fishingBanEnd;
+    private LocalDate fishingBanEnd;
     
     @Column
     private boolean permanentFishingBan;
@@ -55,7 +55,7 @@ public class FishSpecies {
     }
     
     public FishSpecies(String name, String latinName, FishCategory category, int minSize, int maxQuantity,
-            Date fishingBanStart, Date fishingBanEnd, boolean permanentFishingBan, String image) {
+            LocalDate fishingBanStart, LocalDate fishingBanEnd, boolean permanentFishingBan, String image) {
         this.name = name;
         this.latinName = latinName;
         this.category = category;
@@ -115,19 +115,19 @@ public class FishSpecies {
         this.maxQuantity = maxQuantity;
     }
 
-    public Date getFishingBanStart() {
+    public LocalDate getFishingBanStart() {
         return fishingBanStart;
     }
 
-    public void setFishingBanStart(Date fishingBanStart) {
+    public void setFishingBanStart(LocalDate fishingBanStart) {
         this.fishingBanStart = fishingBanStart;
     }
 
-    public Date getFishingBanEnd() {
+    public LocalDate getFishingBanEnd() {
         return fishingBanEnd;
     }
 
-    public void setFishingBanEnd(Date fishingBanEnd) {
+    public void setFishingBanEnd(LocalDate fishingBanEnd) {
         this.fishingBanEnd = fishingBanEnd;
     }
 

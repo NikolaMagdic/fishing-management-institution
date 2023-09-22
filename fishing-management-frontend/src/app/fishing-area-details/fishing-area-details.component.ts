@@ -10,7 +10,6 @@ import { FishingAreaService } from '../services/fishing-area.service';
   styleUrls: ['./fishing-area-details.component.css']
 })
 export class FishingAreaDetailsComponent implements OnInit{
-  pageTitle: string = 'Ribolovna voda';
   fishingArea: any | undefined;
   fishSpeciesInArea: FishSpecies[] | any = [];
   fishSpeciesNotInArea: FishSpecies[] | any = [];

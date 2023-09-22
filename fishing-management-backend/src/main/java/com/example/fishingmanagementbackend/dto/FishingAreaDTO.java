@@ -1,6 +1,5 @@
 package com.example.fishingmanagementbackend.dto;
 
-import com.example.fishingmanagementbackend.enumerations.FishingAreaType;
 import com.example.fishingmanagementbackend.model.FishingArea;
 
 public class FishingAreaDTO {
@@ -11,7 +10,7 @@ public class FishingAreaDTO {
     
     private String description;
     
-    private FishingAreaType type;
+    private String type;
     
     private String image;
 
@@ -21,7 +20,7 @@ public class FishingAreaDTO {
         this.id = fishingArea.getId();
         this.name = fishingArea.getName();
         this.description = fishingArea.getDescription();
-        this.type = fishingArea.getType();
+        this.type = fishingArea.getType().toString();
         this.image = fishingArea.getImage();
     }
     
@@ -49,11 +48,11 @@ public class FishingAreaDTO {
         this.description = description;
     }
 
-    public FishingAreaType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(FishingAreaType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

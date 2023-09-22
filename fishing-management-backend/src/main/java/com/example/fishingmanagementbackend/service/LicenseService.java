@@ -121,6 +121,8 @@ public class LicenseService {
         License license = licenseRepository.getReferenceById(licenseId);
         license.setStatus(LicenseStatus.REJECTED);
         
+        
+        
         return licenseRepository.save(license);
     }
 }

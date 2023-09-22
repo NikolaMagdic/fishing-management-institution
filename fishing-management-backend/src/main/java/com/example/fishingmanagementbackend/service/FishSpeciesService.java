@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.FishSpeciesDTO;
+import com.example.fishingmanagementbackend.enumerations.FishCategory;
 import com.example.fishingmanagementbackend.model.FishSpecies;
 import com.example.fishingmanagementbackend.repository.FishSpeciesRepository;
 
@@ -60,7 +62,7 @@ public class FishSpeciesService {
     
     public FishSpecies createFishSpecies(FishSpeciesDTO fishSpeciesDTO) {
 
-        FishSpecies fishSpecies = new FishSpecies(fishSpeciesDTO.getName(), fishSpeciesDTO.getLatinName(), fishSpeciesDTO.getCategory(), fishSpeciesDTO.getMinSize(), fishSpeciesDTO.getMaxQuantity(), fishSpeciesDTO.getFishingBanStart(), fishSpeciesDTO.getFishingBanEnd(), fishSpeciesDTO.isPermanentFishingBan(), fishSpeciesDTO.getImage());
+        FishSpecies fishSpecies = new FishSpecies(fishSpeciesDTO.getName(), fishSpeciesDTO.getLatinName(), FishCategory.valueOf(fishSpeciesDTO.getCategory()), fishSpeciesDTO.getMinSize(), fishSpeciesDTO.getMaxQuantity(), LocalDate.of(2023, fishSpeciesDTO.getFishingBanStartMonth(), fishSpeciesDTO.getFishingBanStartDay()), LocalDate.of(2023, fishSpeciesDTO.getFishingBanEndMonth(), fishSpeciesDTO.getFishingBanEndDay()), fishSpeciesDTO.isPermanentFishingBan(), fishSpeciesDTO.getImage());
         return fishSpeciesRepository.save(fishSpecies);
     }
     
@@ -69,11 +71,11 @@ public class FishSpeciesService {
         
         fishSpecies.setName(fishSpeciesDTO.getName());
         fishSpecies.setLatinName(fishSpeciesDTO.getLatinName());
-        fishSpecies.setCategory(fishSpeciesDTO.getCategory());
+        fishSpecies.setCategory(FishCategory.valueOf(fishSpeciesDTO.getCategory()));
         fishSpecies.setMinSize(fishSpeciesDTO.getMinSize());
         fishSpecies.setMaxQuantity(fishSpeciesDTO.getMaxQuantity());
-        fishSpecies.setFishingBanStart(fishSpeciesDTO.getFishingBanStart());
-        fishSpecies.setFishingBanEnd(fishSpeciesDTO.getFishingBanEnd());
+        fishSpecies.setFishingBanStart(LocalDate.of(2023, fishSpeciesDTO.getFishingBanStartMonth(), fishSpeciesDTO.getFishingBanStartDay()));
+        fishSpecies.setFishingBanEnd(LocalDate.of(2023, fishSpeciesDTO.getFishingBanEndMonth(), fishSpeciesDTO.getFishingBanEndDay()));
         fishSpecies.setPermanentFishingBan(fishSpeciesDTO.isPermanentFishingBan());
     
         return fishSpeciesRepository.save(fishSpecies);

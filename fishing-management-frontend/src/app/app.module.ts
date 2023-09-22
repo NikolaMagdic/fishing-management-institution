@@ -28,6 +28,7 @@ import { LicenseRequestsComponent } from './license-requests/license-requests.co
 import { FishermanDetailsComponent } from './fisherman-details/fisherman-details.component';
 import { CatchesComponent } from './catches/catches.component';
 import { FishermansComponent } from './fishermans/fishermans.component';
+import { FishStockingComponent } from './fish-stocking/fish-stocking.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { FishermansComponent } from './fishermans/fishermans.component';
     LicenseRequestsComponent,
     FishermanDetailsComponent,
     CatchesComponent,
-    FishermansComponent
+    FishermansComponent,
+    FishStockingComponent
   ],
   imports: [
     BrowserModule,

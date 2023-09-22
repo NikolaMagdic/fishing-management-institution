@@ -1,7 +1,7 @@
 
 <div class="card" *ngIf="fishingArea"> <!--ngIf ako se fishingArea ne ucita odmah posto je http asinhron, pa da ne pise undefined-->
     <div class="card-header">
-        {{pageTitle + ": " + fishingArea.name}}
+        {{fishingArea.type + " " + fishingArea.name}}
     </div>
     <div class="container">
         <div class="row">

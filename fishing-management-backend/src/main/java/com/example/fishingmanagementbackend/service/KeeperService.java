@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.KeeperDTO;
 import com.example.fishingmanagementbackend.dto.KeeperRegistrationDTO;
+import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Authority;
 import com.example.fishingmanagementbackend.model.FishingArea;
 import com.example.fishingmanagementbackend.model.Keeper;
@@ -50,7 +52,13 @@ public class KeeperService {
         return allKeepersDTO;
     }
     
-    public KeeperDTO getKeeperById(Long id) {
+    public KeeperDTO getKeeperById(Long id, Principal principal) throws ForbiddenException {
+        
+        if(userRepository.findByUsername(principal.getName()).getKeeper() != null) {
+            if(!userRepository.findByUsername(principal.getName()).getKeeper().getId().equals(id)) {
+                throw new ForbiddenException("Nemate privilegije da vidite podatke ovog ribočuvara");
+            }    
+        }
         
         Keeper keeper = keeperRepository.getReferenceById(id);
         return new KeeperDTO(keeper);
@@ -86,8 +94,12 @@ public class KeeperService {
         return keeperRepository.save(keeper);
     }
     
-    public Keeper updateKeeper(Long id, KeeperDTO keeperDTO) {
+    public Keeper updateKeeper(Long id, KeeperDTO keeperDTO, Principal principal) throws ForbiddenException {
         Keeper keeper = keeperRepository.getReferenceById(id);
+        
+        if(!userRepository.findByUsername(principal.getName()).getKeeper().getId().equals(id)) {
+            throw new ForbiddenException("Nemate privilegije da menjate podatke ovog ribočuvara");
+        }
         
         keeper.setFirstName(keeperDTO.getFirstName());
         keeper.setLastName(keeperDTO.getLastName());

@@ -36,11 +36,43 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Početak lovostaja</label>
-                    <input class="form-control" type="date" value="{{banStart}}" name="fishingBanStart" formControlName="fishingBanStart">
+                    <div class="input-group">
+                        <input class="form-control" type="number" min="1" max="31" value="{{fishSpecies.fishingBanStartDay}}" name="fishingBanStartDay" formControlName="fishingBanStartDay">
+                        <select class="form-select" name="fishingBanStartMonth" formControlName="fishingBanStartMonth">
+                            <option value="1">Januar</option>
+                            <option value="2">Februar</option>
+                            <option value="3">Mart</option>
+                            <option value="4">April</option>
+                            <option value="5">Maj</option>
+                            <option value="6">Jun</option>
+                            <option value="7">Jul</option>
+                            <option value="8">Avgust</option>
+                            <option value="9">Septembar</option>
+                            <option value="10">Oktobar</option>
+                            <option value="11">Novembar</option>
+                            <option value="12">Decembar</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Kraj lovostaja</label>
-                    <input class="form-control" type="date" value="{{banEnd}}" name="fishingBanEnd" formControlName="fishingBanEnd">
+                    <div class="input-group">
+                        <input class="form-control" type="number" min="1" max="31" value="{{fishSpecies.fishingBanEndDay}}" name="fishingBanEndDay" formControlName="fishingBanEndDay">
+                        <select class="form-select" name="fishingBanEndMonth" formControlName="fishingBanEndMonth">
+                            <option value="1">Januar</option>
+                            <option value="2">Februar</option>
+                            <option value="3">Mart</option>
+                            <option value="4">April</option>
+                            <option value="5">Maj</option>
+                            <option value="6">Jun</option>
+                            <option value="7">Jul</option>
+                            <option value="8">Avgust</option>
+                            <option value="9">Septembar</option>
+                            <option value="10">Oktobar</option>
+                            <option value="11">Novembar</option>
+                            <option value="12">Decembar</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Trajni lovostaj</label>

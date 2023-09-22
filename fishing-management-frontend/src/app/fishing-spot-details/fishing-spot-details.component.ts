@@ -37,6 +37,7 @@ export class FishingSpotDetailsComponent {
   @ViewChild('failureModal') failureModal: ElementRef | any;
 
   validLicense: boolean = false;
+  fishermanLoggedIn = false;
 
   constructor(private fishingSpotService: FishingSpotService,
               private reservationService: ReservationService,
@@ -46,6 +47,13 @@ export class FishingSpotDetailsComponent {
 
   ngOnInit() {
     let id = Number(this.route.snapshot.paramMap.get('id'));
+
+    const role = localStorage.getItem('role');
+    if(role == "ROLE_FISHERMAN") {
+      this.fishermanLoggedIn = true;
+      this.getExistingValidLicenses();
+    }
+
     this.fishingSpotService.getFishingSpotById(id).subscribe({
       next: data => {
         this.fishingSpot = data;
@@ -96,6 +104,9 @@ export class FishingSpotDetailsComponent {
       }
     })
 
+  }
+
+  getExistingValidLicenses() {
     this.licenseService.getExistingValidLicenses().subscribe({
       next: data => {
         if(data != null) {

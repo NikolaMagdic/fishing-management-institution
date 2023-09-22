@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.FishingSpotDTO;
+import com.example.fishingmanagementbackend.enumerations.FishingSpotType;
 import com.example.fishingmanagementbackend.model.FishingArea;
 import com.example.fishingmanagementbackend.model.FishingSpot;
 import com.example.fishingmanagementbackend.repository.FishingAreaRepository;
@@ -37,7 +38,7 @@ public class FishingSpotService {
     }
     
     public FishingSpot addFishingSpotToArea(FishingSpotDTO fishingSpotDTO) throws Exception{
-        FishingSpot fishingSpot = new FishingSpot(fishingSpotDTO.getType(), fishingSpotDTO.getLatitude(), fishingSpotDTO.getLongitude());
+        FishingSpot fishingSpot = new FishingSpot(FishingSpotType.valueOf(fishingSpotDTO.getType()), fishingSpotDTO.getLatitude(), fishingSpotDTO.getLongitude());
         FishingArea fishingArea = fishingAreaRepository.getReferenceById(fishingSpotDTO.getFishingAreaId());
         fishingSpot.setFishingArea(fishingArea);
         
@@ -47,7 +48,7 @@ public class FishingSpotService {
     public FishingSpot updateFishingSpot(Long id, FishingSpotDTO fishingSpotDTO) {
         FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(id);
         
-        fishingSpot.setType(fishingSpotDTO.getType());
+        fishingSpot.setType(FishingSpotType.valueOf(fishingSpotDTO.getType()));
         fishingSpot.setLatitude(fishingSpotDTO.getLatitude());
         fishingSpot.setLongitude(fishingSpotDTO.getLongitude());
         

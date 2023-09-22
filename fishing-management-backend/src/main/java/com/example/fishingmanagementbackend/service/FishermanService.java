@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.FishermanDTO;
 import com.example.fishingmanagementbackend.dto.RegistrationDTO;
+import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Authority;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.model.Keeper;
@@ -62,7 +63,15 @@ public class FishermanService {
         return fishermansDTO;
     }
     
-    public FishermanDTO getFishermanById(Long id) {
+    public FishermanDTO getFishermanById(Long id, Principal principal) {
+        
+        // Branim ribolovcima da vide i menjaju podatke drugih ribolovaca
+        if(userRepository.findByUsername(principal.getName()).getFisherman() != null) {
+            if(!userRepository.findByUsername(principal.getName()).getFisherman().getId().equals(id)) {
+                throw new ForbiddenException("Nemate privilegije da vidite podatke ovog ribolovca");
+            }    
+        }
+        
         Fisherman fisherman = fishermanRepository.getReferenceById(id);
         return new FishermanDTO(fisherman);
     }
@@ -107,7 +116,12 @@ public class FishermanService {
         return fishermanRepository.save(fisherman);  
     }
     
-    public Fisherman updateFisherman(Long id, FishermanDTO fishermanDTO) {
+    public Fisherman updateFisherman(Long id, FishermanDTO fishermanDTO, Principal principal) throws ForbiddenException {
+        
+        if(!userRepository.findByUsername(principal.getName()).getFisherman().getId().equals(id)) {
+            throw new ForbiddenException("Nemate privilegije da menjate podatke ovog ribolovca");
+        }
+            
         Fisherman fisherman = fishermanRepository.getReferenceById(id);
         fisherman.setFirstName(fishermanDTO.getFirstName());
         fisherman.setLastName(fishermanDTO.getLastName());

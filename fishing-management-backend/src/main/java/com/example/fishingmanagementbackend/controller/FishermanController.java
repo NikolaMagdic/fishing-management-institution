@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.FishermanDTO;
 import com.example.fishingmanagementbackend.dto.RegistrationDTO;
+import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.service.FishermanService;
 
@@ -40,12 +41,14 @@ public class FishermanController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<FishermanDTO> getFishermanById(@PathVariable("id") Long id) {
+    public ResponseEntity<FishermanDTO> getFishermanById(@PathVariable("id") Long id, Principal principal) {
         FishermanDTO fishermanDTO;
         try {
-            fishermanDTO = fishermanService.getFishermanById(id);
+            fishermanDTO = fishermanService.getFishermanById(id, principal);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
+        } catch (ForbiddenException fex) {
+            return ResponseEntity.status(403).build();
         }
         
         return ResponseEntity.ok().body(fishermanDTO);
@@ -64,12 +67,14 @@ public class FishermanController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<FishermanDTO> updateFisherman(@PathVariable("id") Long id, @RequestBody FishermanDTO fishermanDTO) {
+    public ResponseEntity<FishermanDTO> updateFisherman(@PathVariable("id") Long id, @RequestBody FishermanDTO fishermanDTO, Principal principal) {
         Fisherman fisherman;
         try {
-            fisherman = fishermanService.updateFisherman(id, fishermanDTO);
+            fisherman = fishermanService.updateFisherman(id, fishermanDTO, principal);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
+        } catch (ForbiddenException fe) {
+            return ResponseEntity.status(403).build();
         }
         return ResponseEntity.ok().body(new FishermanDTO(fisherman));
     }

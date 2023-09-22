@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.KeeperDTO;
 import com.example.fishingmanagementbackend.dto.KeeperRegistrationDTO;
+import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Keeper;
 import com.example.fishingmanagementbackend.service.KeeperService;
 
@@ -35,13 +37,14 @@ public class KeeperController {
     
     
     @GetMapping("/{id}")
-    public ResponseEntity<KeeperDTO> getKeeperById(@PathVariable("id") Long id) {
+    public ResponseEntity<KeeperDTO> getKeeperById(@PathVariable("id") Long id, Principal principal) {
         KeeperDTO keeperDTO;
         try {
-            keeperDTO = keeperService.getKeeperById(id);
-            System.out.println(keeperDTO);
+            keeperDTO = keeperService.getKeeperById(id, principal);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
+        } catch (ForbiddenException fex) {
+            return ResponseEntity.status(403).build();
         }
         
         return ResponseEntity.ok(keeperDTO);
@@ -58,10 +61,10 @@ public class KeeperController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<KeeperDTO> updateKeeper(@PathVariable("id") Long id, @RequestBody KeeperDTO keeperDTO) {
+    public ResponseEntity<KeeperDTO> updateKeeper(@PathVariable("id") Long id, @RequestBody KeeperDTO keeperDTO, Principal principal) {
         Keeper keeper;
         try {
-            keeper = keeperService.updateKeeper(id, keeperDTO);
+            keeper = keeperService.updateKeeper(id, keeperDTO, principal);
         } catch (Exception ex) {
             return ResponseEntity.notFound().build();
         }
