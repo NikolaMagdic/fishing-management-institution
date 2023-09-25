@@ -23,7 +23,7 @@ import { toStringHDMS } from 'ol/coordinate';
 export class FishingSpotsComponent {
 
   fishingSpots: any = [];
-  newFishingSpot: FishingSpot = new FishingSpot(0, "", 0, 0, 0);
+  newFishingSpot: FishingSpot = new FishingSpot(0, "", 0, 0, "", 0);
   map: Map | undefined;
 
   addFishingSpotButtonVisible = false;

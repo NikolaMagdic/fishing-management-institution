@@ -2,12 +2,16 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Broj mesta</th>
+                <th>Slika</th>
+                <th>Oznaka mesta</th>
                 <th>Tip</th>
             </tr>
         </thead>
         <tbody *ngFor="let spot of fishingSpots">
             <tr>
+                <td>
+                    <img src="{{spot.image}}" alt="Slika ribolovnog mesta nedostupna" [style.width.px]="200">
+                </td>
                 <td>
                     {{spot.id}}
                 </td>
@@ -45,6 +49,10 @@
                         <div class="mb-3">
                             <label class="form-label">Geografska dužina</label>
                             <input class="form-control" type="number" name="longitude" [(ngModel)]="newFishingSpot.longitude" disabled required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Slika</label>
+                            <input class="form-control" type="text" name="image" [(ngModel)]="newFishingSpot.image">
                         </div>
                     </div>
                     <div class="modal-footer">

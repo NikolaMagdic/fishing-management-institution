@@ -15,10 +15,9 @@ export class FishermanDetailsComponent {
 
   fishermanForm: FormGroup;
   fisherman: Fisherman | any;
-  updateButtonHidden: boolean = false;
+  updateButtonHidden: boolean = true;
   submitButtonHidden: boolean = true;
   fieldsetDisabled: boolean = true;
-  catchesButtonHidden: boolean = true;
 
   constructor(
     private fishermanService: FishermanService,
@@ -39,9 +38,8 @@ export class FishermanDetailsComponent {
     this.getFisherMan();
 
     const role = localStorage.getItem('role');
-    if(role == "ROLE_ADMIN") {
-      this.updateButtonHidden = true;  
-      this.catchesButtonHidden = false;
+    if(role == "ROLE_FISHERMAN") {
+      this.updateButtonHidden = false;  
     }
   }
 
@@ -86,5 +84,9 @@ export class FishermanDetailsComponent {
 
   showCatches() {
     this.router.navigate(["/fisherman/" + this.fisherman.id + "/catches"]);
+  }
+
+  showPenalties() {
+    this.router.navigate(["/fisherman/" + this.fisherman.id + "/penalties"]);
   }
 }

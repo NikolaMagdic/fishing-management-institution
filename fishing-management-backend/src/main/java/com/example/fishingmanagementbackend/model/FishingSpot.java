@@ -26,6 +26,9 @@ public class FishingSpot {
     @Column
     private double longitude;
     
+    @Column
+    private String image;
+    
     // Za sad nisam uspeo da ovo ukjucim u kompozitni kljuc. Videti jos da li je neophodno
     @ManyToOne(optional = false)
     @JoinColumn(name = "fishing_area_id", referencedColumnName = "id")
@@ -33,10 +36,11 @@ public class FishingSpot {
     
     public FishingSpot() {}
     
-    public FishingSpot(FishingSpotType type, double latitude, double longitude) {
+    public FishingSpot(FishingSpotType type, double latitude, double longitude, String image) {
         this.type = type;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.image = image;
     }
 
     public Long getId() {
@@ -78,12 +82,21 @@ public class FishingSpot {
     public void setFishingArea(FishingArea fishingArea) {
         this.fishingArea = fishingArea;
     }
+    
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     @Override
     public String toString() {
         return "FishingSpot [id=" + id + ", type=" + type + ", latitude=" + latitude + ", longitude=" + longitude
-                + ", fishingArea=" + fishingArea + "]";
+                + ", image=" + image + ", fishingArea=" + fishingArea + "]";
     }
+
     
     
 }

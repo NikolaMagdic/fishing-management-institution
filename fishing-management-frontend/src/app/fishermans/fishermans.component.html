@@ -10,6 +10,7 @@
                 <th>Ime</th>
                 <th>Prezime</th>
                 <th>Datum rođenja</th>
+                <th>Ostali podaci</th>
                 <th>Evidentirani ulovi</th>
             </tr>
         </thead>
@@ -23,6 +24,9 @@
                 </td>
                 <td>
                     {{fisherman.dateOfBirth | date: "dd.MM.yyyy."}}
+                </td>
+                <td>
+                    <button class="btn btn-secondary" (click)="fishermanDetails(fisherman.id)">Detalji</button>
                 </td>
                 <td>
                     <button class="btn btn-primary" (click)="catchesOfFisherman(fisherman.id)">Prikaži ulove</button>

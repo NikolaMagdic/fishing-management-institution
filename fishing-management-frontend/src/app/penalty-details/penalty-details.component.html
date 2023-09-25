@@ -1,0 +1,23 @@
+<div class="container">
+    <h1>Podaci o prekršaju</h1>
+    <form (ngSubmit)="updatePenalty()" #form="ngForm" [formGroup]="penaltyForm">
+        <fieldset #fieldset [disabled]="formDisabled">
+            <div class="mb-3">
+                <label class="form-label">Naziv prekršaja</label>
+                <input type="text" class="form-control" required formControlName="name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Opis prekršaja</label>
+                <textarea rows="5" class="form-control" required formControlName="description"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Cena kazne</label>
+                <input type="number" class="form-control" formControlName="fine">
+            </div>
+            <button class="btn btn-success" [hidden]="updateButtonVisible">Potvrdi izmenu</button>
+        </fieldset>
+    </form>
+    <div>
+        <button class="btn btn-primary" (click)="enableForm()" [hidden]="!updateButtonVisible">Izmeni</button>
+    </div>
+</div>

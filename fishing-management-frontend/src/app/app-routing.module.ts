@@ -20,6 +20,9 @@ import { KeepersComponent } from './keepers/keepers.component';
 import { LicenseRequestsComponent } from './license-requests/license-requests.component';
 import { LicenseComponent } from './license/license.component';
 import { LoginComponent } from './login/login.component';
+import { PenaltiesOfFishermanComponent } from './penalties-of-fisherman/penalties-of-fisherman.component';
+import { PenaltiesComponent } from './penalties/penalties.component';
+import { PenaltyDetailsComponent } from './penalty-details/penalty-details.component';
 import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
@@ -117,6 +120,21 @@ const routes: Routes = [
         component: FishStockingComponent,
         canActivate: [AuthGuard],
         data: {roles: ["ROLE_KEEPER"]}
+      },
+      {
+        path: "penalties",
+        component: PenaltiesComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: "penalty/:id",
+        component: PenaltyDetailsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: "fisherman/:id/penalties",
+        component: PenaltiesOfFishermanComponent,
+        canActivate: [AuthGuard]
       },
       { 
         path: "", component: LoginComponent 

@@ -37,8 +37,9 @@ public class FishingSpotService {
         return new FishingSpotDTO(fishingSpot);
     }
     
-    public FishingSpot addFishingSpotToArea(FishingSpotDTO fishingSpotDTO) throws Exception{
-        FishingSpot fishingSpot = new FishingSpot(FishingSpotType.valueOf(fishingSpotDTO.getType()), fishingSpotDTO.getLatitude(), fishingSpotDTO.getLongitude());
+    public FishingSpot addFishingSpotToArea(FishingSpotDTO fishingSpotDTO) throws Exception {
+        System.out.println("fishingSpotDTO");
+        FishingSpot fishingSpot = new FishingSpot(FishingSpotType.valueOf(fishingSpotDTO.getType()), fishingSpotDTO.getLatitude(), fishingSpotDTO.getLongitude(), fishingSpotDTO.getImage());
         FishingArea fishingArea = fishingAreaRepository.getReferenceById(fishingSpotDTO.getFishingAreaId());
         fishingSpot.setFishingArea(fishingArea);
         

@@ -12,6 +12,8 @@ public class FishingSpotDTO {
     
     private double longitude;
     
+    private String image;
+    
     private Long fishingAreaId;
     
     public FishingSpotDTO() {}
@@ -21,6 +23,7 @@ public class FishingSpotDTO {
         this.type = fishingSpot.getType().toString();
         this.latitude = fishingSpot.getLatitude();
         this.longitude = fishingSpot.getLongitude();
+        this.image = fishingSpot.getImage();
         this.fishingAreaId = fishingSpot.getFishingArea().getId();
     }
 
@@ -64,11 +67,20 @@ public class FishingSpotDTO {
         this.fishingAreaId = fishingAreaId;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "FishingSpotDTO [id=" + id + ", type=" + type + ", latitude=" + latitude + ", longitude=" + longitude
-                + ", fishingAreaId=" + fishingAreaId + "]";
+                + ", image=" + image + ", fishingAreaId=" + fishingAreaId + "]";
     }
-    
+
+
     
 }

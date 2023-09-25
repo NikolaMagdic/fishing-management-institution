@@ -28,6 +28,10 @@ export class FishermansComponent {
     });
   }
 
+  fishermanDetails(fishermanId: number) {
+    this.router.navigate(["/fisherman/" + fishermanId]);
+  }
+
   catchesOfFisherman(fishermanId: number) {
     this.router.navigate(["/fisherman/" + fishermanId + "/catches"]);
   }

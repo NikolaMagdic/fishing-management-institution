@@ -29,3 +29,6 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (4, 2);
 INSERT INTO user_authority (user_id, authority_id) VALUES (5, 2);
 INSERT INTO fisherman (first_name, last_name, date_of_birth, address, city, category, user_id) VALUES ('Drugi', 'Drugic', '1996-11-15', 'JNA 117', 'Ruma', 0, 4);
 INSERT INTO fisherman (first_name, last_name, date_of_birth, address, city, category, user_id) VALUES ('Trecu', 'Trecic', '1996-11-15', 'JNA 117', 'Ruma', 0, 5);
+
+INSERT INTO penalty (name, description, fine) VALUES ('Prekoracenje tezine ulova', 'Ulov vise od 5k ribe', 10000);
+INSERT INTO penalized(fisherman_id, penalty_id) VALUES (2, 1);

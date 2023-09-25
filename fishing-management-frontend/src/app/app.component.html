@@ -41,6 +41,9 @@
                 <li *ngIf="role == 'ROLE_KEEPER'">
                     <a class="nav-link" routerLink="fish-stocking">Poribljavanje</a>
                 </li>
+                <li *ngIf="role == 'ROLE_ADMIN'">
+                    <a class="nav-link" routerLink="penalties">Registar prekršaja</a>
+                </li>
                 <li *ngIf="role == 'ROLE_FISHERMAN'">
                     <a class="nav-link" [routerLink]="['fisherman', correspondingTableId]">Profil</a>
                 </li>

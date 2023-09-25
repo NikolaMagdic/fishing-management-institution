@@ -1,0 +1,55 @@
+<div class="container">
+    <h1>Registar ribolovnih prekršaja</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Cena</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let penalty of penalties">
+            <tr>
+                <td>
+                    {{penalty.name}}
+                </td>
+                <td>
+                    {{penalty.fine}}
+                </td>
+                <td>
+                    <button class="btn btn-primary" (click)="penaltyDetails(penalty.id)">Detalji</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Registruj novi prekršaj</button>
+    <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="addPenalty()" #form="ngForm" [formGroup]="penaltyForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Unesite podatke o prekršaju</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Naziv</label>
+                            <input type="text" class="form-control" required name="name" formControlName="name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Opis prekršaja</label>
+                            <textarea rows="5" class="form-control" required name="description" formControlName="description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Iznos kazne (RSD)</label>
+                            <input type="number" class="form-control" name="fine" formControlName="fine">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Potvrdi unos</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
