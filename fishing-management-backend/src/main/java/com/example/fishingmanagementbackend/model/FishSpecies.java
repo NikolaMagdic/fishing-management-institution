@@ -1,6 +1,5 @@
 package com.example.fishingmanagementbackend.model;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,14 +36,21 @@ public class FishSpecies {
     
     // mozda izdvojiti ovo u klasu FishingBan, da se ne buni SonarLint
     @Column
-    private LocalDate fishingBanStart;
+    private int fishingBanStartDay;
     
     @Column
-    private LocalDate fishingBanEnd;
+    private int fishingBanStartMonth;
+    
+    @Column
+    private int fishingBanEndDay;
+    
+    @Column
+    private int fishingBanEndMonth;
     
     @Column
     private boolean permanentFishingBan;
     
+    @Column
     private String image;
 
     @ManyToMany(mappedBy = "fishSpecies")
@@ -55,14 +61,16 @@ public class FishSpecies {
     }
     
     public FishSpecies(String name, String latinName, FishCategory category, int minSize, int maxQuantity,
-            LocalDate fishingBanStart, LocalDate fishingBanEnd, boolean permanentFishingBan, String image) {
+            int fishingBanStartDay, int fishingBanStartMonth, int fishingBanEndDay, int fishingBanEndMonth, boolean permanentFishingBan, String image) {
         this.name = name;
         this.latinName = latinName;
         this.category = category;
         this.minSize = minSize;
         this.maxQuantity = maxQuantity;
-        this.fishingBanStart = fishingBanStart;
-        this.fishingBanEnd = fishingBanEnd;
+        this.fishingBanStartDay = fishingBanStartDay;
+        this.fishingBanStartMonth = fishingBanStartMonth;
+        this.fishingBanEndDay = fishingBanEndDay;
+        this.fishingBanEndMonth = fishingBanEndMonth;
         this.permanentFishingBan = permanentFishingBan;
         this.image = image;
     }
@@ -114,21 +122,37 @@ public class FishSpecies {
     public void setMaxQuantity(int maxQuantity) {
         this.maxQuantity = maxQuantity;
     }
-
-    public LocalDate getFishingBanStart() {
-        return fishingBanStart;
+    
+    public int getFishingBanStartDay() {
+        return fishingBanStartDay;
     }
 
-    public void setFishingBanStart(LocalDate fishingBanStart) {
-        this.fishingBanStart = fishingBanStart;
+    public void setFishingBanStartDay(int fishingBanStartDay) {
+        this.fishingBanStartDay = fishingBanStartDay;
     }
 
-    public LocalDate getFishingBanEnd() {
-        return fishingBanEnd;
+    public int getFishingBanStartMonth() {
+        return fishingBanStartMonth;
     }
 
-    public void setFishingBanEnd(LocalDate fishingBanEnd) {
-        this.fishingBanEnd = fishingBanEnd;
+    public void setFishingBanStartMonth(int fishingBanStartMonth) {
+        this.fishingBanStartMonth = fishingBanStartMonth;
+    }
+
+    public int getFishingBanEndDay() {
+        return fishingBanEndDay;
+    }
+
+    public void setFishingBanEndDay(int fishingBanEndDay) {
+        this.fishingBanEndDay = fishingBanEndDay;
+    }
+
+    public int getFishingBanEndMonth() {
+        return fishingBanEndMonth;
+    }
+
+    public void setFishingBanEndMonth(int fishingBanEndMonth) {
+        this.fishingBanEndMonth = fishingBanEndMonth;
     }
 
     public boolean isPermanentFishingBan() {
@@ -158,9 +182,10 @@ public class FishSpecies {
     @Override
     public String toString() {
         return "FishSpecies [id=" + id + ", name=" + name + ", latinName=" + latinName + ", category=" + category
-                + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", fishingBanStart=" + fishingBanStart
-                + ", fishingBanEnd=" + fishingBanEnd + ", permanentFishingBan=" + permanentFishingBan + ", image="
-                + image + ", fishingAreas=" + fishingAreas + "]";
+                + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", fishingBanStartDay=" + fishingBanStartDay
+                + ", fishingBanStartMonth=" + fishingBanStartMonth + ", fishingBanEndDay=" + fishingBanEndDay
+                + ", fishingBanEndMonth=" + fishingBanEndMonth + ", permanentFishingBan=" + permanentFishingBan
+                + ", image=" + image + ", fishingAreas=" + fishingAreas + "]";
     }
 
 }

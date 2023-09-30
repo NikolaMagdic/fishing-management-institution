@@ -13,6 +13,8 @@ export class FishermansComponent {
 
   fishermans: Fisherman[] = [];
   filteredFishermans: Fisherman[] = [];
+  filterFirstName: string = "";
+  filterLastName: string = "";
 
   constructor(
     private fishermanService: FishermanService,
@@ -44,14 +46,16 @@ export class FishermansComponent {
     });
   }
 
-  filterFishermans(value: string) {
-    if(!value) {
+  filterFishermans() {
+    if(!this.filterFirstName && !this.filterLastName) {
       this.filteredFishermans = this.fishermans;
     }
     
     this.filteredFishermans = this.fishermans.filter(
-      fisherman => (fisherman?.firstName.toLowerCase()).concat(" ")
-                  .concat(fisherman?.lastName.toLowerCase()).includes(value.toLowerCase())
+      fisherman => ((fisherman?.firstName.toLowerCase())
+                  .includes(this.filterFirstName.toLowerCase()) &&
+                  fisherman?.lastName.toLowerCase()
+                  .includes(this.filterLastName.toLowerCase()))
     );
   }
 

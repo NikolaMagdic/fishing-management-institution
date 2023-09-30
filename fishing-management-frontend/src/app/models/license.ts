@@ -3,11 +3,13 @@ export class License {
     public type: string;
     public day: Date;
     public year: number;
+    public spotId: number;
     
-    constructor($id: number, $type: string, $day: Date, $year: number) {
+    constructor($id: number, $type: string, $day: Date, $year: number, $spotId: number) {
         this.id = $id;
         this.type = $type;
         this.day = $day;
         this.year = $year;
+        this.spotId = $spotId;
     }
 }

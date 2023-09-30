@@ -30,7 +30,7 @@ export class LicenseComponent {
   }
 
   obtainLicence() {
-    const license: License = new License(0, "YEARLY", new Date(), 0)
+    const license: License = new License(0, "YEARLY", new Date(), 0, 0);
     this.licenseService.obtainLicence(license).subscribe({
       next: () => {
         window.location.reload();
@@ -39,7 +39,7 @@ export class LicenseComponent {
   }
 
   obtainDailyLicense() {
-    const license: License = new License(0, "DAILY", this.licenseDate, 0)
+    const license: License = new License(0, "DAILY", this.licenseDate, 0, 0);
     this.licenseService.obtainLicence(license).subscribe({
       next: () => {
         window.location.reload();

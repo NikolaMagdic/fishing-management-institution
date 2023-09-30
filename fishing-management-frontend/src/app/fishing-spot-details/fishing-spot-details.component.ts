@@ -118,7 +118,8 @@ export class FishingSpotDetailsComponent {
 
   createReservation() {
     if(this.validLicense) {
-      var reservation = new Reservation(0, this.date.value, this.fishingSpot.id);
+      let resDate = new Date(Date.UTC(this.date.value.getFullYear(), this.date.value.getMonth(), this.date.value.getDate()));
+      var reservation = new Reservation(0, resDate, this.fishingSpot.id);
       this.reservationService.createReservation(reservation).subscribe({
         next: () => {
           this.successModal.nativeElement.click();
@@ -130,12 +131,11 @@ export class FishingSpotDetailsComponent {
   }
 
   reloadPage() {
-    let id = Number(this.route.snapshot.paramMap.get('id'));
-    this.router.navigate(['/fishing-spot-details/' + id ]);
+    window.location.reload();
   }
 
   obtainDailyLicense() {
-    const license: License = new License(0, "DAILY", this.date.value, 0)
+    const license: License = new License(0, "DAILY", this.date.value, 0, this.fishingSpot.id);
     this.licenseService.obtainLicence(license).subscribe({
       next: () => {
         this.validLicense = true;

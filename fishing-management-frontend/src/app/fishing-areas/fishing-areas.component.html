@@ -1,14 +1,14 @@
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        Ribolovne vode
+<div class="card">
+    <div class="card-heading">
+        <h1 class="card-title">Ribolovne vode</h1>
     </div>
     <div class="table responsive">
-        <div>{{pozdravnaPoruka}} Ocena nase aplikacije <fm-rating [rating]="5" (ratingClicked)="onRatingClicked($event)"></fm-rating></div>
+        <!-- <div>{{pozdravnaPoruka}} Ocena nase aplikacije <fm-rating [rating]="5" (ratingClicked)="onRatingClicked($event)"></fm-rating></div> -->
         <!--Ovo je primer two-way bindinga; da bi se koristio ngModel mora se importovati FormsModule, ali je on deprecated u najnovijoj verziji angulara -->
-        <div>
-            Sta pise u inputu? {{filter}}
-            <input type="text" id="input" [value]="doFilter()" (input)="onFilterChange($any($event.target).value)"/>
-               
+        <div class="input-group mb-3">
+            <span class="input-group-text">Pretraži</span>
+            <!-- Sta pise u inputu? {{filter}} -->
+            <input type="text" id="input" [value]="doFilter()" (input)="onFilterChange($any($event.target).value)" class="form-control"/>
         </div>
         <!--Ovo je primer event bindinga-->
         <button (click)="toggleImages()">{{!imagesShown ? "Prikazi" : "Sakrij"}} slike ribolovnih voda</button>

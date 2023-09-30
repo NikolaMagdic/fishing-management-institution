@@ -12,8 +12,10 @@ import com.example.fishingmanagementbackend.dto.LicenseDTO;
 import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.model.License;
+import com.example.fishingmanagementbackend.model.Reservation;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.LicenseRepository;
+import com.example.fishingmanagementbackend.repository.ReservationRepository;
 import com.example.fishingmanagementbackend.repository.UserRepository;
 
 @Service
@@ -27,6 +29,9 @@ public class LicenseService {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private ReservationRepository reservationRepository;
     
     public License obtainYearLicense(LicenseDTO licenseDTO, Principal principal) {
         
@@ -63,6 +68,7 @@ public class LicenseService {
         
         License license = new License(licenseDTO.getType(), licenseDTO.getDay(), null);
         license.setStatus(LicenseStatus.CREATED);
+        license.setSpotId(licenseDTO.getSpotId());
         
         Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
         license.setFisherman(fisherman);
@@ -119,6 +125,16 @@ public class LicenseService {
     public License rejectLicenseRequest(Long licenseId) {
         
         License license = licenseRepository.getReferenceById(licenseId);
+        
+        // Brisanje zakazanog termina ukoliko postoji
+        if(license.getSpotId() != 0) {
+            List<Reservation> reservations = reservationRepository.findFutureReservationsForSpot(license.getSpotId());
+            for(Reservation r : reservations) {
+                if(r.getFisherman().getId() == license.getFisherman().getId())
+                    reservationRepository.delete(r);
+            }   
+        }
+        
         license.setStatus(LicenseStatus.REJECTED);
         
         

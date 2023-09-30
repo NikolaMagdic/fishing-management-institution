@@ -1,8 +1,10 @@
 <div class="container">
     <h1>Registrovani ribolovci</h1>
-    <button class="btn btn-primary" (click)="getFishermansWithNonConfirmedCatches()">Ribolovci sa neevidentirani ulovima</button>
-    <div class="container">
-        <input type="search" #filter (input)="filterFishermans(filter.value)"/>
+    <button class="btn btn-primary" (click)="getFishermansWithNonConfirmedCatches()">Ribolovci sa neevidentiranim ulovima</button>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Pretraga</span>
+        <input type="search" placeholder="Ime" (input)="filterFishermans()" class="form-control" [(ngModel)]="filterFirstName"/>
+        <input type="search" placeholder="Prezime" (input)="filterFishermans()" class="form-control" [(ngModel)]="filterLastName" />
     </div>
     <table class="table table-striped">
         <thead>

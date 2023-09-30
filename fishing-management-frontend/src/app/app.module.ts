@@ -32,6 +32,7 @@ import { FishStockingComponent } from './fish-stocking/fish-stocking.component';
 import { PenaltiesComponent } from './penalties/penalties.component';
 import { PenaltyDetailsComponent } from './penalty-details/penalty-details.component';
 import { PenaltiesOfFishermanComponent } from './penalties-of-fisherman/penalties-of-fisherman.component';
+import { FishSpeciesPipe } from './shared/fish-species.pipe';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { PenaltiesOfFishermanComponent } from './penalties-of-fisherman/penaltie
     FishStockingComponent,
     PenaltiesComponent,
     PenaltyDetailsComponent,
-    PenaltiesOfFishermanComponent
+    PenaltiesOfFishermanComponent,
+    FishSpeciesPipe
   ],
   imports: [
     BrowserModule,

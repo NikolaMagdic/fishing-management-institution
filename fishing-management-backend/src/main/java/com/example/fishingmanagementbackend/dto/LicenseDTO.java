@@ -21,6 +21,8 @@ public class LicenseDTO {
     
     private Long fishermanId;
     
+    private Long spotId;
+    
     public LicenseDTO() {}
     
     public LicenseDTO(License license) {
@@ -30,6 +32,7 @@ public class LicenseDTO {
         this.year = license.getYear();
         this.status = license.getStatus();
         this.fishermanId = license.getFisherman().getId();
+        this.spotId = license.getSpotId();
     }
 
     public Long getId() {
@@ -80,11 +83,20 @@ public class LicenseDTO {
         this.fishermanId = fishermanId;
     }
 
+    public Long getSpotId() {
+        return spotId;
+    }
+
+    public void setSpotId(Long spotId) {
+        this.spotId = spotId;
+    }
+
     @Override
     public String toString() {
-        return "LicenseDTO [id=" + id + ", type=" + type + ", day=" + day + ", year=" + year + ", status="
-                + status + "]";
+        return "LicenseDTO [id=" + id + ", type=" + type + ", day=" + day + ", year=" + year + ", status=" + status
+                + ", fishermanId=" + fishermanId + ", spotId=" + spotId + "]";
     }
-    
+
+
     
 }

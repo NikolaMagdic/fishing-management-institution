@@ -14,6 +14,8 @@ export class FishSpeciesComponent {
   fishSpecies: any = [];
   newFishForm: FormGroup;
   addFishButtonVisible = false;
+  imposibleDate = false;
+  file: any;
 
   constructor(private fishSpeciesService: FishSpeciesService,
               private router: Router) {
@@ -33,6 +35,10 @@ export class FishSpeciesComponent {
               }
 
   createFishSpecies() {
+    // let reader = new FileReader();
+    // let a  = reader.readAsDataURL(this.newFishForm.value.image);
+    // console.log(a);
+
     var newFish = new FishSpecies(
       0, this.newFishForm.value.name, 
       this.newFishForm.value.latinName,
@@ -69,6 +75,36 @@ export class FishSpeciesComponent {
 
   viewFishSpeciesDetails(id: number) {
     this.router.navigate(['/fish-species-details/' + id]);
+  }
+
+  startDateInvalid() {
+    let month = this.newFishForm.value.fishingBanStartMonth; 
+    let day = this.newFishForm.value.fishingBanStartDay;
+    
+    if(((month == 2 || month == 4 || month == 6 || month == 9 || month == 11) && day == 31) || (month == 2 && day == 30) || day > 31) {
+      return true;
+    } else {
+      return false; 
+    } 
+  }
+
+  endDateInvalid() {
+    let month = this.newFishForm.value.fishingBanEndMonth; 
+    let day = this.newFishForm.value.fishingBanEndDay;
+    
+    if(((month == 2 || month == 4 || month == 6 || month == 9 || month == 11) && day == 31) || (month == 2 && day == 30) || day > 31) {
+      return true;
+    } else {
+      return false; 
+    } 
+  }
+
+  imageUpload(event: any) {
+    // this.file = event.target.files[0];
+    // console.log(this.file);
+    
+    
+    
   }
   
 }

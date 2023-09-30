@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.dto;
 
+import com.example.fishingmanagementbackend.enumerations.FishCategory;
 import com.example.fishingmanagementbackend.model.FishSpecies;
 
 public class FishSpeciesDTO {
@@ -10,7 +11,7 @@ public class FishSpeciesDTO {
     
     private String latinName;
     
-    private String category;
+    private FishCategory category;
     
     private int minSize;
     
@@ -36,13 +37,13 @@ public class FishSpeciesDTO {
         this.id = fishSpecies.getId();
         this.name = fishSpecies.getName();
         this.latinName = fishSpecies.getLatinName();
-        this.category = fishSpecies.getCategory().toString();
+        this.category = fishSpecies.getCategory();
         this.minSize = fishSpecies.getMinSize();
         this.maxQuantity = fishSpecies.getMaxQuantity();
-        this.fishingBanStartDay = fishSpecies.getFishingBanStart().getDayOfMonth();
-        this.fishingBanStartMonth = fishSpecies.getFishingBanStart().getMonth().getValue();
-        this.fishingBanEndDay = fishSpecies.getFishingBanEnd().getDayOfMonth();
-        this.fishingBanEndMonth = fishSpecies.getFishingBanEnd().getMonth().getValue();
+        this.fishingBanStartDay = fishSpecies.getFishingBanStartDay(); 
+        this.fishingBanStartMonth = fishSpecies.getFishingBanStartMonth();
+        this.fishingBanEndDay = fishSpecies.getFishingBanEndDay();
+        this.fishingBanEndMonth = fishSpecies.getFishingBanEndMonth();
         this.permanentFishingBan = fishSpecies.isPermanentFishingBan();
         this.image = fishSpecies.getImage();
     }
@@ -71,11 +72,11 @@ public class FishSpeciesDTO {
         this.latinName = latinName;
     }
 
-    public String getCategory() {
+    public FishCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(FishCategory category) {
         this.category = category;
     }
 

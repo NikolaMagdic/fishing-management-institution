@@ -25,4 +25,8 @@ export class KeepersComponent {
   keeperDetails(id: number) {
     this.router.navigate(["/keeper/" + id]);
   }
+
+  addNewKeeper() {
+    this.router.navigate(["/keeper"]);
+  }
 }

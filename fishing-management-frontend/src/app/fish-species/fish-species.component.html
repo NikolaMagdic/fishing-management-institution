@@ -21,7 +21,8 @@
                     {{fish.latinName}}
                 </td>
                 <td>
-                    {{fish.category}}
+                    <!--Primer upotrebe custom pipe-->
+                    {{fish.category | fishSpeciesPipe}}
                 </td>
                 <td>
                     <button class="btn btn-primary" (click)="viewFishSpeciesDetails(fish.id)">Detalji</button>
@@ -83,6 +84,7 @@
                                     <option value="12">Decembar</option>
                                 </select>
                             </div>
+                            <div *ngIf="startDateInvalid()" class="alert alert-danger">Nepravilan datum</div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Kraj lovostaja</label>
@@ -103,6 +105,7 @@
                                     <option value="12">Decembar</option>
                                 </select>
                             </div>
+                            <div *ngIf="endDateInvalid()" class="alert alert-danger">Nepravilan datum</div>
                         </div>
                         <div class="mb-3">
                             <input type="checkbox" class="form-check-input" name="permanentFishingBan" formControlName="permanentFishingBan">
@@ -110,11 +113,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Slika</label>
-                            <input type="text" name="image" class="form-control" formControlName="image">
+                            <input type="text" name="image" class="form-control" formControlName="image" (change)="imageUpload($event)">
                         </div>                                                                 
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Dodaj</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid && imposibleDate">Dodaj</button>
                     </div>
                 </form>
             </div>
