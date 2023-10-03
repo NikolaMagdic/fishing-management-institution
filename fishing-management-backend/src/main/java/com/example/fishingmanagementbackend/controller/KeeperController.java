@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +30,7 @@ public class KeeperController {
     @Autowired
     private KeeperService keeperService;
     
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<KeeperDTO>> getAllKeepers() {
         List<KeeperDTO> allKeepers = keeperService.getAllKeepers();
         return ResponseEntity.ok(allKeepers);
@@ -50,7 +51,8 @@ public class KeeperController {
         return ResponseEntity.ok(keeperDTO);
     }
     
-    @PostMapping()
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<KeeperDTO> registerKeeper(@RequestBody KeeperRegistrationDTO keeperDTO) {
         Keeper keeper = keeperService.addNewKeeper(keeperDTO);
         if(keeper == null) {
@@ -61,6 +63,7 @@ public class KeeperController {
     }
     
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('KEEPER')")
     public ResponseEntity<KeeperDTO> updateKeeper(@PathVariable("id") Long id, @RequestBody KeeperDTO keeperDTO, Principal principal) {
         Keeper keeper;
         try {
@@ -73,6 +76,7 @@ public class KeeperController {
     }
     
     @PatchMapping("{keeperId}/add-fishing-area/{areaId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> addKeeperToFishingArea(@PathVariable("keeperId") Long keeperId, @PathVariable("areaId") Long areaId) {
         try {
             keeperService.addKeeperToFishingArea(keeperId, areaId);    
@@ -83,6 +87,7 @@ public class KeeperController {
     }
     
     @PatchMapping("{keeperId}/remove-fishing-area/{areaId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> removeKeeperFromFishingArea(@PathVariable("keeperId") Long keeperId, @PathVariable("areaId") Long areaId) {
         try {
             keeperService.removeKeeperFromFishingArea(keeperId, areaId);

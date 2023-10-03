@@ -24,6 +24,7 @@ import { PenaltiesOfFishermanComponent } from './penalties-of-fisherman/penaltie
 import { PenaltiesComponent } from './penalties/penalties.component';
 import { PenaltyDetailsComponent } from './penalty-details/penalty-details.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 const routes: Routes = [
       { 
@@ -114,6 +115,11 @@ const routes: Routes = [
         component: LicenseRequestsComponent,
         canActivate: [AuthGuard],
         data: {roles: ["ROLE_ADMIN"]}
+      },
+      {
+        path: "reservations/:id",
+        component: ReservationsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: "fish-stocking",

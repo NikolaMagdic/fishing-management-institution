@@ -18,4 +18,12 @@ export class ReservationService {
     getOccupiedDatesForFishingSpot(spotId: number) {
         return this.http.get(this.url + "/" + spotId);
     } 
+
+    getAllReservationsOfFisherman(fishermanId: number) {
+        return this.http.get(this.url + "/fisherman/" + fishermanId);
+    }
+
+    getAllReservationsForFishingSpot(spotId: number) {
+        return this.http.get(this.url + "/spot/" + spotId);
+    }
 }

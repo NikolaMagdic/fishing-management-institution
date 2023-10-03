@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,12 +49,14 @@ public class FishingAreaController {
     }
     
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<FishingAreaDTO> createFishingArea(@RequestBody FishingAreaDTO fishingAreaDTO) {
         FishingArea fishingArea = fishingAreaService.createFishingArea(fishingAreaDTO);
         return ResponseEntity.status(201).body(new FishingAreaDTO(fishingArea));
     }
  
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<FishingAreaDTO> updateFishingArea(@PathVariable("id") Long  id, @RequestBody FishingAreaDTO fishingAreaDTO) {
         FishingArea fishingArea;
         try {
@@ -66,18 +69,21 @@ public class FishingAreaController {
     }
     
     @GetMapping("/keeper/{keeperId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'KEEPER')")
     public ResponseEntity<List<FishingAreaDTO>> getAllFishingAreasThatThisKeeperKeeps(@PathVariable("keeperId") Long id) {
         List<FishingAreaDTO> fishingAreaDTOs = fishingAreaService.getAllFishingAreasThisKeeperKeeps(id);
         return ResponseEntity.ok(fishingAreaDTOs);
     }
     
     @GetMapping("/not-keeper/{keeperId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'KEEPER')")
     public ResponseEntity<List<FishingAreaDTO>> getAllFishingAreasThatThisKeeperNotKeep(@PathVariable("keeperId") Long id) {
         List<FishingAreaDTO> fishingAreaDTOs = fishingAreaService.getAllFishingAreasThisKeeperNotKeeps(id);
         return ResponseEntity.ok(fishingAreaDTOs);
     }
     
     @PatchMapping("/{areaId}/add-fish-species/{speciesId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> addFishSpeciesToFishingArea(@PathVariable("areaId") Long areaId, @PathVariable("speciesId") Long speciesId) {
 
         fishingAreaService.addFishSpeciesToArea(areaId, speciesId);
@@ -85,6 +91,7 @@ public class FishingAreaController {
     }
     
     @PatchMapping("/{areaId}/remove-fish-species/{speciesId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> removeFishSpeciesFromFishingArea(@PathVariable("areaId") Long areaId, @PathVariable("speciesId") Long speciesId) {
         fishingAreaService.removeFishSpeciesFromArea(areaId, speciesId);
         return ResponseEntity.ok(true);

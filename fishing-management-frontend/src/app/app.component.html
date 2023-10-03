@@ -29,6 +29,9 @@
                 <li *ngIf="role == 'ROLE_FISHERMAN'">
                     <a class="nav-link" routerLink="license">Dozvola</a>
                 </li>
+                <li *ngIf="role == 'ROLE_FISHERMAN'">
+                    <a class="nav-link" [routerLink]="['reservations', correspondingTableId]">Rezervisani termini</a>
+                </li>
                 <li *ngIf="role == 'ROLE_ADMIN'">
                     <a class="nav-link" routerLink="license-requests">Zahtevi za dozvolu</a>
                 </li>

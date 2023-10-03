@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -24,6 +25,7 @@ import com.example.fishingmanagementbackend.service.UserService;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
     @Autowired
@@ -63,14 +65,6 @@ public class WebSecurityConfig {
         http.exceptionHandling((exception) -> exception.authenticationEntryPoint(restAuthenticationEntryPoint));
         http.authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/fishing-area/**").permitAll()
-                .requestMatchers("/api/fish-species/**").permitAll()
-                .requestMatchers("/api/fisherman/**").permitAll()
-                .requestMatchers("/api/keeper/**").permitAll()
-                .requestMatchers("/api/fishing-spot/**").permitAll()
-                .requestMatchers("/api/reservation/**").permitAll()
-                .requestMatchers("/api/catch/**").permitAll()
-                .requestMatchers("/api/license/**").permitAll()
                 .anyRequest().authenticated());
         http.cors(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());

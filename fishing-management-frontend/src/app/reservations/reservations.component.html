@@ -1,0 +1,33 @@
+<div class="container">
+    <h1>Rezervacije</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th *ngIf="fishermanLoggedIn">Ribolovna voda</th>
+                <th *ngIf="fishermanLoggedIn">Tip ribolovnog mesta</th>
+                <th *ngIf="fishermanLoggedIn">Ribolovno mesto</th>
+                <th *ngIf="!fishermanLoggedIn">Ribolovac</th>
+                <th>Datum</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let reservation of reservations">
+            <tr>
+                <td *ngIf="fishermanLoggedIn">
+                    {{reservation.fishingAreaName}}
+                </td>
+                <td *ngIf="fishermanLoggedIn">
+                    {{reservation.fishingSpotType}}
+                </td>
+                <td *ngIf="fishermanLoggedIn">
+                    {{reservation.fishingSpotId}}
+                </td>
+                <td *ngIf="!fishermanLoggedIn">
+                    {{reservation.fishermanFirstName + " " + reservation.fishermanLastName}}
+                </td>
+                <td>
+                    {{reservation.date | date: "dd.MM.yyyy."}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,7 @@ public class CatchController {
     }
     
     @PostMapping
+    @PreAuthorize("hasRole('FISHERMAN')")
     public ResponseEntity<CatchDTO> createCatch(@RequestBody CatchDTO catchDTO, Principal principal) {
         CatchDTO dailyCatch = catchService.createCatch(catchDTO, principal);
         return ResponseEntity.status(201).body(dailyCatch);
@@ -62,6 +64,7 @@ public class CatchController {
     }
     
     @PatchMapping("/confirm/{itemId}")
+    @PreAuthorize("hasRole('KEEPER')")
     public ResponseEntity<Boolean> confirmCatchItem(@PathVariable("itemId") Long id) {
         Boolean success = catchService.confirmCatchItem(id);
         return ResponseEntity.ok(success);

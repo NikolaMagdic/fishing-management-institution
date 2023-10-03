@@ -14,20 +14,28 @@ export class PenaltiesOfFishermanComponent {
   penaltiesOfFisherman: any = [];
   fishermanId: number = 0;
   imposePenaltyForm: FormGroup;
+  keeperLoggedIn = false;
 
   constructor(
     private penaltyService: PenaltyService,
     private route: ActivatedRoute
   ) {
     this.imposePenaltyForm = new FormGroup({
-      penaltyForm: new FormControl()
+      penaltyForm: new FormControl(),
+      report: new FormControl(),
+      date: new FormControl()
     });
   }
 
   ngOnInit() {
     this.fishermanId = Number(this.route.snapshot.paramMap.get('id'));
     this.getAllPenalties();
-    this.getAllPenaltiesOfFisherman(this.fishermanId);  
+    this.getAllPenaltiesOfFisherman(this.fishermanId);
+    
+    const role = localStorage.getItem('role');
+    if(role == 'ROLE_KEEPER') {
+      this.keeperLoggedIn = true;
+    }
   }
 
   getAllPenalties() {
@@ -48,6 +56,16 @@ export class PenaltiesOfFishermanComponent {
 
   imposeAPenalty() {
     let penaltyId = this.imposePenaltyForm.value.penaltyForm.id;
-    this.penaltyService.imposeAPenalty(penaltyId, this.fishermanId).subscribe({});
+    let penalized = {
+      "penaltyId": penaltyId,
+      "fishermanId": this.fishermanId,
+      "date": this.imposePenaltyForm.value.date,
+      "report": this.imposePenaltyForm.value.report
+    }
+    this.penaltyService.imposeAPenalty(penalized).subscribe({
+      next: penalty => {
+        this.penalties.push(penalty);
+      }
+    });
   }
 }

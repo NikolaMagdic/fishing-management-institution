@@ -20,6 +20,9 @@ public class Penalized {
     @Column
     private LocalDate date;
     
+    @Column
+    private String report;
+    
     @ManyToOne
     @JoinColumn(name = "fisherman_id", referencedColumnName = "id")
     private Fisherman fisherman;
@@ -30,8 +33,9 @@ public class Penalized {
     
     public Penalized() {}
     
-    public Penalized(LocalDate date, Fisherman fisherman, Penalty penalty) {
+    public Penalized(LocalDate date, String report, Fisherman fisherman, Penalty penalty) {
         this.date = date;
+        this.report = report;
         this.fisherman = fisherman;
         this.penalty = penalty;
     }
@@ -68,11 +72,19 @@ public class Penalized {
         this.penalty = penalty;
     }
 
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report;
+    }
+
     @Override
     public String toString() {
-        return "Penalized [id=" + id + ", date=" + date + ", fisherman=" + fisherman + ", penalty=" + penalty + "]";
+        return "Penalized [id=" + id + ", date=" + date + ", report=" + report + ", fisherman=" + fisherman
+                + ", penalty=" + penalty + "]";
     }
-    
     
     
 }

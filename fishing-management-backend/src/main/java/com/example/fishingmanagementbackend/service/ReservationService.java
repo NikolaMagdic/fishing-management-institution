@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.ReservationDTO;
+import com.example.fishingmanagementbackend.dto.ReservationResponseDTO;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.model.FishingSpot;
 import com.example.fishingmanagementbackend.model.Reservation;
@@ -40,6 +41,28 @@ public class ReservationService {
             occupiedDates.add(r.getArrivalDate());
         }
         return occupiedDates;
+    }
+    
+    public List<ReservationResponseDTO> getAllReservationsOfFisherman(Long fishermanId) {
+        List<Reservation> reservations = reservationRepository.findByFisherman(fishermanId);
+        List<ReservationResponseDTO> reservationsDTO = new ArrayList<>();
+        
+        for(Reservation r : reservations) {
+            ReservationResponseDTO reservationDTO = new ReservationResponseDTO(r);
+            reservationsDTO.add(reservationDTO);
+        }
+        return reservationsDTO;
+    }
+    
+    public List<ReservationResponseDTO> getAllReservationsForFishingSpot(Long fishingSpotId) {
+        List<Reservation> reservations = reservationRepository.findByFishingSpot(fishingSpotId);
+        List<ReservationResponseDTO> reservationsDTO = new ArrayList<>();
+        
+        for(Reservation r : reservations) {
+            ReservationResponseDTO reservationDTO = new ReservationResponseDTO(r);
+            reservationsDTO.add(reservationDTO);
+        }
+        return reservationsDTO;
     }
     
     public Reservation createReservation(ReservationDTO reservationDTO, Principal principal) {

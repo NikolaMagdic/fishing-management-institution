@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +48,7 @@ public class LicenseController {
     }
     
     @GetMapping("/requests")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<LicenseRequestDTO>> getAllLicenseRequests() {
         List<License> notConfirmedValidLicenses = licenseService.getAllLicenseRequests(); 
         List<LicenseRequestDTO> notConfirmedValidLicensesDTO = new ArrayList<>();
@@ -59,6 +61,7 @@ public class LicenseController {
     }
     
     @PostMapping
+    @PreAuthorize("hasRole('FISHERMAN')")
     public ResponseEntity<LicenseDTO> obtainLicense(@RequestBody LicenseDTO licenseDTO, Principal principal) {
         
         License newLicense;
@@ -76,12 +79,14 @@ public class LicenseController {
     }
     
     @PatchMapping("/{licenseId}/confirm")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> confirmLicenseRequest(@PathVariable("licenseId") Long licenseId) {
         licenseService.confirmLicenseRequest(licenseId);
         return ResponseEntity.ok(true);
     }
     
     @PatchMapping("/{licenseId}/reject")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> rejectLicenseRequest(@PathVariable("licenseId") Long licenseId) {
         licenseService.rejectLicenseRequest(licenseId);
         return ResponseEntity.ok(true);

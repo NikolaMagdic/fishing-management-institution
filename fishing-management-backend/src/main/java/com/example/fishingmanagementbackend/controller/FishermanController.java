@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,7 @@ public class FishermanController {
     private FishermanService fishermanService;
     
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'KEEPER')")
     public ResponseEntity<List<FishermanDTO>> getAllFishermans() {
         List<FishermanDTO> allFishermans = fishermanService.getAllFishermans();
         return ResponseEntity.ok().body(allFishermans);
@@ -67,6 +69,7 @@ public class FishermanController {
     }
     
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('FISHERMAN')")
     public ResponseEntity<FishermanDTO> updateFisherman(@PathVariable("id") Long id, @RequestBody FishermanDTO fishermanDTO, Principal principal) {
         Fisherman fisherman;
         try {

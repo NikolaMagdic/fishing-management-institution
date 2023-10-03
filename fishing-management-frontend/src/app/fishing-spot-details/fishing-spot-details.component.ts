@@ -143,4 +143,9 @@ export class FishingSpotDetailsComponent {
       }
     })
   }
+
+  showReservations() {
+    let id = Number(this.route.snapshot.paramMap.get('id'));
+    this.router.navigate(["/reservations/" + id]);
+  }
 }

@@ -30,7 +30,7 @@ export class PenaltyService {
         return this.http.put(this.url + "/" + penaltyId, penalty);
     }
 
-    imposeAPenalty(penaltyId: number, fishermanId: number) {
-        return this.http.patch(this.url + "/" + penaltyId + "/impose/" + fishermanId, null);
+    imposeAPenalty(penalizedDTO: any) {
+        return this.http.post(this.url + "/impose/" , penalizedDTO);
     }
 }

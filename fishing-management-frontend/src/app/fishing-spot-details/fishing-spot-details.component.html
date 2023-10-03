@@ -37,6 +37,9 @@
           </div>        
     </form>
 </div>
+<div *ngIf="!fishermanLoggedIn">
+    <button class="btn btn-primary" (click)="showReservations()">Prikaži rezervacije</button>
+</div>
 <div>
     <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #successModal></button>
     <div class="modal" id="success-modal" tabindex="-1">

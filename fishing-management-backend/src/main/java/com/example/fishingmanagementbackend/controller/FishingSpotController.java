@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,7 @@ public class FishingSpotController {
     }
     
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<FishingSpotDTO> addNewFishingSpot(@RequestBody FishingSpotDTO fishingSpotDTO) {
            FishingSpot fishingSpot;
         try {
@@ -59,6 +61,7 @@ public class FishingSpotController {
     }
     
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<FishingSpotDTO> updateFishingSpot(@PathVariable("id}") Long id, @RequestBody FishingSpotDTO fishingSpotDTO) {
         FishingSpot fishingSpot;
         try {
