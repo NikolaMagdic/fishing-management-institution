@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Catch } from "../models/catch";
 
@@ -21,5 +21,11 @@ export class CatchService {
 
     confirmCatch(itemId: number) {
         return this.http.patch(this.url + "/confirm/" + itemId, null);
+    }
+
+    getYearlyCatchesOfFisherman(fishermanId: number, year: number) {
+        // Primer dodavanja Query parametara u GET zahtev
+        let queryParams = new HttpParams().append("year", year);
+        return this.http.get(this.url + "/fisherman/" + fishermanId + "/year", {params: queryParams});
     }
 }

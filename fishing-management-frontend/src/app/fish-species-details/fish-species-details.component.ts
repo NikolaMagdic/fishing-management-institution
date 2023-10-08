@@ -23,6 +23,7 @@ export class FishSpeciesDetailsComponent {
   fishForm: FormGroup;
 
   updateButtonVisible = false;
+  permanentFishingBan = false;
 
   constructor(private route: ActivatedRoute,
               private fishSpeciesService: FishSpeciesService) {
@@ -59,6 +60,8 @@ export class FishSpeciesDetailsComponent {
           fishingBanEndMonth: this.fishSpecies.fishingBanEndMonth,
           permanentFishingBan: this.fishSpecies.permanentFishingBan
         });
+
+        this.permanentFishingBan = this.fishSpecies.permanentFishingBan;
       }
     })
 
@@ -96,4 +99,9 @@ export class FishSpeciesDetailsComponent {
       }
     });
   }
+  
+  permanentFishingBanChecked() {
+    this.permanentFishingBan = !this.permanentFishingBan;
+  }
+
 }

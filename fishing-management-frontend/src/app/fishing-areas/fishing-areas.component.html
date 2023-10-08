@@ -3,12 +3,20 @@
         <h1 class="card-title">Ribolovne vode</h1>
     </div>
     <div class="table responsive">
+        <!--SAV ZAKOMENTARISAN KOD JE IZ TUTORIJALA KOJI SAM PRATIO< OSTAVIO SAM JER MOZDA MOZE DA POSLUZI KAO PRIMER-->
         <!-- <div>{{pozdravnaPoruka}} Ocena nase aplikacije <fm-rating [rating]="5" (ratingClicked)="onRatingClicked($event)"></fm-rating></div> -->
         <!--Ovo je primer two-way bindinga; da bi se koristio ngModel mora se importovati FormsModule, ali je on deprecated u najnovijoj verziji angulara -->
         <div class="input-group mb-3">
             <span class="input-group-text">Pretraži</span>
             <!-- Sta pise u inputu? {{filter}} -->
-            <input type="text" id="input" [value]="doFilter()" (input)="onFilterChange($any($event.target).value)" class="form-control"/>
+            <!-- <input type="text" id="input" (input)="onFilterChange($any($event.target).value)" class="form-control"/> -->
+            <input class="form-control" (input)="filterAreas()" [(ngModel)]="filterName"/>
+            <select class="form-select" (change)="filterAreas()" [(ngModel)]="filterType">
+                <option>Svi tipovi ribolovnih voda</option>
+                <option>Reka</option>
+                <option>Jezero</option>
+                <option>Bara</option>
+            </select>
         </div>
         <!--Ovo je primer event bindinga-->
         <button (click)="toggleImages()">{{!imagesShown ? "Prikazi" : "Sakrij"}} slike ribolovnih voda</button>
@@ -21,7 +29,7 @@
                 </tr>
             </thead>
             <tbody *ngFor="let fishingArea of filteredFishingAreas">
-                <tr>
+                <tr class="clickable" (click)="showFishingAreaDetails(fishingArea.id)">
                     <!--Ovo je property binding, prakticno isto sto i interpolacija (obadva su one-way), 
                         ako zelimo da dobijemo isti rezultat interpolacijom pisemo src="{{fishing_area.image}}"-->
                     <td>

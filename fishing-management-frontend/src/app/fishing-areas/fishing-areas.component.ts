@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
+import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { FishingArea } from '../models/fishing-area';
 import { FishingAreaService } from '../services/fishing-area.service';
 
@@ -14,8 +16,10 @@ export class FishingAreasListComponent {
     filter: string = "";
 
     filteredFishingAreas: any = [];
+    filterName: string = "";
+    filterType: string = "Svi tipovi ribolovnih voda";
 
-    // Mozemo napraviti interface fishingAreas kako bismo ga tipizirali i na taj nacin imali odmah i neku vrstu validacije, za sad to necu jer je to cist typescritp
+    // Mozemo napraviti interface fishingAreas kako bismo ga tipizirali i na taj nacin imali odmah i neku vrstu validacije, za sad to necu jer je to cist typescript
     fishingAreas: any = []
 
     errorMessage: string = "";
@@ -24,7 +28,8 @@ export class FishingAreasListComponent {
     isAddButtonVisible = false;
 
     // Konstruktor koji se poziva prilikom inicijalizacije komponente, izvrsava se pre ngOnInit
-    constructor(private _fishingAreaService: FishingAreaService) {
+    constructor(private _fishingAreaService: FishingAreaService,
+                private router: Router) {
         // Ovo gore je sintaksni secer koji uproscava konstruktor koji je inace u osnovi isti kao i u Javi
     }
 
@@ -33,14 +38,26 @@ export class FishingAreasListComponent {
     }
 
     // Filtracija
-    doFilter() {
-        this.filter =  this.filter.toLocaleLowerCase();
-        if(this.filter === "") {
+    // doFilter() {
+    //     this.filter =  this.filter.toLocaleLowerCase();
+    //     if(this.filter === "") {
+    //         this.filteredFishingAreas = this.fishingAreas;
+    //     }
+    //     this.filteredFishingAreas = this.fishingAreas.filter((fishingArea: { name: string; }) => 
+    //         fishingArea.name.toLocaleLowerCase().indexOf(this.filter) !== -1);
+        
+    // }
+
+    filterAreas() {
+        if(!this.filterName && this.filterType === "Svi tipovi ribolovnih voda") {
             this.filteredFishingAreas = this.fishingAreas;
         }
-        this.filteredFishingAreas = this.fishingAreas.filter((fishingArea: { name: string; }) => 
-            fishingArea.name.toLocaleLowerCase().indexOf(this.filter) !== -1);
-        
+
+        this.filteredFishingAreas = this.fishingAreas.filter(
+            (area: { name: string; type: string}) => 
+            ((area?.name.toLowerCase()).includes(this.filterName.toLowerCase()) &&
+            (area?.type === this.filterType || this.filterType === "Svi tipovi ribolovnih voda"))
+        );
     }
 
     onFilterChange(value: string) {
@@ -57,6 +74,10 @@ export class FishingAreasListComponent {
                 window.location.reload();
             }
         });
+    }
+    
+    showFishingAreaDetails(fishingAreaId: number) {
+        this.router.navigate(["/fishing-areas/" + fishingAreaId])
     }
 
     ngOnInit() : void {

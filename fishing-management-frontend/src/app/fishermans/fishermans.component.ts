@@ -41,7 +41,7 @@ export class FishermansComponent {
   getFishermansWithNonConfirmedCatches() {
     this.fishermanService.getFishermansWithNonConfirmedCatches().subscribe({
       next: data => {
-        this.fishermans = data as Fisherman[];
+        this.filteredFishermans = data as Fisherman[];
       }
     });
   }

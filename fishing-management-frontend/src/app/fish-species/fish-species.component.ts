@@ -15,6 +15,7 @@ export class FishSpeciesComponent {
   newFishForm: FormGroup;
   addFishButtonVisible = false;
   imposibleDate = false;
+  permanentFishingBan = false;
   file: any;
 
   constructor(private fishSpeciesService: FishSpeciesService,
@@ -99,6 +100,9 @@ export class FishSpeciesComponent {
     } 
   }
 
+  permanentFishingBanChecked() {
+    this.permanentFishingBan = !this.permanentFishingBan;
+  }
   imageUpload(event: any) {
     // this.file = event.target.files[0];
     // console.log(this.file);

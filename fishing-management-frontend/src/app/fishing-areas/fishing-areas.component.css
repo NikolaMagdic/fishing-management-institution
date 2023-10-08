@@ -3,9 +3,15 @@ th {
 }
 
 .ng-valid[required], .ng-valid.required  {
-    border-left: 5px solid #42A948;
-  }
+  border-left: 5px solid #42A948;
+}
   
-  .ng-invalid:not(form) {
-    border-left: 5px solid #a94442;
-  }
+.ng-invalid:not(form) {
+  border-left: 5px solid #a94442;
+}
+
+.clickable:hover td {  
+  background-color: gainsboro;
+  border-collapse: collapse; 
+  cursor: pointer;
+} 

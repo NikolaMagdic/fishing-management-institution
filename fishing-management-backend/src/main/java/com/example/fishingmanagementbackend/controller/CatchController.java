@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.CatchDTO;
 import com.example.fishingmanagementbackend.dto.CatchResponseDTO;
+import com.example.fishingmanagementbackend.dto.YearlyCatchDTO;
+import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.service.CatchService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -45,6 +48,12 @@ public class CatchController {
         return ResponseEntity.ok(catchesDTO);
     }
     
+    @GetMapping("/fisherman/{id}/year")
+    public ResponseEntity<List<YearlyCatchDTO>> getAllCatchesOfFishermanInYear(@PathVariable("id") Long fishermanId, @RequestParam int year) {
+        List<YearlyCatchDTO> yearlyCatches = catchService.getYearCatchesOfFisherman(fishermanId, year);
+        return ResponseEntity.ok(yearlyCatches);
+    }
+    
     @PostMapping
     @PreAuthorize("hasRole('FISHERMAN')")
     public ResponseEntity<CatchDTO> createCatch(@RequestBody CatchDTO catchDTO, Principal principal) {
@@ -65,8 +74,13 @@ public class CatchController {
     
     @PatchMapping("/confirm/{itemId}")
     @PreAuthorize("hasRole('KEEPER')")
-    public ResponseEntity<Boolean> confirmCatchItem(@PathVariable("itemId") Long id) {
-        Boolean success = catchService.confirmCatchItem(id);
+    public ResponseEntity<Boolean> confirmCatchItem(@PathVariable("itemId") Long id, Principal principal) {
+        Boolean success;
+        try {
+            success = catchService.confirmCatchItem(id, principal);
+        } catch (ForbiddenException fex) {
+            return ResponseEntity.status(403).build();
+        }
         return ResponseEntity.ok(success);
     }
 }

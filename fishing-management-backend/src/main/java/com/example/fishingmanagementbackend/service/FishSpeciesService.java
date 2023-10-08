@@ -60,6 +60,13 @@ public class FishSpeciesService {
     
     public FishSpecies createFishSpecies(FishSpeciesDTO fishSpeciesDTO) {
 
+        // Ukoliko je trajni lovostaj brisu se eventualno pre toga uneti podaci o lovostaju
+        if(fishSpeciesDTO.isPermanentFishingBan()) {
+            fishSpeciesDTO.setFishingBanStartDay(0);
+            fishSpeciesDTO.setFishingBanStartMonth(0);
+            fishSpeciesDTO.setFishingBanEndDay(0);
+            fishSpeciesDTO.setFishingBanEndMonth(0);
+        }
         FishSpecies fishSpecies = new FishSpecies(fishSpeciesDTO.getName(), 
                                                   fishSpeciesDTO.getLatinName(), 
                                                   fishSpeciesDTO.getCategory(), 

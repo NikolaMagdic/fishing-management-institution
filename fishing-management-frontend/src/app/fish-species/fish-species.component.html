@@ -37,6 +37,7 @@
                 <form (ngSubmit)="createFishSpecies()" #form="ngForm" [formGroup]="newFishForm">
                     <div class="modal-header">
                         <h5 class="modal-title">Dodaj novu vrstu ribe</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -65,7 +66,7 @@
                             <label class="form-label">Maksimalno komada</label>
                             <input type="number" name="maxQuantity" class="form-control" formControlName="maxQuantity">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" [hidden]="permanentFishingBan">
                             <label class="form-label">Početak lovostaja</label>
                             <div class="input-group">
                                 <input type="number" min="1" max="31" name="fishingBanStartDay" class="form-control" formControlName="fishingBanStartDay">
@@ -86,7 +87,7 @@
                             </div>
                             <div *ngIf="startDateInvalid()" class="alert alert-danger">Nepravilan datum</div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" [hidden]="permanentFishingBan">
                             <label class="form-label">Kraj lovostaja</label>
                             <div class="input-group">
                                 <input type="number" min="1" max="31" name="fishingBanEndDay" class="form-control" formControlName="fishingBanEndDay">
@@ -108,7 +109,7 @@
                             <div *ngIf="endDateInvalid()" class="alert alert-danger">Nepravilan datum</div>
                         </div>
                         <div class="mb-3">
-                            <input type="checkbox" class="form-check-input" name="permanentFishingBan" formControlName="permanentFishingBan">
+                            <input type="checkbox" class="form-check-input" name="permanentFishingBan" formControlName="permanentFishingBan" (change)="permanentFishingBanChecked()">
                             <label class="form-check-label">Trajni lovostaj</label>
                         </div>
                         <div class="mb-3">

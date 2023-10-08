@@ -11,7 +11,10 @@ import { CatchService } from '../services/catch.service';
 export class CatchesComponent {
 
   catches: any = [];
+  yearCatches: any = [];
   keeperLoggedIn = false;
+  yearCatchesHidden = true;
+  year = new Date().getFullYear();
 
   constructor(
     private catchService: CatchService,
@@ -37,6 +40,17 @@ export class CatchesComponent {
     this.catchService.confirmCatch(itemId).subscribe({
       next: () => {
         window.location.reload();
+      }
+    });
+  }
+
+  showYearlyCatch() {
+    let fishermanId = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.catchService.getYearlyCatchesOfFisherman(fishermanId, this.year).subscribe({
+      next: data => {
+        this.yearCatches = data;
+        this.yearCatchesHidden = false;
       }
     });
   }

@@ -3,7 +3,6 @@ package com.example.fishingmanagementbackend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -65,6 +64,7 @@ public class WebSecurityConfig {
         http.exceptionHandling((exception) -> exception.authenticationEntryPoint(restAuthenticationEntryPoint));
         http.authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/fisherman/").permitAll()
                 .anyRequest().authenticated());
         http.cors(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());
@@ -76,7 +76,6 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> {
-            web.ignoring().requestMatchers(HttpMethod.POST, "/auth/login");
 //            web.ignoring().requestMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 //                    "/**/*.css", "/**/*.js");
         };

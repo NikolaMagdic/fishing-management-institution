@@ -34,7 +34,7 @@
                     <label class="form-label">Maksimalno komada</label>
                     <input class="form-control" type="number" value="{{fishSpecies.maxQuantity}}" name="maxQuantity" formControlName="maxQuantity">
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" [hidden]="permanentFishingBan">
                     <label class="form-label">Početak lovostaja</label>
                     <div class="input-group">
                         <input class="form-control" type="number" min="1" max="31" value="{{fishSpecies.fishingBanStartDay}}" name="fishingBanStartDay" formControlName="fishingBanStartDay">
@@ -54,7 +54,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" [hidden]="permanentFishingBan">
                     <label class="form-label">Kraj lovostaja</label>
                     <div class="input-group">
                         <input class="form-control" type="number" min="1" max="31" value="{{fishSpecies.fishingBanEndDay}}" name="fishingBanEndDay" formControlName="fishingBanEndDay">
@@ -76,7 +76,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Trajni lovostaj</label>
-                    <input type="checkbox" class="form-check-input" [checked]="fishSpecies.permanentFishingBan" name="permanentFishingBan" formControlName="permanentFishingBan">
+                    <input type="checkbox" class="form-check-input" [checked]="fishSpecies.permanentFishingBan" name="permanentFishingBan" formControlName="permanentFishingBan" (change)="permanentFishingBanChecked()">
                 </div>
                 <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden" [disabled]="!form.form.valid">Potvrdi izmenu</button>
             </fieldset>

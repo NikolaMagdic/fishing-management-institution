@@ -29,9 +29,11 @@ INSERT INTO fishing_spot (fishing_area_id, type, latitude, longitude, image) VAL
 INSERT INTO fishing_spot (fishing_area_id, type, latitude, longitude) VALUES (3, 1, 45.04011918564572, 19.81751806040365);
 
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Štuka', 'Esox lucius', 0, 40, 3, 1, 3, 31, 3, false, 'https://zanimljiv.org/images/ribolov/stuka.gif');
+INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Smuđ', 'Stizostedion lucioperca', 0, 40, 3, 1, 3, 30, 4, false, 'https://www.pcelica.co.rs/ribe/vrste/slike/smudj.jpg');
 
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 1);
-
+INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 2);
+INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (2, 1);
 
 INSERT INTO penalty (name, description, fine) VALUES ('Prekoračenje težine ulova', 'Ulov više od 5kg ribe', 10000);
 INSERT INTO penalized(fisherman_id, penalty_id) VALUES (2, 1);

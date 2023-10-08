@@ -1,11 +1,12 @@
 <div class="container">
-    <table class="table table-striped">
+    <h2>Evidencija dnevnog ulova</h2>
+    <table class="table">
         <thead>
             <tr>
-                <th>Ribolovna voda</th>
                 <th>Datum</th>
+                <th>Ribolovna voda</th>
                 <th>Vrsta ribe</th>
-                <th>Količina</th>
+                <th>Broj komada</th>
                 <th>Težina</th>
                 <th>Potvrđeno od strane ribočuvara</th>
                 <th></th>
@@ -13,9 +14,11 @@
         </thead>
         <tbody *ngFor="let catch of catches">
                 <tr *ngFor="let item of catch.catchItemsResponse">
-                    <td>{{catch.fishingAreaName}}</td>
                     <td>
                         {{catch.date | date: "dd.MM.yyyy."}}
+                    </td>
+                    <td>
+                        {{catch.fishingAreaName}}
                     </td>
                     <td>
                         {{item.fishSpeciesName}}
@@ -32,8 +35,39 @@
                     <td *ngIf="!item.confirmed && keeperLoggedIn">
                         <button class="btn btn-primary" (click)="confirmCatch(item.id)">Potvrdi</button>
                     </td>
-                </tr>
-         
+                </tr>     
+        </tbody>
+    </table>
+    <h2>Evidencija godišnjeg ulova</h2>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Godina</span>
+        <input type="number" min="2016" max="2100" class="form-control" name="year" [(ngModel)]="year"/>
+        <button class="btn btn-primary" (click)="showYearlyCatch()">Prikaži godišnji ulov</button>
+    </div>
+    <table class="table" [hidden]="yearCatchesHidden">
+        <thead>
+            <tr>
+                <th>Ribolovna voda</th>
+                <th>Vrsta ribe</th>
+                <th>Broj komada</th>
+                <th>Ukupna težina</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let item of yearCatches">
+            <tr>
+                <td>
+                    {{item.fishingAreaName}}
+                </td>
+                <td>
+                    {{item.fishSpeciesName}}
+                </td>
+                <td>
+                    {{item.yearQuantity}}
+                </td>
+                <td>
+                    {{item.yearWeight}}
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
