@@ -3,6 +3,7 @@ import { FishSpeciesService } from '../services/fish-species.service';
 import { FishSpecies } from '../models/fish-species';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ImageService } from '../services/image.service';
 
 @Component({
   selector: 'app-fish-species',
@@ -16,9 +17,10 @@ export class FishSpeciesComponent {
   addFishButtonVisible = false;
   imposibleDate = false;
   permanentFishingBan = false;
-  file: any;
+  image: any;
 
   constructor(private fishSpeciesService: FishSpeciesService,
+              private imageService: ImageService,
               private router: Router) {
                 this.newFishForm = new FormGroup({
                   name: new FormControl(),
@@ -53,11 +55,28 @@ export class FishSpeciesComponent {
       this.newFishForm.value.permanentFishingBan,
       this.newFishForm.value.image
     );
-    this.fishSpeciesService.createFishSpecies(newFish).subscribe({
-      next: () => {
-        window.location.reload();
-      }
-    });  
+
+    // Prvo upload-ujemo sliku 
+    if(this.image) {
+      this.imageService.uploadImage(this.image).subscribe({
+        next: imageName => {
+          newFish.image = imageName as string;
+          // Pa zatim u callback funkciji podatke o novoj ribi
+          this.fishSpeciesService.createFishSpecies(newFish).subscribe({
+            next: () => {
+              window.location.reload();
+            }
+          });  
+        }
+      });
+    } else {
+      // Ako nije uneta slika samo podatke o ribi unosimo
+      this.fishSpeciesService.createFishSpecies(newFish).subscribe({
+        next: () => {
+          window.location.reload();
+        }
+      });  
+    }
 
   }
 
@@ -103,12 +122,10 @@ export class FishSpeciesComponent {
   permanentFishingBanChecked() {
     this.permanentFishingBan = !this.permanentFishingBan;
   }
-  imageUpload(event: any) {
-    // this.file = event.target.files[0];
-    // console.log(this.file);
-    
-    
-    
+  
+  imageUpload(imageFile: any) {
+    const file: File = imageFile.files[0];
+    this.image = file;
   }
   
 }

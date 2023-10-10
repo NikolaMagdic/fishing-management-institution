@@ -14,6 +14,7 @@ import { Point } from 'ol/geom';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { toStringHDMS } from 'ol/coordinate';
+import { ImageService } from '../services/image.service';
 
 @Component({
   selector: 'app-fishing-spots',
@@ -25,10 +26,12 @@ export class FishingSpotsComponent {
   fishingSpots: any = [];
   newFishingSpot: FishingSpot = new FishingSpot(0, "", 0, 0, "", 0);
   map: Map | undefined;
+  image: any;
 
   addFishingSpotButtonVisible = false;
 
   constructor(private fishingSpotService: FishingSpotService,
+              private imageService: ImageService,
               private route: ActivatedRoute,
               private router: Router) {}
 
@@ -89,12 +92,28 @@ export class FishingSpotsComponent {
   }
 
   createFishingSpot() {
-    this.fishingSpotService.createSpot(this.newFishingSpot).subscribe({});
-    window.location.reload();
+
+    if(this.image) {
+      this.imageService.uploadImage(this.image).subscribe({
+        next: imagePath => {
+          this.newFishingSpot.image = imagePath as string;
+          this.fishingSpotService.createSpot(this.newFishingSpot).subscribe({}); 
+          window.location.reload();
+        }
+      });
+    } else {
+      this.fishingSpotService.createSpot(this.newFishingSpot).subscribe({}); 
+      window.location.reload();
+    }
   }
 
   viewFishingSpotDetails(spotId: number) {
     this.router.navigate(['/fishing-spot-details/' + spotId]);
+  }
+
+  processImage(imageFile: any) {
+    const file: File = imageFile.files[0];
+    this.image = file;
   }
 
 }

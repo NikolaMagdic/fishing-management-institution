@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { FishingArea } from '../models/fishing-area';
 import { FishingAreaService } from '../services/fishing-area.service';
+import { ImageService } from '../services/image.service';
 
 @Component({
     selector: 'fishing-areas',
@@ -26,9 +27,10 @@ export class FishingAreasListComponent {
     fishingArea: FishingArea = new FishingArea(0, "", "", "", "");
 
     isAddButtonVisible = false;
-
+    image: any;
     // Konstruktor koji se poziva prilikom inicijalizacije komponente, izvrsava se pre ngOnInit
     constructor(private _fishingAreaService: FishingAreaService,
+                private imageService: ImageService,
                 private router: Router) {
         // Ovo gore je sintaksni secer koji uproscava konstruktor koji je inace u osnovi isti kao i u Javi
     }
@@ -69,15 +71,37 @@ export class FishingAreasListComponent {
     }
 
     createFishingArea() { // Kod post zahteva mora subscribe inace nece biti pozvan
-        this._fishingAreaService.createFishingArea(this.fishingArea).subscribe({
-            next: () => {
-                window.location.reload();
-            }
-        });
+        
+        if(this.image) {
+            // Slika je uneta
+            this.imageService.uploadImage(this.image).subscribe({
+                next: imagePath => {
+                    this.fishingArea.image = imagePath as string;
+                    this._fishingAreaService.createFishingArea(this.fishingArea).subscribe({
+                        next: () => {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+        } else {
+            // Slika nije uneta
+            this._fishingAreaService.createFishingArea(this.fishingArea).subscribe({
+                next: () => {
+                    window.location.reload();
+                }
+            });
+        }  
+
     }
     
     showFishingAreaDetails(fishingAreaId: number) {
         this.router.navigate(["/fishing-areas/" + fishingAreaId])
+    }
+
+    processFile(imageFile: any) {
+        const file: File = imageFile.files[0];
+        this.image = file;
     }
 
     ngOnInit() : void {

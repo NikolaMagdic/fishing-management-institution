@@ -3,6 +3,7 @@ package com.example.fishingmanagementbackend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -65,6 +66,9 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/fisherman/").permitAll()
+                .requestMatchers(HttpMethod.GET, "/*.jpg", "/*.png", "/*.gif", "/*.bmp", "/*.pjp", "/*.pjpeg",
+                        "/*.svg", "/*.jpeg", "/*.avif", "/*.xbm", "/*.tif", "/*.tiff", "/*.ico", 
+                        "/*.jfif", "/*.svgz", "/*.webp", "/*.apng").permitAll()
                 .anyRequest().authenticated());
         http.cors(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());

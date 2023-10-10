@@ -20,16 +20,16 @@ INSERT INTO fisherman (first_name, last_name, date_of_birth, address, city, cate
 --
 INSERT INTO keeper (first_name, last_name, date_of_birth, user_id) VALUES ('Čuvar', 'Čuvarkić', '1988-05-01', 3);
 --
-INSERT INTO fishing_area (name, area_type, image) VALUES ('Sava', 0, 'https://turizamusrbiji.rs/wp-content/uploads/2014/10/belgrade-sava-river.jpg');
-INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Dunav', 0, 'Dunav je druga najduža reka u Evropi. Prolazi kroz 7 zemalja. Uliva se u Crno More.', 'https://www.vojvodinago.com/wp-content/uploads/2018/12/Dunav.jpg');
-INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Borkovac', 1, 'Ovo jezero je divno jedini problem je što nema ribe!', 'https://www.gradnja.rs/wp-content/uploads/2022/04/borkovac-ruma-naslovna.jpg');
+INSERT INTO fishing_area (name, area_type, image) VALUES ('Sava', 0, 'http://localhost:8080/belgrade-sava-river.jpg');
+INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Dunav', 0, 'Dunav je druga najduža reka u Evropi. Prolazi kroz 7 zemalja. Uliva se u Crno More.', 'http://localhost:8080/Dunav.jpg');
+INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Borkovac', 1, 'Ovo jezero je divno jedini problem je što nema ribe!', 'http://localhost:8080/borkovac-ruma-naslovna.jpg');
 
 
-INSERT INTO fishing_spot (fishing_area_id, type, latitude, longitude, image) VALUES (2, 1, 45.223554325463994, 19.804557545929946, 'https://www.pitchup.com/cdn-cgi/image/format=auto,quality=50/images/image/private/s--Z1SY_MZQ--/c_scale,w_350/v1412183450/fishing-promo_qlkcwh.jpg');
+INSERT INTO fishing_spot (fishing_area_id, type, latitude, longitude, image) VALUES (2, 1, 45.223554325463994, 19.804557545929946, 'http://fishing-promo_qlkcwh.avif');
 INSERT INTO fishing_spot (fishing_area_id, type, latitude, longitude) VALUES (3, 1, 45.04011918564572, 19.81751806040365);
 
-INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Štuka', 'Esox lucius', 0, 40, 3, 1, 3, 31, 3, false, 'https://zanimljiv.org/images/ribolov/stuka.gif');
-INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Smuđ', 'Stizostedion lucioperca', 0, 40, 3, 1, 3, 30, 4, false, 'https://www.pcelica.co.rs/ribe/vrste/slike/smudj.jpg');
+INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Štuka', 'Esox lucius', 0, 40, 3, 1, 3, 31, 3, false, 'http://localhost:8080/stuka.gif');
+INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Smuđ', 'Stizostedion lucioperca', 0, 40, 3, 1, 3, 30, 4, false, 'http://localhost:8080/smudj.jpg');
 
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 1);
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 2);

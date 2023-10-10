@@ -1,6 +1,7 @@
 /*
 DROP TABLE IF EXISTS app_user;
 DROP TABLE IF EXISTS authority;
+DROP TABLE IF EXISTS user_authority;
 DROP TABLE IF EXISTS admin;
 DROP TABLE IF EXISTS fisherman;
 DROP TABLE IF EXISTS keeper;
@@ -12,12 +13,17 @@ DROP TABLE IF EXISTS keeps;
 DROP TABLE IF EXISTS license;
 DROP TABLE IF EXISTS catch;
 DROP TABLE IF EXISTS catch_item;
+DROP TABLE IF EXISTS reservation;
+DROP TABLE IF EXISTS fish_stocking;
+DROP TABLE IF EXISTS penalty;
+DROP TABLE IF EXISTS penalized;
+DROP TABLE IF EXISTS verification_token;
 
 
 CREATE TABLE app_user (
 	id 		 				 INTEGER 	   NOT NULL AUTO_INCREMENT,
 	username 				 VARCHAR(20)   NOT NULL,
-	password 				 VARCHAR(200)  NOT NULL,
+	password 				 VARCHAR(20)  NOT NULL,
 	last_password_reset_date DATE,
 	PRIMARY KEY (id)
 );
@@ -131,5 +137,47 @@ CREATE TABLE catch_item (
 	catch_id		INTEGER NOT NULL,
 	fish_id			INTEGER NOT NULL.
 	PRIMARY KEY (item_id)
+);
+
+CREATE TABLE reservation (
+	id				INTEGER NOT NULL AUTO_INCREMENT,
+	arrival_date	DATE NOT NULL,
+	departure_date	DATE,
+	fisherman_id	INTEGER NOT NULL,
+	fishing_spot_id	INTEGER NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE fish_stocking (
+	id				INTEGER NOT NULL AUTO_INCREMENT,
+	date			DATE, 
+	number			INTEGER,
+	fishing_area_id INTEGER NOT NULL,
+	fish_species_id INTEGER NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE penalty (
+	id 				INTEGER NOT NULL AUTO_INCREMENT,
+	name			INTEGER NOT NULL,
+	description		VARCHAR(300),
+	fine			FLOAT,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE penalized (
+	id				INTEGER NOT NULL AUTO_INCREMENT,
+	date			DATE,
+	report			VARCHAR(300),
+	fisherman_id	INTEGER NOT NULL,
+	penalty_id		INTEGER NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE verification_token (
+	id				INTEGER NOT NULL AUTO_INCREMENT,
+	token			VARCHAR(300) NOT NULL,
+	user_id			INTEGER NOT NULL,
+	PRIMARY KEY (id)
 );
 */
