@@ -44,6 +44,14 @@ export class CatchesComponent {
     });
   }
 
+  rejectCatch(itemId: number) {
+    this.catchService.rejectCatch(itemId).subscribe({
+      next: () => {
+        window.location.reload();
+      }
+    });
+  }
+
   showYearlyCatch() {
     let fishermanId = Number(this.route.snapshot.paramMap.get('id'));
 

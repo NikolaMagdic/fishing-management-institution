@@ -5,6 +5,11 @@
         <span class="input-group-text">Pretraga</span>
         <input type="search" placeholder="Ime" (input)="filterFishermans()" class="form-control" [(ngModel)]="filterFirstName"/>
         <input type="search" placeholder="Prezime" (input)="filterFishermans()" class="form-control" [(ngModel)]="filterLastName" />
+        <select (change)="filterFishermans()" [(ngModel)]="filterCategory" class="form-select">
+            <option>Sve kategorije</option>
+            <option value="RECREATIONAL">Rekreativni</option>
+            <option value="PROFESSIONAL">Privredni</option>
+        </select>
     </div>
     <table class="table table-striped">
         <thead>

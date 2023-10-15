@@ -6,6 +6,7 @@
                 <th>Ime</th>
                 <th>Prezime</th>
                 <th>Datum rođenja</th>
+                <th></th>
             </tr>
         </thead>
         <tbody *ngFor="let keeper of keepers">
@@ -17,6 +18,10 @@
                     {{keeper.lastName}}
                 </td>
                 <td>
+                    <!--Primer upotrebe pipe-a za formatiranje ispisa.
+                        Od ugradjenih postoje uppercase, lowercase, decimal, percent, currency
+                        a mogu se praviti i custom pipe-ovi 
+                        Zgodno za  | currency:"RSD":"symbol":"1.2-2"--> 
                     {{keeper.dateOfBirth | date: "dd.MM.yyyy."}}
                 </td>
                 <td>

@@ -21,7 +21,6 @@ public class ImageService {
         builder.append(image.getOriginalFilename());
   
         Files.write(fileName, image.getBytes());
-        System.out.println(fileName.toString());
         
         return "http://localhost:8080/" + image.getOriginalFilename();
     }

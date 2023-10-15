@@ -1,51 +1,102 @@
 
 <div class="card" *ngIf="fishingArea"> <!--ngIf ako se fishingArea ne ucita odmah posto je http asinhron, pa da ne pise undefined-->
     <div class="card-header">
-        {{fishingArea.type + " " + fishingArea.name}}
+        <h5 class="card-title d-flex justify-content-between align-items-center">
+            {{(fishingArea.type | fishingAreaPipe) + " " + fishingArea.name}}
+        
+            <a class="btn btn-outline-secondary float-end" (click)="onBack()" style="width:180px">
+                <i class="fa fa-chevron-left"></i> Prethodna strana
+            </a>
+       </h5>
     </div>
-    <div class="container">
-        <div class="row">
+    <div class="card-body">
+        <div class="row row-cols-2">
             <div class="col">
-                <img src="{{fishingArea.image}}" alt="Slika ribolovne vode" title="{{fishingArea.name}}" style="width: 500px;">
+                <img src="{{fishingArea.image}}" alt="Slika ribolovne vode nije dostupna" title="{{fishingArea.name}}" style="width: 600px;">
             </div>
-            <div class="col" >
-                
+            <div class="col">
+                <h5>Prisutne vrste riba</h5>
+                <div class="row row-cols-2">
+                    <div class="col" *ngFor="let fish of fishSpeciesInArea">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <a [routerLink]="['/fish-species-details', fish.id]"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                    <span><b>{{fish.name}}</b></span>
+                                    <span [hidden]="!adminLoggedIn"><button class="btn btn-danger btn-sm float-end" (click)="removeFishFromArea(fish.id)">Ukloni</button></span>
+                                </div>
+                            </div>
+                            <div class="card-body" style="overflow: hidden;">
+                                <img src="{{fish.image}}" [style.width.px]="250" [style.height.px]="100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col">
                 <p>{{fishingArea.description}}</p>
             </div>
         </div>
-        <div class="container">
-            <div class="row row-cols-5">
-                <div class="col" *ngFor="let fish of fishSpeciesInArea">
-                    <div class="card">
-                        <div class="card-header">
-                            <div>
-                                <span><b>{{fish.name}}</b></span>
-                                <span [hidden]="!adminLoggedIn"><button class="btn btn-danger btn-sm float-end" (click)="removeFishFromArea(fish.id)">Ukloni</button></span>
-                            </div>
-                        </div>
-                        <div class="card-body" style="overflow: hidden;">
-                            <img src="{{fish.image}}" [style.width.px]="150" [style.height.px]="100">
-                        </div>
-                    </div>
-                </div>
+    </div>
+    <div class="card-footer">
+        <div class="row row-cols-auto">
+            <div class="col">
+                <button class="btn btn-primary" (click)="showFishingSpots()">Prikaži ribolovna mesta</button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArea" [hidden]="!adminLoggedIn">Izmeni ribolovnu vodu</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFish" [hidden]="!adminLoggedIn">Dodaj vrstu ribe</button>              
             </div>
         </div>
     </div>
-    <div class="card-footer">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!adminLoggedIn">Dodaj vrstu ribe</button>
-        <button class="btn btn-primary" (click)="showFishingSpots()">Prikaži ribolovna mesta</button>
-        <a class="btn btn-outline-secondary" (click)="onBack()" style="width:80px">
-            <i class="fa fa-chevron-left"></i> Back
-        </a>
-    </div>
-    <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal" id="modalArea" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form (ngSubmit)="updateFishingArea()" #form="ngForm" [formGroup]="areaForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Ažuriraj ribolovnu vodu</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Naziv</label>
+                                <input type="text" required name="name" class="form-control" formControlName="name">
+                                <div *ngIf="!areaForm.get('name')!.valid && (!areaForm.get('name')!.pristine || areaForm.get('name')!.touched)" class="alert alert-danger">Ovo polje je obavezno</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Opis</label>
+                                <textarea name="description" class="form-control" rows="5" formControlName="description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tip</label>
+                                <select class="form-select" name="type" required formControlName="type">
+                                    <option value="RIVER">Reka</option>
+                                    <option value="LAKE">Jezero</option>
+                                    <option value="POND">Bara</option>
+                                    <option value="CANAL">Kanal</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Slika</label>
+                                <input type="file" accept="image/*" name="image" #image class="form-control" (change)="processFile(image)">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Izmeni</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div class="modal" id="modalFish" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form (ngSubmit)="addFishSpecies()" #form="ngForm">
                     <div class="modal-header">
                         <h5 class="modal-title">Dodaj novu vrstu ribe u ribolovnu vodu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">

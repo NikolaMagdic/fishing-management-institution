@@ -8,7 +8,7 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Lozinka</label>
-            <input type="password" class="form-control" name="password" required [(ngModel)]="registration.password" #password="ngModel">
+            <input type="password" class="form-control" name="password" required [(ngModel)]="registration.password" #password="ngModel" (ngModelChange)="checkIfPasswordsMatch()">
             <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
         </div>
         <div class="mb-3">

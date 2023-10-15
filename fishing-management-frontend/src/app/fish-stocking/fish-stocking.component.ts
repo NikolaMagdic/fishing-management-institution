@@ -73,7 +73,8 @@ export class FishStockingComponent {
 
     this.fishStockingService.makeFishStocking(newFishStocking).subscribe({
       next: () => {
-        //window.location.reload();
+        this.getAllFishStockings();
+        this.fishStockingForm.reset();
       }
     });
   }

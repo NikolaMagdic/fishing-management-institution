@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,13 @@ public class AuthenticationController {
     public ResponseEntity<UserTokenState> login(@RequestBody AuthenticationRequestDTO authRequest) {
         
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
-        Authentication authentication = authenticationManager.authenticate(authToken);
+        
+        Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(authToken);
+        } catch (Exception e) {
+            return ResponseEntity.status(401).build();
+        }
         
         SecurityContextHolder.getContext().setAuthentication(authentication);
         
@@ -63,8 +70,14 @@ public class AuthenticationController {
     
     @PutMapping
     public ResponseEntity<?> changePassword(@RequestBody PasswordChangeRequestDTO passwordChangeRequest) {
+        
+        try {
+            userService.changePassword(passwordChangeRequest.getOldPassword(), passwordChangeRequest.getNewPassword());
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(401).build();
+        }
 
-        userService.changePassword(passwordChangeRequest.getOldPassword(), passwordChangeRequest.getNewPassword());
         return ResponseEntity.ok().build();
     
     }

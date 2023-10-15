@@ -1,88 +1,90 @@
-<div class="card" *ngIf="fishSpecies">
-    <div class="card-header">
-        Vrsta ribe: {{fishSpecies.name}}
-    </div>
-    <div class="card-body">
-        <form (ngSubmit)="updateFishSpecies()" #form="ngForm" [formGroup]="fishForm">
-            <fieldset #fieldset disabled="disabled">
-                <div class="mb-3">
-                    <img src="{{fishSpecies.image}}" alt="{{fishSpecies.name}}" style="width: 500px;">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Naziv</label>
-                    <input class="form-control" value="{{fishSpecies.name}}" required name="name" formControlName="name">
-                    <div *ngIf="!fishForm.get('name')!.valid && (!fishForm.get('name')!.pristine || fishForm.get('name')!.touched)" class="alert alert-danger">Ovo polje je obavezno</div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Latinski naziv</label>
-                    <input class="form-control" value="{{fishSpecies.latinName}}" required name="latinName" formControlName="latinName">
-                    <div *ngIf="!fishForm.get('latinName')!.valid && (!fishForm.get('latinName')!.pristine || fishForm.get('latinName')!.touched)" class="alert alert-danger">Ovo polje je obavezno </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Kategorija</label>
-                    <select class="form-select" name="category" formControlName="category">
-                        <option value="NOBLE">Plemenita</option>
-                        <option value="INDIGENOUS">Autohtona</option>
-                        <option value="NON_NATIVE">Alohtona</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Minimalna dozvoljena veličina</label>
-                    <input class="form-control" type="number" value="{{fishSpecies.minSize}}" name="minSize" formControlName="minSize">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Maksimalno komada</label>
-                    <input class="form-control" type="number" value="{{fishSpecies.maxQuantity}}" name="maxQuantity" formControlName="maxQuantity">
-                </div>
-                <div class="mb-3" [hidden]="permanentFishingBan">
-                    <label class="form-label">Početak lovostaja</label>
-                    <div class="input-group">
-                        <input class="form-control" type="number" min="1" max="31" value="{{fishSpecies.fishingBanStartDay}}" name="fishingBanStartDay" formControlName="fishingBanStartDay">
-                        <select class="form-select" name="fishingBanStartMonth" formControlName="fishingBanStartMonth">
-                            <option value="1">Januar</option>
-                            <option value="2">Februar</option>
-                            <option value="3">Mart</option>
-                            <option value="4">April</option>
-                            <option value="5">Maj</option>
-                            <option value="6">Jun</option>
-                            <option value="7">Jul</option>
-                            <option value="8">Avgust</option>
-                            <option value="9">Septembar</option>
-                            <option value="10">Oktobar</option>
-                            <option value="11">Novembar</option>
-                            <option value="12">Decembar</option>
+<div class="d-flex justify-content-center">
+    <div class="card w-50 p-3" *ngIf="fishSpecies">
+        <div class="card-header">
+            <h5 class="card-title">Vrsta ribe: {{fishSpecies.name}}</h5>
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="updateFishSpecies()" #form="ngForm" [formGroup]="fishForm">
+                <fieldset #fieldset disabled="disabled">
+                    <div class="mb-3">
+                        <img src="{{fishSpecies.image}}" alt="{{fishSpecies.name}}" style="width: 500px;">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Naziv</label>
+                        <input class="form-control" value="{{fishSpecies.name}}" required name="name" formControlName="name">
+                        <div *ngIf="!fishForm.get('name')!.valid && (!fishForm.get('name')!.pristine || fishForm.get('name')!.touched)" class="alert alert-danger">Ovo polje je obavezno</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Latinski naziv</label>
+                        <input class="form-control" value="{{fishSpecies.latinName}}" required name="latinName" formControlName="latinName">
+                        <div *ngIf="!fishForm.get('latinName')!.valid && (!fishForm.get('latinName')!.pristine || fishForm.get('latinName')!.touched)" class="alert alert-danger">Ovo polje je obavezno </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kategorija</label>
+                        <select class="form-select" name="category" formControlName="category">
+                            <option value="NOBLE">Plemenita</option>
+                            <option value="INDIGENOUS">Autohtona</option>
+                            <option value="NON_NATIVE">Alohtona</option>
                         </select>
                     </div>
-                </div>
-                <div class="mb-3" [hidden]="permanentFishingBan">
-                    <label class="form-label">Kraj lovostaja</label>
-                    <div class="input-group">
-                        <input class="form-control" type="number" min="1" max="31" value="{{fishSpecies.fishingBanEndDay}}" name="fishingBanEndDay" formControlName="fishingBanEndDay">
-                        <select class="form-select" name="fishingBanEndMonth" formControlName="fishingBanEndMonth">
-                            <option value="1">Januar</option>
-                            <option value="2">Februar</option>
-                            <option value="3">Mart</option>
-                            <option value="4">April</option>
-                            <option value="5">Maj</option>
-                            <option value="6">Jun</option>
-                            <option value="7">Jul</option>
-                            <option value="8">Avgust</option>
-                            <option value="9">Septembar</option>
-                            <option value="10">Oktobar</option>
-                            <option value="11">Novembar</option>
-                            <option value="12">Decembar</option>
-                        </select>
+                    <div class="mb-3">
+                        <label class="form-label">Minimalna dozvoljena veličina (cm)</label>
+                        <input class="form-control" type="number" value="{{fishSpecies.minSize}}" name="minSize" formControlName="minSize">
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Trajni lovostaj</label>
-                    <input type="checkbox" class="form-check-input" [checked]="fishSpecies.permanentFishingBan" name="permanentFishingBan" formControlName="permanentFishingBan" (change)="permanentFishingBanChecked()">
-                </div>
-                <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden" [disabled]="!form.form.valid">Potvrdi izmenu</button>
-            </fieldset>
-        </form>
-    </div>
-    <div class="card-footer">
-        <button class="btn btn-primary" (click)="enableForm()" #changeButton [hidden]="!updateButtonVisible">Izmeni</button>
+                    <div class="mb-3">
+                        <label class="form-label">Maksimalno komada</label>
+                        <input class="form-control" type="number" value="{{fishSpecies.maxQuantity}}" name="maxQuantity" formControlName="maxQuantity">
+                    </div>
+                    <div class="mb-3" [hidden]="permanentFishingBan">
+                        <label class="form-label">Početak lovostaja</label>
+                        <div class="input-group">
+                            <input class="form-control" type="number" min="1" max="31" value="{{fishSpecies.fishingBanStartDay}}" name="fishingBanStartDay" formControlName="fishingBanStartDay">
+                            <select class="form-select" name="fishingBanStartMonth" formControlName="fishingBanStartMonth">
+                                <option value="1">Januar</option>
+                                <option value="2">Februar</option>
+                                <option value="3">Mart</option>
+                                <option value="4">April</option>
+                                <option value="5">Maj</option>
+                                <option value="6">Jun</option>
+                                <option value="7">Jul</option>
+                                <option value="8">Avgust</option>
+                                <option value="9">Septembar</option>
+                                <option value="10">Oktobar</option>
+                                <option value="11">Novembar</option>
+                                <option value="12">Decembar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3" [hidden]="permanentFishingBan">
+                        <label class="form-label">Kraj lovostaja</label>
+                        <div class="input-group">
+                            <input class="form-control" type="number" min="1" max="31" value="{{fishSpecies.fishingBanEndDay}}" name="fishingBanEndDay" formControlName="fishingBanEndDay">
+                            <select class="form-select" name="fishingBanEndMonth" formControlName="fishingBanEndMonth">
+                                <option value="1">Januar</option>
+                                <option value="2">Februar</option>
+                                <option value="3">Mart</option>
+                                <option value="4">April</option>
+                                <option value="5">Maj</option>
+                                <option value="6">Jun</option>
+                                <option value="7">Jul</option>
+                                <option value="8">Avgust</option>
+                                <option value="9">Septembar</option>
+                                <option value="10">Oktobar</option>
+                                <option value="11">Novembar</option>
+                                <option value="12">Decembar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Trajni lovostaj</label>
+                        <input type="checkbox" class="form-check-input" [checked]="fishSpecies.permanentFishingBan" name="permanentFishingBan" formControlName="permanentFishingBan" (change)="permanentFishingBanChecked()">
+                    </div>
+                    <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden" [disabled]="!form.form.valid">Potvrdi izmenu</button>
+                </fieldset>
+            </form>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" (click)="enableForm()" #changeButton [hidden]="!updateButtonVisible">Izmeni</button>
+        </div>
     </div>
 </div>

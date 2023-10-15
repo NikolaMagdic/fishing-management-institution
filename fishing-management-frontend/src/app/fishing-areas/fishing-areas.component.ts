@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { FishingArea } from '../models/fishing-area';
@@ -28,6 +28,7 @@ export class FishingAreasListComponent {
 
     isAddButtonVisible = false;
     image: any;
+    @ViewChild('openModal') openModal: ElementRef | any;
     // Konstruktor koji se poziva prilikom inicijalizacije komponente, izvrsava se pre ngOnInit
     constructor(private _fishingAreaService: FishingAreaService,
                 private imageService: ImageService,
@@ -79,7 +80,7 @@ export class FishingAreasListComponent {
                     this.fishingArea.image = imagePath as string;
                     this._fishingAreaService.createFishingArea(this.fishingArea).subscribe({
                         next: () => {
-                            window.location.reload();
+                            this.openModal.nativeElement.click();
                         }
                     });
                 }
@@ -88,7 +89,7 @@ export class FishingAreasListComponent {
             // Slika nije uneta
             this._fishingAreaService.createFishingArea(this.fishingArea).subscribe({
                 next: () => {
-                    window.location.reload();
+                   this.openModal.nativeElement.click();
                 }
             });
         }  
@@ -102,6 +103,10 @@ export class FishingAreasListComponent {
     processFile(imageFile: any) {
         const file: File = imageFile.files[0];
         this.image = file;
+    }
+
+    reloadPage() {
+        window.location.reload();
     }
 
     ngOnInit() : void {

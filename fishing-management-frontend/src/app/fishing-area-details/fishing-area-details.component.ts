@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { windowToggle } from 'rxjs';
 import { FishSpecies } from '../models/fish-species';
 import { FishSpeciesService } from '../services/fish-species.service';
 import { FishingAreaService } from '../services/fishing-area.service';
+import { ImageService } from '../services/image.service';
 
 @Component({
   selector: 'app-fishing-area-details',
@@ -15,11 +18,20 @@ export class FishingAreaDetailsComponent implements OnInit{
   fishSpeciesNotInArea: FishSpecies[] | any = [];
   selectedFish: FishSpecies | any;
   adminLoggedIn: boolean = false;
-  
+  areaForm: FormGroup;
+  image: any;
+
   constructor(private _route: ActivatedRoute, 
               private _fishingAreaService: FishingAreaService,
               private _router: Router,
-              private fishSpeciesService: FishSpeciesService) { }
+              private fishSpeciesService: FishSpeciesService,
+              private imageService: ImageService) { 
+                this.areaForm = new FormGroup({
+                  name: new FormControl(),
+                  description: new FormControl(),
+                  type: new FormControl()
+                });
+              }
 
   ngOnInit() {
     // Uz pomoc ActivatedRoute izvlacimo vrednost id-ja iz route
@@ -28,6 +40,11 @@ export class FishingAreaDetailsComponent implements OnInit{
     this._fishingAreaService.getFishingAreaById(id).subscribe({
       next: fishingArea => {
         this.fishingArea = fishingArea;
+        this.areaForm.setValue({
+          name: this.fishingArea.name,
+          description: this.fishingArea.description,
+          type: this.fishingArea.type
+        });
       }
     });
     
@@ -90,4 +107,34 @@ export class FishingAreaDetailsComponent implements OnInit{
       }
     });
   }
+
+  updateFishingArea() {
+    this.fishingArea.name = this.areaForm.value.name;
+    this.fishingArea.description = this.areaForm.value.description;
+    this.fishingArea.type = this.areaForm.value.type;
+    if(this.image) {
+      this.imageService.uploadImage(this.image).subscribe({
+        next: imagePath => {
+          this.fishingArea.image = imagePath as string;
+          this._fishingAreaService.updateFishingArea(this.fishingArea.id, this.fishingArea).subscribe({
+            next: () => {
+              window.location.reload();
+            }
+          });
+        }
+      });
+    } else {
+      this._fishingAreaService.updateFishingArea(this.fishingArea.id, this.fishingArea).subscribe({
+        next: () => {
+          window.location.reload();
+        }
+      });
+    }
+  }
+
+  processFile(imageFile: any) {
+    const file: File = imageFile.files[0];
+    this.image = file;
+  }  
+
 }

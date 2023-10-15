@@ -13,6 +13,7 @@ import com.example.fishingmanagementbackend.dto.CatchDTO;
 import com.example.fishingmanagementbackend.dto.CatchItemDTO;
 import com.example.fishingmanagementbackend.dto.CatchResponseDTO;
 import com.example.fishingmanagementbackend.dto.YearlyCatchDTO;
+import com.example.fishingmanagementbackend.enumerations.CatchItemStatus;
 import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Catch;
 import com.example.fishingmanagementbackend.model.CatchItem;
@@ -90,7 +91,7 @@ public class CatchService {
 
         Catch dailyCatch = new Catch();
         dailyCatch.setTime(dailyCatchDTO.getDate());
-        Set<CatchItem> catches = changeCatchItemsToDTO(dailyCatchDTO.getCatchItems(), dailyCatch);
+        Set<CatchItem> catches = changeCatchItemsFromDTO(dailyCatchDTO.getCatchItems(), dailyCatch);
         dailyCatch.setCatchItems(catches);
         
         FishingArea area = fishingAreaRepository.getReferenceById(dailyCatchDTO.getFishingAreaId());
@@ -106,14 +107,14 @@ public class CatchService {
     
     public CatchDTO updateCatch(CatchDTO dailyCatchDTO, Long id) {
         Catch dailyCatch = catchRepository.getReferenceById(id);
-        dailyCatch.setCatchItems(changeCatchItemsToDTO(dailyCatchDTO.getCatchItems(), dailyCatch));
+        dailyCatch.setCatchItems(changeCatchItemsFromDTO(dailyCatchDTO.getCatchItems(), dailyCatch));
         
         Catch updatedDailyCatch = catchRepository.save(dailyCatch);
         return new CatchDTO(updatedDailyCatch);
     }
     
     /**Metoda kojom ribocuvar potvrdjuje evidentirani ulov*/
-    public boolean confirmCatchItem(Long catchItemId, Principal principal) throws ForbiddenException {
+    public boolean processCatchItem(Long catchItemId, CatchItemStatus status, Principal principal) throws ForbiddenException {
         Catch dailyCatch = catchRepository.findByCatchItemId(catchItemId);
         
         /* Omogucavamo samo ribocuvarima koji su zaduzeni za ribolovnu vodu na kojoj je ostvaren ulov
@@ -131,7 +132,7 @@ public class CatchService {
                 break;
             }
         }
-        item.setConfirmed(true);
+        item.setStatus(status);
         catchRepository.save(dailyCatch);
         if(item.getId() != null) {
             return true;
@@ -139,10 +140,10 @@ public class CatchService {
         return false;
     }
     
-    public Set<CatchItem> changeCatchItemsToDTO(Set<CatchItemDTO> catchDTOs, Catch dailyCatch) {
+    public Set<CatchItem> changeCatchItemsFromDTO(Set<CatchItemDTO> catchDTOs, Catch dailyCatch) {
         Set<CatchItem> catches = new HashSet<>();
         for (CatchItemDTO cDTO : catchDTOs) {
-            CatchItem c = new CatchItem(cDTO.getQuantity(), cDTO.getWeight(), false);
+            CatchItem c = new CatchItem(cDTO.getQuantity(), cDTO.getWeight(), CatchItemStatus.NOT_VERIFIED);
             FishSpecies fish = fishSpeciesRepository.getReferenceById(cDTO.getFishId());
             c.setFish(fish);
             c.setDailyCatch(dailyCatch);

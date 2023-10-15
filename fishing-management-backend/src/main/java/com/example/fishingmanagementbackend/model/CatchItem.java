@@ -1,5 +1,7 @@
 package com.example.fishingmanagementbackend.model;
 
+import com.example.fishingmanagementbackend.enumerations.CatchItemStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ public class CatchItem {
     private double weight;
     
     @Column
-    private boolean confirmed;
+    private CatchItemStatus confirmationStatus;
     
     @ManyToOne
     @JoinColumn(name = "catch_id", referencedColumnName = "id", nullable = false)
@@ -34,10 +36,10 @@ public class CatchItem {
     
     public CatchItem() {}
     
-    public CatchItem(int quantity, double weight, boolean confirmed) {
+    public CatchItem(int quantity, double weight, CatchItemStatus status) {
         this.quantity = quantity;
         this.weight = weight;
-        this.confirmed = confirmed;
+        this.confirmationStatus = status;
     }
 
     public Long getId() {
@@ -64,14 +66,6 @@ public class CatchItem {
         this.weight = weight;
     }
     
-    public boolean isConfirmed() {
-        return confirmed;
-    }
-
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
-    }
-
     public Catch getDailyCatch() {
         return dailyCatch;
     }
@@ -88,11 +82,18 @@ public class CatchItem {
         this.fish = fish;
     }
 
+    public CatchItemStatus getStatus() {
+        return confirmationStatus;
+    }
+
+    public void setStatus(CatchItemStatus status) {
+        this.confirmationStatus = status;
+    }
+
     @Override
     public String toString() {
-        return "CatchItem [id=" + itemId + ", quantity=" + quantity + ", weight=" + weight + ", confirmed=" + confirmed
-                + ", dailyCatchId=" + dailyCatch.getId() + ", fish=" + fish + "]";
+        return "CatchItem [itemId=" + itemId + ", quantity=" + quantity + ", weight=" + weight + ", status=" + confirmationStatus + ", dailyCatch=" + dailyCatch + ", fish=" + fish + "]";
     }
-    
+
     
 }

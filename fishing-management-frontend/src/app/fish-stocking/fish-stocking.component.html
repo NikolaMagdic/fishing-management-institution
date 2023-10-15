@@ -33,6 +33,7 @@
                 <form (ngSubmit)="makeFishStocking()" #form="ngForm" [formGroup]="fishStockingForm">
                     <div class="modal-header">
                         <h5 class="modal-title">Unesite podatke o poribljavanju</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -57,7 +58,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Potvrdi</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid" data-bs-dismiss="modal">Potvrdi</button>
                     </div>
                 </form>
             </div>

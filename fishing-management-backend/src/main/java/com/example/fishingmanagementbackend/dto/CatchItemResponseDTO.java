@@ -1,5 +1,7 @@
 package com.example.fishingmanagementbackend.dto;
 
+import com.example.fishingmanagementbackend.enumerations.CatchItemStatus;
+
 public class CatchItemResponseDTO {
 
     private Long id;
@@ -7,18 +9,18 @@ public class CatchItemResponseDTO {
     private int quantity;
     
     private double weight;
-    
-    private boolean confirmed;
+        
+    private CatchItemStatus status;
     
     private String fishSpeciesName;
     
     public CatchItemResponseDTO() {}
     
-    public CatchItemResponseDTO(Long id, int quantity, double weight, boolean confirmed, String fishSpeciesName) {
+    public CatchItemResponseDTO(Long id, int quantity, double weight, CatchItemStatus status, String fishSpeciesName) {
         this.id = id;
         this.quantity = quantity;
         this.weight = weight;
-        this.confirmed = confirmed;
+        this.status = status;
         this.fishSpeciesName = fishSpeciesName;
     }
     
@@ -46,20 +48,20 @@ public class CatchItemResponseDTO {
         this.weight = weight;
     }
 
-    public boolean isConfirmed() {
-        return confirmed;
-    }
-
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
-    }
-
     public String getFishSpeciesName() {
         return fishSpeciesName;
     }
 
     public void setFishSpeciesName(String fishSpeciesName) {
         this.fishSpeciesName = fishSpeciesName;
+    }
+
+    public CatchItemStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CatchItemStatus status) {
+        this.status = status;
     }
     
     

@@ -1,5 +1,7 @@
-<div>
-    <h1>Unesite novu evidenciju ulova</h1>
+<div class="container">
+    <h1>Unesite podatke o ulovu</h1>
+    <div class="row">
+    <div class="col">
     <form>
         <div class="mb-3">
             <label class="form-label">Ribolovna voda</label>
@@ -12,6 +14,9 @@
             <input class="form-control" type="date" name="date" [(ngModel)]="catch.date">
         </div>
     </form>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [disabled]="addItemDisabled">Dodaj stavku ulova</button>
+    </div>
+    <div class="col">
     <table class="table table-striped" *ngIf="catch.catchItems.length > 0">
         <thead>
             <tr>
@@ -30,7 +35,7 @@
                     {{item.quantity}}
                 </td>
                 <td>
-                    {{item.weight}}
+                    {{item.weight}} kg
                 </td>
                 <td>
                     <button class="btn-close" (click)="removeCatchItem(indexOfItem)"></button>
@@ -38,7 +43,9 @@
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [disabled]="addItemDisabled">Dodaj stavku ulova</button>
+    <button class="btn btn-primary" (click)="createCatch()" [hidden]="!catch.catchItems.length">Potvrdi evidenciju ulova</button>
+    </div>
+    </div>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -59,7 +66,7 @@
                             <input type="number" name="quantity" class="form-control" formControlName="quantity">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Težina</label>
+                            <label class="form-label">Težina (kg)</label>
                             <input class="form-control" type="number" name="weight" formControlName="weight">
                         </div>
                     </div>
@@ -70,7 +77,6 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-primary" (click)="createCatch()" [disabled]="addItemDisabled">Potvrdi evidenciju ulova</button>
     <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #openModal></button>
     <div class="modal" id="success-modal" tabindex="-1">
         <div class="modal-dialog">

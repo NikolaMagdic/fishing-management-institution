@@ -1,4 +1,5 @@
 <div class="container">
+    <h1 *ngIf="fisherman">Ribolovac {{fisherman.firstName + " " + fisherman.lastName}}</h1>
     <form (ngSubmit)="updateFisherman()" #form="ngForm" [formGroup]="fishermanForm">
         <fieldset [disabled]="fieldsetDisabled">
             <div class="mb-3">
@@ -31,7 +32,15 @@
             <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden">Potvrdi izmene</button>
         </fieldset>
     </form>
-    <button class="btn btn-primary" (click)="enableForm()" [hidden]="updateButtonHidden">Izmeni</button>
-    <button class="btn btn-primary" (click)="showCatches()">Prikaži evidenciju ulova</button>
-    <button class="btn btn-secondary" (click)="showPenalties()">Prekršaji ribolovca</button>
+    <div class="row row-cols-auto">
+        <div class="col">
+            <button class="btn btn-primary" (click)="enableForm()" [hidden]="updateButtonHidden">Izmeni podatke</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" (click)="showCatches()">Prikaži evidenciju ulova</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-secondary" (click)="showPenalties()">Prekršaji ribolovca</button>
+        </div>
+    </div>
 </div>

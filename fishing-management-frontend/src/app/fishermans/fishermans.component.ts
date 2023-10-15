@@ -15,6 +15,7 @@ export class FishermansComponent {
   filteredFishermans: Fisherman[] = [];
   filterFirstName: string = "";
   filterLastName: string = "";
+  filterCategory: string = "Sve kategorije"
 
   constructor(
     private fishermanService: FishermanService,
@@ -47,7 +48,7 @@ export class FishermansComponent {
   }
 
   filterFishermans() {
-    if(!this.filterFirstName && !this.filterLastName) {
+    if(!this.filterFirstName && !this.filterLastName && this.filterCategory === "Sve kategorije") {
       this.filteredFishermans = this.fishermans;
     }
     
@@ -55,7 +56,8 @@ export class FishermansComponent {
       fisherman => ((fisherman?.firstName.toLowerCase())
                   .includes(this.filterFirstName.toLowerCase()) &&
                   fisherman?.lastName.toLowerCase()
-                  .includes(this.filterLastName.toLowerCase()))
+                  .includes(this.filterLastName.toLowerCase())) &&
+                  fisherman?.category === this.filterCategory || this.filterCategory === "Sve kategorije"
     );
   }
 

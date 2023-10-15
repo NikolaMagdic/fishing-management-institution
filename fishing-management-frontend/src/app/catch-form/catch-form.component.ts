@@ -66,6 +66,9 @@ export class CatchFormComponent {
     // Mora ovako jer ako se doda samo newItem to je samo referenca i svi objekti u nizu ce imati trenutnu vrednost newItem, bice isti
     // Na ovaj nacin pravim novi objekat pre dodavanja u niz
     this.catch.catchItems.push(JSON.parse(JSON.stringify(newItem)));
+
+    // Resetujemo formu
+    this.catchItemForm.reset();
   }
 
   createCatch() {

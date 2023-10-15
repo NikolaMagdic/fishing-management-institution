@@ -51,17 +51,13 @@ public class UserService implements UserDetailsService {
     }
     
     /**Izmena lozinke korisnika*/
-    public void changePassword(String oldPassword, String newPassword) {
+    public void changePassword(String oldPassword, String newPassword) throws AuthenticationException {
 
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String username = currentUser.getName();
         
         if(authenticationManager != null) {
-            try {
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
-            } catch (AuthenticationException e) {
-                e.printStackTrace();
-            }
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
         } else {
             return;
         }

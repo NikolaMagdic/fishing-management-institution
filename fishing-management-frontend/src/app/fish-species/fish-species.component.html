@@ -1,20 +1,25 @@
 
-<div>    
-    <table class="table table-striped">
+<div>
+    <h1>Vrste riba</h1>    
+    <table class="table table-striped" *ngIf="fishSpecies.length">
         <thead>
             <tr>
                 <th>Slika</th>
                 <th>Naziv</th>
                 <th>Latinski naziv</th>
                 <th>Kategorija</th>
+                <th></th>
             </tr>
         </thead>
         <tbody *ngFor="let fish of fishSpecies">
             <tr>
+                <!--Ovo je property binding, prakticno isto sto i interpolacija (obadva su one-way), 
+                        ako zelimo da dobijemo isti rezultat interpolacijom pisemo src="{{fish.image}}"-->
                 <td>
                     <img [src]="fish.image" [title]="fish.name" [style.width.px]="150">
                 </td>
                 <td>
+                    <!--Ovo je interpolacija: {{fish.name}}-->
                     {{fish.name}}
                 </td>
                 <td>
@@ -59,7 +64,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Minimalna dozvoljena veličina</label>
+                            <label class="form-label">Minimalna dozvoljena veličina (cm)</label>
                             <input type="number" name="minSize" class="form-control" formControlName="minSize">
                         </div>
                         <div class="mb-3">
@@ -121,6 +126,20 @@
                         <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid && imposibleDate">Dodaj</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #openModal></button>
+    <div class="modal" id="success-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Uspešno dodata vrsta ribe</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="reloadPage()"></button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="reloadPage()">Zatvori</button>
+                </div>
             </div>
         </div>
     </div>

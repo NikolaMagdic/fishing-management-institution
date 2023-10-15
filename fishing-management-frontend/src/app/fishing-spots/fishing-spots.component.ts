@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FishingSpot } from '../models/fishing-spot';
 import { FishingSpotService } from '../services/fishing-spot.service';
@@ -29,6 +29,7 @@ export class FishingSpotsComponent {
   image: any;
 
   addFishingSpotButtonVisible = false;
+  @ViewChild('openModal') openModal: ElementRef | any;
 
   constructor(private fishingSpotService: FishingSpotService,
               private imageService: ImageService,
@@ -98,12 +99,12 @@ export class FishingSpotsComponent {
         next: imagePath => {
           this.newFishingSpot.image = imagePath as string;
           this.fishingSpotService.createSpot(this.newFishingSpot).subscribe({}); 
-          window.location.reload();
+          this.openModal.nativeElement.click();
         }
       });
     } else {
       this.fishingSpotService.createSpot(this.newFishingSpot).subscribe({}); 
-      window.location.reload();
+      this.openModal.nativeElement.click();
     }
   }
 
@@ -114,6 +115,10 @@ export class FishingSpotsComponent {
   processImage(imageFile: any) {
     const file: File = imageFile.files[0];
     this.image = file;
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 
 }

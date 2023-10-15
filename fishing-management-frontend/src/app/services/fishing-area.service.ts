@@ -35,6 +35,10 @@ export class FishingAreaService {
         return this.http.post(this.url, fishingArea);   
     }
 
+    updateFishingArea(id: number, fishingArea: FishingArea) {
+        return this.http.put(this.url + "/" + id, fishingArea);
+    }
+
     addFishSpeciesToArea(areaId: number, fishId: number) {
         return this.http.patch(this.url + "/" + areaId + "/add-fish-species/" + fishId, null);
     }

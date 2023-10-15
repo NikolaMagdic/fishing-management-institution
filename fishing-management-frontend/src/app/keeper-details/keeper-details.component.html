@@ -33,8 +33,9 @@
         </div>
     </div>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!adminLoggedIn">Dodaj zaduženje</button>
+    <br/><br/>
     <div class="container">
-        <h2>Ribolovne vode za koje je zadužen</h2>
+        <h2>Ribolovne vode za koje {{adminLoggedIn ? "je" : "sam"}} zadužen</h2>
         <table class="table table-striped-columns table-hover">
             <thead></thead>
             <tbody *ngFor="let area of managedAreas">

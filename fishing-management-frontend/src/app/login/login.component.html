@@ -10,6 +10,7 @@
             <label class="form-label">Lozinka</label>
             <input type="password" class="form-control" formControlName="password">
         </div>
+        <div *ngIf="invalidCredentials" class="alert alert-danger">Kredencijali koje ste uneli nisu ispravni</div>
         <button type="submit" class="btn btn-primary">Prijavi me</button>
     </form>
 </div>

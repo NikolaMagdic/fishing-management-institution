@@ -1,34 +1,47 @@
 <div class="container">
-    <h1>Dozvola za sportski ribolov</h1>
-    <p *ngIf="validLicense && license.status === 'CONFIRMED'">
-        Vi imate važeću dozvolu za sportski ribolov za {{license.year}}. godinu.
-    </p>
-    <div *ngIf="!validLicense">
-        <p>
-            Nemate važeću godišnju dozvolu za sportski ribolov. Pošaljite zahtev za izdavanje dozvole za sportski ribolov.
-        </p>
-        <h2>Godišnja dozvola</h2>
-        <button class="btn btn-primary" (click)="obtainLicence()">Zahtev za izdavanje godišnje dozvole za tekuću godinu</button>
-
-        <h2>Dnevna dozvola</h2>
-        <form (ngSubmit)="obtainDailyLicense()">
-            <label class="form-label"></label>
-            <input type="date" class="form-control" name="licenseDate" [ngModel]="licenseDate">
-            <button type="submit" class="btn btn-primary">Izvadi dnevnu dozvolu</button>
-        </form>
-    </div>
-    <div *ngIf="validLicense && license.status === 'CREATED'">Zahtev za izdavanje dozvole za ribolov za {{license.year}} poslat.</div>
-    <div *ngIf="dailyLicenses.length > 0" class="container">
-        <h2>Dnevne dozvole</h2>
-        <ol class="list-group list-group-numbered" *ngFor="let license of dailyLicenses">
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold">{{license.day | date: "dd.MM.yyyy."}}</div>
-                    <div *ngIf="license.status === 'CONFIRMED'">Odobrena</div>
-                    <div *ngIf="license.status === 'REJECTED'">Odbijena</div>
-                    <div *ngIf="license.status === 'CREATED'">Zahtev u obradi</div>
-                  </div>
-            </li>
-        </ol>
+    <h1>Dozvola za ribolov</h1>
+    <div class="row">
+        <div class="col">
+            <h2>Godišnja dozvola</h2>
+            <div *ngIf="!validLicense">
+                <p>
+                    Nemate važeću godišnju dozvolu za sportski ribolov. Pošaljite zahtev za izdavanje dozvole za ribolov.
+                </p>
+                <button class="btn btn-primary" (click)="obtainLicence()">Zahtev za izdavanje godišnje dozvole za tekuću godinu</button>
+            </div>
+            <div *ngIf="validLicense && license.status === 'CONFIRMED'">
+                <p>
+                    Vi imate važeću dozvolu za sportski ribolov za {{license.year}}. godinu.
+                </p>
+            </div>
+            <div *ngIf="validLicense && license.status === 'CREATED'">Zahtev za izdavanje dozvole za ribolov za {{license.year}}. godinu poslat.</div>
+        </div>
+        <div class="col">
+            <h2>Dnevne dozvole</h2>
+            <div *ngIf="!validLicense || !(license.status === 'CONFIRMED')">
+                <h4>Zahtev za izdavanje dnevne dozvole</h4>
+                <form (ngSubmit)="obtainDailyLicense()">
+                    <div class="mb-3">
+                        <label class="form-label">Datum</label>
+                    <input type="date" class="form-control" name="licenseDate" [ngModel]="licenseDate">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Pošalji zahtev</button>
+                </form>
+            </div>
+            <br/><br/>
+            <div *ngIf="dailyLicenses.length > 0" class="container">
+                <h4>Prethodne dnevne dozvole</h4>
+                <ol class="list-group list-group-numbered" *ngFor="let license of dailyLicenses">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">{{license.day | date: "dd.MM.yyyy."}}</div>
+                            <div *ngIf="license.status === 'CONFIRMED'">Odobrena</div>
+                            <div *ngIf="license.status === 'REJECTED'">Odbijena</div>
+                            <div *ngIf="license.status === 'CREATED'">Zahtev u obradi</div>
+                          </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
     </div>
 </div>

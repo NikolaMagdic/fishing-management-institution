@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.fishingmanagementbackend.dto.CatchDTO;
 import com.example.fishingmanagementbackend.dto.CatchResponseDTO;
 import com.example.fishingmanagementbackend.dto.YearlyCatchDTO;
+import com.example.fishingmanagementbackend.enumerations.CatchItemStatus;
 import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.service.CatchService;
 
@@ -77,7 +78,19 @@ public class CatchController {
     public ResponseEntity<Boolean> confirmCatchItem(@PathVariable("itemId") Long id, Principal principal) {
         Boolean success;
         try {
-            success = catchService.confirmCatchItem(id, principal);
+            success = catchService.processCatchItem(id, CatchItemStatus.CONFIRMED, principal);
+        } catch (ForbiddenException fex) {
+            return ResponseEntity.status(403).build();
+        }
+        return ResponseEntity.ok(success);
+    }
+    
+    @PatchMapping("/reject/{itemId}")
+    @PreAuthorize("hasRole('KEEPER')")
+    public ResponseEntity<Boolean> rejectCatchItem(@PathVariable("itemId") Long id, Principal principal) {
+        Boolean success;
+        try {
+            success = catchService.processCatchItem(id, CatchItemStatus.REJECTED, principal);
         } catch (ForbiddenException fex) {
             return ResponseEntity.status(403).build();
         }

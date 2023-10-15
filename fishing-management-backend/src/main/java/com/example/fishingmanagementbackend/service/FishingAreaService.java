@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.FishingAreaDTO;
-import com.example.fishingmanagementbackend.enumerations.FishingAreaType;
 import com.example.fishingmanagementbackend.model.FishSpecies;
 import com.example.fishingmanagementbackend.model.FishingArea;
 import com.example.fishingmanagementbackend.repository.FishSpeciesRepository;
@@ -41,7 +40,10 @@ public class FishingAreaService {
     
     public FishingArea createFishingArea(FishingAreaDTO fishingAreaDTO) {
         
-        FishingArea fishingArea = new FishingArea(fishingAreaDTO.getName(), fishingAreaDTO.getDescription(), FishingAreaType.valueOf(fishingAreaDTO.getType()), fishingAreaDTO.getImage());
+        FishingArea fishingArea = new FishingArea(fishingAreaDTO.getName(), fishingAreaDTO.getDescription(), fishingAreaDTO.getType(), fishingAreaDTO.getImage());
+        
+        System.out.println(fishingArea.getImage());
+        
         return fishingAreaRepository.save(fishingArea);
 
     } 
@@ -51,7 +53,8 @@ public class FishingAreaService {
         
         fishingArea.setName(fishingAreaDTO.getName());
         fishingArea.setDescription(fishingAreaDTO.getDescription());
-        fishingArea.setType(FishingAreaType.valueOf(fishingAreaDTO.getType()));
+        fishingArea.setType(fishingAreaDTO.getType());
+        fishingArea.setImage(fishingAreaDTO.getImage());
         
         return fishingAreaRepository.save(fishingArea);
     }

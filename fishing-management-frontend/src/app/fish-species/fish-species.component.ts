@@ -1,4 +1,4 @@
-import { Component, ɵdevModeEqual } from '@angular/core';
+import { Component, ElementRef, ViewChild, ɵdevModeEqual } from '@angular/core';
 import { FishSpeciesService } from '../services/fish-species.service';
 import { FishSpecies } from '../models/fish-species';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ export class FishSpeciesComponent {
   imposibleDate = false;
   permanentFishingBan = false;
   image: any;
+  @ViewChild('openModal') openModal: ElementRef | any;
 
   constructor(private fishSpeciesService: FishSpeciesService,
               private imageService: ImageService,
@@ -64,7 +65,7 @@ export class FishSpeciesComponent {
           // Pa zatim u callback funkciji podatke o novoj ribi
           this.fishSpeciesService.createFishSpecies(newFish).subscribe({
             next: () => {
-              window.location.reload();
+              this.openModal.nativeElement.click();
             }
           });  
         }
@@ -73,7 +74,7 @@ export class FishSpeciesComponent {
       // Ako nije uneta slika samo podatke o ribi unosimo
       this.fishSpeciesService.createFishSpecies(newFish).subscribe({
         next: () => {
-          window.location.reload();
+          this.openModal.nativeElement.click();
         }
       });  
     }
@@ -81,16 +82,21 @@ export class FishSpeciesComponent {
   }
 
   ngOnInit() : void {
-    this.fishSpeciesService.getFishSpecies().subscribe({
-      next: data => {
-        this.fishSpecies = data;
-      }
-    })
+
+    this.getAllFishSpecies();
 
     const role = localStorage.getItem('role');
     if(role == "ROLE_ADMIN") {
       this.addFishButtonVisible = true;  
     }
+  }
+
+  getAllFishSpecies() {
+    this.fishSpeciesService.getFishSpecies().subscribe({
+      next: data => {
+        this.fishSpecies = data;
+      }
+    })
   }
 
   viewFishSpeciesDetails(id: number) {
@@ -128,4 +134,8 @@ export class FishSpeciesComponent {
     this.image = file;
   }
   
+  reloadPage() {
+    this.getAllFishSpecies();
+    this.newFishForm.reset();
+  }
 }

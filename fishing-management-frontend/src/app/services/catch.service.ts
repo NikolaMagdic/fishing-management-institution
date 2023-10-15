@@ -23,6 +23,10 @@ export class CatchService {
         return this.http.patch(this.url + "/confirm/" + itemId, null);
     }
 
+    rejectCatch(itemId: number) {
+        return this.http.patch(this.url + "/reject/" + itemId, null);
+    }
+
     getYearlyCatchesOfFisherman(fishermanId: number, year: number) {
         // Primer dodavanja Query parametara u GET zahtev
         let queryParams = new HttpParams().append("year", year);

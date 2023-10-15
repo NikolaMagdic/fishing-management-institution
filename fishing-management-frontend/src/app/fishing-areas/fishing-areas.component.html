@@ -7,43 +7,37 @@
         <!-- <div>{{pozdravnaPoruka}} Ocena nase aplikacije <fm-rating [rating]="5" (ratingClicked)="onRatingClicked($event)"></fm-rating></div> -->
         <!--Ovo je primer two-way bindinga; da bi se koristio ngModel mora se importovati FormsModule, ali je on deprecated u najnovijoj verziji angulara -->
         <div class="input-group mb-3">
-            <span class="input-group-text">Pretraži</span>
+            <span class="input-group-text">Pretraga</span>
             <!-- Sta pise u inputu? {{filter}} -->
             <!-- <input type="text" id="input" (input)="onFilterChange($any($event.target).value)" class="form-control"/> -->
-            <input class="form-control" (input)="filterAreas()" [(ngModel)]="filterName"/>
+            <input class="form-control" (input)="filterAreas()" [(ngModel)]="filterName" placeholder="Naziv ribolovne vode"/>
             <select class="form-select" (change)="filterAreas()" [(ngModel)]="filterType">
                 <option>Svi tipovi ribolovnih voda</option>
-                <option>Reka</option>
-                <option>Jezero</option>
-                <option>Bara</option>
+                <option value="RIVER">Reka</option>
+                <option value="LAKE">Jezero</option>
+                <option value="POND">Bara</option>
+                <option value="CANAL">Kanal</option>
             </select>
         </div>
+        <h5>Odaberite ribolovnu vodu</h5>
         <!--Ovo je primer event bindinga-->
-        <button (click)="toggleImages()">{{!imagesShown ? "Prikazi" : "Sakrij"}} slike ribolovnih voda</button>
-        <table class="table" *ngIf="fishingAreas && fishingAreas.length">
-            <thead>
-                <tr>
-                    <th>SLIKA</th>
-                    <th>Naziv</th>
-                    <th>Tip vode</th>
-                </tr>
-            </thead>
-            <tbody *ngFor="let fishingArea of filteredFishingAreas">
-                <tr class="clickable" (click)="showFishingAreaDetails(fishingArea.id)">
-                    <!--Ovo je property binding, prakticno isto sto i interpolacija (obadva su one-way), 
-                        ako zelimo da dobijemo isti rezultat interpolacijom pisemo src="{{fishing_area.image}}"-->
-                    <td>
-                        <img [src]="fishingArea.image" [title]="fishingArea.name" [style.width.px]="imageWidth" 
-                            *ngIf="imagesShown">
-                    </td>
-                    <!--Ovo je interpolacija: {{fishingArea.name}}-->
-                    <!--Nacin da nam red u tabeli bude link ka stranici sa detaljima-->
-                    <td><a [routerLink]="['/fishing-areas', fishingArea.id]">{{fishingArea.name}}</a></td>
-                    <td>{{fishingArea.type | uppercase}}</td><!--Primer upotrebe pipe-a za formatiranje ispisa
-                                                                    zgodno za  | currency:"RSD":"symbol":"1.2-2"--> 
-                </tr>
-            </tbody>
-        </table>
+        <!--<button (click)="toggleImages()">{{!imagesShown ? "Prikazi" : "Sakrij"}} slike ribolovnih voda</button>-->
+        <div class="container">
+            <div class="row row-cols-3">
+                <div class="col clickable" *ngFor="let fishingArea of filteredFishingAreas" (click)="showFishingAreaDetails(fishingArea.id)">
+                    <div class="card" style="overflow: hidden;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{fishingArea.name}}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{fishingArea.type | fishingAreaPipe}}</h6>
+                        </div>
+                        <img [src]="fishingArea.image" title="Klikni za prikaz detalja" [style.width.px]="420" [style.height.px]="300" />
+                    </div>
+                </div>
+            </div>
+        </div>
+         
+        <!--Nacin da nam red u tabeli bude link ka stranici sa detaljima-->
+        <!--<td><a [routerLink]="['/fishing-areas', fishingArea.id]">{{fishingArea.name}}</a></td>-->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!isAddButtonVisible">Dodaj ribolovnu vodu</button>
         <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
@@ -51,6 +45,7 @@
                     <form (ngSubmit)="createFishingArea()" #form="ngForm">
                         <div class="modal-header">
                             <h5 class="modal-title">Nova ribolovna voda</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
@@ -68,6 +63,7 @@
                                     <option value="RIVER">Reka</option>
                                     <option value="LAKE">Jezero</option>
                                     <option value="POND">Bara</option>
+                                    <option value="CANAL">Kanal</option>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -79,6 +75,20 @@
                             <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Dodaj</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #openModal></button>
+    <div class="modal" id="success-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Uspešno dodata ribolovna voda</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="reloadPage()"></button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="reloadPage()">Zatvori</button>
                 </div>
             </div>
         </div>

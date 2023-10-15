@@ -1,62 +1,73 @@
 <div>
     <nav class="navbar navbar-expand navbar-dark bg-primary">  
+        <div class="container-fluid">    
             <a class="navbar-brand">
                 <img src="../assets/plovak.png" height="32px" width="32px">
                 Fishing Management
             </a>
             <ul class="nav navbar-nav me-auto mb-2 mb-lg-0">
-                <li *ngIf="!isLoggedIn">
-                    <a class="nav-link" routerLink="">Početna strana</a>
+                <li class="nav-item" *ngIf="!isLoggedIn">
+                    <a class="nav-link" routerLink="">Prijavi se</a>
                 </li>
-                <li *ngIf="isLoggedIn">
+                <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link" routerLink="fishing-areas">Ribolovne vode</a>
                 </li>
-                <li *ngIf="isLoggedIn">
+                <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link" routerLink="fish-species">Ribe</a>
                 </li>
-                <li *ngIf="role == 'ROLE_KEEPER'">
+                <li class="nav-item" *ngIf="role == 'ROLE_KEEPER'">
                     <a class="nav-link" routerLink="fishermans">Ribolovci</a>
                 </li>
-                <li *ngIf="!isLoggedIn">
+                <li class="nav-item" *ngIf="!isLoggedIn">
                     <a class="nav-link" routerLink="registration">Registruj se</a>
                 </li>
-                <li *ngIf="role == 'ROLE_FISHERMAN'">
+                <li class="nav-item" *ngIf="role == 'ROLE_FISHERMAN'">
                     <a class="nav-link" routerLink="catch-form">Evidencija ulova</a>
                 </li>
-                <li *ngIf="role == 'ROLE_FISHERMAN'">
+                <li class="nav-item" *ngIf="role == 'ROLE_FISHERMAN'">
                     <a class="nav-link" routerLink="fisherman/{{correspondingTableId}}/catches">Ulovi</a>
                 </li>
-                <li *ngIf="role == 'ROLE_FISHERMAN'">
+                <li class="nav-item" *ngIf="role == 'ROLE_FISHERMAN'">
                     <a class="nav-link" routerLink="license">Dozvola</a>
                 </li>
-                <li *ngIf="role == 'ROLE_FISHERMAN'">
+                <li class="nav-item" *ngIf="role == 'ROLE_FISHERMAN'">
                     <a class="nav-link" [routerLink]="['reservations', correspondingTableId]">Rezervisani termini</a>
                 </li>
-                <li *ngIf="role == 'ROLE_ADMIN'">
+                <li class="nav-item" *ngIf="role == 'ROLE_ADMIN'">
                     <a class="nav-link" routerLink="license-requests">Zahtevi za dozvolu</a>
                 </li>
-                <li *ngIf="role == 'ROLE_ADMIN'">
+                <li class="nav-item" *ngIf="role == 'ROLE_ADMIN'">
                     <a class="nav-link" routerLink="keepers">Ribočuvari</a>
                 </li>
-                <li *ngIf="role == 'ROLE_KEEPER'">
+                <li class="nav-item" *ngIf="role == 'ROLE_KEEPER'">
                     <a class="nav-link" routerLink="fish-stocking">Poribljavanje</a>
                 </li>
-                <li *ngIf="role == 'ROLE_ADMIN'">
+                <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link" routerLink="penalties">Registar prekršaja</a>
                 </li>
-                <li *ngIf="role == 'ROLE_FISHERMAN'">
-                    <a class="nav-link" [routerLink]="['fisherman', correspondingTableId]">Profil</a>
+            </ul>
+            <ul class="nav navbar-nav ms-auto mb-2 mb-lg-0" style="margin-right: 100px;">
+                <li class="nav-item dropdown" *ngIf="isLoggedIn">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Nalog
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark bg-primary">
+                        <li *ngIf="role == 'ROLE_FISHERMAN'">
+                            <a class="dropdown-item" [routerLink]="['fisherman', correspondingTableId]">Moji podaci</a>
+                        </li>
+                        <li *ngIf="role == 'ROLE_KEEPER'"> 
+                            <a class="dropdown-item" [routerLink]="['keeper', correspondingTableId]">Moji podaci</a>
+                        </li>
+                        <li *ngIf="isLoggedIn">
+                            <a class="dropdown-item" routerLink="change-password">Promena lozinke</a>
+                        </li>
+                    </ul>
                 </li>
-                <li *ngIf="role == 'ROLE_KEEPER'"> 
-                    <a class="nav-link" [routerLink]="['keeper', correspondingTableId]">Profil</a>
-                </li>
-                <li *ngIf="isLoggedIn">
-                    <a class="nav-link" routerLink="change-password">Promena lozinke</a>
-                </li>
-                <li *ngIf="isLoggedIn">
-                    <a class="nav-link" (click)="logout()" style="cursor: pointer;">Odjava</a>
+                <li class="nav-item" *ngIf="isLoggedIn">
+                    <a class="nav-link" (click)="logout()" style="cursor: pointer;"><i class="fa fa-sign-out" aria-hidden="true"></i>Odjava</a>
                 </li>
             </ul>
+        </div>
     </nav>
 </div>
 

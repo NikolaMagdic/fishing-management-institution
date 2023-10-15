@@ -10,6 +10,7 @@
                 <th>Težina</th>
                 <th>Potvrđeno od strane ribočuvara</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody *ngFor="let catch of catches">
@@ -30,10 +31,14 @@
                         {{item.weight}}
                     </td>
                     <td>
-                        <img *ngIf="item.confirmed" src="../../assets/confirmed.png">
+                        <img *ngIf="item.status === 'CONFIRMED'" src="../../assets/confirmed.png">
+                        <img *ngIf="item.status === 'REJECTED'" src="../../assets/rejected.png">
                     </td>
-                    <td *ngIf="!item.confirmed && keeperLoggedIn">
+                    <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
                         <button class="btn btn-primary" (click)="confirmCatch(item.id)">Potvrdi</button>
+                    </td>
+                    <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
+                        <button class="btn btn-secondary" (click)="rejectCatch(item.id)">Odbij</button>
                     </td>
                 </tr>     
         </tbody>

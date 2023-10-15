@@ -15,6 +15,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   authRequest: AuthenticationRequest | any;
   authResponse: AuthenticationResponse | any;
+  invalidCredentials = false;
 
   constructor(private authService: AuthenticationService, 
               private router: Router) {
@@ -36,7 +37,10 @@ export class LoginComponent {
         } else if(role == "ROLE_KEEPER") {
           this.router.navigate(['/fishing-areas']);
         }   
+      },
+      error: err => {
+        this.invalidCredentials = true;
       }
-    })
+    });
   }
 }
