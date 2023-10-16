@@ -28,7 +28,7 @@ public class CatchResponseDTO {
     public CatchResponseDTO(Catch dailyCatch) {
         this.id = dailyCatch.getId();
         this.fishingAreaName = dailyCatch.getFishingArea().getName();
-        this.date = dailyCatch.getTime();
+        this.date = dailyCatch.getDate();
         this.catchItemsResponse = transformCatchItemsToDTO(dailyCatch.getCatchItems());
     }
 

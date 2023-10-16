@@ -30,7 +30,7 @@ public class FishingArea {
     @Column(name = "area_type")
     private FishingAreaType areaType;
     
-    // trenutno su slike samo String sa linkom, videti da li treba raditi upload i koliko slika je potrebno
+    // trenutno su slike samo String sa linkom, videti da li treba raditi upload
     @Column(name = "image")
     private String image;
     

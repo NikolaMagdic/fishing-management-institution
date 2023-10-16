@@ -84,16 +84,17 @@ CREATE TABLE fishing_spot (
 );
 
 CREATE TABLE fish_species (
-	id 			 	  INTEGER NOT NULL AUTO_INCREMENT,
-	name 		 	  VARCHAR(20) NOT NULL,
-	latin_name   	  VARCHAR(30) NOT NULL,
-	category	 	  INTEGER NOT NULL,
-	min_size	 	  INTEGER,
-	max_quantity 	  INTEGER,
-	max_weight   	  INTEGER,
-	fishing_ban_start DATE,
-	fishing_ban_end   DATE,
-	permanent_fishing_ban BOOLEAN,
+	id 			 	  		INTEGER NOT NULL AUTO_INCREMENT,
+	name 		 	  		VARCHAR(20) NOT NULL,
+	latin_name   	  		VARCHAR(30) NOT NULL,
+	category	 	  		INTEGER NOT NULL,
+	min_size	 	  		INTEGER,
+	max_quantity 	  		INTEGER,
+	fishing_ban_start_month INTEGER,
+	fishing_ban_start_day 	INTEGER
+	fishing_ban_end_month   INTEGER,
+	fishing_ban_end_day 	INTEGER
+	permanent_fishing_ban 	BOOLEAN,
 	PRIMARY KEY (id)
 );
 

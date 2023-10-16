@@ -24,7 +24,7 @@ public class Catch {
     private Long id;
     
     @Column
-    private LocalDate time;
+    private LocalDate date;
     
     @ManyToOne
     @JoinColumn(name = "fisherman_id", referencedColumnName = "id")
@@ -42,8 +42,8 @@ public class Catch {
     
     public Catch() {}
     
-    public Catch(LocalDate time, Set<CatchItem> catchItems) {
-        this.time = time;
+    public Catch(LocalDate date, Set<CatchItem> catchItems) {
+        this.date = date;
         this.catchItems = catchItems;
     }
 
@@ -55,12 +55,12 @@ public class Catch {
         this.id = id;
     }
 
-    public LocalDate getTime() {
-        return time;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setTime(LocalDate time) {
-        this.time = time;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Fisherman getFisherman() {
@@ -97,7 +97,7 @@ public class Catch {
 
     @Override
     public String toString() {
-        return "Catch [id=" + id + ", time=" + time + ", fisherman=" + fisherman + ", catchItems=" + catchItems
+        return "Catch [id=" + id + ", date=" + date + ", fisherman=" + fisherman + ", catchItems=" + catchItems
                 + ", reservation=" + reservation + ", fishingArea=" + fishingArea + "]";
     }
     

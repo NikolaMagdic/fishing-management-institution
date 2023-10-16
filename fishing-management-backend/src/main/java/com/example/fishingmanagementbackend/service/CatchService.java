@@ -90,7 +90,7 @@ public class CatchService {
     public CatchDTO createCatch(CatchDTO dailyCatchDTO, Principal principal) {
 
         Catch dailyCatch = new Catch();
-        dailyCatch.setTime(dailyCatchDTO.getDate());
+        dailyCatch.setDate(dailyCatchDTO.getDate());
         Set<CatchItem> catches = changeCatchItemsFromDTO(dailyCatchDTO.getCatchItems(), dailyCatch);
         dailyCatch.setCatchItems(catches);
         
