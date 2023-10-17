@@ -63,8 +63,8 @@ export class PenaltiesOfFishermanComponent {
       "report": this.imposePenaltyForm.value.report
     }
     this.penaltyService.imposeAPenalty(penalized).subscribe({
-      next: penalty => {
-        this.penalties.push(penalty);
+      next: () => {
+        this.getAllPenaltiesOfFisherman(this.fishermanId);
       }
     });
   }

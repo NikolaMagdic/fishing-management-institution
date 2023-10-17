@@ -13,7 +13,9 @@ public class LicenseDTO {
     
     private LicenseType type;
     
-    private LocalDate day;
+    private LocalDate date;
+    
+    private LocalDate endDate;
     
     private Year year;
     
@@ -28,7 +30,8 @@ public class LicenseDTO {
     public LicenseDTO(License license) {
         this.id = license.getLicenseId();
         this.type = license.getType();
-        this.day = license.getDay();
+        this.date = license.getDate();
+        this.endDate = license.getEndDate();
         this.year = license.getYear();
         this.status = license.getStatus();
         this.fishermanId = license.getFisherman().getId();
@@ -51,12 +54,20 @@ public class LicenseDTO {
         this.type = type;
     }
 
-    public LocalDate getDay() {
-        return day;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDay(LocalDate day) {
-        this.day = day;
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+    
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public Year getYear() {
@@ -93,10 +104,9 @@ public class LicenseDTO {
 
     @Override
     public String toString() {
-        return "LicenseDTO [id=" + id + ", type=" + type + ", day=" + day + ", year=" + year + ", status=" + status
-                + ", fishermanId=" + fishermanId + ", spotId=" + spotId + "]";
+        return "LicenseDTO [id=" + id + ", type=" + type + ", date=" + date + ", endDate=" + endDate + ", year=" + year
+                + ", status=" + status + ", fishermanId=" + fishermanId + ", spotId=" + spotId + "]";
     }
-
 
     
 }

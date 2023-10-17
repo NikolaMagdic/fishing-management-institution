@@ -67,7 +67,10 @@ public class CatchResponseDTO {
     private Set<CatchItemResponseDTO> transformCatchItemsToDTO(Set<CatchItem> catches) {
         Set<CatchItemResponseDTO> catchesDTO = new HashSet<>();
         for(CatchItem c : catches) {
-           CatchItemResponseDTO cDTO = new CatchItemResponseDTO(c.getId(), c.getQuantity(), c.getWeight(), c.getStatus(), c.getFish().getName()); 
+           CatchItemResponseDTO cDTO = new CatchItemResponseDTO(c.getId(), c.getQuantity(), c.getWeight(), c.getStatus(), c.getFish().getName());
+           if(c.getKeeper() != null) {
+               cDTO.setKeeperName(c.getKeeper().getFirstName() + " " + c.getKeeper().getLastName());
+           }
            catchesDTO.add(cDTO);
         }
         return catchesDTO;

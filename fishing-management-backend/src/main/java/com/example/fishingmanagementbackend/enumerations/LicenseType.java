@@ -1,7 +1,7 @@
 package com.example.fishingmanagementbackend.enumerations;
 
 public enum LicenseType {
-    YEARLY("Godišnja"), DAILY("Dnevna");
+    YEARLY("Godišnja"), DAILY("Dnevna"), MULTIDAY("Višednevna"); 
     
     private String name;
     

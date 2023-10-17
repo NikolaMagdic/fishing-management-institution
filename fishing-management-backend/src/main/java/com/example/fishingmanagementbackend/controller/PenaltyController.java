@@ -1,5 +1,6 @@
 package com.example.fishingmanagementbackend.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,8 @@ public class PenaltyController {
     
     @PostMapping("/impose/")
     @PreAuthorize("hasRole('KEEPER')")
-    public ResponseEntity<PenalizedDTO> imposeAPenalty(@RequestBody PenalizedDTO penalizedDTO) {
-        PenalizedDTO p = penalizedService.imposeAPenalty(penalizedDTO);
+    public ResponseEntity<PenalizedDTO> imposeAPenalty(@RequestBody PenalizedDTO penalizedDTO, Principal principal) {
+        PenalizedDTO p = penalizedService.imposeAPenalty(penalizedDTO, principal);
         return ResponseEntity.ok(p);
     }
     

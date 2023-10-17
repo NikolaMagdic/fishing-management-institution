@@ -8,7 +8,8 @@
                 <th>Vrsta ribe</th>
                 <th>Broj komada</th>
                 <th>Težina</th>
-                <th>Potvrđeno od strane ribočuvara</th>
+                <th>Potvrđeno</th>
+                <th>Od strane ribočuvara</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -33,6 +34,9 @@
                     <td>
                         <img *ngIf="item.status === 'CONFIRMED'" src="../../assets/confirmed.png">
                         <img *ngIf="item.status === 'REJECTED'" src="../../assets/rejected.png">
+                    </td>
+                    <td>
+                        {{item.keeperName}}
                     </td>
                     <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
                         <button class="btn btn-primary" (click)="confirmCatch(item.id)">Potvrdi</button>

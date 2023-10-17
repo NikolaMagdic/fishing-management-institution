@@ -133,6 +133,7 @@ public class CatchService {
             }
         }
         item.setStatus(status);
+        item.setKeeper(keeper);
         catchRepository.save(dailyCatch);
         if(item.getId() != null) {
             return true;

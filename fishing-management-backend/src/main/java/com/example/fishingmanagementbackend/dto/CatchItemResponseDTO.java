@@ -14,6 +14,8 @@ public class CatchItemResponseDTO {
     
     private String fishSpeciesName;
     
+    private String keeperName;
+    
     public CatchItemResponseDTO() {}
     
     public CatchItemResponseDTO(Long id, int quantity, double weight, CatchItemStatus status, String fishSpeciesName) {
@@ -63,6 +65,14 @@ public class CatchItemResponseDTO {
     public void setStatus(CatchItemStatus status) {
         this.status = status;
     }
+
+    public String getKeeperName() {
+        return keeperName;
+    }
+
+    public void setKeeperName(String keeperName) {
+        this.keeperName = keeperName;
+    }
     
-    
+  
 }

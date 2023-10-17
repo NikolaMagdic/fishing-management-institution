@@ -19,6 +19,10 @@ export class LicenseService {
         return this.http.get(this.url + "/daily");
     }
 
+    getMultyDayLicenses() {
+        return this.http.get(this.url + "/multiday");
+    }
+
     getAllLicenseRequests() {
         return this.http.get(this.url + "/requests");    
     }    

@@ -20,6 +20,8 @@ public class PenalizedDTO {
     
     private double penaltyFine;
     
+    private String keeperName;
+    
     public PenalizedDTO() { }
     
     public PenalizedDTO(Penalized penalized) {
@@ -30,6 +32,7 @@ public class PenalizedDTO {
         this.penaltyId = penalized.getId();
         this.penaltyName = penalized.getPenalty().getName();
         this.penaltyFine = penalized.getPenalty().getFine();
+        this.keeperName = penalized.getKeeper().getFirstName() + " " + penalized.getKeeper().getLastName();
     }
 
     public Long getId() {
@@ -86,6 +89,14 @@ public class PenalizedDTO {
 
     public void setPenaltyFine(double penaltyFine) {
         this.penaltyFine = penaltyFine;
+    }
+
+    public String getKeeperName() {
+        return keeperName;
+    }
+
+    public void setKeeperName(String keeperName) {
+        this.keeperName = keeperName;
     }
     
     

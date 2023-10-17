@@ -45,7 +45,7 @@ public class LicenseService {
         } 
                
         Year year = Year.now();
-        License license = new License(licenseDTO.getType(), null, year);
+        License license = new License(licenseDTO.getType(), null, null, year);
         
         license.setStatus(LicenseStatus.CREATED);
 
@@ -60,13 +60,13 @@ public class LicenseService {
     
         Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
         
-        List<License> licencesForThisDay = licenseRepository.getLicencesOfFishermanOnThisDay(fishermanId, licenseDTO.getDay());
+        List<License> licencesForThisDay = licenseRepository.getLicencesOfFishermanOnThisDay(fishermanId, licenseDTO.getDate());
         // Vec je izvadjena dozvola za taj dan
         if(!licencesForThisDay.isEmpty()) {
             return null;
         }
         
-        License license = new License(licenseDTO.getType(), licenseDTO.getDay(), null);
+        License license = new License(licenseDTO.getType(), licenseDTO.getDate(), null, null);
         license.setStatus(LicenseStatus.CREATED);
         license.setSpotId(licenseDTO.getSpotId());
         
@@ -76,6 +76,26 @@ public class LicenseService {
         
         return license;
     
+    }
+    
+    public License obtainMultiDayLicense(LicenseDTO licenseDTO, Principal principal) throws Exception {
+        
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        
+        //TODO List<>
+        if(licenseDTO.getEndDate().isAfter(licenseDTO.getDate().plusDays(7))) {
+            throw new Exception("Višednevna dozvola ne može biti duža od 7 dana");
+        }
+        License license = new License(licenseDTO.getType(), licenseDTO.getDate(), licenseDTO.getEndDate(), null);
+        license.setStatus(LicenseStatus.CREATED);
+        license.setSpotId(licenseDTO.getSpotId());
+        
+        Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
+        license.setFisherman(fisherman);
+        licenseRepository.save(license);
+        
+        return license;
+        
     }
     
     
@@ -99,6 +119,19 @@ public class LicenseService {
     
         List<LicenseDTO> licensesDTO = new ArrayList<>();
         for (License l : dailyLicensesIfFisherman) {
+            LicenseDTO licenseDTO = new LicenseDTO(l);
+            licensesDTO.add(licenseDTO);
+        }
+        
+        return licensesDTO;
+    }
+    
+    public List<LicenseDTO> getAllMultiDayLicenses(Principal principal) {
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        List<License> multiDayLicensesOfFisherman = licenseRepository.getMultiDayLicensesOfFisherman(fishermanId);
+        
+        List<LicenseDTO> licensesDTO = new ArrayList<>();
+        for(License l : multiDayLicensesOfFisherman) {
             LicenseDTO licenseDTO = new LicenseDTO(l);
             licensesDTO.add(licenseDTO);
         }

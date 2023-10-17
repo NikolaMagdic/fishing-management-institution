@@ -34,6 +34,10 @@ public class CatchItem {
     @JoinColumn(name = "fish_id", referencedColumnName = "id", nullable = false)
     private FishSpecies fish;
     
+    @ManyToOne
+    @JoinColumn(name = "keeper_id", referencedColumnName = "id")
+    private Keeper keeper;
+    
     public CatchItem() {}
     
     public CatchItem(int quantity, double weight, CatchItemStatus status) {
@@ -88,6 +92,14 @@ public class CatchItem {
 
     public void setStatus(CatchItemStatus status) {
         this.confirmationStatus = status;
+    }
+
+    public Keeper getKeeper() {
+        return keeper;
+    }
+
+    public void setKeeper(Keeper keeper) {
+        this.keeper = keeper;
     }
 
     @Override

@@ -3,7 +3,8 @@
         <thead>
             <tr>
                 <th>Naziv</th>
-                <th>Izveštaj ribočuvara</th>
+                <th>Izveštaj</th>
+                <th>Ribočuvar</th>
                 <th>Datum</th>
                 <th>Cena</th>
             </tr>
@@ -15,6 +16,9 @@
                 </td>
                 <td>
                     {{penalty.report}}
+                </td>
+                <td>
+                    {{penalty.keeperName}}
                 </td>
                 <td>
                     {{penalty.date | date: "dd.MM.yyyy."}}
@@ -51,7 +55,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Potvrdi</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid" data-bs-dismiss="modal">Potvrdi</button>
                     </div>
                 </form>
             </div>

@@ -31,6 +31,10 @@ public class Penalized {
     @JoinColumn(name = "penalty_id", referencedColumnName = "id")
     private Penalty penalty;
     
+    @ManyToOne
+    @JoinColumn(name = "keeper_id", referencedColumnName = "id")
+    private Keeper keeper;
+    
     public Penalized() {}
     
     public Penalized(LocalDate date, String report, Fisherman fisherman, Penalty penalty) {
@@ -78,6 +82,14 @@ public class Penalized {
 
     public void setReport(String report) {
         this.report = report;
+    }
+    
+    public Keeper getKeeper() {
+        return keeper;
+    }
+
+    public void setKeeper(Keeper keeper) {
+        this.keeper = keeper;
     }
 
     @Override

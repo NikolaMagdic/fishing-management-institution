@@ -21,12 +21,14 @@ public class License {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long licenseId;
     
-    // TODO: Videti da li dodati i visednevne dozvole
     @Column
     private LicenseType type;
     
     @Column
-    private LocalDate day;
+    private LocalDate date;
+    
+    @Column
+    private LocalDate endDate;
     
     @Column
     private Year year;
@@ -44,9 +46,10 @@ public class License {
     
     public License() {}
     
-    public License(LicenseType type, LocalDate day, Year year) {
+    public License(LicenseType type, LocalDate date, LocalDate endDate, Year year) {
         this.type = type;
-        this.day = day;
+        this.date = date;
+        this.endDate = endDate;
         this.year = year;
     }
 
@@ -66,12 +69,20 @@ public class License {
         this.type = type;
     }
 
-    public LocalDate getDay() {
-        return day;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDate(LocalDate day) {
-        this.day = day;
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+    
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public Year getYear() {
@@ -108,8 +119,8 @@ public class License {
 
     @Override
     public String toString() {
-        return "License [licenseId=" + licenseId + ", type=" + type + ", day=" + day + ", year=" + year + ", status="
-                + status + ", fisherman=" + fisherman + ", spotId=" + spotId + "]";
+        return "License [licenseId=" + licenseId + ", type=" + type + ", date=" + date + ", endDate=" + endDate
+                + ", year=" + year + ", status=" + status + ", fisherman=" + fisherman + ", spotId=" + spotId + "]";
     }
     
     

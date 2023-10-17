@@ -47,6 +47,17 @@ public class LicenseController {
         return ResponseEntity.ok(allDailyLicensesOfFisherman);
     }
     
+    @GetMapping("/multiday")
+    public ResponseEntity<List<LicenseDTO>> getExistingMultiDayLicensesOfFisherman(Principal principal) {
+        List<LicenseDTO> allMultiDayLicensesOfFisherman;
+        try {
+            allMultiDayLicensesOfFisherman = licenseService.getAllMultiDayLicenses(principal);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(allMultiDayLicensesOfFisherman);
+    }
+    
     @GetMapping("/requests")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<LicenseRequestDTO>> getAllLicenseRequests() {
@@ -62,13 +73,15 @@ public class LicenseController {
     
     @PostMapping
     @PreAuthorize("hasRole('FISHERMAN')")
-    public ResponseEntity<LicenseDTO> obtainLicense(@RequestBody LicenseDTO licenseDTO, Principal principal) {
+    public ResponseEntity<LicenseDTO> obtainLicense(@RequestBody LicenseDTO licenseDTO, Principal principal) throws Exception {
         
         License newLicense;
         if(licenseDTO.getType() == LicenseType.DAILY) {
             newLicense = licenseService.obtainDayLicense(licenseDTO, principal);
-        } else {
+        } else if (licenseDTO.getType() == LicenseType.YEARLY) {
             newLicense = licenseService.obtainYearLicense(licenseDTO, principal);
+        } else {
+            newLicense = licenseService.obtainMultiDayLicense(licenseDTO, principal);
         }
         
         if(newLicense == null) 

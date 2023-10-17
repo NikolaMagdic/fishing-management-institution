@@ -135,7 +135,7 @@ export class FishingSpotDetailsComponent {
   }
 
   obtainDailyLicense() {
-    const license: License = new License(0, "DAILY", this.date.value, 0, this.fishingSpot.id);
+    const license: License = new License(0, "DAILY", this.date.value, new Date(), 0, this.fishingSpot.id);
     this.licenseService.obtainLicence(license).subscribe({
       next: () => {
         this.validLicense = true;
