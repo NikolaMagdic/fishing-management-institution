@@ -27,6 +27,8 @@ public class FishSpeciesDTO {
     
     private boolean permanentFishingBan;
     
+    private String description;
+    
     private String image;
     
     public FishSpeciesDTO() {
@@ -45,6 +47,7 @@ public class FishSpeciesDTO {
         this.fishingBanEndDay = fishSpecies.getFishingBanEndDay();
         this.fishingBanEndMonth = fishSpecies.getFishingBanEndMonth();
         this.permanentFishingBan = fishSpecies.isPermanentFishingBan();
+        this.description = fishSpecies.getDescription();
         this.image = fishSpecies.getImage();
     }
     
@@ -136,6 +139,14 @@ public class FishSpeciesDTO {
         this.permanentFishingBan = permanentFishingBan;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getImage() {
         return image;
     }
@@ -150,9 +161,8 @@ public class FishSpeciesDTO {
                 + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", fishingBanStartDay=" + fishingBanStartDay
                 + ", fishingBanStartMonth=" + fishingBanStartMonth + ", fishingBanEndDay=" + fishingBanEndDay
                 + ", fishingBanEndMonth=" + fishingBanEndMonth + ", permanentFishingBan=" + permanentFishingBan
-                + ", image=" + image + "]";
+                + ", description=" + description + ", image=" + image + "]";
     }
-    
     
     
 }

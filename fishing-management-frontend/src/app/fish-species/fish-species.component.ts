@@ -34,6 +34,7 @@ export class FishSpeciesComponent {
                   fishingBanEndDay: new FormControl(),
                   fishingBanEndMonth: new FormControl(),
                   permanentFishingBan: new FormControl(),
+                  description: new FormControl(),
                   image: new FormControl()
                 });
               }
@@ -54,6 +55,7 @@ export class FishSpeciesComponent {
       this.newFishForm.value.fishingBanEndDay,
       this.newFishForm.value.fishingBanEndMonth,
       this.newFishForm.value.permanentFishingBan,
+      this.newFishForm.value.description,
       this.newFishForm.value.image
     );
 

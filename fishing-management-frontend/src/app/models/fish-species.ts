@@ -10,12 +10,14 @@ export class FishSpecies {
     public fishingBanEndDay: number;
     public fishingBanEndMonth: number;
     public permanentFishingBan: boolean;
+    public description: string;
     public image: string;
 
     constructor($id: number, $name: string, $latinName: string, $category: string,
         $minSize: number, $maxQuantity: number, $fishingBanStartDay: number,
         $fishingBanStartMonth: number, $fishingBanEndDay: number,
-        $fishingBanEndMonth: number, $permanentFishingBan: boolean, $image: string) {
+        $fishingBanEndMonth: number, $permanentFishingBan: boolean,
+        $description: string, $image: string) {
         this.id = $id;
         this.name = $name;
         this.latinName = $latinName;
@@ -27,6 +29,7 @@ export class FishSpecies {
         this.fishingBanEndDay = $fishingBanEndDay;
         this.fishingBanEndMonth = $fishingBanEndMonth;
         this.permanentFishingBan = $permanentFishingBan;
+        this.description = $description;
         this.image = $image;
     }
     

@@ -6,6 +6,7 @@ export class Fisherman {
     public address: string;
     public city: string;
     public category: string;
+    public license!: boolean;
 
     constructor($id: number, $firstName: string, $lastName: string, $dateOfBirth: Date,
         $address: string, $city: string, $category: string) {

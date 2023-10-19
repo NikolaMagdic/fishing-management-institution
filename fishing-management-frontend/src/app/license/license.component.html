@@ -6,8 +6,8 @@
             <div *ngIf="!validLicense">
                 <p>
                     Nemate važeću godišnju dozvolu za sportski ribolov. Pošaljite zahtev za izdavanje dozvole za ribolov.
+                    <button class="btn btn-primary" (click)="obtainLicence()">Zahtev za izdavanje godišnje dozvole za tekuću godinu</button>
                 </p>
-                <button class="btn btn-primary" (click)="obtainLicence()">Zahtev za izdavanje godišnje dozvole za tekuću godinu</button>
             </div>
             <div *ngIf="validLicense && license.status === 'CONFIRMED'">
                 <p>
@@ -16,6 +16,10 @@
             </div>
             <div *ngIf="validLicense && license.status === 'CREATED'">Zahtev za izdavanje dozvole za ribolov za {{license.year}}. godinu poslat.</div>
         </div>
+    </div>
+    <hr/>
+    <br/>
+    <div class="row">
         <div class="col">
             <h2>Dnevne dozvole</h2>
             <div *ngIf="!validLicense || !(license.status === 'CONFIRMED')">
@@ -42,6 +46,8 @@
                     </li>
                 </ol>
             </div>
+        </div>
+        <div class="col">
             <h2>Višednevne dozvole</h2>
             <div *ngIf="!validLicense || !(license.status === 'CONFIRMED')">
                 <h4>Zahtev za izdavanje višednevne dozvole</h4>

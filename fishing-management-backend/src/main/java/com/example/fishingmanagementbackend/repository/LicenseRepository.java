@@ -27,4 +27,8 @@ public interface LicenseRepository extends JpaRepository<License, Long> {
     
     @Query(value = "SELECT * FROM license l WHERE l.status = 2 AND l.type = 0 AND l.fisherman_id = ?1", nativeQuery = true)
     List<License> getNotConfirmedLicensesOfFisherman(Long fishermanId);
+    
+    @Query(value = "SELECT * FROM license l WHERE l.status = 0 AND l.fisherman_id = ?1 "
+            + "AND ((l.date = CURRENT_DATE()) OR (l.date <= CURRENT_DATE() AND l.end_date >= CURRENT_DATE()) OR (l.year = YEAR(CURRENT_TIMESTAMP)))", nativeQuery = true)
+    List<License> findValidLicensesForToday(Long fishermanId);
 }

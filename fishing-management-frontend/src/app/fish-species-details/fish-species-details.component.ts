@@ -37,7 +37,8 @@ export class FishSpeciesDetailsComponent {
         fishingBanStartMonth: new FormControl(),
         fishingBanEndDay: new FormControl(),
         fishingBanEndMonth: new FormControl(),
-        permanentFishingBan: new FormControl()
+        permanentFishingBan: new FormControl(),
+        description: new FormControl()
       }); 
   }
 
@@ -58,7 +59,8 @@ export class FishSpeciesDetailsComponent {
           fishingBanStartMonth: this.fishSpecies.fishingBanStartMonth,
           fishingBanEndDay: this.fishSpecies.fishingBanEndDay,
           fishingBanEndMonth: this.fishSpecies.fishingBanEndMonth,
-          permanentFishingBan: this.fishSpecies.permanentFishingBan
+          permanentFishingBan: this.fishSpecies.permanentFishingBan,
+          description: this.fishSpecies.description
         });
 
         this.permanentFishingBan = this.fishSpecies.permanentFishingBan;
@@ -89,6 +91,7 @@ export class FishSpeciesDetailsComponent {
         this.fishForm.value.fishingBanEndDay,
         this.fishForm.value.fishingBanEndMonth,
         this.fishForm.value.permanentFishingBan,
+        this.fishForm.value.description,
         this.fishSpecies.image);
 
     this.fishSpeciesService.updateFishSpecies(f).subscribe({

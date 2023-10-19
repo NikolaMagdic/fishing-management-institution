@@ -17,8 +17,9 @@
                 <th>Ime</th>
                 <th>Prezime</th>
                 <th>Datum rođenja</th>
-                <th>Ostali podaci</th>
+                <th>Važeća dozvola</th>
                 <th>Evidentirani ulovi</th>
+                <th>Podaci ribolovca</th>
             </tr>
         </thead>
         <tbody *ngFor="let fisherman of filteredFishermans">
@@ -33,10 +34,15 @@
                     {{fisherman.dateOfBirth | date: "dd.MM.yyyy."}}
                 </td>
                 <td>
-                    <button class="btn btn-secondary" (click)="fishermanDetails(fisherman.id)">Detalji</button>
+                    <button *ngIf="fisherman.license === undefined" class="btn btn-primary" (click)="checkFishermanLicenses(fisherman.id)">Provera važenja dozvole</button>
+                    <div *ngIf="fisherman.license === true">Ima<img src="../../assets/confirmed.png"></div>
+                    <div *ngIf="fisherman.license === false">Nema<img src="../../assets/rejected.png"></div>
                 </td>
                 <td>
                     <button class="btn btn-primary" (click)="catchesOfFisherman(fisherman.id)">Prikaži ulove</button>
+                </td>
+                <td>
+                    <button class="btn btn-secondary" (click)="fishermanDetails(fisherman.id)">Detalji</button>
                 </td>
             </tr>
         </tbody>

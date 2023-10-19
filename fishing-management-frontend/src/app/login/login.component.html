@@ -1,16 +1,25 @@
 <div>
-    <h1>Unesite kredencijale za prijavljivanje</h1>
-    <img src="../../assets/fishing_rod.jpg" style="width: 400px;">
-    <form (ngSubmit)="login()" [formGroup]="loginForm">
-        <div class="mb-3">
-            <label class="form-label">Korisničko ime</label>
-            <input type="text" class="form-control" name="username" formControlName="username">
+    <h1>Fishing Management</h1>
+    <div class="row row-cols-2">
+        <div class="col">
+            <img src="../../assets/fishing_rod.jpg" style="width: 400px;">
         </div>
-        <div class="mb-3">
-            <label class="form-label">Lozinka</label>
-            <input type="password" class="form-control" formControlName="password">
+        <div class="col">
+            <br/>
+            <h3>Unesite korisničko ime i lozinku za prijavu</h3>
+            <br/>
+            <form (ngSubmit)="login()" [formGroup]="loginForm">
+                <div class="mb-3">
+                    <label class="form-label">Korisničko ime</label>
+                    <input type="text" class="form-control" name="username" formControlName="username">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Lozinka</label>
+                    <input type="password" class="form-control" formControlName="password">
+                </div>
+                <div *ngIf="invalidCredentials" class="alert alert-danger">Kredencijali koje ste uneli nisu ispravni</div>
+                <button type="submit" class="btn btn-primary">Prijavi me</button>
+            </form>
         </div>
-        <div *ngIf="invalidCredentials" class="alert alert-danger">Kredencijali koje ste uneli nisu ispravni</div>
-        <button type="submit" class="btn btn-primary">Prijavi me</button>
-    </form>
+    </div>
 </div>

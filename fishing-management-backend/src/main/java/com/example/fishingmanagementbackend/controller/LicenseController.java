@@ -104,4 +104,10 @@ public class LicenseController {
         licenseService.rejectLicenseRequest(licenseId);
         return ResponseEntity.ok(true);
     }
+    
+    @GetMapping("/fisherman/{fishermanId}")
+    public ResponseEntity<Boolean> checkFishermansLicense(@PathVariable ("fishermanId") Long fishermanId) {
+        Boolean validLicenseExists = licenseService.checkFishermansLicensesOnThisDay(fishermanId);
+        return ResponseEntity.ok(validLicenseExists);
+    }
 }

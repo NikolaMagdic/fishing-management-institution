@@ -50,6 +50,8 @@ public class FishSpecies {
     @Column
     private boolean permanentFishingBan;
     
+    private String description;
+    
     @Column
     private String image;
 
@@ -61,7 +63,7 @@ public class FishSpecies {
     }
     
     public FishSpecies(String name, String latinName, FishCategory category, int minSize, int maxQuantity,
-            int fishingBanStartDay, int fishingBanStartMonth, int fishingBanEndDay, int fishingBanEndMonth, boolean permanentFishingBan, String image) {
+            int fishingBanStartDay, int fishingBanStartMonth, int fishingBanEndDay, int fishingBanEndMonth, boolean permanentFishingBan, String description, String image) {
         this.name = name;
         this.latinName = latinName;
         this.category = category;
@@ -72,6 +74,7 @@ public class FishSpecies {
         this.fishingBanEndDay = fishingBanEndDay;
         this.fishingBanEndMonth = fishingBanEndMonth;
         this.permanentFishingBan = permanentFishingBan;
+        this.description = description;
         this.image = image;
     }
 
@@ -170,6 +173,14 @@ public class FishSpecies {
     public void setFishingAreas(Set<FishingArea> fishingAreas) {
         this.fishingAreas = fishingAreas;
     }
+    
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getImage() {
         return image;
@@ -185,7 +196,8 @@ public class FishSpecies {
                 + ", minSize=" + minSize + ", maxQuantity=" + maxQuantity + ", fishingBanStartDay=" + fishingBanStartDay
                 + ", fishingBanStartMonth=" + fishingBanStartMonth + ", fishingBanEndDay=" + fishingBanEndDay
                 + ", fishingBanEndMonth=" + fishingBanEndMonth + ", permanentFishingBan=" + permanentFishingBan
-                + ", image=" + image + ", fishingAreas=" + fishingAreas + "]";
+                + ", description=" + description + ", image=" + image + ", fishingAreas=" + fishingAreas + "]";
     }
+
 
 }

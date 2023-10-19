@@ -118,6 +118,10 @@
                             <label class="form-check-label">Trajni lovostaj</label>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Opis</label>
+                            <textarea rows="5" name="description" formControlName="description"></textarea>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Slika</label>
                             <input type="file" accept="image/*" name="image" #image class="form-control" formControlName="image" (change)="imageUpload(image)">
                         </div>                                                                 

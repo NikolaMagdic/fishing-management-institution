@@ -38,4 +38,8 @@ export class LicenseService {
     rejectLicenseRequest(licenseId: number) {
         return this.http.patch(this.url + "/" + licenseId + "/reject", null);
     }
+
+    checkValidLicenseOfFishermanForToday(fishermanId: number) {
+        return this.http.get(this.url + "/fisherman/" + fishermanId);
+    }
 }

@@ -77,6 +77,7 @@ public class FishSpeciesService {
                                                   fishSpeciesDTO.getFishingBanEndDay(),
                                                   fishSpeciesDTO.getFishingBanEndMonth(),
                                                   fishSpeciesDTO.isPermanentFishingBan(), 
+                                                  fishSpeciesDTO.getDescription(),
                                                   fishSpeciesDTO.getImage());
         
         
@@ -97,6 +98,7 @@ public class FishSpeciesService {
         fishSpecies.setFishingBanEndDay(fishSpeciesDTO.getFishingBanEndDay());
         fishSpecies.setFishingBanEndMonth(fishSpeciesDTO.getFishingBanEndMonth());
         fishSpecies.setPermanentFishingBan(fishSpeciesDTO.isPermanentFishingBan());
+        fishSpecies.setDescription(fishSpeciesDTO.getDescription());
     
         return fishSpeciesRepository.save(fishSpecies);
     }

@@ -5,7 +5,7 @@
                 <img src="../assets/plovak.png" height="32px" width="32px">
                 Fishing Management
             </a>
-            <ul class="nav navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="nav navbar-nav me-auto mb-2 mb-lg-0 nav-link-hover-color: brown">
                 <li class="nav-item" *ngIf="!isLoggedIn">
                     <a class="nav-link" routerLink="">Prijavi se</a>
                 </li>
@@ -49,6 +49,7 @@
             <ul class="nav navbar-nav ms-auto mb-2 mb-lg-0" style="margin-right: 100px;">
                 <li class="nav-item dropdown" *ngIf="isLoggedIn">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user" aria-hidden="true"></i>
                         Nalog
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark bg-primary">

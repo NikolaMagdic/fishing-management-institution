@@ -171,7 +171,14 @@ public class LicenseService {
         license.setStatus(LicenseStatus.REJECTED);
         
         
-        
         return licenseRepository.save(license);
+    }
+    
+    public Boolean checkFishermansLicensesOnThisDay(Long fishermanId) {
+        List<License> licenses = licenseRepository.findValidLicensesForToday(fishermanId);
+        if(licenses.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }
