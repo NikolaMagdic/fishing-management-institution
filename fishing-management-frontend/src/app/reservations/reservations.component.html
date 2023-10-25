@@ -7,7 +7,8 @@
                 <th *ngIf="fishermanLoggedIn">Tip ribolovnog mesta</th>
                 <th *ngIf="fishermanLoggedIn">Ribolovno mesto</th>
                 <th *ngIf="!fishermanLoggedIn">Ribolovac</th>
-                <th>Datum</th>
+                <th>Početni datum</th>
+                <th>Krajnji datum</th>
             </tr>
         </thead>
         <tbody *ngFor="let reservation of reservations">
@@ -25,7 +26,10 @@
                     {{reservation.fishermanFirstName + " " + reservation.fishermanLastName}}
                 </td>
                 <td>
-                    {{reservation.date | date: "dd.MM.yyyy."}}
+                    {{reservation.arrivalDate | date: "dd.MM.yyyy."}}
+                </td>
+                <td>
+                    {{reservation.departureDate | date: "dd.MM.yyyy"}}
                 </td>
             </tr>
         </tbody>

@@ -1,7 +1,6 @@
 package com.example.fishingmanagementbackend.dto;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 import com.example.fishingmanagementbackend.model.Reservation;
 
@@ -9,11 +8,7 @@ public class ReservationDTO {
 
     private LocalDate arrivalDate;
     
-    private LocalTime arrivalTime;
-    
     private LocalDate departureDate;
-    
-    private LocalTime departureTime;
     
     private Long fishingSpotId;
     
@@ -21,21 +16,17 @@ public class ReservationDTO {
     
     public ReservationDTO() {}
 
-    public ReservationDTO(LocalDate arrivalDate, LocalTime arrivalTime, LocalDate departureDate,
-            LocalTime departureTime, Long fishingSpotId, Long fishermanId) {
+    public ReservationDTO(LocalDate arrivalDate, LocalDate departureDate,
+            Long fishingSpotId, Long fishermanId) {
         this.arrivalDate = arrivalDate;
-        this.arrivalTime = arrivalTime;
         this.departureDate = departureDate;
-        this.departureTime = departureTime;
         this.fishingSpotId = fishingSpotId;
         this.fishermanId = fishermanId;
     }
     
     public ReservationDTO(Reservation reservation) {
         this.arrivalDate = reservation.getArrivalDate();
-        this.arrivalTime = reservation.getArrivalTime();
         this.departureDate = reservation.getDepartureDate();
-        this.departureTime = reservation.getDepartureTime();
         this.fishingSpotId = reservation.getFishingSpot().getId();
         this.fishermanId = reservation.getFisherman().getId();
     }
@@ -48,28 +39,12 @@ public class ReservationDTO {
         this.arrivalDate = arrivalDate;
     }
 
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-
     public LocalDate getDepartureDate() {
         return departureDate;
     }
 
     public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
-    }
-
-    public LocalTime getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(LocalTime departureTime) {
-        this.departureTime = departureTime;
     }
 
     public Long getFishingSpotId() {
@@ -90,10 +65,10 @@ public class ReservationDTO {
 
     @Override
     public String toString() {
-        return "ReservationDTO [arrivalDate=" + arrivalDate + ", arrivalTime=" + arrivalTime + ", departureDate="
-                + departureDate + ", departureTime=" + departureTime + ", fishingSpotId=" + fishingSpotId
-                + ", fishermanId=" + fishermanId + "]";
+        return "ReservationDTO [arrivalDate=" + arrivalDate + ", departureDate=" + departureDate + ", fishingSpotId="
+                + fishingSpotId + ", fishermanId=" + fishermanId + "]";
     }
-    
+
+
     
 }

@@ -13,7 +13,7 @@ import { fromLonLat } from 'ol/proj';
 import { Point } from 'ol/geom';
 import { ReservationService } from '../services/reservation.service';
 import { Reservation } from '../models/reservation';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { LicenseService } from '../services/license.service';
 import { License } from '../models/license';
 
@@ -30,11 +30,16 @@ export class FishingSpotDetailsComponent {
   futureReservations: Reservation[] = [];
   datesReserved: Date[] = [];
   minDate = new Date();
+  date: any;
+  dateRange: any;
   // Primer upotrebe FormControl za forme (Reactive forms u Angularu)
-  date = new FormControl();
+  // date = new FormControl();
+  errorMessageShown = false;
+  multiDayReservationForm = false;
 
   @ViewChild('successModal') successModal: ElementRef | any;
   @ViewChild('failureModal') failureModal: ElementRef | any;
+  @ViewChild('failureMultiModal') failureMultiModal: ElementRef | any;
 
   validLicense: boolean = false;
   fishermanLoggedIn = false;
@@ -43,7 +48,8 @@ export class FishingSpotDetailsComponent {
               private reservationService: ReservationService,
               private licenseService: LicenseService, 
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {
+               }
 
   ngOnInit() {
     let id = Number(this.route.snapshot.paramMap.get('id'));
@@ -118,7 +124,7 @@ export class FishingSpotDetailsComponent {
 
   createReservation() {
     if(this.validLicense) {
-      let resDate = new Date(Date.UTC(this.date.value.getFullYear(), this.date.value.getMonth(), this.date.value.getDate()));
+      let resDate = new Date(Date.UTC(this.date.getFullYear(), this.date.getMonth(), this.date.getDate()));
       var reservation = new Reservation(0, resDate, this.fishingSpot.id);
       this.reservationService.createReservation(reservation).subscribe({
         next: () => {
@@ -130,12 +136,35 @@ export class FishingSpotDetailsComponent {
     }
   }
 
+  createMultiDayReservation() {
+    if(this.validLicense) {
+      let startDate = this.dateRange[0];
+      let endDate = this.dateRange[1];
+      let resStartDate = new Date(Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()));
+      let resEndDate = new Date(Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()));
+      console.log("OVDE SAM");
+      console.log(resEndDate);
+      var reservation = new Reservation(0, resStartDate, this.fishingSpot.id);
+      reservation.departureDate = resEndDate;
+      this.reservationService.createReservation(reservation).subscribe({
+        next: () => {
+          this.successModal.nativeElement.click();
+        },
+        error: () => {
+          this.errorMessageShown = true;
+        }
+      });
+    } else {
+      this.failureMultiModal.nativeElement.click();
+    }
+  }
+
   reloadPage() {
     window.location.reload();
   }
 
   obtainDailyLicense() {
-    const license: License = new License(0, "DAILY", this.date.value, new Date(), 0, this.fishingSpot.id);
+    const license: License = new License(0, "DAILY", this.date, new Date(), 0, this.fishingSpot.id);
     this.licenseService.obtainLicence(license).subscribe({
       next: () => {
         this.validLicense = true;
@@ -144,8 +173,32 @@ export class FishingSpotDetailsComponent {
     })
   }
 
+  obtainMultiDayLicense() {
+    const license: License = new License(0, "MULTIDAY", this.dateRange[0], this.dateRange[1], 0 ,this.fishingSpot.id);
+    this.licenseService.obtainLicence(license).subscribe({
+      next: () => {
+        this.validLicense = true;
+        this.createMultiDayReservation();
+      }
+    });
+  }
+
   showReservations() {
     let id = Number(this.route.snapshot.paramMap.get('id'));
     this.router.navigate(["/reservations/" + id]);
   }
+
+  onDateChange(event: any) {
+    this.date = event;
+  }
+
+  onDateRangeChange(event: any) {
+    this.dateRange = event;
+    console.log(this.dateRange);
+  }
+
+  toggleReservationType() {
+    this.multiDayReservationForm = !this.multiDayReservationForm;
+  }
+
 }

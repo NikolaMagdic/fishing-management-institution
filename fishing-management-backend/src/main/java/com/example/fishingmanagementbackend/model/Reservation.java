@@ -1,7 +1,6 @@
 package com.example.fishingmanagementbackend.model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,13 +20,7 @@ public class Reservation {
     private LocalDate arrivalDate;
     
     @Column
-    private LocalTime arrivalTime;
-    
-    @Column
     private LocalDate departureDate;
-    
-    @Column
-    private LocalTime departureTime;
     
     @ManyToOne()
     private FishingSpot fishingSpot;
@@ -39,11 +32,9 @@ public class Reservation {
         
     }
     
-    public Reservation(LocalDate arrivalDate, LocalTime arrivalTime, LocalDate departureDate, LocalTime departureTime) {
+    public Reservation(LocalDate arrivalDate, LocalDate departureDate) {
         this.arrivalDate = arrivalDate;
-        this.arrivalTime = arrivalTime;
         this.departureDate = departureDate;
-        this.departureTime = departureTime;
     }
 
     public Long getId() {
@@ -62,28 +53,12 @@ public class Reservation {
         this.arrivalDate = arrivalDate;
     }
 
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-
     public LocalDate getDepartureDate() {
         return departureDate;
     }
 
     public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
-    }
-
-    public LocalTime getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(LocalTime departureTime) {
-        this.departureTime = departureTime;
     }
     
     public FishingSpot getFishingSpot() {
@@ -104,9 +79,11 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation [id=" + id + ", arrivalDate=" + arrivalDate + ", arrivalTime=" + arrivalTime
-                + ", departureDate=" + departureDate + ", departureTime=" + departureTime + "]";
+        return "Reservation [id=" + id + ", arrivalDate=" + arrivalDate + ", departureDate=" + departureDate
+                + ", fishingSpot=" + fishingSpot + ", fisherman=" + fisherman + "]";
     }
+
+    
     
     
 }

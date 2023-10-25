@@ -30,6 +30,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden">Potvrdi izmene</button>
+            <!-- <button type="button" class="btn btn-secondary" [hidden]="!updateButtonHidden">Odustani</button> -->
         </fieldset>
     </form>
     <div class="row row-cols-auto">
@@ -37,10 +38,10 @@
             <button class="btn btn-primary" (click)="enableForm()" [hidden]="updateButtonHidden">Izmeni podatke</button>
         </div>
         <div class="col">
-            <button class="btn btn-primary" (click)="showCatches()">Prikaži evidenciju ulova</button>
+            <button class="btn btn-primary" (click)="showCatches()" [hidden]="updateButtonHidden">Prikaži evidenciju ulova</button>
         </div>
         <div class="col">
-            <button class="btn btn-secondary" (click)="showPenalties()">Prekršaji ribolovca</button>
+            <button class="btn btn-secondary" (click)="showPenalties()" [hidden]="updateButtonHidden">Prekršaji ribolovca</button>
         </div>
     </div>
 </div>

@@ -38,7 +38,16 @@ public class ReservationService {
         List<LocalDate> occupiedDates = new ArrayList<>();
         
         for(Reservation r: futureReservations) {
-            occupiedDates.add(r.getArrivalDate());
+            if(r.getDepartureDate() != null) {
+                // Visednevni termin
+                System.out.println("USAO U IF");
+                List<LocalDate> datesBetWeen = findAllDatesBetween(r.getArrivalDate(), r.getDepartureDate());
+                occupiedDates.addAll(datesBetWeen);
+            } else {
+                // Jednodnevni termin
+                System.out.println("USAO U ELSE");
+                occupiedDates.add(r.getArrivalDate());
+            }
         }
         return occupiedDates;
     }
@@ -65,12 +74,20 @@ public class ReservationService {
         return reservationsDTO;
     }
     
-    public Reservation createReservation(ReservationDTO reservationDTO, Principal principal) {
+    public Reservation createReservation(ReservationDTO reservationDTO, Principal principal) throws Exception {
         
         Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
         
-        Reservation reservation = new Reservation(reservationDTO.getArrivalDate(), reservationDTO.getArrivalTime(),
-                reservationDTO.getDepartureDate(), reservationDTO.getDepartureTime());
+        System.out.println(reservationDTO);
+        if(reservationDTO.getDepartureDate() != null) {
+            boolean validRequest = checkIfDatesAreValid(reservationDTO.getFishingSpotId(), reservationDTO.getArrivalDate(), reservationDTO.getDepartureDate());
+            System.out.println(validRequest);
+            if(!validRequest) 
+                throw new Exception("Datumi nisu ispravni");
+        }
+        
+        Reservation reservation = new Reservation(reservationDTO.getArrivalDate(),
+                reservationDTO.getDepartureDate());
         
         FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(reservationDTO.getFishingSpotId());
         Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
@@ -80,4 +97,26 @@ public class ReservationService {
         
         return reservationRepository.save(reservation);
     }
+    
+    /**Funkcija koja vraca sve datume izmedju dva prosledjena datuma
+     * @param startDate: pocetni datum
+     * @param endDate: krajnji datum
+     * @return Lista datuma izmedju pocetnog i krajnjeg datuma ukljucujuci i njih*/
+    private List<LocalDate> findAllDatesBetween(LocalDate startDate, LocalDate endDate) {
+        List<LocalDate> dates = startDate.datesUntil(endDate.plusDays(1)).toList();
+        return dates;
+    }
+    
+    // Provera da slucajno uneseni datumi ne obuhvataju vec neki termin
+    private boolean checkIfDatesAreValid(Long fishingSpotId, LocalDate startDate, LocalDate endDate) {
+        System.out.println("OVDE SAM");
+        List<Reservation> conflictResevations = reservationRepository.findReservationsInInterval(fishingSpotId, startDate, endDate);
+
+        if(conflictResevations.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }

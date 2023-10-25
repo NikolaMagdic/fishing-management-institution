@@ -18,7 +18,9 @@ public class ReservationResponseDTO {
     
     private String fishermanLastName;
     
-    private LocalDate date;
+    private LocalDate arrivalDate;
+    
+    private LocalDate departureDate;
     
     public ReservationResponseDTO() {}
     
@@ -29,7 +31,8 @@ public class ReservationResponseDTO {
         this.fishingSpotType = reservation.getFishingSpot().getType().toString();
         this.fishermanFirstName = reservation.getFisherman().getFirstName();
         this.fishermanLastName = reservation.getFisherman().getLastName();
-        this.date = reservation.getArrivalDate();
+        this.arrivalDate = reservation.getArrivalDate();
+        this.departureDate = reservation.getDepartureDate();
     }
 
     public Long getReservationId() {
@@ -80,14 +83,21 @@ public class ReservationResponseDTO {
         this.fishermanLastName = fishermanLastName;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getArrivalDate() {
+        return arrivalDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setArrivalDate(LocalDate arrivalDate) {
+        this.arrivalDate = arrivalDate;
     }
-    
+
+    public LocalDate getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
+    }
     
     
     

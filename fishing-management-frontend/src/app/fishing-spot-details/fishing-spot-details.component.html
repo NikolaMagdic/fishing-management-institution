@@ -3,47 +3,64 @@
         Ribolovno mesto broj {{fishingSpot.id}}
     </div>
     <div class="container">
-        <div class="col">
-            <div class="row">
-                {{fishingSpot.type}}
+        <div class="row">
+            <div class="col">
+                <h5>{{fishingSpot.type}}</h5>
+                <img src="{{fishingSpot.image}}" alt="Slika ribolovnog mesta nedostupna" [style.width.px]="500" [style.height.px]="315">
+                <br/>
+                <br/>
+                <div *ngIf="fishermanLoggedIn">
+                    <button class="btn btn-primary" (click)="toggleReservationType()" *ngIf="!multiDayReservationForm">Rezerviši višednevni termin</button>
+                    <button class="btn btn-primary" (click)="toggleReservationType()" *ngIf="multiDayReservationForm">Rezerviši jednodnevni termin</button>
+                </div>
+                <div *ngIf="!fishermanLoggedIn">
+                    <button class="btn btn-primary" (click)="showReservations()">Prikaži rezervacije</button>
+                </div>
             </div>
-            <div class="row">
-               
+            <div class="col">
+                <div *ngIf="fishermanLoggedIn" class="container">
+                    <div *ngIf="!multiDayReservationForm">
+                        <h5>Izaberite datum</h5>
+                        <form (ngSubmit)="createReservation()">
+                            <bs-datepicker-inline 
+                                        [bsConfig]="{containerClass: 'theme-dark-blue'}"
+                                        [minDate]="minDate"
+                                        [datesDisabled]="datesReserved"
+                                        name = "date"
+                                        (bsValueChange)="onDateChange($event)"
+                            >
+                            </bs-datepicker-inline>
+                            <br><br>
+                            <div class="d-grid gap-2 col-6">
+                                <button class="btn btn-primary" type="submit">Rezerviši</button>
+                            </div>        
+                        </form>
+                    </div>
+                    <div *ngIf="multiDayReservationForm">
+                        <h5>Izaberite početni i krajnji datum termina</h5>
+                        <form (ngSubmit)="createMultiDayReservation()">
+                            <bs-daterangepicker-inline
+                                ngDefaultControl
+                                [bsConfig]="{containerClass: 'theme-dark-blue'}"
+                                [minDate]="minDate"  
+                                [datesDisabled]="datesReserved"
+                                name = "dateRange"
+                                (bsValueChange)="onDateRangeChange($event)">
+                            </bs-daterangepicker-inline>
+                            <div *ngIf="errorMessageShown" class="alert alert-danger">Datumi koje ste izabrali su zauzeti</div>
+                            <br><br>
+                            <div class="d-grid gap-2 col-11 mx-auto">
+                                <button class="btn btn-primary" type="submit">Rezerviši</button>
+                            </div>        
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
 </div>
+<h4>Lokacija ribolovnog mesta</h4>
 <div id="map" style="height: 400px; width: 100%"></div>
-<div *ngIf="fishermanLoggedIn" class="container">
-    <h5>Rezerviši termin</h5>
-    <form (ngSubmit)="createReservation()">
-        <div class="row">
-            <div class="col-xs-12 col-12 col-md-4 form-group mb-3">
-              <input type="text"
-                     placeholder=""
-                     class="form-control"
-                     bsDatepicker
-                     [isOpen]="true"
-                     [bsConfig]="{containerClass:'theme-dark-blue'}"
-                     [minDate]="minDate"
-                     [datesDisabled]="datesReserved"
-                     name="date"
-                     [formControl]="date">
-            </div>
-          </div>
-          <div>
-            <button class="btn btn-primary" type="submit">Rezerviši</button>
-          </div>        
-    </form>
-    <!-- <bs-daterangepicker-inline
-                    [bsConfig]="{containerClass: 'theme-dark-blue'}"  
-                    [(ngModel)]="bsRangeValue"    
-    ></bs-daterangepicker-inline> -->
-</div>
-<div *ngIf="!fishermanLoggedIn">
-    <button class="btn btn-primary" (click)="showReservations()">Prikaži rezervacije</button>
-</div>
 <div>
     <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #successModal></button>
     <div class="modal" id="success-modal" tabindex="-1">
@@ -69,6 +86,20 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button *ngIf="!validLicense" type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="obtainDailyLicense()">Izvadi dnevnu dozvolu za navedeni datum</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button data-bs-toggle="modal" data-bs-target="#failure-multi-modal" hidden #failureMultiModal></button>
+    <div class="modal" id="failure-multi-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 *ngIf="!validLicense" class="alert alert-danger">Nemate važeću dozvolu. Da li želite da izvadite višednevnu dozvolu za navedene dane?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="reloadPage()"></button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button *ngIf="!validLicense" type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="obtainMultiDayLicense()">Izvadi višednevnu dozvolu za navedene datume</button>
                 </div>
             </div>
         </div>

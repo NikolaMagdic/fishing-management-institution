@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.ReservationDTO;
 import com.example.fishingmanagementbackend.dto.ReservationResponseDTO;
+import com.example.fishingmanagementbackend.model.Reservation;
 import com.example.fishingmanagementbackend.service.ReservationService;
 
 @RestController
@@ -53,7 +54,14 @@ public class ReservationController {
             return ResponseEntity.status(401).build();
         }
         
-        reservationService.createReservation(reservationDTO, principal);
-        return ResponseEntity.status(201).body(reservationDTO);
+        Reservation reservation;
+        
+        try {
+            reservation = reservationService.createReservation(reservationDTO, principal);    
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).build();
+        }
+        
+        return ResponseEntity.status(201).body(new ReservationDTO(reservation));
     }
 }
