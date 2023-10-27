@@ -35,7 +35,7 @@ public class LicenseService {
     
     public License obtainYearLicense(LicenseDTO licenseDTO, Principal principal) {
         
-        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
         
         List<License> existingValidLicenses = licenseRepository.getValidLicensesOfFisherman(fishermanId);
         
@@ -58,7 +58,7 @@ public class LicenseService {
     
     public License obtainDayLicense(LicenseDTO licenseDTO, Principal principal) {
     
-        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
         
         List<License> licencesForThisDay = licenseRepository.getLicencesOfFishermanOnThisDay(fishermanId, licenseDTO.getDate());
         // Vec je izvadjena dozvola za taj dan
@@ -80,7 +80,7 @@ public class LicenseService {
     
     public License obtainMultiDayLicense(LicenseDTO licenseDTO, Principal principal) throws Exception {
         
-        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
         
         //TODO List<>
         if(licenseDTO.getEndDate().isAfter(licenseDTO.getDate().plusDays(7))) {
@@ -101,7 +101,7 @@ public class LicenseService {
     
     public License getExistingValidLicences(Principal principal) {
         
-        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
         
         List<License> existingValidLicences = licenseRepository.getValidLicensesOfFisherman(fishermanId);
         // Moze biti samo jedna validna dozvola za ribolovca u jednom trenutku
@@ -114,7 +114,7 @@ public class LicenseService {
     }
     
     public List<LicenseDTO> getAllDailyLicenses(Principal principal) {
-        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
         List<License> dailyLicensesIfFisherman = licenseRepository.getDailyLicensesOfFisherman(fishermanId);
     
         List<LicenseDTO> licensesDTO = new ArrayList<>();
@@ -127,7 +127,7 @@ public class LicenseService {
     }
     
     public List<LicenseDTO> getAllMultiDayLicenses(Principal principal) {
-        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
         List<License> multiDayLicensesOfFisherman = licenseRepository.getMultiDayLicensesOfFisherman(fishermanId);
         
         List<LicenseDTO> licensesDTO = new ArrayList<>();

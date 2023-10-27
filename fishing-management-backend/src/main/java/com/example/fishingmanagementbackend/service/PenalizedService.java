@@ -13,6 +13,7 @@ import com.example.fishingmanagementbackend.model.Keeper;
 import com.example.fishingmanagementbackend.model.Penalized;
 import com.example.fishingmanagementbackend.model.Penalty;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
+import com.example.fishingmanagementbackend.repository.KeeperRepository;
 import com.example.fishingmanagementbackend.repository.PenalizedRepository;
 import com.example.fishingmanagementbackend.repository.PenaltyRepository;
 import com.example.fishingmanagementbackend.repository.UserRepository;
@@ -32,6 +33,9 @@ public class PenalizedService {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private KeeperRepository keeperRepository;
+    
     public List<PenalizedDTO> getAllPenaltiesOfFisherman(Long fishermanId) {
         List<Penalized> penalizations = penalizedRepository.findAllByFisherman(fishermanId);
         List<PenalizedDTO> penalizationsDTO = new ArrayList<>();
@@ -45,7 +49,8 @@ public class PenalizedService {
     public PenalizedDTO imposeAPenalty(PenalizedDTO penalizedDTO, Principal principal) {
         Penalty penalty = penaltyRepository.getReferenceById(penalizedDTO.getPenaltyId());
         Fisherman fisherman = fishermanRepository.getReferenceById(penalizedDTO.getFishermanId());
-        Keeper keeper = userRepository.findByUsername(principal.getName()).getKeeper();
+        Long keeperId = userRepository.findByUsername(principal.getName()).getId();
+        Keeper keeper = keeperRepository.getReferenceById(keeperId);
         
         Penalized penalized = new Penalized(penalizedDTO.getDate(), penalizedDTO.getReport(), fisherman, penalty);
         penalized.setKeeper(keeper);

@@ -22,7 +22,7 @@
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Registruj novi prekršaj</button>
+    <button *ngIf="adminLoggedIn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Registruj novi prekršaj</button>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Potvrdi unos</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!form.form.valid">Potvrdi unos</button>
                     </div>
                 </form>
             </div>

@@ -2,19 +2,19 @@
     <h1>Unesite podatke o ulovu</h1>
     <div class="row">
     <div class="col">
-    <form>
+    <form #form="ngForm">
         <div class="mb-3">
             <label class="form-label">Ribolovna voda</label>
-            <select class="form-select" name="fishgingAreas" id="fishingAreas" [(ngModel)]="selectedArea" (change)="getFishSpeciesInArea()">
+            <select class="form-select" name="fishgingAreas" id="fishingAreas" [(ngModel)]="selectedArea" required>
                 <option *ngFor="let area of fishingAreas" [ngValue]="area">{{area.name}}</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Datum</label>
-            <input class="form-control" type="date" name="date" [(ngModel)]="catch.date">
+            <input class="form-control" type="date" name="date" [(ngModel)]="catch.date" required>
         </div>
     </form>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [disabled]="addItemDisabled">Dodaj stavku ulova</button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [disabled]="!form.form.valid">Dodaj stavku ulova</button>
     </div>
     <div class="col">
     <table class="table table-striped" *ngIf="catch.catchItems.length > 0">
@@ -35,7 +35,7 @@
                     {{item.quantity}}
                 </td>
                 <td>
-                    {{item.weight}} kg
+                    <div *ngIf="item.weight">{{item.weight}} kg</div>
                 </td>
                 <td>
                     <button class="btn-close" (click)="removeCatchItem(indexOfItem)"></button>
@@ -52,7 +52,7 @@
                 <form (ngSubmit)="addCatchItem()" #form="ngForm" [formGroup]="catchItemForm">
                     <div class="modal-header">
                         <h5 class="modal-title">Unesite podatke o ulovljenoj ribi</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"  #catchItemModalClose></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -69,9 +69,10 @@
                             <label class="form-label">Težina (kg)</label>
                             <input class="form-control" type="number" name="weight" formControlName="weight">
                         </div>
+                        <div *ngIf="alertShown" class="alert alert-danger">Morate uneti količinu ili težinu ribe</div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Dodaj</button>
+                        <button type="submit" class="btn btn-primary">Dodaj</button>
                     </div>
                 </form>
             </div>

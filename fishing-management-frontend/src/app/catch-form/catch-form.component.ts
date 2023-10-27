@@ -25,7 +25,9 @@ export class CatchFormComponent {
 
   // Da ne mogu da se dodaju stavke dok se ne izabere ribolovna voda (jer se na osnovu vode traze ponudjene vrste riba)
   addItemDisabled: boolean = true;
+  alertShown = false;
 
+  @ViewChild('catchItemModalClose') catchItemModelClose: ElementRef | any;
   // Za success modal
   @ViewChild('openModal') openModal: ElementRef | any;
   
@@ -40,6 +42,11 @@ export class CatchFormComponent {
               
 
   ngOnInit() {
+    this.getFishingAreas();
+    this.getFishSpecies();
+  }
+
+  getFishingAreas() {
     this.fishingAreaService.getFishingAreas().subscribe({
       next: data => {
         this.fishingAreas = data as FishingArea[];
@@ -47,9 +54,8 @@ export class CatchFormComponent {
     }); 
   }
 
-  getFishSpeciesInArea() {
-    this.addItemDisabled = false;
-    this.fishSpeciesService.getFishSpeciesInArea(this.selectedArea.id).subscribe({
+  getFishSpecies() {
+    this.fishSpeciesService.getFishSpecies().subscribe({
       next: data => {
         this.fishSpecies = data as FishSpecies[];
       }
@@ -57,6 +63,13 @@ export class CatchFormComponent {
   }
 
   addCatchItem() {
+
+    // Mora biti uneta bar jedno od dve stavke: kolicina ili tezina
+    if(!(this.catchItemForm.value.quantity || this.catchItemForm.value.weight)) {
+      this.alertShown = true;
+      return;
+    }
+
     var newItem = new CatchItem(
       this.selectedFish.id, 
       this.catchItemForm.value.quantity,
@@ -69,6 +82,9 @@ export class CatchFormComponent {
 
     // Resetujemo formu
     this.catchItemForm.reset();
+    this.alertShown = false;
+    this.catchItemModelClose.nativeElement.click();
+    
   }
 
   createCatch() {

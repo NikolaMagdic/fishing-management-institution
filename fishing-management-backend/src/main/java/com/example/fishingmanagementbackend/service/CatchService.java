@@ -26,6 +26,7 @@ import com.example.fishingmanagementbackend.repository.CatchRepository;
 import com.example.fishingmanagementbackend.repository.FishSpeciesRepository;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.FishingAreaRepository;
+import com.example.fishingmanagementbackend.repository.KeeperRepository;
 import com.example.fishingmanagementbackend.repository.UserRepository;
 
 @Service
@@ -48,6 +49,9 @@ public class CatchService {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired 
+    private KeeperRepository keeperRepository;
     
     public CatchDTO getCatchById(Long id) {
         Catch dailyCatch = catchRepository.getReferenceById(id);
@@ -97,7 +101,9 @@ public class CatchService {
         FishingArea area = fishingAreaRepository.getReferenceById(dailyCatchDTO.getFishingAreaId());
         dailyCatch.setFishingArea(area);
 
-        Fisherman fisherman = userRepository.findByUsername(principal.getName()).getFisherman();
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
+        Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
+        
         dailyCatch.setFisherman(fisherman);
 
         dailyCatch = this.catchRepository.save(dailyCatch);
@@ -119,7 +125,8 @@ public class CatchService {
         
         /* Omogucavamo samo ribocuvarima koji su zaduzeni za ribolovnu vodu na kojoj je ostvaren ulov
          da ga potvrde */
-        Keeper keeper = userRepository.findByUsername(principal.getName()).getKeeper();
+        Long keeperId = userRepository.findByUsername(principal.getName()).getId();
+        Keeper keeper = keeperRepository.getReferenceById(keeperId);
         FishingArea fishingArea = dailyCatch.getFishingArea();
         if(!keeper.getFishingAreas().contains(fishingArea)) {
             throw new ForbiddenException("Ne možete potvrđivati ulov na ribolovnoj vodi za koju niste zaduženi.");

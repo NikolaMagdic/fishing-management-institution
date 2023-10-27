@@ -1,6 +1,6 @@
 package com.example.fishingmanagementbackend.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.example.fishingmanagementbackend.model.Keeper;
 
@@ -12,11 +12,11 @@ public class KeeperDTO {
     
     private String lastName;
     
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     
     public KeeperDTO() {}
     
-    public KeeperDTO(Long id, String firstName, String lastName, Date dateOfBirth) {
+    public KeeperDTO(Long id, String firstName, String lastName, LocalDate dateOfBirth) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,11 +46,11 @@ public class KeeperDTO {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
     

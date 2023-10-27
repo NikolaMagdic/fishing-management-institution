@@ -12,6 +12,7 @@ export class PenaltiesComponent {
 
   penalties : any = [];
   penaltyForm: FormGroup;
+  adminLoggedIn: boolean = false;
 
   constructor(
     private penaltyService: PenaltyService,
@@ -26,6 +27,11 @@ export class PenaltiesComponent {
 
   ngOnInit() {
     this.getAllPenalties();
+
+    const role = localStorage.getItem('role');
+    if(role == "ROLE_ADMIN") {
+      this.adminLoggedIn = true;
+    }
   }
 
   getAllPenalties() {
@@ -44,7 +50,7 @@ export class PenaltiesComponent {
     }
     this.penaltyService.addPenalty(penalty).subscribe({
       next: () => {
-        window.location.reload();
+        this.getAllPenalties();
       }
     });
   }

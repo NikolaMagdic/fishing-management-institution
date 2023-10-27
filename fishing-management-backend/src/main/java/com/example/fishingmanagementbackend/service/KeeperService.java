@@ -54,8 +54,8 @@ public class KeeperService {
     
     public KeeperDTO getKeeperById(Long id, Principal principal) throws ForbiddenException {
         
-        if(userRepository.findByUsername(principal.getName()).getKeeper() != null) {
-            if(!userRepository.findByUsername(principal.getName()).getKeeper().getId().equals(id)) {
+        if(userService.findUserByUsername(principal.getName()).getAuthorities().iterator().next().getName().equals("ROLE_KEEPER")) {
+            if(!userRepository.findByUsername(principal.getName()).getId().equals(id)) {
                 throw new ForbiddenException("Nemate privilegije da vidite podatke ovog ribočuvara");
             }    
         }
@@ -72,18 +72,21 @@ public class KeeperService {
             return null;
         }
 
-        Keeper keeper = new Keeper(newKeeper.getFirstName(),
-                                 newKeeper.getLastName(),
-                                 newKeeper.getDateOfBirth());
+        Keeper keeper = new Keeper();
         
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        User user = new User(newKeeper.getUsername(), encoder.encode(newKeeper.getPassword()), false);
+        User user = new User(newKeeper.getUsername(),
+                             encoder.encode(newKeeper.getPassword()), 
+                             false,
+                             newKeeper.getFirstName(),
+                             newKeeper.getLastName(),
+                             newKeeper.getDateOfBirth());
         
         Set<Authority> authorities = authService.findByName("ROLE_KEEPER");
         user.setAuthorities(authorities);
-        keeper.setUser(user);
         
-        userRepository.save(user);
+        user = userRepository.save(user);
+        keeper.setId(user.getId());
         
         try {
             emailService.sendMailAsync(user, newKeeper.getFirstName());
@@ -97,7 +100,7 @@ public class KeeperService {
     public Keeper updateKeeper(Long id, KeeperDTO keeperDTO, Principal principal) throws ForbiddenException {
         Keeper keeper = keeperRepository.getReferenceById(id);
         
-        if(!userRepository.findByUsername(principal.getName()).getKeeper().getId().equals(id)) {
+        if(!userRepository.findByUsername(principal.getName()).getId().equals(id)) {
             throw new ForbiddenException("Nemate privilegije da menjate podatke ovog ribočuvara");
         }
         

@@ -15,7 +15,6 @@ import com.example.fishingmanagementbackend.dto.RegistrationDTO;
 import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Authority;
 import com.example.fishingmanagementbackend.model.Fisherman;
-import com.example.fishingmanagementbackend.model.Keeper;
 import com.example.fishingmanagementbackend.model.User;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.UserRepository;
@@ -51,9 +50,9 @@ public class FishermanService {
     /** Vraca sve ribolovce sa nepotvrdjenim ulovima za prikaz ribocuvaru 
      * koji je nadlezan za ribolovnu vodu na kojoj su ti ulovi ostvareni*/
     public List<FishermanDTO> getAllFishermansWithNonConfirmedCatches(Principal principal) {
-        Keeper loggedKeeper = userRepository.findByUsername(principal.getName()).getKeeper();
+        Long loggedKeeperId = userRepository.findByUsername(principal.getName()).getId();
         
-        List<Fisherman> fishermansWithNonConfirmedCatches = fishermanRepository.findAllFishermansWithNonConfirmedCatches(loggedKeeper.getId());
+        List<Fisherman> fishermansWithNonConfirmedCatches = fishermanRepository.findAllFishermansWithNonConfirmedCatches(loggedKeeperId);
         List<FishermanDTO> fishermansDTO = new ArrayList<>();
         
         for(Fisherman f : fishermansWithNonConfirmedCatches) {
@@ -66,8 +65,8 @@ public class FishermanService {
     public FishermanDTO getFishermanById(Long id, Principal principal) {
         
         // Branim ribolovcima da vide i menjaju podatke drugih ribolovaca
-        if(userRepository.findByUsername(principal.getName()).getFisherman() != null) {
-            if(!userRepository.findByUsername(principal.getName()).getFisherman().getId().equals(id)) {
+        if(userRepository.findByUsername(principal.getName()).getAuthorities().iterator().next().getName().equals("ROLE_FISHERMAN")) {
+            if(!userRepository.findByUsername(principal.getName()).getId().equals(id)) {
                 throw new ForbiddenException("Nemate privilegije da vidite podatke ovog ribolovca");
             }    
         }
@@ -87,24 +86,27 @@ public class FishermanService {
             return null;
         }
         
-        Fisherman fisherman = new Fisherman(registrationDTO.getFirstName(),
-                                            registrationDTO.getLastName(),
-                                            registrationDTO.getDateOfBirth(),
-                                            registrationDTO.getAddress(),
+        Fisherman fisherman = new Fisherman(registrationDTO.getAddress(),
                                             registrationDTO.getCity(),
                                             registrationDTO.getCategory());
         
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        // Nalog ribolovca nije enabled dok ga ne verifikuje preko mejla
-        User user = new User(registrationDTO.getUsername(), encoder.encode(registrationDTO.getPassword()), false);
+        
+        User user = new User(registrationDTO.getUsername(),
+                             encoder.encode(registrationDTO.getPassword()), 
+                             // Nalog ribolovca nije enabled dok ga ne verifikuje preko mejla
+                             false,
+                             registrationDTO.getFirstName(),
+                             registrationDTO.getLastName(),
+                             registrationDTO.getDateOfBirth());
         
         // Dodela role odnosno privilegija
         Set<Authority> authorities = authService.findByName("ROLE_FISHERMAN");
         user.setAuthorities(authorities);
         
-        fisherman.setUser(user);
-        
-        userRepository.save(user);
+        user = userRepository.save(user);
+        fisherman.setId(user.getId());
+
         // Saljemo mejl sa linkom za potvrdu registracije
         try {
             emailService.sendMailAsync(user, registrationDTO.getFirstName());
@@ -118,7 +120,7 @@ public class FishermanService {
     
     public Fisherman updateFisherman(Long id, FishermanDTO fishermanDTO, Principal principal) throws ForbiddenException {
         
-        if(!userRepository.findByUsername(principal.getName()).getFisherman().getId().equals(id)) {
+        if(!userRepository.findByUsername(principal.getName()).getId().equals(id)) {
             throw new ForbiddenException("Nemate privilegije da menjate podatke ovog ribolovca");
         }
             

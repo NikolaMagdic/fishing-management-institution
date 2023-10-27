@@ -14,6 +14,7 @@ export class PenaltyDetailsComponent {
   penaltyForm: FormGroup;
   formDisabled: boolean = true;
   updateButtonVisible: boolean = true;
+  adminLoggedIn: boolean = false;
 
   constructor(
     private penaltyService: PenaltyService,
@@ -29,6 +30,11 @@ export class PenaltyDetailsComponent {
   ngOnInit() {
     let id = Number(this.route.snapshot.paramMap.get('id'));
     this.getPenalty(id);
+
+    const role = localStorage.getItem('role');
+    if(role == "ROLE_ADMIN") {
+      this.adminLoggedIn = true;
+    }
   }
 
   enableForm() {

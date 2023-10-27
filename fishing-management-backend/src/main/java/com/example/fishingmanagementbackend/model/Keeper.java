@@ -1,40 +1,18 @@
 package com.example.fishingmanagementbackend.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 
 @Entity
-public class Keeper implements Serializable {
+public class Keeper extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column
-    private String firstName;
-    
-    @Column
-    private String lastName;
-    
-    @Column
-    private Date dateOfBirth;
-    
-    @OneToOne()
-    private User user;
     
     @ManyToMany
     @JoinTable(name = "keeps",
@@ -43,52 +21,6 @@ public class Keeper implements Serializable {
     private Set<FishingArea> fishingAreas = new HashSet<>();
     
     public Keeper() {}
-    
-    public Keeper(String firstName, String lastName, Date dateOfBirth) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
     
     public Set<FishingArea> getFishingAreas() {
         return fishingAreas;
@@ -100,9 +32,9 @@ public class Keeper implements Serializable {
 
     @Override
     public String toString() {
-        return "Keeper [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
-                + dateOfBirth + ", user=" + user + "]";
+        return "Keeper [fishingAreas=" + fishingAreas + "]";
     }
+
     
     
 }

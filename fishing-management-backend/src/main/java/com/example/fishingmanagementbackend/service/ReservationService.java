@@ -76,7 +76,7 @@ public class ReservationService {
     
     public Reservation createReservation(ReservationDTO reservationDTO, Principal principal) throws Exception {
         
-        Long fishermanId = userRepository.findByUsername(principal.getName()).getFisherman().getId();
+        Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
         
         System.out.println(reservationDTO);
         if(reservationDTO.getDepartureDate() != null) {

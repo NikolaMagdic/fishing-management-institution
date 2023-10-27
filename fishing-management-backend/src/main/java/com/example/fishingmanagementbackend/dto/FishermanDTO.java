@@ -1,6 +1,6 @@
 package com.example.fishingmanagementbackend.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
 import com.example.fishingmanagementbackend.model.Fisherman;
@@ -13,7 +13,7 @@ public class FishermanDTO {
     
     private String lastName;
     
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     
     private String address;
     
@@ -57,11 +57,11 @@ public class FishermanDTO {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

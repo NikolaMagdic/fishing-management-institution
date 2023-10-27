@@ -1,6 +1,6 @@
 package com.example.fishingmanagementbackend.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class KeeperRegistrationDTO {
 
@@ -12,7 +12,7 @@ public class KeeperRegistrationDTO {
     
     private String lastName;
     
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     
     public KeeperRegistrationDTO() {}
 
@@ -48,11 +48,11 @@ public class KeeperRegistrationDTO {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

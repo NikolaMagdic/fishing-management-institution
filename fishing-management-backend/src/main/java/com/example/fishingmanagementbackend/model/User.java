@@ -1,10 +1,10 @@
 package com.example.fishingmanagementbackend.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
@@ -13,14 +13,16 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name ="app_user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
 
     /**
@@ -44,11 +46,14 @@ public class User implements UserDetails {
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
     
-    @OneToOne(mappedBy = "user")
-    private Fisherman fisherman;
+    @Column
+    private String firstName;
     
-    @OneToOne(mappedBy = "user")
-    private Keeper keeper;
+    @Column
+    private String lastName;
+    
+    @Column
+    private LocalDate dateOfBirth;
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority", 
@@ -58,14 +63,17 @@ public class User implements UserDetails {
     
     public User() {}
     
-    public User(String username, String password, boolean enabled) {
+    public User(String username, String password, boolean enabled, String firstName, String lastName, LocalDate dateOfBirth) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
     }
     
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<Authority> getAuthorities() {
         return this.authorities;
     }
     
@@ -122,23 +130,45 @@ public class User implements UserDetails {
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
-
-    public Fisherman getFisherman() {
-        return fisherman;
-    }
-
-    public void setFisherman(Fisherman fisherman) {
-        this.fisherman = fisherman;
-    }
-
-    public Keeper getKeeper() {
-        return keeper;
-    }
-
-    public void setKeeper(Keeper keeper) {
-        this.keeper = keeper;
-    }
     
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", password=" + password + ", enabled=" + enabled
+                + ", lastPasswordResetDate=" + lastPasswordResetDate + ", firstName=" + firstName + ", lastName="
+                + lastName + ", dateOfBirth=" + dateOfBirth + ", authorities=" + authorities + "]";
+    }
     
     
 }

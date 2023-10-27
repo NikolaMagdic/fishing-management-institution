@@ -55,9 +55,9 @@ public class AuthenticationController {
         int expiresIn = tokenUtils.getExpiredIn();
         String role = user.getAuthorities().iterator().next().getAuthority();
         
-        Long idInCorrespondingRoleTable = userService.getIdOfUserInCorrespondingRoleTable(authRequest.getUsername(), role);
+        Long userId = user.getId();
         
-        UserTokenState userTokenState = new UserTokenState(jwt, expiresIn, role, idInCorrespondingRoleTable);
+        UserTokenState userTokenState = new UserTokenState(jwt, expiresIn, role, userId);
         
         return ResponseEntity.ok(userTokenState);
     }

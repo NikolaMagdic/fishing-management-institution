@@ -18,6 +18,6 @@
         </fieldset>
     </form>
     <div>
-        <button class="btn btn-primary" (click)="enableForm()" [hidden]="!updateButtonVisible">Izmeni</button>
+        <button *ngIf="adminLoggedIn" class="btn btn-primary" (click)="enableForm()" [hidden]="!updateButtonVisible">Izmeni</button>
     </div>
 </div>
