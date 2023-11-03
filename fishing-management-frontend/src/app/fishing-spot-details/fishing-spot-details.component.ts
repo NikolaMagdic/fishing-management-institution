@@ -43,6 +43,7 @@ export class FishingSpotDetailsComponent {
 
   validLicense: boolean = false;
   fishermanLoggedIn = false;
+  licenseId: any;
 
   constructor(private fishingSpotService: FishingSpotService,
               private reservationService: ReservationService,
@@ -52,7 +53,8 @@ export class FishingSpotDetailsComponent {
                }
 
   ngOnInit() {
-    let id = Number(this.route.snapshot.paramMap.get('id'));
+    let areaId = Number(this.route.snapshot.paramMap.get('areaId'));
+    let spotId = Number(this.route.snapshot.paramMap.get('spotId'));
 
     const role = localStorage.getItem('role');
     if(role == "ROLE_FISHERMAN") {
@@ -60,7 +62,7 @@ export class FishingSpotDetailsComponent {
       this.getExistingValidLicenses();
     }
 
-    this.fishingSpotService.getFishingSpotById(id).subscribe({
+    this.fishingSpotService.getFishingSpotById(spotId, areaId).subscribe({
       next: data => {
         this.fishingSpot = data;
         console.log(this.fishingSpot);
@@ -98,7 +100,7 @@ export class FishingSpotDetailsComponent {
       
     });
 
-    this.reservationService.getOccupiedDatesForFishingSpot(id).subscribe({
+    this.reservationService.getOccupiedDatesForFishingSpot(spotId, areaId).subscribe({
       next: data => {
         var dates = data as Date[];
         // Moram pretvoriti u Date jer datepicker ne prepoznaje LocalDate
@@ -125,7 +127,10 @@ export class FishingSpotDetailsComponent {
   createReservation() {
     if(this.validLicense) {
       let resDate = new Date(Date.UTC(this.date.getFullYear(), this.date.getMonth(), this.date.getDate()));
-      var reservation = new Reservation(0, resDate, this.fishingSpot.id);
+      var reservation = new Reservation(0, resDate, this.fishingSpot.id, this.fishingSpot.fishingAreaId);
+      if(this.licenseId) {
+        reservation.licenseId = this.licenseId;
+      }
       this.reservationService.createReservation(reservation).subscribe({
         next: () => {
           this.successModal.nativeElement.click();
@@ -144,8 +149,11 @@ export class FishingSpotDetailsComponent {
       let resEndDate = new Date(Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()));
       console.log("OVDE SAM");
       console.log(resEndDate);
-      var reservation = new Reservation(0, resStartDate, this.fishingSpot.id);
+      var reservation = new Reservation(0, resStartDate, this.fishingSpot.id, this.fishingSpot.fishingAreaId);
       reservation.departureDate = resEndDate;
+      if(this.licenseId) {
+        reservation.licenseId = this.licenseId;
+      }
       this.reservationService.createReservation(reservation).subscribe({
         next: () => {
           this.successModal.nativeElement.click();
@@ -164,28 +172,33 @@ export class FishingSpotDetailsComponent {
   }
 
   obtainDailyLicense() {
-    const license: License = new License(0, "DAILY", this.date, new Date(), 0, this.fishingSpot.id);
+    const license: License = new License(0, "DAILY", this.date, new Date(), 0);
     this.licenseService.obtainLicence(license).subscribe({
-      next: () => {
+      next: data => {
         this.validLicense = true;
+        let l = data as License;
+        this.licenseId = l.id;
         this.createReservation();
       }
     })
   }
 
   obtainMultiDayLicense() {
-    const license: License = new License(0, "MULTIDAY", this.dateRange[0], this.dateRange[1], 0 ,this.fishingSpot.id);
+    const license: License = new License(0, "MULTIDAY", this.dateRange[0], this.dateRange[1], 0);
     this.licenseService.obtainLicence(license).subscribe({
-      next: () => {
+      next: data => {
         this.validLicense = true;
+        let l = data as License;
+        this.licenseId = l.id;
         this.createMultiDayReservation();
       }
     });
   }
 
   showReservations() {
-    let id = Number(this.route.snapshot.paramMap.get('id'));
-    this.router.navigate(["/reservations/" + id]);
+    let areaId = Number(this.route.snapshot.paramMap.get('areaId'));
+    let spotId = Number(this.route.snapshot.paramMap.get('spotId'));
+    this.router.navigate(["/reservations/" + areaId + '/' + spotId]);
   }
 
   onDateChange(event: any) {

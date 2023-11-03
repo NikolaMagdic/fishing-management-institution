@@ -12,22 +12,29 @@ public class ReservationDTO {
     
     private Long fishingSpotId;
     
+    private Long fishingAreaId;
+    
     private Long fishermanId;
+    
+    private Long licenseId;
     
     public ReservationDTO() {}
 
     public ReservationDTO(LocalDate arrivalDate, LocalDate departureDate,
-            Long fishingSpotId, Long fishermanId) {
+            Long fishingSpotId, Long fishingAreaId, Long fishermanId, Long licenseId) {
         this.arrivalDate = arrivalDate;
         this.departureDate = departureDate;
         this.fishingSpotId = fishingSpotId;
+        this.fishingAreaId = fishingAreaId;
         this.fishermanId = fishermanId;
+        this.licenseId = licenseId;
     }
     
     public ReservationDTO(Reservation reservation) {
         this.arrivalDate = reservation.getArrivalDate();
         this.departureDate = reservation.getDepartureDate();
         this.fishingSpotId = reservation.getFishingSpot().getId();
+        this.fishingAreaId = reservation.getFishingSpot().getFishingArea().getId();
         this.fishermanId = reservation.getFisherman().getId();
     }
 
@@ -55,6 +62,14 @@ public class ReservationDTO {
         this.fishingSpotId = fishingSpotId;
     }
 
+    public Long getFishingAreaId() {
+        return fishingAreaId;
+    }
+
+    public void setFishingAreaId(Long fishingAreaId) {
+        this.fishingAreaId = fishingAreaId;
+    }
+
     public Long getFishermanId() {
         return fishermanId;
     }
@@ -62,13 +77,21 @@ public class ReservationDTO {
     public void setFishermanId(Long fishermanId) {
         this.fishermanId = fishermanId;
     }
+    
+    public Long getLicenseId() {
+        return licenseId;
+    }
+
+    public void setLicenseId(Long licenseId) {
+        this.licenseId = licenseId;
+    }
 
     @Override
     public String toString() {
         return "ReservationDTO [arrivalDate=" + arrivalDate + ", departureDate=" + departureDate + ", fishingSpotId="
-                + fishingSpotId + ", fishermanId=" + fishermanId + "]";
+                + fishingSpotId + ", fishingAreaId=" + fishingAreaId + ", fishermanId=" + fishermanId + ", licenseId="
+                + licenseId + "]";
     }
-
-
+    
     
 }

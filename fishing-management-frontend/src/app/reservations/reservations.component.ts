@@ -40,8 +40,9 @@ export class ReservationsComponent {
   }
 
   getAllReservationsForFishingSpot() {
-    let spotId = Number(this.route.snapshot.paramMap.get('id'));
-    this.reservationService.getAllReservationsForFishingSpot(spotId).subscribe({
+    let areaId = Number(this.route.snapshot.paramMap.get('areaId'));
+    let spotId = Number(this.route.snapshot.paramMap.get('spotId'));
+    this.reservationService.getAllReservationsForFishingSpot(areaId, spotId).subscribe({
       next: data => {
         this.reservations = data;
       }

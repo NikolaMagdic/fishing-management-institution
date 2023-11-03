@@ -40,9 +40,6 @@ public class License {
     @JoinColumn(name = "fisherman_id", referencedColumnName = "id")
     private Fisherman fisherman;
     
-    // Polje potrebno zbog brisanja rezervisanih termina ukoliko je zahtev za dnevnu dozvolu odbijen
-    @Column
-    private Long spotId;
     
     public License() {}
     
@@ -108,19 +105,11 @@ public class License {
     public void setStatus(LicenseStatus status) {
         this.status = status;
     }
-    
-    public Long getSpotId() {
-        return spotId;
-    }
-
-    public void setSpotId(Long spotId) {
-        this.spotId = spotId;
-    }
 
     @Override
     public String toString() {
         return "License [licenseId=" + licenseId + ", type=" + type + ", date=" + date + ", endDate=" + endDate
-                + ", year=" + year + ", status=" + status + ", fisherman=" + fisherman + ", spotId=" + spotId + "]";
+                + ", year=" + year + ", status=" + status + ", fisherman=" + fisherman + "]";
     }
     
     

@@ -26,9 +26,9 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
     
-    @GetMapping("/{spotId}")
-    public ResponseEntity<List<LocalDate>> getFutureReservationsForFishingSpot(@PathVariable("spotId") Long spotId) {
-        List<LocalDate> futureReservations = reservationService.getFutureReservationsForFishingSpot(spotId);
+    @GetMapping("/spot/{spotId}/area/{areaId}/future")
+    public ResponseEntity<List<LocalDate>> getFutureReservationsForFishingSpot(@PathVariable("spotId") Long spotId, @PathVariable("areaId") Long areaId) {
+        List<LocalDate> futureReservations = reservationService.getFutureReservationsForFishingSpot(spotId, areaId);
         System.out.println(futureReservations);
         return ResponseEntity.status(200).body(futureReservations);
     }
@@ -39,10 +39,10 @@ public class ReservationController {
         return ResponseEntity.ok(reservations);
     }
     
-    @GetMapping("/spot/{spotId}")
+    @GetMapping("/spot/{spotId}/area/{areaId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'KEEPER')")
-    public ResponseEntity<List<ReservationResponseDTO>> getAllReservationsForFishingSpot(@PathVariable("spotId") Long spotId) {
-        List<ReservationResponseDTO> reservations = reservationService.getAllReservationsForFishingSpot(spotId);
+    public ResponseEntity<List<ReservationResponseDTO>> getAllReservationsForFishingSpot(@PathVariable("spotId") Long spotId, @PathVariable("areaId") Long areaId) {
+        List<ReservationResponseDTO> reservations = reservationService.getAllReservationsForFishingSpot(spotId, areaId);
         return ResponseEntity.ok(reservations);
     }
     

@@ -11,7 +11,7 @@ public interface CatchItemRepository extends JpaRepository<CatchItem, Long>{
 
     @Query(value = "SELECT sum(quantity), sum(weight), fish_id, fishing_area_id "
             + " FROM catch_item ci LEFT OUTER JOIN catch c ON ci.catch_id = c.id"
-            + " WHERE fisherman_id = ?1 AND YEAR(time) = ?2"
+            + " WHERE fisherman_id = ?1 AND YEAR(date) = ?2"
             + " GROUP BY fish_id, fishing_area_id", nativeQuery = true)
     List<Object[]> findAllCatchItemsByFishermanInYear(Long fishermanId, int year);
     

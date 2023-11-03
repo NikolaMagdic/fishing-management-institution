@@ -12,9 +12,12 @@ import com.example.fishingmanagementbackend.dto.ReservationDTO;
 import com.example.fishingmanagementbackend.dto.ReservationResponseDTO;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.model.FishingSpot;
+import com.example.fishingmanagementbackend.model.FishingSpotPK;
+import com.example.fishingmanagementbackend.model.License;
 import com.example.fishingmanagementbackend.model.Reservation;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.FishingSpotRepository;
+import com.example.fishingmanagementbackend.repository.LicenseRepository;
 import com.example.fishingmanagementbackend.repository.ReservationRepository;
 import com.example.fishingmanagementbackend.repository.UserRepository;
 
@@ -32,9 +35,12 @@ public class ReservationService {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired 
+    private LicenseRepository licenseRepository;
 
-    public List<LocalDate> getFutureReservationsForFishingSpot(Long spotId) {
-        List<Reservation> futureReservations = reservationRepository.findFutureReservationsForSpot(spotId);
+    public List<LocalDate> getFutureReservationsForFishingSpot(Long spotId, Long areaId) {
+        List<Reservation> futureReservations = reservationRepository.findFutureReservationsForSpot(spotId, areaId);
         List<LocalDate> occupiedDates = new ArrayList<>();
         
         for(Reservation r: futureReservations) {
@@ -63,8 +69,8 @@ public class ReservationService {
         return reservationsDTO;
     }
     
-    public List<ReservationResponseDTO> getAllReservationsForFishingSpot(Long fishingSpotId) {
-        List<Reservation> reservations = reservationRepository.findByFishingSpot(fishingSpotId);
+    public List<ReservationResponseDTO> getAllReservationsForFishingSpot(Long fishingSpotId, Long fishingAreaId) {
+        List<Reservation> reservations = reservationRepository.findByFishingSpot(fishingSpotId, fishingAreaId);
         List<ReservationResponseDTO> reservationsDTO = new ArrayList<>();
         
         for(Reservation r : reservations) {
@@ -80,7 +86,7 @@ public class ReservationService {
         
         System.out.println(reservationDTO);
         if(reservationDTO.getDepartureDate() != null) {
-            boolean validRequest = checkIfDatesAreValid(reservationDTO.getFishingSpotId(), reservationDTO.getArrivalDate(), reservationDTO.getDepartureDate());
+            boolean validRequest = checkIfDatesAreValid(reservationDTO.getFishingSpotId(), reservationDTO.getFishingAreaId(), reservationDTO.getArrivalDate(), reservationDTO.getDepartureDate());
             System.out.println(validRequest);
             if(!validRequest) 
                 throw new Exception("Datumi nisu ispravni");
@@ -89,11 +95,18 @@ public class ReservationService {
         Reservation reservation = new Reservation(reservationDTO.getArrivalDate(),
                 reservationDTO.getDepartureDate());
         
-        FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(reservationDTO.getFishingSpotId());
+        FishingSpotPK id = new FishingSpotPK(reservationDTO.getFishingSpotId(), reservationDTO.getFishingAreaId());
+        FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(id);
         Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
         
         reservation.setFishingSpot(fishingSpot);
-        reservation.setFisherman(fisherman);    
+        reservation.setFisherman(fisherman);  
+        
+        // Ukoliko je izvadjena dozvola uz rezervaciju
+        if(reservationDTO.getLicenseId() != null) {
+            License license = licenseRepository.getReferenceById(reservationDTO.getLicenseId());
+            reservation.setLicense(license);
+        }
         
         return reservationRepository.save(reservation);
     }
@@ -108,9 +121,9 @@ public class ReservationService {
     }
     
     // Provera da slucajno uneseni datumi ne obuhvataju vec neki termin
-    private boolean checkIfDatesAreValid(Long fishingSpotId, LocalDate startDate, LocalDate endDate) {
+    private boolean checkIfDatesAreValid(Long fishingSpotId, Long fishingAreaId, LocalDate startDate, LocalDate endDate) {
         System.out.println("OVDE SAM");
-        List<Reservation> conflictResevations = reservationRepository.findReservationsInInterval(fishingSpotId, startDate, endDate);
+        List<Reservation> conflictResevations = reservationRepository.findReservationsInInterval(fishingSpotId, fishingAreaId, startDate, endDate);
 
         if(conflictResevations.isEmpty()) {
             return true;

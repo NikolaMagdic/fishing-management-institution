@@ -52,7 +52,7 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: "fishing-spot-details/:id",
+        path: "fishing-spot-details/area/:areaId/spot/:spotId",
         component: FishingSpotDetailsComponent,
         canActivate: [AuthGuard]
       },
@@ -118,6 +118,12 @@ const routes: Routes = [
       },
       {
         path: "reservations/:id",
+        component: ReservationsComponent,
+        canActivate: [AuthGuard],
+        data: {roles: ["ROLE_FISHERMAN"]}
+      },
+      {
+        path: "reservations/:areaId/:spotId",
         component: ReservationsComponent,
         canActivate: [AuthGuard]
       },

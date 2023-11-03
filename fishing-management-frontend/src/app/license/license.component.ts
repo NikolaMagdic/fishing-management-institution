@@ -38,7 +38,7 @@ export class LicenseComponent {
   }
 
   obtainLicence() {
-    const license: License = new License(0, "YEARLY", new Date(), new Date(), 0, 0);
+    const license: License = new License(0, "YEARLY", new Date(), new Date(), 0);
     this.licenseService.obtainLicence(license).subscribe({
       next: () => {
         window.location.reload();
@@ -47,7 +47,7 @@ export class LicenseComponent {
   }
 
   obtainDailyLicense() {
-    const license: License = new License(0, "DAILY", this.licenseDate, new Date(), 0, 0);
+    const license: License = new License(0, "DAILY", this.licenseDate, new Date(), 0);
     this.licenseService.obtainLicence(license).subscribe({
       next: () => {
         this.modalMessage = "Zahtev za dozvolu uspešno poslat";
@@ -61,7 +61,7 @@ export class LicenseComponent {
   }
 
   obtainMultiDayLicense() {
-    const license: License = new License(0, "MULTIDAY", this.licenseDateStart, this.licenseDateEnd, 0, 0);
+    const license: License = new License(0, "MULTIDAY", this.licenseDateStart, this.licenseDateEnd, 0);
     this.licenseService.obtainLicence(license).subscribe({
       next: () => {
         this.modalMessage = "Zahtev za dozvolu uspešno poslat"

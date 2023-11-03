@@ -10,6 +10,7 @@ import com.example.fishingmanagementbackend.dto.FishingSpotDTO;
 import com.example.fishingmanagementbackend.enumerations.FishingSpotType;
 import com.example.fishingmanagementbackend.model.FishingArea;
 import com.example.fishingmanagementbackend.model.FishingSpot;
+import com.example.fishingmanagementbackend.model.FishingSpotPK;
 import com.example.fishingmanagementbackend.repository.FishingAreaRepository;
 import com.example.fishingmanagementbackend.repository.FishingSpotRepository;
 
@@ -32,7 +33,8 @@ public class FishingSpotService {
         return fishingSpotDTOs;
     }
     
-    public FishingSpotDTO getFishingSpotById(Long id) {
+    public FishingSpotDTO getFishingSpotById(Long spotId, Long areaId) {
+        FishingSpotPK id = new FishingSpotPK(spotId, areaId);
         FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(id);
         return new FishingSpotDTO(fishingSpot);
     }
@@ -46,7 +48,7 @@ public class FishingSpotService {
     }
     
     public FishingSpot updateFishingSpot(Long id, FishingSpotDTO fishingSpotDTO) {
-        FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(id);
+        FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(new FishingSpotPK(id, fishingSpotDTO.getFishingAreaId()));
         
         fishingSpot.setType(FishingSpotType.valueOf(fishingSpotDTO.getType()));
         fishingSpot.setLatitude(fishingSpotDTO.getLatitude());

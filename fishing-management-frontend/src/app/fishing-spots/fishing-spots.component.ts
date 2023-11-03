@@ -109,7 +109,8 @@ export class FishingSpotsComponent {
   }
 
   viewFishingSpotDetails(spotId: number) {
-    this.router.navigate(['/fishing-spot-details/' + spotId]);
+    let areaId = Number(this.route.snapshot.paramMap.get('id'));
+    this.router.navigate(['/fishing-spot-details/area/' + areaId + "/spot/" + spotId]);
   }
 
   processImage(imageFile: any) {

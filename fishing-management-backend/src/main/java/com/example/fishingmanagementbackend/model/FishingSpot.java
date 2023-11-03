@@ -7,14 +7,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
+@IdClass(value = FishingSpotPK.class)
+@SequenceGenerator(name = "sequence_generator", sequenceName = "fishing_spot_id", initialValue = 1, allocationSize = 1)
 public class FishingSpot {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
     private Long id;
     
     @Column
@@ -29,8 +33,8 @@ public class FishingSpot {
     @Column
     private String image;
     
-    // Za sad nisam uspeo da ovo ukjucim u kompozitni kljuc. Videti jos da li je neophodno
     @ManyToOne(optional = false)
+    @Id
     @JoinColumn(name = "fishing_area_id", referencedColumnName = "id")
     private FishingArea fishingArea;
     

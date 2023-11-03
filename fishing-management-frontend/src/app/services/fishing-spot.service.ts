@@ -15,8 +15,8 @@ export class FishingSpotService {
     return this.http.get(this.url + "/all/" + areaId);
   }
 
-  getFishingSpotById(spotId: number) {
-    return this.http.get(this.url + "/" + spotId);
+  getFishingSpotById(spotId: number, areaId: number) {
+    return this.http.get(this.url + "/" + spotId + "/area/" + areaId);
   }
 
   createSpot(fishingSpot: FishingSpot) {

@@ -24,9 +24,9 @@ INSERT INTO fishing_area (name, area_type, image) VALUES ('Sava', 0, 'http://loc
 INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Dunav', 0, 'Dunav je druga najduža reka u Evropi. Prolazi kroz 7 zemalja. Uliva se u Crno More.', 'http://localhost:8080/sava-dunav-usce.jpg');
 INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Borkovac', 1, 'Ovo jezero je divno jedini problem je što nema ribe!', 'http://localhost:8080/borkovac(1).jpg');
 --
-INSERT INTO fishing_spot (fishing_area_id, type, latitude, longitude, image) VALUES (2, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/dunav-novi-sad-mesto.jpg');
-INSERT INTO fishing_spot (fishing_area_id, type, latitude, longitude, image) VALUES (1, 2, 45.04011918564572, 19.81751806040365, 'http://localhost:8080/sava-mesto.jpg');
-INSERT INTO fishing_spot (fishing_area_id, type, latitude, longitude, image) VALUES (2, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/novi_sad_dunav-mesto.jpg'); 
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (2, 1, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/dunav-novi-sad-mesto.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 1, 2, 45.04011918564572, 19.81751806040365, 'http://localhost:8080/sava-mesto.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (2, 2, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/novi_sad_dunav-mesto.jpg'); 
 --
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Štuka', 'Esox lucius', 0, 40, 3, 1, 3, 31, 3, false, 'http://localhost:8080/stuka.gif');
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Smuđ', 'Stizostedion lucioperca', 0, 40, 3, 1, 3, 30, 4, false, 'http://localhost:8080/smudj.jpg');

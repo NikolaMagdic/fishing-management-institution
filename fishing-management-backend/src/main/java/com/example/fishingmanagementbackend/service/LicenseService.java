@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.LicenseDTO;
 import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
+import com.example.fishingmanagementbackend.enumerations.LicenseType;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.model.License;
 import com.example.fishingmanagementbackend.model.Reservation;
@@ -68,7 +69,6 @@ public class LicenseService {
         
         License license = new License(licenseDTO.getType(), licenseDTO.getDate(), null, null);
         license.setStatus(LicenseStatus.CREATED);
-        license.setSpotId(licenseDTO.getSpotId());
         
         Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
         license.setFisherman(fisherman);
@@ -88,7 +88,6 @@ public class LicenseService {
         }
         License license = new License(licenseDTO.getType(), licenseDTO.getDate(), licenseDTO.getEndDate(), null);
         license.setStatus(LicenseStatus.CREATED);
-        license.setSpotId(licenseDTO.getSpotId());
         
         Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
         license.setFisherman(fisherman);
@@ -157,15 +156,13 @@ public class LicenseService {
     
     public License rejectLicenseRequest(Long licenseId) {
         
-        License license = licenseRepository.getReferenceById(licenseId);
+        License license = licenseRepository.getReferenceById(licenseId);   
         
-        // Brisanje zakazanog termina ukoliko postoji
-        if(license.getSpotId() != 0) {
-            List<Reservation> reservations = reservationRepository.findFutureReservationsForSpot(license.getSpotId());
-            for(Reservation r : reservations) {
-                if(r.getFisherman().getId() == license.getFisherman().getId())
-                    reservationRepository.delete(r);
-            }   
+     // Brisanje zakazanog termina ukoliko postoji
+        if(!license.getType().equals(LicenseType.YEARLY)) {
+            List<Reservation> reservations = reservationRepository.findByLicense(licenseId);
+            Reservation reservation = reservations.get(0);
+            reservationRepository.delete(reservation);
         }
         
         license.setStatus(LicenseStatus.REJECTED);

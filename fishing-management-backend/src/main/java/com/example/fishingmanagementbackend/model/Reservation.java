@@ -7,7 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Reservation {
@@ -27,6 +29,11 @@ public class Reservation {
     
     @ManyToOne()
     private Fisherman fisherman;
+    
+    // Polje potrebno zbog brisanja rezervisanih termina ukoliko je zahtev za dnevnu ili visednevnu dozvolu odbijen
+    @OneToOne(optional = true)
+    @JoinColumn(name = "license_id")
+    private License license;
     
     public Reservation() {
         
@@ -76,14 +83,19 @@ public class Reservation {
     public void setFisherman(Fisherman fisherman) {
         this.fisherman = fisherman;
     }
+    
+    public License getLicense() {
+        return license;
+    }
+
+    public void setLicense(License license) {
+        this.license = license;
+    }
 
     @Override
     public String toString() {
         return "Reservation [id=" + id + ", arrivalDate=" + arrivalDate + ", departureDate=" + departureDate
-                + ", fishingSpot=" + fishingSpot + ", fisherman=" + fisherman + "]";
+                + ", fishingSpot=" + fishingSpot + ", fisherman=" + fisherman + ", license=" + license + "]";
     }
-
-    
-    
     
 }

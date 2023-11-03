@@ -37,11 +37,11 @@ public class FishingSpotController {
         return ResponseEntity.ok(fishingSpots);
     }
     
-    @GetMapping("/{id}")
-    public ResponseEntity<FishingSpotDTO> getFishingSpotById(@PathVariable("id") Long id) {
+    @GetMapping("/{spotId}/area/{areaId}")
+    public ResponseEntity<FishingSpotDTO> getFishingSpotById(@PathVariable("spotId") Long spotId, @PathVariable("areaId") Long areaId) {
         FishingSpotDTO fishingSpotDTO;
         try {
-            fishingSpotDTO = fishingSpotService.getFishingSpotById(id);
+            fishingSpotDTO = fishingSpotService.getFishingSpotById(spotId, areaId);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }

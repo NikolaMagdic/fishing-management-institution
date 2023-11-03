@@ -15,15 +15,15 @@ export class ReservationService {
         return this.http.post(this.url, reservation);
     }
 
-    getOccupiedDatesForFishingSpot(spotId: number) {
-        return this.http.get(this.url + "/" + spotId);
+    getOccupiedDatesForFishingSpot(spotId: number, areaId: number) {
+        return this.http.get(this.url + "/spot/" + spotId + "/area/" + areaId + "/future");
     } 
 
     getAllReservationsOfFisherman(fishermanId: number) {
         return this.http.get(this.url + "/fisherman/" + fishermanId);
     }
 
-    getAllReservationsForFishingSpot(spotId: number) {
-        return this.http.get(this.url + "/spot/" + spotId);
+    getAllReservationsForFishingSpot(spotId: number, areaId: number) {
+        return this.http.get(this.url + "/spot/" + spotId + "/area/" + areaId);
     }
 }

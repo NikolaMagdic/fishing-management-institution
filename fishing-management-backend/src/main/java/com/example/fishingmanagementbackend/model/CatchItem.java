@@ -7,14 +7,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
+@IdClass(CatchItemPK.class)
+@SequenceGenerator(name = "sequence_generator", sequenceName = "catch_item_id", initialValue = 1, allocationSize = 1)
 public class CatchItem {
 
+    // Kod kompozitnih kljuceva se mora koristiti sekvenca jer IDENTITY nacin generisanja kljuceva ne radi
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
     private Long itemId;
     
     @Column
@@ -26,7 +31,9 @@ public class CatchItem {
     @Column
     private CatchItemStatus confirmationStatus;
     
+    // Strani kljuc je deo primarnog kljuca
     @ManyToOne
+    @Id
     @JoinColumn(name = "catch_id", referencedColumnName = "id", nullable = false)
     private Catch dailyCatch;
     
