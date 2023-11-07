@@ -51,6 +51,16 @@ public class FishSpeciesService {
         return fishSpeciesDTOs;
     }
     
+    /**@return Sve vrste riba koje nisu alohtone odnosno koje mogu da se poribljavaju*/
+    public List<FishSpeciesDTO> getAllNativeFishSpecies() {
+        List<FishSpecies> nativeFishSpecies = fishSpeciesRepository.findNativeFishSpecies();
+        List<FishSpeciesDTO> nativeSpeciesDTO = new ArrayList<>();
+        for(FishSpecies f: nativeFishSpecies) {
+            FishSpeciesDTO fishSpeciesDTO = new FishSpeciesDTO(f);
+            nativeSpeciesDTO.add(fishSpeciesDTO);
+        }
+        return nativeSpeciesDTO;
+    }
     
     /**@return Vrsta ribe sa prosledjenim id*/
     public FishSpeciesDTO getFishSpecies(Long id) {

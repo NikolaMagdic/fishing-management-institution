@@ -56,7 +56,7 @@ export class FishStockingComponent {
   }
 
   getAllFishSpecies() {
-    this.fishSpeciesService.getFishSpecies().subscribe({
+    this.fishSpeciesService.getNativeFishSpecies().subscribe({
       next: data => {
         this.fishSpecies = data as FishSpecies[];
       }

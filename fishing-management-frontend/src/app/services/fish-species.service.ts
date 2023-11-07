@@ -34,4 +34,8 @@ export class FishSpeciesService {
   getFishSpeciesInArea(id: number) {
     return this.http.get(this.url + "/area/" + id);
   }
+
+  getNativeFishSpecies() {
+    return this.http.get(this.url + "/native");
+  }
 }

@@ -34,6 +34,13 @@ public class FishSpeciesController {
     
     }
     
+    @GetMapping("/native")
+    public ResponseEntity<List<FishSpeciesDTO>> getAllNativeFishSpecies() {
+        
+        List<FishSpeciesDTO> nativeSpeciesDTOs = fishSpeciesService.getAllNativeFishSpecies();
+        return ResponseEntity.ok().body(nativeSpeciesDTOs);
+    }
+    
     @GetMapping("/area/{areaId}")
     public ResponseEntity<List<FishSpeciesDTO>> getAllFishSpeciesInFishingArea(@PathVariable("areaId") Long id) {
         

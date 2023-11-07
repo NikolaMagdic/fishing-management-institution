@@ -90,7 +90,7 @@ public class CatchController {
     public ResponseEntity<Boolean> rejectCatchItem(@PathVariable("itemId") Long id, Principal principal) {
         Boolean success;
         try {
-            success = catchService.processCatchItem(id, CatchItemStatus.REJECTED, principal);
+            success = catchService.processCatchItem(id, CatchItemStatus.CONFISCATED, principal);
         } catch (ForbiddenException fex) {
             return ResponseEntity.status(403).build();
         }
