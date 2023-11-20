@@ -1,21 +1,16 @@
 package com.example.fishingmanagementbackend.dto;
 
-import java.time.LocalDate;
 import java.time.Year;
 
 import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.enumerations.LicenseType;
-import com.example.fishingmanagementbackend.model.License;
+import com.example.fishingmanagementbackend.model.YearlyLicense;
 
-public class LicenseDTO {
+public class YearlyLicenseDTO {
 
     private Long id;
     
     private LicenseType type;
-    
-    private LocalDate date;
-    
-    private LocalDate endDate;
     
     private Year year;
     
@@ -23,16 +18,14 @@ public class LicenseDTO {
     
     private Long fishermanId;
     
-    public LicenseDTO() {}
+    public YearlyLicenseDTO() {}
     
-    public LicenseDTO(License license) {
+    public YearlyLicenseDTO(YearlyLicense license) {
         this.id = license.getLicenseId();
         this.type = license.getType();
-        this.date = license.getDate();
-        this.endDate = license.getEndDate();
-        //this.year = license.getYear();
+        this.year = license.getYear();
         this.status = license.getStatus();
-        this.fishermanId = license.getFisherman().getId();
+        this.fishermanId = license.getFisherman() != null ? license.getFisherman().getId() : license.getProfessionalFisherman().getId();
     }
 
     public Long getId() {
@@ -49,22 +42,6 @@ public class LicenseDTO {
 
     public void setType(LicenseType type) {
         this.type = type;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-    
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
     }
 
     public Year getYear() {
@@ -90,11 +67,6 @@ public class LicenseDTO {
     public void setFishermanId(Long fishermanId) {
         this.fishermanId = fishermanId;
     }
-
-    @Override
-    public String toString() {
-        return "LicenseDTO [id=" + id + ", type=" + type + ", date=" + date + ", endDate=" + endDate + ", year=" + year
-                + ", status=" + status + ", fishermanId=" + fishermanId + "]";
-    }
+    
     
 }

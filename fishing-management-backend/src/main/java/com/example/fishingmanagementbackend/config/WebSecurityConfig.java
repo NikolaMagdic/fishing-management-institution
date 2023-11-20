@@ -65,7 +65,7 @@ public class WebSecurityConfig {
         http.exceptionHandling((exception) -> exception.authenticationEntryPoint(restAuthenticationEntryPoint));
         http.authorizeHttpRequests((authz) -> authz
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/fisherman/").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/fisherman").permitAll()
                 .requestMatchers(HttpMethod.GET, "/*.jpg", "/*.png", "/*.gif", "/*.bmp", "/*.pjp", "/*.pjpeg",
                         "/*.svg", "/*.jpeg", "/*.avif", "/*.xbm", "/*.tif", "/*.tiff", "/*.ico", 
                         "/*.jfif", "/*.svgz", "/*.webp", "/*.apng").permitAll()

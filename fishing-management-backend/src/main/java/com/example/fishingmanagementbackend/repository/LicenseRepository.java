@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.fishingmanagementbackend.model.License;
+import com.example.fishingmanagementbackend.model.YearlyLicense;
 
 public interface LicenseRepository extends JpaRepository<License, Long> {
 
-    @Query(value = "SELECT * FROM license l WHERE l.fisherman_id = ?1 AND l.year = YEAR(CURRENT_TIMESTAMP) ", nativeQuery = true)
-    List<License> getValidLicensesOfFisherman(Long fishermanId);
+    @Query(value = "SELECT * FROM license l WHERE (l.fisherman_id = ?1 OR l.professional_fisherman_id = ?1) AND l.year = YEAR(CURRENT_TIMESTAMP) ", nativeQuery = true)
+    List<YearlyLicense> getValidLicensesOfFisherman(Long fishermanId);
     
     @Query(value = "SELECT * FROM license l WHERE l.fisherman_id = ?1 AND l.date = ?2", nativeQuery = true)
     List<License> getLicencesOfFishermanOnThisDay(Long fishermanId, LocalDate date);

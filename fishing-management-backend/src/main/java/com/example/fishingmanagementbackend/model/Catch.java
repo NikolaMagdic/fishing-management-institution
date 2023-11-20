@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Catch {
@@ -32,9 +31,6 @@ public class Catch {
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "dailyCatch")
     private Set<CatchItem> catchItems = new HashSet<>();
-    
-    @OneToOne
-    private Reservation reservation;
     
     @ManyToOne
     @JoinColumn(name = "fishing_area_id", referencedColumnName = "id")
@@ -78,14 +74,6 @@ public class Catch {
     public void setCatchItems(Set<CatchItem> catchItems) {
         this.catchItems = catchItems;
     }
-
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
     
     public FishingArea getFishingArea() {
         return fishingArea;
@@ -98,9 +86,8 @@ public class Catch {
     @Override
     public String toString() {
         return "Catch [id=" + id + ", date=" + date + ", fisherman=" + fisherman + ", catchItems=" + catchItems
-                + ", reservation=" + reservation + ", fishingArea=" + fishingArea + "]";
+                + ", fishingArea=" + fishingArea + "]";
     }
-    
     
 
 }

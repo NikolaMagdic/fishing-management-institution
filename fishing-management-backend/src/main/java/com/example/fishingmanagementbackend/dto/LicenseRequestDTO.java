@@ -1,6 +1,7 @@
 package com.example.fishingmanagementbackend.dto;
 
 import com.example.fishingmanagementbackend.model.License;
+import com.example.fishingmanagementbackend.model.YearlyLicense;
 
 public class LicenseRequestDTO {
 
@@ -29,12 +30,21 @@ public class LicenseRequestDTO {
     }
     
     public LicenseRequestDTO(License license) {
+        System.out.println(license);
         this.licenseId = license.getLicenseId();
-        this.fishermanFirstName = license.getFisherman().getFirstName();
-        this.fishermanLastName = license.getFisherman().getLastName();
-        this.category = license.getFisherman().getCategory().toString();
         this.type = license.getType().toString();
-        this.fishermanId = license.getFisherman().getId();
+        if(license.getFisherman() != null) {
+            this.category = license.getFisherman().getCategory().toString();
+            this.fishermanFirstName = license.getFisherman().getFirstName();
+            this.fishermanLastName = license.getFisherman().getLastName();
+            this.fishermanId = license.getFisherman().getId();
+        } else {
+            YearlyLicense yearlyLicense = (YearlyLicense) license;
+            this.category = yearlyLicense.getProfessionalFisherman().getCategory().toString();
+            this.fishermanFirstName = yearlyLicense.getProfessionalFisherman().getFirstName();
+            this.fishermanLastName = yearlyLicense.getProfessionalFisherman().getLastName();
+            this.fishermanId = yearlyLicense.getProfessionalFisherman().getId();
+        }
     }
 
     public Long getLicenseId() {

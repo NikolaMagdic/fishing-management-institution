@@ -39,7 +39,7 @@ export class LicenseComponent {
 
   obtainLicence() {
     const license: License = new License(0, "YEARLY", new Date(), new Date(), 0);
-    this.licenseService.obtainLicence(license).subscribe({
+    this.licenseService.obtainYearLicense(license).subscribe({
       next: () => {
         window.location.reload();
       },

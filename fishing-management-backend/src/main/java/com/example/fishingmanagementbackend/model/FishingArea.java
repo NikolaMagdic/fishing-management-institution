@@ -7,6 +7,8 @@ import com.example.fishingmanagementbackend.enumerations.FishingAreaType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,9 +30,10 @@ public class FishingArea {
     private String description;
     
     @Column(name = "area_type")
+    @Enumerated(EnumType.ORDINAL)
     private FishingAreaType areaType;
     
-    // trenutno su slike samo String sa linkom, videti da li treba raditi upload
+    // trenutno su slike samo String sa linkom
     @Column(name = "image")
     private String image;
     

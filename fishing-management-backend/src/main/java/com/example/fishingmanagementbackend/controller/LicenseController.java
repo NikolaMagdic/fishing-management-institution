@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.LicenseDTO;
 import com.example.fishingmanagementbackend.dto.LicenseRequestDTO;
+import com.example.fishingmanagementbackend.dto.YearlyLicenseDTO;
 import com.example.fishingmanagementbackend.enumerations.LicenseType;
 import com.example.fishingmanagementbackend.model.License;
+import com.example.fishingmanagementbackend.model.YearlyLicense;
 import com.example.fishingmanagementbackend.service.LicenseService;
 
 @RestController
@@ -29,14 +31,14 @@ public class LicenseController {
     private LicenseService licenseService;
     
     @GetMapping
-    public ResponseEntity<LicenseDTO> getExistingValidLicence(Principal principal) {
+    public ResponseEntity<YearlyLicenseDTO> getExistingValidLicence(Principal principal) {
         System.out.println(principal);
         
-        License license = licenseService.getExistingValidLicences(principal);
+        YearlyLicense license = licenseService.getExistingValidLicences(principal);
         if(license == null) {
             return ResponseEntity.ok(null);
         }
-        LicenseDTO licenseDTO = new LicenseDTO(license);
+        YearlyLicenseDTO licenseDTO = new YearlyLicenseDTO(license);
         
         return ResponseEntity.ok(licenseDTO);
     }
@@ -78,8 +80,6 @@ public class LicenseController {
         License newLicense;
         if(licenseDTO.getType() == LicenseType.DAILY) {
             newLicense = licenseService.obtainDayLicense(licenseDTO, principal);
-        } else if (licenseDTO.getType() == LicenseType.YEARLY) {
-            newLicense = licenseService.obtainYearLicense(licenseDTO, principal);
         } else {
             newLicense = licenseService.obtainMultiDayLicense(licenseDTO, principal);
         }
@@ -88,6 +88,20 @@ public class LicenseController {
             return ResponseEntity.badRequest().build();
         
         return ResponseEntity.ok(new LicenseDTO(newLicense));
+        
+    }
+    
+    @PostMapping("/year")
+    @PreAuthorize("hasRole('FISHERMAN')")
+    public ResponseEntity<YearlyLicenseDTO> obtainYearlyLicense(@RequestBody LicenseDTO licenseDTO, Principal principal) {
+        
+        YearlyLicense newLicense = licenseService.obtainYearLicense(licenseDTO, principal);
+        
+        if(newLicense == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        return ResponseEntity.ok(new YearlyLicenseDTO(newLicense));
         
     }
     

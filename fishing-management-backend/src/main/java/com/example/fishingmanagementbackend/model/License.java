@@ -1,20 +1,23 @@
 package com.example.fishingmanagementbackend.model;
 
 import java.time.LocalDate;
-import java.time.Year;
 
 import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.enumerations.LicenseType;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class License {
     
     @Id
@@ -31,23 +34,19 @@ public class License {
     private LocalDate endDate;
     
     @Column
-    private Year year;
-    
-    @Column
     private LicenseStatus status;
     
     @ManyToOne
     @JoinColumn(name = "fisherman_id", referencedColumnName = "id")
-    private Fisherman fisherman;
+    private RecreationalFisherman fisherman;
     
     
     public License() {}
     
-    public License(LicenseType type, LocalDate date, LocalDate endDate, Year year) {
+    public License(LicenseType type, LocalDate date, LocalDate endDate) {
         this.type = type;
         this.date = date;
         this.endDate = endDate;
-        this.year = year;
     }
 
     public Long getLicenseId() {
@@ -82,19 +81,11 @@ public class License {
         this.endDate = endDate;
     }
 
-    public Year getYear() {
-        return year;
-    }
-
-    public void setYear(Year year) {
-        this.year = year;
-    }
-
-    public Fisherman getFisherman() {
+    public RecreationalFisherman getFisherman() {
         return fisherman;
     }
 
-    public void setFisherman(Fisherman fisherman) {
+    public void setFisherman(RecreationalFisherman fisherman) {
         this.fisherman = fisherman;
     }
 
@@ -109,8 +100,9 @@ public class License {
     @Override
     public String toString() {
         return "License [licenseId=" + licenseId + ", type=" + type + ", date=" + date + ", endDate=" + endDate
-                + ", year=" + year + ", status=" + status + ", fisherman=" + fisherman + "]";
+                + ", status=" + status + ", fisherman=" + fisherman + "]";
     }
+
     
     
 }

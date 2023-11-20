@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.ReservationDTO;
 import com.example.fishingmanagementbackend.dto.ReservationResponseDTO;
-import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.model.FishingSpot;
 import com.example.fishingmanagementbackend.model.FishingSpotPK;
 import com.example.fishingmanagementbackend.model.License;
+import com.example.fishingmanagementbackend.model.RecreationalFisherman;
 import com.example.fishingmanagementbackend.model.Reservation;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.FishingSpotRepository;
@@ -97,8 +97,9 @@ public class ReservationService {
         
         FishingSpotPK id = new FishingSpotPK(reservationDTO.getFishingSpotId(), reservationDTO.getFishingAreaId());
         FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(id);
-        Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
-        
+        System.out.println("DOSAO DOVDE");
+        RecreationalFisherman fisherman = (RecreationalFisherman) fishermanRepository.getReferenceById(fishermanId);
+        System.out.println(fisherman);
         reservation.setFishingSpot(fishingSpot);
         reservation.setFisherman(fisherman);  
         

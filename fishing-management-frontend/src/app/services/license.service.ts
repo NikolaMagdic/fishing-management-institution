@@ -31,6 +31,10 @@ export class LicenseService {
         return this.http.post(this.url, license);
     }
 
+    obtainYearLicense(license: License) {
+        return this.http.post(this.url + "/year", license);
+    }
+
     confirmLicenseRequest(licenseId: number) {
         return this.http.patch(this.url + "/" + licenseId + "/confirm", null);
     }

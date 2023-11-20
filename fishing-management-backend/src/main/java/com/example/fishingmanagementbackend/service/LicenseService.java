@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.LicenseDTO;
+import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
 import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.enumerations.LicenseType;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.model.License;
+import com.example.fishingmanagementbackend.model.ProfessionalFisherman;
+import com.example.fishingmanagementbackend.model.RecreationalFisherman;
 import com.example.fishingmanagementbackend.model.Reservation;
+import com.example.fishingmanagementbackend.model.YearlyLicense;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.LicenseRepository;
 import com.example.fishingmanagementbackend.repository.ReservationRepository;
@@ -34,11 +38,11 @@ public class LicenseService {
     @Autowired
     private ReservationRepository reservationRepository;
     
-    public License obtainYearLicense(LicenseDTO licenseDTO, Principal principal) {
+    public YearlyLicense obtainYearLicense(LicenseDTO licenseDTO, Principal principal) {
         
         Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
         
-        List<License> existingValidLicenses = licenseRepository.getValidLicensesOfFisherman(fishermanId);
+        List<YearlyLicense> existingValidLicenses = licenseRepository.getValidLicensesOfFisherman(fishermanId);
         
         // Ne moze se vaditi nova dozvola ukoliko postoji vazeca
         if(!existingValidLicenses.isEmpty()) {
@@ -46,13 +50,22 @@ public class LicenseService {
         } 
                
         Year year = Year.now();
-        License license = new License(licenseDTO.getType(), null, null, year);
+        YearlyLicense license = new YearlyLicense(licenseDTO.getType(), year);
         
         license.setStatus(LicenseStatus.CREATED);
 
         Fisherman fisherman = this.fishermanRepository.getReferenceById(fishermanId);
-        license.setFisherman(fisherman);
+        if(fisherman.getCategory().equals(FishermanCategory.RECREATIONAL)) {
+            RecreationalFisherman f = (RecreationalFisherman) fisherman;
+            license.setFisherman(f);
+        } else {
+            ProfessionalFisherman f = (ProfessionalFisherman) fisherman;
+            license.setProfessionalFisherman(f);
+            
+        }
+    
         licenseRepository.save(license);
+        System.out.println(license);
         
         return license;
     }
@@ -67,10 +80,16 @@ public class LicenseService {
             return null;
         }
         
-        License license = new License(licenseDTO.getType(), licenseDTO.getDate(), null, null);
+        License license = new License(licenseDTO.getType(), licenseDTO.getDate(), null);
         license.setStatus(LicenseStatus.CREATED);
         
-        Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
+        RecreationalFisherman fisherman;
+        try {
+            fisherman = (RecreationalFisherman) fishermanRepository.getReferenceById(fishermanId);
+        } catch (ClassCastException ex) {
+            return null;
+        }
+        
         license.setFisherman(fisherman);
         licenseRepository.save(license);
         
@@ -86,10 +105,16 @@ public class LicenseService {
         if(licenseDTO.getEndDate().isAfter(licenseDTO.getDate().plusDays(7))) {
             throw new Exception("Višednevna dozvola ne može biti duža od 7 dana");
         }
-        License license = new License(licenseDTO.getType(), licenseDTO.getDate(), licenseDTO.getEndDate(), null);
+        License license = new License(licenseDTO.getType(), licenseDTO.getDate(), licenseDTO.getEndDate());
         license.setStatus(LicenseStatus.CREATED);
         
-        Fisherman fisherman = fishermanRepository.getReferenceById(fishermanId);
+        RecreationalFisherman fisherman;
+        try {
+            fisherman = (RecreationalFisherman) fishermanRepository.getReferenceById(fishermanId);    
+        } catch (ClassCastException ex) {
+            return null;
+        }
+        
         license.setFisherman(fisherman);
         licenseRepository.save(license);
         
@@ -98,16 +123,16 @@ public class LicenseService {
     }
     
     
-    public License getExistingValidLicences(Principal principal) {
+    public YearlyLicense getExistingValidLicences(Principal principal) {
         
         Long fishermanId = userRepository.findByUsername(principal.getName()).getId();
         
-        List<License> existingValidLicences = licenseRepository.getValidLicensesOfFisherman(fishermanId);
-        // Moze biti samo jedna validna dozvola za ribolovca u jednom trenutku
+        List<YearlyLicense> existingValidLicences = licenseRepository.getValidLicensesOfFisherman(fishermanId);
+        // Moze biti samo jedna validna godisnja dozvola za ribolovca u jednom trenutku
         if(existingValidLicences.isEmpty()) {
             return null;
         }
-        License license = existingValidLicences.get(0);
+        YearlyLicense license = existingValidLicences.get(0);
         
         return license;
     }

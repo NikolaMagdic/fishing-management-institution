@@ -5,9 +5,15 @@ import java.io.Serializable;
 import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "category", discriminatorType = DiscriminatorType.INTEGER)
 public class Fisherman extends User implements Serializable {
     
     /**

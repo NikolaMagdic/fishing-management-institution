@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
@@ -24,11 +25,15 @@ public class Reservation {
     @Column
     private LocalDate departureDate;
     
-    @ManyToOne()
+    @ManyToOne(optional = false)
+    @JoinColumns({
+        @JoinColumn(name = "fishing_area_id", referencedColumnName = "fishing_area_id"),
+        @JoinColumn(name = "fishing_spot_id", referencedColumnName = "id")
+    })
     private FishingSpot fishingSpot;
     
-    @ManyToOne()
-    private Fisherman fisherman;
+    @ManyToOne(optional = false)
+    private RecreationalFisherman fisherman;
     
     // Polje potrebno zbog brisanja rezervisanih termina ukoliko je zahtev za dnevnu ili visednevnu dozvolu odbijen
     @OneToOne(optional = true)
@@ -76,11 +81,11 @@ public class Reservation {
         this.fishingSpot = fishingSpot;
     }
 
-    public Fisherman getFisherman() {
+    public RecreationalFisherman getFisherman() {
         return fisherman;
     }
 
-    public void setFisherman(Fisherman fisherman) {
+    public void setFisherman(RecreationalFisherman fisherman) {
         this.fisherman = fisherman;
     }
     

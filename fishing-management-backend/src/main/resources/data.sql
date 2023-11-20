@@ -18,6 +18,11 @@ INSERT INTO fisherman (id, address, city, category) VALUES (2, 'JNA 117', 'Ruma'
 INSERT INTO fisherman (id, address, city, category) VALUES (4, 'Vojvode Mišića 2A', 'Novi Sad', 0);
 INSERT INTO fisherman (id, address, city, category) VALUES (5, 'Bulevar Kralja Petra 100', 'Novi Sad', 1);
 --
+INSERT INTO recreational_fisherman (id) VALUES (2);
+INSERT INTO recreational_fisherman (id) VALUES (4);
+--
+INSERT INTO professional_fisherman(id) VALUES (5);
+--
 INSERT INTO keeper (id) VALUES (3);
 --
 INSERT INTO fishing_area (name, area_type, image) VALUES ('Sava', 0, 'http://localhost:8080/sava.jpg');
@@ -31,12 +36,15 @@ INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image)
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Štuka', 'Esox lucius', 0, 40, 3, 1, 3, 31, 3, false, 'http://localhost:8080/stuka.gif');
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Smuđ', 'Stizostedion lucioperca', 0, 40, 3, 1, 3, 30, 4, false, 'http://localhost:8080/smudj.jpg');
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Som', 'Silurus glanis', 0, 60, 3, 1, 5, 15, 6, false, 'http://localhost:8080/evropski-som-silurus-glanis.jpg');
-
+--
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 1);
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 2);
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (2, 1);
 
 INSERT INTO keeps(fishing_area_id, keeper_id) VALUES(1, 3);
 
+INSERT INTO penalty (name, fine) VALUES ('Lov, posedovanje i uništavanje riblje mlađi i primeraka ribe u vreme mresta i lovostaja', 10000);
+INSERT INTO penalty (name, fine) VALUES ('Lov ribe neposredno rukom', 5000);
+INSERT INTO penalty (name, description, fine) VALUES ('Lov ribe nedozvoljenim sredstvima i alatima', 'Lov ribe eksplozivom i drugim rasprskavajućim sredstvima, harpunom, ostima, podvodnom puškom, vatrenim oružjem, strujom, veštačkim izvorom svetlosti, drugim hemijskim sredstvima...', 20000);
 INSERT INTO penalty (name, description, fine) VALUES ('Prekoračenje težine ulova', 'Ulov više od 5kg ribe', 10000);
 INSERT INTO penalized(fisherman_id, penalty_id, keeper_id) VALUES (4, 1, 3);
