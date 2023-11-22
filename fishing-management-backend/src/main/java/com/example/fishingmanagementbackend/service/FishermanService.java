@@ -12,9 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.FishermanDTO;
 import com.example.fishingmanagementbackend.dto.RegistrationDTO;
+import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
 import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Authority;
 import com.example.fishingmanagementbackend.model.Fisherman;
+import com.example.fishingmanagementbackend.model.ProfessionalFisherman;
+import com.example.fishingmanagementbackend.model.RecreationalFisherman;
 import com.example.fishingmanagementbackend.model.User;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
 import com.example.fishingmanagementbackend.repository.UserRepository;
@@ -86,36 +89,29 @@ public class FishermanService {
             return null;
         }
         
-        Fisherman fisherman = new Fisherman(registrationDTO.getAddress(),
-                                            registrationDTO.getCity(),
-                                            registrationDTO.getCategory());
+        Fisherman fisherman;
         
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        
-        User user = new User(registrationDTO.getUsername(),
-                             encoder.encode(registrationDTO.getPassword()), 
-                             // Nalog ribolovca nije enabled dok ga ne verifikuje preko mejla
-                             false,
-                             registrationDTO.getFirstName(),
-                             registrationDTO.getLastName(),
-                             registrationDTO.getDateOfBirth());
+        if(registrationDTO.getCategory().equals(FishermanCategory.RECREATIONAL)) {
+            fisherman = createNewRecreationalFisherman(registrationDTO);
+        } else {
+            fisherman = createNewProfessionalFisherman(registrationDTO);
+        }
         
         // Dodela role odnosno privilegija
         Set<Authority> authorities = authService.findByName("ROLE_FISHERMAN");
-        user.setAuthorities(authorities);
+        fisherman.setAuthorities(authorities);
         
-        user = userRepository.save(user);
-        fisherman.setId(user.getId());
-
+        fisherman = fishermanRepository.save(fisherman);
+        
         // Saljemo mejl sa linkom za potvrdu registracije
         try {
-            emailService.sendMailAsync(user, registrationDTO.getFirstName());
+            emailService.sendMailAsync(fisherman, registrationDTO.getFirstName());
         } catch (MailException | InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        return fishermanRepository.save(fisherman);  
+        return fisherman;
     }
     
     public Fisherman updateFisherman(Long id, FishermanDTO fishermanDTO, Principal principal) throws ForbiddenException {
@@ -133,6 +129,45 @@ public class FishermanService {
         fisherman.setCategory(fishermanDTO.getCategory());
         
         return fishermanRepository.save(fisherman);
+    }
+    
+    private RecreationalFisherman createNewRecreationalFisherman(RegistrationDTO registrationDTO) {
+        
+        RecreationalFisherman fisherman = new RecreationalFisherman();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        
+        fisherman.setUsername(registrationDTO.getUsername());
+        fisherman.setPassword(encoder.encode(registrationDTO.getPassword()));
+        // Nalog ribolovca nije enabled dok ga ne verifikuje preko mejla
+        fisherman.setEnabled(false);
+        fisherman.setFirstName(registrationDTO.getFirstName());
+        fisherman.setLastName(registrationDTO.getLastName());
+        fisherman.setDateOfBirth(registrationDTO.getDateOfBirth());
+        fisherman.setAddress(registrationDTO.getAddress());
+        fisherman.setCity(registrationDTO.getCity());
+        fisherman.setCategory(registrationDTO.getCategory());
+        
+        return fisherman;
+    }
+    
+    private ProfessionalFisherman createNewProfessionalFisherman(RegistrationDTO registrationDTO) {
+        
+        ProfessionalFisherman fisherman = new ProfessionalFisherman();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        
+        fisherman.setUsername(registrationDTO.getUsername());
+        fisherman.setPassword(encoder.encode(registrationDTO.getPassword()));
+        // Nalog ribolovca nije enabled dok ga ne verifikuje preko mejla
+        fisherman.setEnabled(false);
+        fisherman.setFirstName(registrationDTO.getFirstName());
+        fisherman.setLastName(registrationDTO.getLastName());
+        fisherman.setDateOfBirth(registrationDTO.getDateOfBirth());
+        fisherman.setAddress(registrationDTO.getAddress());
+        fisherman.setCity(registrationDTO.getCity());
+        fisherman.setCategory(registrationDTO.getCategory());
+        
+        return fisherman;
+        
     }
     
 }

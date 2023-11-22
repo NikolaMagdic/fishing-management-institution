@@ -1,5 +1,10 @@
 package com.example.fishingmanagementbackend.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -77,9 +82,19 @@ public class UserService implements UserDetailsService {
         user.setEnabled(true);
         userRepository.save(user);
         
-        return "<html><head><meta charset=\"UTF-8\"><title>Registracija uspešna</title></head><body><h1>"
-                + "Uspešno ste se registrovali na aplikaciju sistema za upravljanje ribolovnim vodama.</h1>"
-                + " <p>Možete zatvoriti ovaj prozor i prijaviti se u aplikaciju sa vašim korisničkim imenom i lozinkom.</p><body></html>";
+        File registrationSuccessfullHTML = new File ("src/main/resources/templates/RegistrationSuccessful.html");
+        StringBuilder builder = new StringBuilder();
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(registrationSuccessfullHTML));
+            String htmlString;
+            while ((htmlString = in.readLine()) != null) {
+                builder.append(htmlString);
+            }
+            in.close();
+        } catch (IOException e) {
+        }
+        
+        return builder.toString();
     }
 
 }

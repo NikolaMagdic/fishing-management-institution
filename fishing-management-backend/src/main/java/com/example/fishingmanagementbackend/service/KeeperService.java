@@ -71,30 +71,29 @@ public class KeeperService {
         if(existingUser != null) {
             return null;
         }
-
-        Keeper keeper = new Keeper();
         
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        User user = new User(newKeeper.getUsername(),
-                             encoder.encode(newKeeper.getPassword()), 
-                             false,
-                             newKeeper.getFirstName(),
-                             newKeeper.getLastName(),
-                             newKeeper.getDateOfBirth());
+        
+        Keeper keeper = new Keeper();
+        keeper.setUsername(newKeeper.getUsername());
+        keeper.setPassword(encoder.encode(newKeeper.getPassword()));
+        keeper.setEnabled(false);
+        keeper.setFirstName(newKeeper.getFirstName());
+        keeper.setLastName(newKeeper.getLastName());
+        keeper.setDateOfBirth(newKeeper.getDateOfBirth());
         
         Set<Authority> authorities = authService.findByName("ROLE_KEEPER");
-        user.setAuthorities(authorities);
+        keeper.setAuthorities(authorities);
         
-        user = userRepository.save(user);
-        keeper.setId(user.getId());
+        keeper = userRepository.save(keeper);
         
         try {
-            emailService.sendMailAsync(user, newKeeper.getFirstName());
+            emailService.sendMailAsync(keeper, newKeeper.getFirstName());
         } catch (MailException | InterruptedException e) {
             e.printStackTrace();
         }
         
-        return keeperRepository.save(keeper);
+        return keeper;
     }
     
     public Keeper updateKeeper(Long id, KeeperDTO keeperDTO, Principal principal) throws ForbiddenException {

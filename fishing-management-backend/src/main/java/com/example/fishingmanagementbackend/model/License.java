@@ -6,7 +6,6 @@ import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.enumerations.LicenseType;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
