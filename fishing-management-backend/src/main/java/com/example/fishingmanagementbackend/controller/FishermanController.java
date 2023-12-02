@@ -2,8 +2,11 @@ package com.example.fishingmanagementbackend.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.FishermanDTO;
@@ -36,9 +40,26 @@ public class FishermanController {
         return ResponseEntity.ok().body(allFishermans);
     }
     
+    @GetMapping("/page")
+    @PreAuthorize("hasAnyRole('ADMIN', 'KEEPER')")
+    public ResponseEntity<Map<String, Object>> getPageOfFishermans(@RequestParam("page") int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Map<String, Object> fishermansOnPage = fishermanService.getAllFishermans(pageable);
+        return ResponseEntity.ok().body(fishermansOnPage);
+    }
+    
+    @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('ADMIN', 'KEEPER')")
+    public ResponseEntity<Map<String, Object>> searchFishermans(@RequestParam("page") int page, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("category") int category) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Map<String, Object> foundFishermans = fishermanService.searchFishermans(pageable, firstName, lastName, category);
+        return ResponseEntity.ok().body(foundFishermans);
+    }
+    
     @GetMapping("/not-confirmed-catches")
-    public ResponseEntity<List<FishermanDTO>> getAllFishermansWithNotEvidentedCatches(Principal principal) {
-        List<FishermanDTO> fishermans = fishermanService.getAllFishermansWithNonConfirmedCatches(principal);
+    public ResponseEntity<Map<String, Object>> getAllFishermansWithNotEvidentedCatches(Principal principal, @RequestParam("page") int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Map<String, Object> fishermans = fishermanService.getAllFishermansWithNonConfirmedCatches(principal, pageable);
         return ResponseEntity.ok().body(fishermans);
     }
     

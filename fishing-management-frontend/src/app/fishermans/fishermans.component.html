@@ -1,15 +1,33 @@
 <div class="container">
     <h1>Registrovani ribolovci</h1>
-    <button class="btn btn-primary" (click)="getFishermansWithNonConfirmedCatches()">Ribolovci sa neevidentiranim ulovima</button>
+    <nav>
+        <ul class="pagination" >
+            <!-- <li class="page-item"><a class="page-link" href="#">Prethodni</a></li> -->
+            <li class="page-item" *ngFor="let page of pages">
+                <a class="page-link" [ngClass]="{'active': page==currentPage}" (click)="changePage(page-1)">{{page}}</a>
+            </li>
+            <!-- <li class="page-item"><a class="page-link" href="#">Sledeći</a></li> -->
+        </ul>
+    </nav>
+    <button class="btn btn-primary" (click)="getFishermansWithNonConfirmedCatches(0)">Ribolovci sa neevidentiranim ulovima</button>
     <div class="input-group mb-3">
         <span class="input-group-text">Pretraga</span>
-        <input type="search" placeholder="Ime" (input)="filterFishermans()" class="form-control" [(ngModel)]="filterFirstName"/>
+        <!--Ovo je kod za filtraciju, promenjeno je na pretragu tako da je ovaj kod ostavljen u rezervi-->
+        <!-- <input type="search" placeholder="Ime" (input)="filterFishermans()" class="form-control" [(ngModel)]="filterFirstName"/>
         <input type="search" placeholder="Prezime" (input)="filterFishermans()" class="form-control" [(ngModel)]="filterLastName" />
         <select (change)="filterFishermans()" [(ngModel)]="filterCategory" class="form-select">
             <option>Sve kategorije</option>
             <option value="RECREATIONAL">Rekreativni</option>
             <option value="PROFESSIONAL">Privredni</option>
+        </select> -->
+        <input type="search" placeholder="Ime" class="form-control" [(ngModel)]="searchFirstName"/>
+        <input type="search" placeholder="Prezime" class="form-control" [(ngModel)]="searchLastName"/>
+        <select class="form-select" [(ngModel)]="searchCategory">
+            <option value="-1">Sve kategorije</option>
+            <option value="0">Rekreativni</option>
+            <option value="1">Privredni</option>
         </select>
+        <button class="btn btn-primary" (click)="searchFishermans(0)">Pretraži</button>
     </div>
     <table class="table table-striped">
         <thead>

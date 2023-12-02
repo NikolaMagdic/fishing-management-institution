@@ -1,17 +1,23 @@
 package com.example.fishingmanagementbackend.repository;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
+import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
 import com.example.fishingmanagementbackend.model.Fisherman;
 
-@Repository
-public interface FishermanRepository extends JpaRepository<Fisherman, Long>{
+public interface FishermanRepository extends JpaRepository<Fisherman, Long> {
     
-    @Query(value = "SELECT DISTINCT * "
+    Page<Fisherman> findAll(Pageable pageable);
+    
+    Page<Fisherman> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(Pageable pageable, String firstName, String lastName);
+    
+    Page<Fisherman> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndCategory(Pageable pageable, String firstName, String lastName, FishermanCategory category);
+    
+    // 0 AS clazz_ zbog https://stackoverflow.com/questions/49804053/psqlexception-the-column-name-clazz-was-not-found-in-this-resultset
+    @Query(value = "SELECT DISTINCT *, 2 AS clazz_ "
             + "FROM fisherman f LEFT OUTER JOIN catch c ON f.id = c.fisherman_id "
             + "LEFT OUTER JOIN fishing_area fa ON c.fishing_area_id = fa.id "
             + "LEFT OUTER JOIN keeps kee ON kee.fishing_area_id = fa.id "
@@ -19,5 +25,5 @@ public interface FishermanRepository extends JpaRepository<Fisherman, Long>{
             + "LEFT OUTER JOIN catch_item ci ON ci.catch_id = c.id "
             + "LEFT OUTER JOIN app_user u ON f.id = u.id "
             + "WHERE k.id = ?1 AND ci.confirmation_status = 2", nativeQuery = true)
-    List<Fisherman> findAllFishermansWithNonConfirmedCatches(Long keeperId);
+    Page<Fisherman> findAllFishermansWithNonConfirmedCatches(Pageable page, Long keeperId);
 }

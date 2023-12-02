@@ -2,6 +2,8 @@ package com.example.fishingmanagementbackend.model;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.Check;
+
 import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.enumerations.LicenseType;
 
@@ -17,6 +19,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Check(constraints = "(fisherman_id IS NOT NULL AND professional_fisherman_id IS NULL) OR (fisherman_id IS NULL AND professional_fisherman_id IS NULL)")
 public class License {
     
     @Id

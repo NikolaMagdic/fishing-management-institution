@@ -5,11 +5,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.example.fishingmanagementbackend.model.Reservation;
 
-@Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Query(value = "SELECT * FROM reservation r WHERE fishing_spot_id = ?1 AND fishing_area_id = ?2 AND (r.arrival_date > CURRENT_TIMESTAMP OR r.departure_date > CURRENT_TIMESTAMP)", nativeQuery = true)

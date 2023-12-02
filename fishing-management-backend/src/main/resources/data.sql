@@ -25,8 +25,8 @@ INSERT INTO professional_fisherman(id) VALUES (5);
 --
 INSERT INTO keeper (id) VALUES (3);
 --
-INSERT INTO fishing_area (name, area_type, image) VALUES ('Sava', 0, 'http://localhost:8080/sava.jpg');
 INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Dunav', 0, 'Dunav je druga najduža reka u Evropi. Prolazi kroz 7 zemalja. Uliva se u Crno More.', 'http://localhost:8080/sava-dunav-usce.jpg');
+INSERT INTO fishing_area (name, area_type, image) VALUES ('Sava', 0, 'http://localhost:8080/sava.jpg');
 INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Borkovac', 1, 'Ovo jezero je divno jedini problem je što nema ribe!', 'http://localhost:8080/borkovac(1).jpg');
 --
 INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (2, 1, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/dunav-novi-sad-mesto.jpg');

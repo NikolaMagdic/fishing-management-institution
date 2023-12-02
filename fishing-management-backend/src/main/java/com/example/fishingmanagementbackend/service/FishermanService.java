@@ -2,10 +2,14 @@ package com.example.fishingmanagementbackend.service;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,6 +44,7 @@ public class FishermanService {
     @Autowired
     private EmailService emailService;
     
+    
     public List<FishermanDTO> getAllFishermans() {
         List<FishermanDTO> allFishermanDTOs = new ArrayList<>();
         List<Fisherman> allFishermans = fishermanRepository.findAll();
@@ -48,21 +53,81 @@ public class FishermanService {
         }
         return allFishermanDTOs;
     }
+    
+    /**Metoda koja vraca stranu ribolovaca, umesto svih ribolovaca, za potrebe paginacije*/
+    public Map<String, Object> getAllFishermans(Pageable page) {
+        List<FishermanDTO> fishermansDTO = new ArrayList<>();
+        List<Fisherman> fishermans;
+        
+        Page<Fisherman> fishermansPage = fishermanRepository.findAll(page);
+        
+        fishermans = fishermansPage.getContent();
+        
+        for(Fisherman f: fishermans) {
+            fishermansDTO.add(new FishermanDTO(f));
+        }
+        
+        Map<String, Object> fishermansResponse = new HashMap<>();
+        fishermansResponse.put("fishermans", fishermansDTO);
+        fishermansResponse.put("currentPageNumber", fishermansPage.getNumber());
+        fishermansResponse.put("totalElements", fishermansPage.getTotalElements());
+        fishermansResponse.put("totalPages", fishermansPage.getTotalPages());
+        
+        return fishermansResponse;
+    }
 
+    /**Pretraga ribolovaca po imenu i prezimenu*/
+    public Map<String, Object> searchFishermans(Pageable page, String firstName, String lastName, int cat) {
+    
+        List<FishermanDTO> fishermansDTO = new ArrayList<>();
+        List<Fisherman> fishermans;
+       
+        Page<Fisherman> fishermansPage;
+        if(cat == -1) {
+            fishermansPage = fishermanRepository.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(page, firstName, lastName);
+        } else {
+            FishermanCategory category;
+            category = (cat == 0 ? FishermanCategory.RECREATIONAL : FishermanCategory.PROFESSIONAL);
+            fishermansPage = fishermanRepository.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndCategory(page, firstName, lastName, category);   
+        }
+       
+        fishermans = fishermansPage.getContent();
+       
+        for(Fisherman f: fishermans) {
+            fishermansDTO.add(new FishermanDTO(f));
+        }
+        
+        Map<String, Object> fishermansResponse = new HashMap<>();
+        fishermansResponse.put("fishermans", fishermansDTO);
+        fishermansResponse.put("currentPageNumber", fishermansPage.getNumber());
+        fishermansResponse.put("totalElements", fishermansPage.getTotalElements());
+        fishermansResponse.put("totalPages", fishermansPage.getTotalPages());
+         
+        return fishermansResponse;
+    }
     
     /** Vraca sve ribolovce sa nepotvrdjenim ulovima za prikaz ribocuvaru 
      * koji je nadlezan za ribolovnu vodu na kojoj su ti ulovi ostvareni*/
-    public List<FishermanDTO> getAllFishermansWithNonConfirmedCatches(Principal principal) {
+    public Map<String, Object> getAllFishermansWithNonConfirmedCatches(Principal principal, Pageable page) {
         Long loggedKeeperId = userRepository.findByUsername(principal.getName()).getId();
         
-        List<Fisherman> fishermansWithNonConfirmedCatches = fishermanRepository.findAllFishermansWithNonConfirmedCatches(loggedKeeperId);
+        List<Fisherman> fishermansWithNonConfirmedCatches;
         List<FishermanDTO> fishermansDTO = new ArrayList<>();
+        
+        Page<Fisherman> fishermansPage = fishermanRepository.findAllFishermansWithNonConfirmedCatches(page, loggedKeeperId);
+        fishermansWithNonConfirmedCatches = fishermansPage.getContent();
         
         for(Fisherman f : fishermansWithNonConfirmedCatches) {
             fishermansDTO.add(new FishermanDTO(f));
         }
         
-        return fishermansDTO;
+        Map<String, Object> fishermansResponse = new HashMap<>();
+        fishermansResponse.put("fishermans", fishermansDTO);
+        fishermansResponse.put("currentPageNumber", fishermansPage.getNumber());
+        fishermansResponse.put("totalElements", fishermansPage.getTotalElements());
+        fishermansResponse.put("totalPages", fishermansPage.getTotalPages());
+        
+        return fishermansResponse;
     }
     
     public FishermanDTO getFishermanById(Long id, Principal principal) {

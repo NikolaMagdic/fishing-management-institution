@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Fisherman } from "../models/fisherman";
 
@@ -19,15 +19,29 @@ export class FishermanService {
         return this.http.get(this.url);
     }
 
+    getFishermansPageable(page: number) {
+        let queryParams = new HttpParams().append("page", page)
+        return this.http.get(this.url + "/page", {params: queryParams});
+    }
+
     getFishermansWithLicenseRequest() {
         return this.http.get(this.url + "/license-requests");
     }
 
-    getFishermansWithNonConfirmedCatches() {
-        return this.http.get(this.url + "/not-confirmed-catches");
+    getFishermansWithNonConfirmedCatches(page: number) {
+        let queryParams = new HttpParams().append("page", page);
+        return this.http.get(this.url + "/not-confirmed-catches", {params: queryParams});
     }
 
     updateFisherman(fisherman: Fisherman) {
         return this.http.put(this.url + "/" + fisherman.id, fisherman);
+    }
+
+    searchFishermansByFirstNameAndLastName(page: number, firstName: string, lastName: string, category: number) {
+        let queryParams = new HttpParams().append("page", page)
+                                    .append("firstName", firstName)
+                                    .append("lastName", lastName)
+                                    .append("category", category)
+        return this.http.get(this.url + "/search", {params: queryParams});   
     }
 }
