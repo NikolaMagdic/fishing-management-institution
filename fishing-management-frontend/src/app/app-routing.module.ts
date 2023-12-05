@@ -35,7 +35,13 @@ const routes: Routes = [
       { 
         path: "fishing-areas/:id", 
         canActivate: [ FishingAreaGuardService, AuthGuard ], 
-        component: FishingAreaDetailsComponent },
+        component: FishingAreaDetailsComponent 
+      },
+      {
+        path: "fishing-areas/:id/child",
+        component: FishingAreasListComponent,
+        canActivate: [AuthGuard]
+      },
       {
         path: "fish-species",
         component: FishSpeciesComponent,

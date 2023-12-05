@@ -42,11 +42,41 @@ public class FishingAreaService {
         
         FishingArea fishingArea = new FishingArea(fishingAreaDTO.getName(), fishingAreaDTO.getDescription(), fishingAreaDTO.getType(), fishingAreaDTO.getImage());
         
-        System.out.println(fishingArea.getImage());
+        // Ukoliko je u sklopu neke druge ribolovne vode
+        if(fishingAreaDTO.getParentArea() != null) {
+            FishingArea parentArea = fishingAreaRepository.getReferenceById(fishingAreaDTO.getParentArea());
+            fishingArea.setParentArea(parentArea);
+        }
         
         return fishingAreaRepository.save(fishingArea);
 
     } 
+    
+    public List<FishingAreaDTO> getAllRootFishingAreas() {
+        
+        List<FishingArea> rootFishingAreas = fishingAreaRepository.findAllRootFishingAreas();
+        List<FishingAreaDTO> rootFishingAreasDTO = new ArrayList<>();
+        
+        for (FishingArea fa :  rootFishingAreas) {
+            FishingAreaDTO areaDTO = new FishingAreaDTO(fa);
+            rootFishingAreasDTO.add(areaDTO);
+        }
+        
+        return rootFishingAreasDTO;
+    }
+    
+    public List<FishingAreaDTO> getChildsFishingAreasOfFishingArea(Long fishingAreaId) {
+        
+        List<FishingArea> childFishingAreas = fishingAreaRepository.findContainedFishingAreas(fishingAreaId);
+        List<FishingAreaDTO> areasDTO = new ArrayList<>();
+        
+        for (FishingArea fa : childFishingAreas) {
+            FishingAreaDTO areaDTO = new FishingAreaDTO(fa);
+            areasDTO.add(areaDTO);
+        }
+        
+        return areasDTO;
+    }
     
     public FishingArea updateFishingArea(Long id, FishingAreaDTO fishingAreaDTO) {
         FishingArea fishingArea = fishingAreaRepository.getReferenceById(id);

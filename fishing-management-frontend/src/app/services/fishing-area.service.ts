@@ -27,6 +27,14 @@ export class FishingAreaService {
         return throwError(() => err.message);
     }
 
+    getRootFishingAreas() {
+        return this.http.get(this.url + "/all");
+    }
+
+    getPartsOfFishingArea(id: number) {
+        return this.http.get(this.url + "/" + id + "/child");
+    }
+
     getFishingAreaById(id: number) {
         return this.http.get(this.url + "/" + id);
     }

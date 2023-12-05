@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class FishingArea {
@@ -42,6 +43,10 @@ public class FishingArea {
                 joinColumns = @JoinColumn(name = "fishing_area_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "fish_species_id", referencedColumnName = "id"))
     private Set<FishSpecies> fishSpecies = new HashSet<>();
+    
+    @ManyToOne
+    @JoinColumn(name = "parent_fishing_area_id", referencedColumnName = "id")
+    private FishingArea parentArea; 
     
     public FishingArea() {}
     
@@ -100,10 +105,18 @@ public class FishingArea {
         this.fishSpecies = fishSpecies;
     }
 
+    public FishingArea getParentArea() {
+        return parentArea;
+    }
+
+    public void setParentArea(FishingArea parentArea) {
+        this.parentArea = parentArea;
+    }
+
     @Override
     public String toString() {
-        return "FishingArea [id=" + id + ", name=" + name + ", description=" + description + ", areaType=" + areaType + ", image" + image + "]";
+        return "FishingArea [id=" + id + ", name=" + name + ", description=" + description + ", areaType=" + areaType
+                + ", image=" + image + ", fishSpecies=" + fishSpecies + ", parentArea=" + parentArea + "]";
     }
-    
     
 }

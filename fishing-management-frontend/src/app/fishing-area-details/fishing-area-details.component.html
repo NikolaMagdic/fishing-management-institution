@@ -49,6 +49,9 @@
             <div class="col">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFish" [hidden]="!adminLoggedIn">Dodaj vrstu ribe</button>              
             </div>
+            <div class="col">
+                <button class="btn btn-primary" (click)="showChildAreas()" [hidden]="!viewChildsButtonShown">Delovi ribolovne vode</button>
+            </div>
         </div>
     </div>
         <div class="modal" id="modalArea" tabindex="-1" aria-hidden="true">

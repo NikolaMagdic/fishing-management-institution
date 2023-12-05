@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { FishingArea } from '../models/fishing-area';
 import { FishingAreaService } from '../services/fishing-area.service';
@@ -24,7 +24,7 @@ export class FishingAreasListComponent {
     fishingAreas: any = []
 
     errorMessage: string = "";
-    fishingArea: FishingArea = new FishingArea(0, "", "", "", "");
+    fishingArea: FishingArea = new FishingArea(0, "", "", "", null, "");
 
     isAddButtonVisible = false;
     image: any;
@@ -32,8 +32,29 @@ export class FishingAreasListComponent {
     // Konstruktor koji se poziva prilikom inicijalizacije komponente, izvrsava se pre ngOnInit
     constructor(private _fishingAreaService: FishingAreaService,
                 private imageService: ImageService,
-                private router: Router) {
+                private router: Router,
+                private route: ActivatedRoute) {
         // Ovo gore je sintaksni secer koji uproscava konstruktor koji je inace u osnovi isti kao i u Javi
+    }
+
+    // Ova metoda se vise ne koristi
+    getFishingAreas() {
+        this._fishingAreaService.getFishingAreas().subscribe({
+            next: fishingAreas => { 
+                this.fishingAreas = fishingAreas,
+                this.filteredFishingAreas = this.fishingAreas},
+            error: err => this.errorMessage = err
+        });
+    }
+
+    getRootFishingAreas() {
+        this._fishingAreaService.getRootFishingAreas().subscribe({
+            next: fishingAreas => {
+                this.fishingAreas = fishingAreas,
+                this.filteredFishingAreas = this.fishingAreas
+            },
+            error: err => this.errorMessage = err
+        });
     }
 
     toggleImages() : void {
@@ -72,7 +93,7 @@ export class FishingAreasListComponent {
     }
 
     createFishingArea() { // Kod post zahteva mora subscribe inace nece biti pozvan
-        
+        console.log(this.fishingArea);
         if(this.image) {
             // Slika je uneta
             this.imageService.uploadImage(this.image).subscribe({
@@ -111,17 +132,27 @@ export class FishingAreasListComponent {
 
     ngOnInit() : void {
         console.log("Ova metoda se poziva automatski kada se komponenta ucita i na ovom mestu se radi inicijalizacija podataka");
-        this._fishingAreaService.getFishingAreas().subscribe({
-            next: fishingAreas => { 
-                this.fishingAreas = fishingAreas,
-                this.filteredFishingAreas = this.fishingAreas},
-            error: err => this.errorMessage = err
-        });
+        
+        let id = Number(this.route.snapshot.paramMap.get('id'));
+        if(!id) {
+            this.getRootFishingAreas();
+        } else {
+            this.getChildFishingAreas(id);
+        }
                 
         let role = localStorage.getItem('role');
         if(role == "ROLE_ADMIN") {
             this.isAddButtonVisible = true;
         }
+    }
+
+    getChildFishingAreas(id: number) {
+        this._fishingAreaService.getPartsOfFishingArea(id).subscribe({
+            next: fishingAreas => { 
+                this.fishingAreas = fishingAreas,
+                this.filteredFishingAreas = this.fishingAreas},
+            error: err => this.errorMessage = err
+        });    
     }
     
 }

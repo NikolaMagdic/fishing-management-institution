@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { windowToggle } from 'rxjs';
 import { FishSpecies } from '../models/fish-species';
+import { FishingArea } from '../models/fishing-area';
 import { FishSpeciesService } from '../services/fish-species.service';
 import { FishingAreaService } from '../services/fishing-area.service';
 import { ImageService } from '../services/image.service';
@@ -20,6 +21,7 @@ export class FishingAreaDetailsComponent implements OnInit{
   adminLoggedIn: boolean = false;
   areaForm: FormGroup;
   image: any;
+  viewChildsButtonShown = false;
 
   constructor(private _route: ActivatedRoute, 
               private _fishingAreaService: FishingAreaService,
@@ -64,6 +66,8 @@ export class FishingAreaDetailsComponent implements OnInit{
     if(role == "ROLE_ADMIN") {
       this.adminLoggedIn = true;  
     }
+
+    this.getChildsOfFishingArea(id);
     
   }
 
@@ -100,6 +104,11 @@ export class FishingAreaDetailsComponent implements OnInit{
     this._router.navigate(['/fishing-spots/' + id]);
   }
 
+  showChildAreas() {
+    let id = Number(this._route.snapshot.paramMap.get('id'));
+    this._router.navigate(['/fishing-areas/' + id + "/child"]);
+  }
+
   removeFishFromArea(fishId: number) {
     this._fishingAreaService.removeFishSpeciesFromArea(this.fishingArea.id, fishId).subscribe({
       next: () => {
@@ -130,6 +139,17 @@ export class FishingAreaDetailsComponent implements OnInit{
         }
       });
     }
+  }
+
+  getChildsOfFishingArea(id: number) {
+    this._fishingAreaService.getPartsOfFishingArea(id).subscribe({
+      next: data => {
+        let fishingAreas = data as FishingArea[];
+        if(fishingAreas.length != 0) {
+          this.viewChildsButtonShown = true;
+        }
+      }
+    });
   }
 
   processFile(imageFile: any) {

@@ -48,6 +48,21 @@ public class FishingAreaController {
         return ResponseEntity.ok().body(fishingAreaDTO);
     }
     
+    
+    @GetMapping("/all")
+    public ResponseEntity<List<FishingAreaDTO>> getAllRootFishingAreas() {
+        
+        List<FishingAreaDTO> rootFishingAreas = fishingAreaService.getAllRootFishingAreas();
+        return ResponseEntity.ok().body(rootFishingAreas);
+     }
+    
+    @GetMapping("/{id}/child")
+    public ResponseEntity<List<FishingAreaDTO>> getChildFishingAreas(@PathVariable(value = "id") Long id) {
+        
+        List<FishingAreaDTO> fishingAreasDTOs = fishingAreaService.getChildsFishingAreasOfFishingArea(id);
+        return ResponseEntity.ok().body(fishingAreasDTOs);
+    }
+    
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<FishingAreaDTO> createFishingArea(@RequestBody FishingAreaDTO fishingAreaDTO) {

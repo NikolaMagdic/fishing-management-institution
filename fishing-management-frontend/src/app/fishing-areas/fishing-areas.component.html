@@ -54,16 +54,22 @@
                                 <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Opis</label>
-                                <textarea name="description" class="form-control" rows="5" [(ngModel)]="fishingArea.description"></textarea>
-                            </div>
-                            <div class="mb-3">
                                 <label class="form-label">Tip</label>
                                 <select class="form-select" name="type" required [(ngModel)]="fishingArea.type">
                                     <option value="RIVER">Reka</option>
                                     <option value="LAKE">Jezero</option>
                                     <option value="POND">Bara</option>
                                     <option value="CANAL">Kanal</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Opis</label>
+                                <textarea name="description" class="form-control" rows="5" [(ngModel)]="fishingArea.description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ribolovna voda čiji je deo</label>
+                                <select class="form-select" name="parentArea" [(ngModel)]="fishingArea.parentArea">
+                                    <option *ngFor="let area of fishingAreas" [ngValue]="area.id">{{area.name}}</option>
                                 </select>
                             </div>
                             <div class="mb-3">

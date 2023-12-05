@@ -13,6 +13,8 @@ public class FishingAreaDTO {
     
     private FishingAreaType type;
     
+    private Long parentArea;
+    
     private String image;
 
     public FishingAreaDTO() {}
@@ -22,6 +24,7 @@ public class FishingAreaDTO {
         this.name = fishingArea.getName();
         this.description = fishingArea.getDescription();
         this.type = fishingArea.getType();
+        this.parentArea = fishingArea.getParentArea() == null ? null : fishingArea.getParentArea().getId();
         this.image = fishingArea.getImage();
     }
     
@@ -56,6 +59,14 @@ public class FishingAreaDTO {
     public void setType(FishingAreaType type) {
         this.type = type;
     }
+    
+    public Long getParentArea() {
+        return parentArea;
+    }
+
+    public void setParentArea(Long parentArea) {
+        this.parentArea = parentArea;
+    }
 
     public String getImage() {
         return image;
@@ -64,7 +75,11 @@ public class FishingAreaDTO {
     public void setImage(String image) {
         this.image = image;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "FishingAreaDTO [id=" + id + ", name=" + name + ", description=" + description + ", type=" + type
+                + ", parentArea=" + parentArea + ", image=" + image + "]";
+    }
     
 }
