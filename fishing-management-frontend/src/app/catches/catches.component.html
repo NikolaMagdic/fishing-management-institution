@@ -1,82 +1,97 @@
 <div class="container">
-    <h2>Evidencija dnevnog ulova</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Datum</th>
-                <th>Ribolovna voda</th>
-                <th>Vrsta ribe</th>
-                <th>Broj komada</th>
-                <th>Težina</th>
-                <th>Potvrđeno</th>
-                <th>Od strane ribočuvara</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let catch of catches">
-                <tr *ngFor="let item of catch.catchItemsResponse">
+    <h1>Evidencija ulova</h1>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#dailyCatchesTab">Evidencija dnevnog ulova</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#yearlyCatchesTab">Evidencija godišnjeg ulova</button>
+        </li>
+    </ul>
+    <div class="tab-content">
+    <div class="tab-pane show active" id="dailyCatchesTab" tabindex="0">
+        <h2>Evidencija dnevnog ulova</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Ribolovna voda</th>
+                    <th>Vrsta ribe</th>
+                    <th>Broj komada</th>
+                    <th>Težina</th>
+                    <th>Potvrđeno</th>
+                    <th>Od strane ribočuvara</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let catch of catches">
+                    <tr *ngFor="let item of catch.catchItemsResponse">
+                        <td>
+                            {{catch.date | date: "dd.MM.yyyy."}}
+                        </td>
+                        <td>
+                            {{catch.fishingAreaName}}
+                        </td>
+                        <td>
+                            {{item.fishSpeciesName}}
+                        </td>
+                        <td>
+                            {{item.quantity}}
+                        </td>
+                        <td>
+                            {{item.weight}}
+                        </td>
+                        <td>
+                            <img *ngIf="item.status === 'CONFIRMED'" src="../../assets/confirmed.png">
+                            <img *ngIf="item.status === 'CONFISCATED'" src="../../assets/rejected.png">
+                        </td>
+                        <td>
+                            {{item.keeperName}}
+                        </td>
+                        <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
+                            <button class="btn btn-primary" (click)="confirmCatch(item.id)">Potvrdi</button>
+                        </td>
+                        <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
+                            <button class="btn btn-secondary" (click)="rejectCatch(item.id)">Odbij</button>
+                        </td>
+                    </tr>     
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane" id="yearlyCatchesTab" tabindex="0">
+        <h2>Evidencija godišnjeg ulova</h2>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Godina</span>
+            <input type="number" min="2016" max="2100" class="form-control" name="year" [(ngModel)]="year"/>
+            <button class="btn btn-primary" (click)="showYearlyCatch()">Prikaži godišnji ulov</button>
+        </div>
+        <table class="table" [hidden]="yearCatchesHidden">
+            <thead>
+                <tr>
+                    <th>Ribolovna voda</th>
+                    <th>Vrsta ribe</th>
+                    <th>Broj komada</th>
+                    <th>Ukupna težina</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let item of yearCatches">
+                <tr>
                     <td>
-                        {{catch.date | date: "dd.MM.yyyy."}}
-                    </td>
-                    <td>
-                        {{catch.fishingAreaName}}
+                        {{item.fishingAreaName}}
                     </td>
                     <td>
                         {{item.fishSpeciesName}}
                     </td>
                     <td>
-                        {{item.quantity}}
+                        {{item.yearQuantity}}
                     </td>
                     <td>
-                        {{item.weight}}
+                        {{item.yearWeight}}
                     </td>
-                    <td>
-                        <img *ngIf="item.status === 'CONFIRMED'" src="../../assets/confirmed.png">
-                        <img *ngIf="item.status === 'CONFISCATED'" src="../../assets/rejected.png">
-                    </td>
-                    <td>
-                        {{item.keeperName}}
-                    </td>
-                    <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
-                        <button class="btn btn-primary" (click)="confirmCatch(item.id)">Potvrdi</button>
-                    </td>
-                    <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
-                        <button class="btn btn-secondary" (click)="rejectCatch(item.id)">Odbij</button>
-                    </td>
-                </tr>     
-        </tbody>
-    </table>
-    <h2>Evidencija godišnjeg ulova</h2>
-    <div class="input-group mb-3">
-        <span class="input-group-text">Godina</span>
-        <input type="number" min="2016" max="2100" class="form-control" name="year" [(ngModel)]="year"/>
-        <button class="btn btn-primary" (click)="showYearlyCatch()">Prikaži godišnji ulov</button>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <table class="table" [hidden]="yearCatchesHidden">
-        <thead>
-            <tr>
-                <th>Ribolovna voda</th>
-                <th>Vrsta ribe</th>
-                <th>Broj komada</th>
-                <th>Ukupna težina</th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let item of yearCatches">
-            <tr>
-                <td>
-                    {{item.fishingAreaName}}
-                </td>
-                <td>
-                    {{item.fishSpeciesName}}
-                </td>
-                <td>
-                    {{item.yearQuantity}}
-                </td>
-                <td>
-                    {{item.yearWeight}}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    </div>
 </div>

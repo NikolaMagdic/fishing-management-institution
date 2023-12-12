@@ -2,30 +2,32 @@
     <h1>Unesite podatke o ribočuvaru</h1>
     <form (ngSubmit)="registerKeeper()" #form="ngForm" [formGroup]="keeperForm">
         <div class="mb-3">
-            <label class="form-label">Korisničko ime</label>
+            <label class="form-label">Korisničko ime *</label>
             <input type="text" class="form-control" name="username" required formControlName="username">
         </div>
         <div class="mb-3">
-            <label class="form-label">Lozinka</label>
+            <label class="form-label">Lozinka *</label>
             <input type="password" class="form-control" name="password" required formControlName="password">
         </div>
         <div class="mb-3">
-            <label class="form-label">Potvrdi lozinku</label>
+            <label class="form-label">Potvrdi lozinku *</label>
             <input type="password" class="form-control" name="confirmPassword" required formControlName="confirmPassword" (ngModelChange)="checkIfPasswordsMatch()">
             <div *ngIf="(!keeperForm.get('confirmPassword')!.valid || !passwordsMatch) && (!keeperForm.get('confirmPassword')!.pristine || keeperForm.get('confirmPassword')!.touched)" class="alert alert-danger">Lozinke nisu jednake</div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Ime</label>
+            <label class="form-label">Ime *</label>
             <input type="text" class="form-control" name="firstName" required formControlName="firstName">
         </div>
         <div class="mb-3">
-            <label class="form-label">Prezime</label>
+            <label class="form-label">Prezime *</label>
             <input type="text" class="form-control" name="lastName" required formControlName="lastName">
         </div>
         <div class="mb-3">
             <label class="form-label">Datum rođenja</label>
             <input type="date" class="form-control" name="dateOfBirth" formControlName="dateOfBirth">
         </div>
+        <div class="me-auto">* Obavezna polja</div>
+        <br/>
         <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid || !passwordsMatch">Potvrdi</button>
     </form>
     <button data-bs-toggle="modal" data-bs-target="#modal" hidden #openModal></button>

@@ -1,6 +1,7 @@
 <div class="container">
     <h1>Rezervacije</h1>
-    <table class="table table-striped">
+    <h4 *ngIf="reservations.length == 0">Nemate prethodno rezervisanih termina za ribolov.</h4>
+    <table class="table table-striped" *ngIf="reservations.length > 0">
         <thead>
             <tr>
                 <th *ngIf="fishermanLoggedIn">Ribolovna voda</th>

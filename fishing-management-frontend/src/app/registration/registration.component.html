@@ -1,28 +1,28 @@
-<div>
+<div class="container w-75 p-3">
     <h1>Unesite podatke za registraciju</h1>
     <form (ngSubmit)="register()" #form="ngForm">
         <div class="mb-3">
-            <label class="form-label">Imejl-adresa</label>
+            <label class="form-label">Imejl-adresa *</label>
             <input type="email" class="form-control" name="username" required [(ngModel)]="registration.username" #username="ngModel">
             <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Lozinka</label>
+            <label class="form-label">Lozinka *</label>
             <input type="password" class="form-control" name="password" required [(ngModel)]="registration.password" #password="ngModel" (ngModelChange)="checkIfPasswordsMatch()">
             <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Potvrdi lozinku</label>
+            <label class="form-label">Potvrdi lozinku *</label>
             <input type="password" class="form-control" name="confirmPassword" required [(ngModel)]="registration.confirmPassword" #confirmPassword="ngModel" (ngModelChange)="checkIfPasswordsMatch()">
             <div [hidden]="(confirmPassword.valid && passwordsMatch) || confirmPassword.pristine" class="alert alert-danger">Lozinke nisu jednake</div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Ime</label>
+            <label class="form-label">Ime *</label>
             <input type="text" class="form-control" name="firstName" required [(ngModel)]="registration.firstName" #firstName="ngModel">
             <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Prezime</label>
+            <label class="form-label">Prezime *</label>
             <input type="text" class="form-control" name="lastName" required [(ngModel)]="registration.lastName" #lastName="ngModel">
             <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
         </div>
@@ -39,12 +39,14 @@
             <input type="text" class="form-control" name="city" [(ngModel)]="registration.city">
         </div>
         <div class="mb-3">
-            <label class="form-label">Kategorija ribolovca</label>
+            <label class="form-label">Kategorija ribolovca *</label>
             <select class="form-select" name="category" [(ngModel)]="registration.category" required>
                 <option value="RECREATIONAL">Rekreativni</option>
                 <option value="PROFESSIONAL">Profesionalni</option>
             </select>
         </div>
+        <div>* Obavezna polja</div>
+        <br/>
         <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid || !passwordsMatch">Potvrdi</button>
     </form> 
     <button data-bs-toggle="modal" data-bs-target="#modal" hidden #openModal></button>

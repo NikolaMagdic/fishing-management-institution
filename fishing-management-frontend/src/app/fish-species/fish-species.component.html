@@ -1,6 +1,7 @@
 
 <div>
     <h1>Vrste riba</h1>    
+    <button type="button" class="btn btn-primary float-end m3-3" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishButtonVisible"><i class="fa fa-plus"></i>&nbsp;Dodaj novu vrstu ribe</button>
     <table class="table table-striped" *ngIf="fishSpecies.length">
         <thead>
             <tr>
@@ -35,7 +36,6 @@
             </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishButtonVisible">Dodaj novu vrstu ribe</button>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -46,17 +46,17 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Naziv</label>
+                            <label class="form-label">Naziv *</label>
                             <input type="text" required name="name" class="form-control" formControlName="name">
                             <div *ngIf="!newFishForm.get('name')!.valid && (!newFishForm.get('name')!.pristine || newFishForm.get('name')!.touched)" class="alert alert-danger">Ovo polje je obavezno</div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Latinski Naziv</label>
+                            <label class="form-label">Latinski Naziv *</label>
                             <input type="text" required name="latinName" class="form-control" formControlName="latinName">
                             <div *ngIf="!newFishForm.get('latinName')!.valid && (!newFishForm.get('latinName')!.pristine || newFishForm.get('latinName')!.touched)" class="alert alert-danger">Ovo polje je obavezno </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Kategorija</label>
+                            <label class="form-label">Kategorija *</label>
                             <select class="form-select" name="category" required formControlName="category">
                                 <option value="NOBLE">Plemenita</option>
                                 <option value="INDIGENOUS">Autohtona</option>
@@ -127,7 +127,8 @@
                         </div>                                                                 
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid && imposibleDate">Dodaj</button>
+                        <div class="me-auto">* Obavezna polja</div>
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid || imposibleDate">Dodaj</button>
                     </div>
                 </form>
             </div>

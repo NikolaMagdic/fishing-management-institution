@@ -1,5 +1,6 @@
 <div class="container">
     <h1>Registar ribolovnih prekršaja</h1>
+    <button *ngIf="adminLoggedIn" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#modal"><i class="fa fa-plus"></i>&nbsp;Registruj novi prekršaj</button>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -22,7 +23,6 @@
             </tr>
         </tbody>
     </table>
-    <button *ngIf="adminLoggedIn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">Registruj novi prekršaj</button>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -33,12 +33,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Naziv</label>
+                            <label class="form-label">Naziv *</label>
                             <input type="text" class="form-control" required name="name" formControlName="name">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Opis prekršaja</label>
-                            <textarea rows="5" class="form-control" required name="description" formControlName="description"></textarea>
+                            <textarea rows="5" class="form-control" name="description" formControlName="description"></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Iznos kazne (RSD)</label>
@@ -46,6 +46,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <div class="me-auto">* Obavezno polje</div>
                         <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!form.form.valid">Potvrdi unos</button>
                     </div>
                 </form>

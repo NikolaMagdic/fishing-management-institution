@@ -1,5 +1,7 @@
 <div class="container">
-    <table class="table table-striped">
+    <h1>Prekršaji ribolovca</h1>
+    <h3 *ngIf="penaltiesOfFisherman.length == 0">Ribolovac nema registrovanih prekršaja</h3>
+    <table class="table table-striped" *ngIf="penaltiesOfFisherman.length">
         <thead>
             <tr>
                 <th>Naziv</th>
@@ -40,7 +42,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Prekršaj</label>
+                            <label class="form-label">Prekršaj *</label>
                             <select class="form-select" name="penalty" required formControlName="penaltyForm">
                                 <option *ngFor="let p of penalties" [ngValue]="p">{{p.name}}</option>
                             </select>
@@ -50,8 +52,8 @@
                             <textarea class="form-control" rows="5" formControlName="report"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Datum</label>
-                            <input type="date" class="form-control" formControlName="date">
+                            <label class="form-label">Datum *</label>
+                            <input type="date" class="form-control" required formControlName="date">
                         </div>
                     </div>
                     <div class="modal-footer">

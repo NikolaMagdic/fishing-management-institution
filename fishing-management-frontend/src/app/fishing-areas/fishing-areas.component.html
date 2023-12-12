@@ -19,10 +19,12 @@
                 <option value="CANAL">Kanal</option>
             </select>
         </div>
-        <h5>Odaberite ribolovnu vodu</h5>
         <!--Ovo je primer event bindinga-->
         <!--<button (click)="toggleImages()">{{!imagesShown ? "Prikazi" : "Sakrij"}} slike ribolovnih voda</button>-->
+        <button type="button" class="btn btn-primary col-3 float-end me-3" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!isAddButtonVisible"><i class="fa fa-plus"></i>&nbsp; Dodaj ribolovnu vodu</button>
         <div class="container">
+            <h5>Odaberite ribolovnu vodu</h5>
+            <br/>
             <div class="row row-cols-3">
                 <div class="col clickable" *ngFor="let fishingArea of filteredFishingAreas" (click)="showFishingAreaDetails(fishingArea.id)">
                     <div class="card" style="overflow: hidden;">
@@ -38,7 +40,6 @@
          
         <!--Nacin da nam red u tabeli bude link ka stranici sa detaljima-->
         <!--<td><a [routerLink]="['/fishing-areas', fishingArea.id]">{{fishingArea.name}}</a></td>-->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!isAddButtonVisible">Dodaj ribolovnu vodu</button>
         <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -49,12 +50,12 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label class="form-label">Naziv</label>
+                                <label class="form-label">Naziv *</label>
                                 <input type="text" required name="name" class="form-control" [(ngModel)]="fishingArea.name" #name="ngModel">
                                 <div [hidden]="name.valid || name.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Tip</label>
+                                <label class="form-label">Tip *</label>
                                 <select class="form-select" name="type" required [(ngModel)]="fishingArea.type">
                                     <option value="RIVER">Reka</option>
                                     <option value="LAKE">Jezero</option>
@@ -78,6 +79,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <div class="me-auto">* Obavezno polje</div>
                             <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Dodaj</button>
                         </div>
                     </form>

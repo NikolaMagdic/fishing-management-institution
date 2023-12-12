@@ -1,4 +1,6 @@
 <div>
+    <h1>Mesta za ribolov za zakazivanje</h1>
+    <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishingSpotButtonVisible"><i class="fa fa-plus"></i>&nbsp;Dodaj ribolovno mesto</button>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -25,7 +27,6 @@
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishingSpotButtonVisible">Dodaj ribolovno mesto</button>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -36,8 +37,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Tip</label>
+                            <label class="form-label">Tip *</label>
                             <select class="form-select" name="type" [(ngModel)]="newFishingSpot.type" required #type="ngModel">
+                                <option value="ARRANGED_PLACE">Uređeno mesto</option>
                                 <option value="BOAT">Čamac</option>
                                 <option value="RAFT">Splav</option>
                                 <option value="FISHING_HOUSE">Vikendica za ribolov</option>
@@ -58,6 +60,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <div class="me-auto">* Obavezno polje</div>
                         <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Dodaj</button>
                     </div>
                 </form>

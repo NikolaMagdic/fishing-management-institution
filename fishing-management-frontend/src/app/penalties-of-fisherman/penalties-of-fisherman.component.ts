@@ -50,6 +50,7 @@ export class PenaltiesOfFishermanComponent {
     this.penaltyService.getAllPenalitesOfFisherman(fishermanId).subscribe({
       next: data => {
         this.penaltiesOfFisherman = data;
+        console.log(this.penaltiesOfFisherman);
       }
     });
   }

@@ -1,20 +1,22 @@
-<div>
+<div class="container w-75 p-3">
     <h1 *ngIf="keeper">Ribočuvar {{keeper.firstName + " " + keeper.lastName}}</h1>
     <form (ngSubmit)="updateKeeper()" #form="ngForm" [formGroup]="keeperForm">
         <fieldset [disabled]="fieldsetDisabled">
             <div class="mb-3">
                 <label class="form-label">Ime</label>
                 <input type="text" class="form-control" name="firstName" required formControlName="firstName">
+                <div *ngIf="!keeperForm.get('firstName')!.valid" class="alert alert-danger">Ovo polje je obavezno</div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Prezime</label>
                 <input type="text" class="form-control" name="lastName" required formControlName="lastName">
+                <div *ngIf="!keeperForm.get('lastName')!.valid" class="alert alert-danger">Ovo polje je obavezno</div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Datum rođenja</label>
                 <input type="date" class="form-control" name="dateOfBirth" formControlName="dateOfBirth">
             </div>
-            <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden">Potvrdi izmenu</button>
+            <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden" [disabled]="!form.form.valid">Potvrdi izmenu</button>
         </fieldset>
     </form>
     <button class="btn btn-primary" (click)="enableForm()" [hidden]="changeButtonHidden || adminLoggedIn">Izmeni</button>

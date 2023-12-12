@@ -20,7 +20,7 @@ export class CatchFormComponent {
   selectedFish: any; 
   fishingAreas: FishingArea[] = [];
   selectedArea: any;
-  catch: Catch = new Catch(0, [], new Date());
+  catch: Catch = new Catch(0, [], null);
   catchItemForm: FormGroup;
 
   // Da ne mogu da se dodaju stavke dok se ne izabere ribolovna voda (jer se na osnovu vode traze ponudjene vrste riba)

@@ -1,15 +1,5 @@
 <div class="container">
     <h1>Registrovani ribolovci</h1>
-    <nav>
-        <ul class="pagination" >
-            <!-- <li class="page-item"><a class="page-link" href="#">Prethodni</a></li> -->
-            <li class="page-item" *ngFor="let page of pages">
-                <a class="page-link" [ngClass]="{'active': page==currentPage}" (click)="changePage(page-1)">{{page}}</a>
-            </li>
-            <!-- <li class="page-item"><a class="page-link" href="#">Sledeći</a></li> -->
-        </ul>
-    </nav>
-    <button class="btn btn-primary" (click)="getFishermansWithNonConfirmedCatches(0)">Ribolovci sa neevidentiranim ulovima</button>
     <div class="input-group mb-3">
         <span class="input-group-text">Pretraga</span>
         <!--Ovo je kod za filtraciju, promenjeno je na pretragu tako da je ovaj kod ostavljen u rezervi-->
@@ -29,6 +19,16 @@
         </select>
         <button class="btn btn-primary" (click)="searchFishermans(0)">Pretraži</button>
     </div>
+    <nav>
+        <ul class="pagination" >
+            <!-- <li class="page-item"><a class="page-link" href="#">Prethodni</a></li> -->
+            <li class="page-item" *ngFor="let page of pages">
+                <a class="page-link" [ngClass]="{'active': page==currentPage}" (click)="changePage(page-1)">{{page}}</a>
+            </li>
+            <!-- <li class="page-item"><a class="page-link" href="#">Sledeći</a></li> -->
+        </ul>
+        <button class="btn btn-primary" (click)="getFishermansWithNonConfirmedCatches(0)"><i class="fa fa-search"></i> Ribolovci sa neevidentiranim ulovima</button>
+    </nav>
     <table class="table table-striped">
         <thead>
             <tr>

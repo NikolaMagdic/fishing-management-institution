@@ -8,13 +8,13 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Opis prekršaja</label>
-                <textarea rows="5" class="form-control" required formControlName="description"></textarea>
+                <textarea rows="5" class="form-control" formControlName="description"></textarea>
             </div>
             <div class="mb-3">
                 <label class="form-label">Cena kazne</label>
                 <input type="number" class="form-control" formControlName="fine">
             </div>
-            <button class="btn btn-success" [hidden]="updateButtonVisible">Potvrdi izmenu</button>
+            <button class="btn btn-success" [hidden]="updateButtonVisible" [disabled]="!form.form.valid">Potvrdi izmenu</button>
         </fieldset>
     </form>
     <div>

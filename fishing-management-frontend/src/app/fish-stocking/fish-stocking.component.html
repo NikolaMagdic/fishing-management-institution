@@ -37,27 +37,28 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Ribolovna voda</label>
+                            <label class="form-label">Ribolovna voda *</label>
                             <select class="form-select" name="fishingArea" required formControlName="fishingArea">
                                 <option *ngFor="let area of fishingAreas" [ngValue]="area">{{area.name}}</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Vrsta ribe</label>
+                            <label class="form-label">Vrsta ribe *</label>
                             <select class="form-select" name="fishSpecies" required formControlName="fishSpecies">
                                 <option *ngFor="let fish of fishSpecies" [ngValue]="fish">{{fish.name}}</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Datum poribljavanja</label>
+                            <label class="form-label">Datum poribljavanja *</label>
                             <input type="date" class="form-control" required formControlName="date">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Broj jedinki</label>
+                            <label class="form-label">Broj jedinki *</label>
                             <input type="number" class="form-control" required formControlName="number">
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <div class="me-auto">* Obavezna polja</div>
                         <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid" data-bs-dismiss="modal">Potvrdi</button>
                     </div>
                 </form>

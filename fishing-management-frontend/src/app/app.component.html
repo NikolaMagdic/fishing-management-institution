@@ -7,7 +7,7 @@
             </a>
             <ul class="nav navbar-nav me-auto mb-2 mb-lg-0 nav-link-hover-color: brown">
                 <li class="nav-item" *ngIf="!isLoggedIn">
-                    <a class="nav-link" routerLink="">Prijavi se</a>
+                    <a class="nav-link" routerLink="">Prijava</a>
                 </li>
                 <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link" routerLink="fishing-areas">Ribolovne vode</a>
@@ -19,7 +19,7 @@
                     <a class="nav-link" routerLink="fishermans">Ribolovci</a>
                 </li>
                 <li class="nav-item" *ngIf="!isLoggedIn">
-                    <a class="nav-link" routerLink="registration">Registruj se</a>
+                    <a class="nav-link" routerLink="registration">Registracija</a>
                 </li>
                 <li class="nav-item" *ngIf="role == 'ROLE_FISHERMAN'">
                     <a class="nav-link" routerLink="catch-form">Evidencija ulova</a>
