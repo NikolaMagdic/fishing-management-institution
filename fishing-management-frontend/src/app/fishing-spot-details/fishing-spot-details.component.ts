@@ -16,6 +16,8 @@ import { Reservation } from '../models/reservation';
 import { FormControl, FormGroup } from '@angular/forms';
 import { LicenseService } from '../services/license.service';
 import { License } from '../models/license';
+import { FishingAreaService } from '../services/fishing-area.service';
+import { FishingArea } from '../models/fishing-area';
 
 @Component({
   selector: 'app-fishing-spot-details',
@@ -44,10 +46,12 @@ export class FishingSpotDetailsComponent {
   validLicense: boolean = false;
   fishermanLoggedIn = false;
   licenseId: any;
+  fishingAreaName = '';
 
   constructor(private fishingSpotService: FishingSpotService,
               private reservationService: ReservationService,
               private licenseService: LicenseService, 
+              private fishingAreaService: FishingAreaService,
               private route: ActivatedRoute,
               private router: Router) {
                }
@@ -61,6 +65,8 @@ export class FishingSpotDetailsComponent {
       this.fishermanLoggedIn = true;
       this.getExistingValidLicenses();
     }
+
+    this.getFishingAreaName(areaId);
 
     this.fishingSpotService.getFishingSpotById(spotId, areaId).subscribe({
       next: data => {
@@ -212,6 +218,15 @@ export class FishingSpotDetailsComponent {
 
   toggleReservationType() {
     this.multiDayReservationForm = !this.multiDayReservationForm;
+  }
+
+  getFishingAreaName(areaId: number) {
+    this.fishingAreaService.getFishingAreaById(areaId).subscribe({
+      next: data => {
+        let fishingArea = data as FishingArea;
+        this.fishingAreaName = fishingArea.name;
+      }
+    });
   }
 
 }

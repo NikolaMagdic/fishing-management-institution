@@ -1,82 +1,118 @@
 <div class="container">
     <h1>Dozvola za ribolov</h1>
+    <hr>
     <div class="row">
         <div class="col">
-            <h2>Godišnja dozvola</h2>
-            <div *ngIf="!validLicense">
-                <p>
-                    Nemate važeću godišnju dozvolu za ribolov. Pošaljite zahtev za izdavanje dozvole za ribolov.
-                    <button class="btn btn-primary" (click)="obtainLicence()">Zahtev za izdavanje godišnje dozvole za tekuću godinu</button>
-                </p>
+            <div class="col d-flex align-items-start">
+                <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center fs-4 flex-shrink-0 me-3 mt-2"><i class="fa fa-id-card-o"></i></div>
+                <h2>Godišnja dozvola</h2>
+                <div *ngIf="!validLicense">
+                    <p class="fs-5">
+                        Nemate važeću godišnju dozvolu za ribolov. Da bi Vam bio omogućen ribolov pošaljite zahtev za izdavanje godišnje dozvole za ribolov za tekuću godinu.
+                    </p>
+                    <div>
+                        <button class="btn btn-primary btn-lg px-4" (click)="obtainLicence()">Pošalji zahtev</button>
+                    </div>
+                </div>
+                <div *ngIf="validLicense && license.status === 'CONFIRMED'">
+                    <p class="fs-5">
+                        <img src="../../assets/confirmed.png">
+                        Vi imate važeću dozvolu za ribolov za {{license.year}}. godinu.
+                    </p>
+                </div>
+                <div *ngIf="validLicense && license.status === 'CREATED'">
+                    <p class="fs-5">
+                        Zahtev za izdavanje dozvole za ribolov za {{license.year}}. godinu poslat.
+                    </p>
+                </div>
             </div>
-            <div *ngIf="validLicense && license.status === 'CONFIRMED'">
-                <p>
-                    <img src="../../assets/confirmed.png">
-                    Vi imate važeću dozvolu za ribolov za {{license.year}}. godinu.
-                </p>
-            </div>
-            <div *ngIf="validLicense && license.status === 'CREATED'">Zahtev za izdavanje dozvole za ribolov za {{license.year}}. godinu poslat.</div>
         </div>
     </div>
     <hr/>
     <br/>
-    <div class="row">
-        <div class="col">
-            <h2>Dnevne dozvole</h2>
-            <div *ngIf="!validLicense || !(license.status === 'CONFIRMED')">
-                <h4>Zahtev za izdavanje dnevne dozvole</h4>
-                <form (ngSubmit)="obtainDailyLicense()" #form="ngForm">
-                    <div class="mb-3">
-                        <label class="form-label">Datum</label>
-                    <input type="date" class="form-control" name="licenseDate" [(ngModel)]="licenseDate" required>
+    <div class="row align-items-md-stretch" *ngIf="!professionalFishermanLoggedIn">
+        <div class="col-md-6">
+            <div class="border rounded-3 h-100 p-3">
+                <h2>Dnevne dozvole</h2>
+                <div *ngIf="!validLicense || !(license.status === 'CONFIRMED')">
+                    <p>Izvadite dozvolu za jedan dan</p>
+                    <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseOne">Izvadi dnevnu dozvolu <i class="fa fa-caret-down"></i></button>
+                    <br/><br/>
+                    <div class="collapse" id="collapseOne">
+                        <h4>Zahtev za izdavanje dnevne dozvole</h4>
+                        <form (ngSubmit)="obtainDailyLicense()" #form="ngForm">
+                            <div class="mb-3">
+                                <label class="form-label">Datum</label>
+                            <input type="date" class="form-control" name="licenseDate" [(ngModel)]="licenseDate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Pošalji zahtev</button>
+                        </form>
                     </div>
-                    <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Pošalji zahtev</button>
-                </form>
-            </div>
-            <br/><br/>
-            <div *ngIf="dailyLicenses.length > 0" class="container">
-                <h4>Prethodne dnevne dozvole</h4>
-                <ol class="list-group list-group-numbered" *ngFor="let license of dailyLicenses">
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold">{{license.date | date: "dd.MM.yyyy."}}</div>
-                            <div *ngIf="license.status === 'CONFIRMED'">Odobrena</div>
-                            <div *ngIf="license.status === 'REJECTED'">Odbijena</div>
-                            <div *ngIf="license.status === 'CREATED'">Zahtev u obradi</div>
-                          </div>
-                    </li>
-                </ol>
+                </div>
+                <br/><br/>
+                <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseOneBefore">Prikaži prethodne dnevne dozvole <i class="fa fa-caret-down"></i></button>
+                <div class="collapse" id="collapseOneBefore">
+                    <h4>Prethodne dnevne dozvole</h4>
+                    <div *ngIf="dailyLicenses.length > 0" class="container">
+                        <ol class="list-group list-group-numbered" *ngFor="let license of dailyLicenses">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">{{license.date | date: "dd.MM.yyyy."}}</div>
+                                    <div *ngIf="license.status === 'CONFIRMED'">Odobrena</div>
+                                    <div *ngIf="license.status === 'REJECTED'">Odbijena</div>
+                                    <div *ngIf="license.status === 'CREATED'">Zahtev u obradi</div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                    <div *ngIf="dailyLicenses.length < 1" class="container">
+                        <p>Nemate prethodne dnevne dozvole</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col">
-            <h2>Višednevne dozvole</h2>
-            <div *ngIf="!validLicense || !(license.status === 'CONFIRMED')">
-                <h4>Zahtev za izdavanje višednevne dozvole</h4>
-                <form (ngSubmit)="obtainMultiDayLicense()" #form = "ngForm">
-                    <div class="mb-3">
-                        <label class="form-label">Početni datum</label>
-                        <input type="date" class="form-control" name="licenseDateStart" [(ngModel)]="licenseDateStart" required>
+        <div class="col-md-6">
+            <div class="border rounded-3 h-100 p-3">
+                <h2>Višednevne dozvole</h2>
+                <div *ngIf="!validLicense || !(license.status === 'CONFIRMED')">
+                    <p>Izvadite dozvolu za više dana (maksimalno 7)</p>
+                    <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseMulti">Izvadi višednednevnu dozvolu <i class="fa fa-caret-down"></i></button>
+                    <br/><br/>
+                    <div class="collapse" id="collapseMulti">
+                        <h4>Zahtev za izdavanje višednevne dozvole</h4>
+                        <form (ngSubmit)="obtainMultiDayLicense()" #form = "ngForm">
+                            <div class="mb-3">
+                                <label class="form-label">Početni datum</label>
+                                <input type="date" class="form-control" name="licenseDateStart" [(ngModel)]="licenseDateStart" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Krajnji datum</label>
+                                <input type="date" class="form-control" name="licenseDateEnd" [(ngModel)]="licenseDateEnd" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Pošalji zahtev</button>
+                        </form>    
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Krajnji datum</label>
-                        <input type="date" class="form-control" name="licenseDateEnd" [(ngModel)]="licenseDateEnd" required>
+                </div>
+                <br/><br/>
+                <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseMultiBefore">Prikaži prethodne višednevne dozvole <i class="fa fa-caret-down"></i></button>
+                <div class="collapse" id="collapseMultiBefore">
+                    <h4>Prethodne višednevne dozvole</h4>
+                    <div *ngIf="multiDayLicenses.length > 0" class="container">
+                        <ol class="list-group list-group-numbered" *ngFor="let license of multiDayLicenses">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Od: {{license.date | date: "dd.MM.yyyy."}} do  {{license.endDate | date: "dd.MM.yyyy."}}</div>
+                                    <div *ngIf="license.status === 'CONFIRMED'">Odobrena</div>
+                                    <div *ngIf="license.status === 'REJECTED'">Odbijena</div>
+                                    <div *ngIf="license.status === 'CREATED'">Zahtev u obradi</div>
+                                </div>
+                            </li>
+                        </ol>
                     </div>
-                    <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid">Pošalji zahtev</button>
-                </form>
-            </div>
-            <br/><br/>
-            <div *ngIf="multiDayLicenses.length > 0" class="container">
-                <h4>Prethodne višednevne dozvole</h4>
-                <ol class="list-group list-group-numbered" *ngFor="let license of multiDayLicenses">
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold">Od: {{license.date | date: "dd.MM.yyyy."}} do  {{license.endDate | date: "dd.MM.yyyy."}}</div>
-                            <div *ngIf="license.status === 'CONFIRMED'">Odobrena</div>
-                            <div *ngIf="license.status === 'REJECTED'">Odbijena</div>
-                            <div *ngIf="license.status === 'CREATED'">Zahtev u obradi</div>
-                          </div>
-                    </li>
-                </ol>
+                    <div *ngIf="multiDayLicenses.length < 1" class="container">
+                        <p>Nemate prethodne višednevne dozvole</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

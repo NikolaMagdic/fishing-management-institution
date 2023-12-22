@@ -235,4 +235,8 @@ public class FishermanService {
         
     }
     
+    public FishermanCategory getCategoryOfLoggedFisherman(Principal principal) {
+        Fisherman fisherman = (Fisherman) userRepository.findByUsername(principal.getName());
+        return fisherman.getCategory();
+    }
 }

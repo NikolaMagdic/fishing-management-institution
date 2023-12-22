@@ -23,6 +23,8 @@ import com.example.fishingmanagementbackend.dto.RegistrationDTO;
 import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.service.FishermanService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -101,5 +103,13 @@ public class FishermanController {
             return ResponseEntity.status(403).build();
         }
         return ResponseEntity.ok().body(new FishermanDTO(fisherman));
+    }
+    
+    @GetMapping("/category")
+    public ResponseEntity<String> getCategoryOfFisherman(Principal principal) throws JsonProcessingException {
+        String fishermanCategory = fishermanService.getCategoryOfLoggedFisherman(principal).toString();
+        ObjectMapper mapper = new ObjectMapper();
+        String categoryJSON = mapper.writeValueAsString(fishermanCategory);
+        return ResponseEntity.ok().body(categoryJSON);
     }
 }

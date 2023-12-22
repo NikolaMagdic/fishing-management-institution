@@ -44,4 +44,8 @@ export class FishermanService {
                                     .append("category", category)
         return this.http.get(this.url + "/search", {params: queryParams});   
     }
+
+    getCategoryOfLoggedFisherman() {
+        return this.http.get(this.url + "/category");
+    } 
 }

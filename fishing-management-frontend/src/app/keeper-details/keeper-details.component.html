@@ -16,6 +16,10 @@
                 <label class="form-label">Datum rođenja</label>
                 <input type="date" class="form-control" name="dateOfBirth" formControlName="dateOfBirth">
             </div>
+            <div class="mb-3">
+                <label class="form-label">Broj licence</label>
+                <input type="text" class="form-control" name="licenseNumber" formControlName="licenseNumber">
+            </div>
             <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden" [disabled]="!form.form.valid">Potvrdi izmenu</button>
         </fieldset>
     </form>

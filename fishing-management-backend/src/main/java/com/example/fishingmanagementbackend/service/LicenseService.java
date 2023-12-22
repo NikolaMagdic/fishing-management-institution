@@ -5,7 +5,9 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.LicenseDTO;
@@ -37,6 +39,9 @@ public class LicenseService {
     
     @Autowired
     private ReservationRepository reservationRepository;
+    
+    @Autowired
+    private EmailService emailService;
     
     public YearlyLicense obtainYearLicense(LicenseDTO licenseDTO, Principal principal) {
         
@@ -175,6 +180,8 @@ public class LicenseService {
         License license = licenseRepository.getReferenceById(licenseId);
         license.setStatus(LicenseStatus.CONFIRMED);
         
+        //sendEmailAboutConfirmation(license, true);
+        
         return licenseRepository.save(license);
         
     }
@@ -192,6 +199,7 @@ public class LicenseService {
         
         license.setStatus(LicenseStatus.REJECTED);
         
+        sendEmailAboutConfirmation(license, false);
         
         return licenseRepository.save(license);
     }
@@ -202,5 +210,28 @@ public class LicenseService {
             return false;
         }
         return true;
+    }
+    
+    private void sendEmailAboutConfirmation(License license, boolean confirmed) {
+        Fisherman fisherman;
+        String time;
+        if(license.getType().equals(LicenseType.YEARLY)) {
+            license = (License) Hibernate.unproxy(license);
+            YearlyLicense yearLicense = (YearlyLicense) license;
+            time = " za " + yearLicense.getYear().toString() + ". godinu ";
+            if(yearLicense.getProfessionalFisherman() != null) {
+                fisherman = yearLicense.getProfessionalFisherman();
+            } else {
+                fisherman = yearLicense.getFisherman();
+            }
+        } else {
+            fisherman = license.getFisherman();
+            time = " za " + license.getDate().toString() + " "; 
+        }
+        try {
+            emailService.sendMailAsyncForLicenseConfirmation(fisherman, fisherman.getFirstName() + " " + fisherman.getLastName(), confirmed, time);
+        } catch (MailException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

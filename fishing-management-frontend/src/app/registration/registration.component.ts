@@ -12,6 +12,7 @@ export class RegistrationComponent {
 
   public registration: RegistrationRequest = new RegistrationRequest("", "", "", "", "", new Date(), "", "", "");
   passwordsMatch: boolean = false;
+  passwordLengthOk: boolean = false;
 
   @ViewChild('openModal') openModal: ElementRef | any;
   modalText: string = "Zahtev za registraciju poslat. Potvrdite zahtev klikom na link koji Vam je stigao na imejl adresu.";
@@ -37,6 +38,12 @@ export class RegistrationComponent {
       this.passwordsMatch = true;
     } else {
       this.passwordsMatch = false;
+    }
+
+    if(this.registration.password.length < 8) {
+      this.passwordLengthOk = false;
+    } else {
+      this.passwordLengthOk = true;
     }
   }
 }

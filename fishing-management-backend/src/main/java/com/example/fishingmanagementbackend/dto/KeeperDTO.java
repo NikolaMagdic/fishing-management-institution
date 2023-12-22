@@ -14,13 +14,16 @@ public class KeeperDTO {
     
     private LocalDate dateOfBirth;
     
+    private String licenseNumber;
+    
     public KeeperDTO() {}
     
-    public KeeperDTO(Long id, String firstName, String lastName, LocalDate dateOfBirth) {
+    public KeeperDTO(Long id, String firstName, String lastName, LocalDate dateOfBirth, String licenseNumber) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+        this.licenseNumber = licenseNumber;
     }
     
     public KeeperDTO(Keeper keeper) {
@@ -28,6 +31,7 @@ public class KeeperDTO {
         this.firstName = keeper.getFirstName();
         this.lastName = keeper.getLastName();
         this.dateOfBirth = keeper.getDateOfBirth();
+        this.licenseNumber = keeper.getLicenseNumber();
     }
 
     public String getFirstName() {
@@ -62,10 +66,18 @@ public class KeeperDTO {
         this.id = id;
     }
 
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
+
     @Override
     public String toString() {
-        return "KeeperDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + "]";
+        return "KeeperDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
+                + dateOfBirth + ", licenseNumber=" + licenseNumber + "]";
     }
-    
     
 }

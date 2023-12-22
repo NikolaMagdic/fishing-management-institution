@@ -5,10 +5,12 @@ import java.time.Year;
 import com.example.fishingmanagementbackend.enumerations.LicenseType;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@DiscriminatorValue("YearlyLicense")
 public class YearlyLicense extends License {
 
     @Column

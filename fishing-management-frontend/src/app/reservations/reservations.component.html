@@ -1,6 +1,7 @@
 <div class="container">
     <h1>Rezervacije</h1>
-    <h4 *ngIf="reservations.length == 0">Nemate prethodno rezervisanih termina za ribolov.</h4>
+    <h4 *ngIf="(reservations.length == 0) && fishermanLoggedIn">Nemate prethodno rezervisanih termina za ribolov.</h4>
+    <h4 *ngIf="(reservations.length == 0) && !fishermanLoggedIn">Ne postoje prethodno rezervisani termini za ribolov na ovom ribolovnom mestu.</h4>
     <table class="table table-striped" *ngIf="reservations.length > 0">
         <thead>
             <tr>

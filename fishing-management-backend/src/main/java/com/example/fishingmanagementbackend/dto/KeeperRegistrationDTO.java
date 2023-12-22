@@ -14,6 +14,8 @@ public class KeeperRegistrationDTO {
     
     private LocalDate dateOfBirth;
     
+    private String licenseNumber;
+    
     public KeeperRegistrationDTO() {}
 
     public String getUsername() {
@@ -56,11 +58,18 @@ public class KeeperRegistrationDTO {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
+
     @Override
     public String toString() {
         return "KeeperRegistrationDTO [username=" + username + ", password=" + password + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + "]";
+                + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + ", licenseNumber=" + licenseNumber + "]";
     }
-    
     
 }

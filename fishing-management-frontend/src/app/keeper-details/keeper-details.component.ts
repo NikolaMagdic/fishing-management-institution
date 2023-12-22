@@ -4,7 +4,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FishingArea } from '../models/fishing-area';
 import { Keeper } from '../models/keeper';
-import { RegistrationRequest } from '../models/registration-request';
 import { FishingAreaService } from '../services/fishing-area.service';
 import { KeeperService } from '../services/keeper.service';
 
@@ -18,7 +17,7 @@ export class KeeperDetailsComponent {
   keeperForm: FormGroup;
   @ViewChild('openModalSuccess') openModalSuccess: ElementRef | any;
   @ViewChild('openModal') openModal: ElementRef | any;
-  keeper: Keeper = new Keeper(0, "", "", new Date());
+  keeper: Keeper = new Keeper(0, "", "", new Date(), "");
   fieldsetDisabled: boolean = true;
   submitButtonHidden: boolean = true;
   changeButtonHidden: boolean = false;
@@ -33,7 +32,8 @@ export class KeeperDetailsComponent {
     this.keeperForm = new FormGroup({
       firstName: new FormControl(),
       lastName: new FormControl(),
-      dateOfBirth: new FormControl()
+      dateOfBirth: new FormControl(),
+      licenseNumber: new FormControl()
     });
   }
 
@@ -47,7 +47,8 @@ export class KeeperDetailsComponent {
         this.keeperForm.setValue({
           firstName: this.keeper.firstName,
           lastName: this.keeper.lastName,
-          dateOfBirth: formatDate(this.keeper.dateOfBirth, 'yyyy-MM-dd', 'en')
+          dateOfBirth: formatDate(this.keeper.dateOfBirth, 'yyyy-MM-dd', 'en'),
+          licenseNumber: this.keeper.licenseNumber
         })
         console.log(this.keeper);
       }
@@ -81,7 +82,8 @@ export class KeeperDetailsComponent {
     let k = new Keeper(this.keeper.id, 
       this.keeperForm.value.firstName, 
       this.keeperForm.value.lastName, 
-      this.keeperForm.value.dateOfBirth);
+      this.keeperForm.value.dateOfBirth,
+      this.keeperForm.value.licenseNumber);
       
     this.keeperService.updateKeeper(k).subscribe({
       next: () => {

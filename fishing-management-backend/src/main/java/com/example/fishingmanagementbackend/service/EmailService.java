@@ -38,10 +38,28 @@ public class EmailService {
         mail.setTo(user.getUsername());
         mail.setFrom(env.getProperty("spring.mail.username"));
         mail.setSubject("Potvrda registracije");
-        mail.setText("Pozdrav " + fishermanName +  ". " + "Potvrdite registraciju na stranicu ribolovnog udruženja klikom na link.\n" + confirmUrl + token);
+        mail.setText("Pozdrav " + fishermanName +  ". \n" + "Potvrdite registraciju na stranicu ribolovnog udruženja klikom na link.\n" + confirmUrl + token);
         javaMailSender.send(mail);
         
         System.out.println("Email poslat!");
+    }
+    
+    @Async
+    public void sendMailAsyncForLicenseConfirmation(User user, String fishermanName, boolean confirmed, String time) throws MailException, InterruptedException {
+        
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getUsername());
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        
+        if(confirmed) {
+            mail.setSubject("Zahtev za dozvolu odobren");    
+            mail.setText("Poštovani " + fishermanName + ",\n" + "Vaš zahtev za izdavanje ribolovne dozvole" + time + "je odobren.\n\nPozdrav.");
+        } else { 
+            mail.setSubject("Zahtev za dozvolu odbijen");    
+            mail.setText("Poštovani " + fishermanName + ",\n" + "Vaš zahtev za izdavanje ribolovne dozvole je odbijen.\n\nPozdrav.");
+        }
+        javaMailSender.send(mail);
+        
     }
     
     public VerificationToken createVerificationToken(String token, User user) {

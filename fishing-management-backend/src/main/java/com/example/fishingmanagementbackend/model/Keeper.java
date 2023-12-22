@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -14,6 +15,9 @@ public class Keeper extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    @Column
+    private String licenseNumber;
+    
     @ManyToMany
     @JoinTable(name = "keeps",
                joinColumns = @JoinColumn(name = "keeper_id", referencedColumnName = "id"),
@@ -22,6 +26,18 @@ public class Keeper extends User implements Serializable {
     
     public Keeper() {}
     
+    public Keeper(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
+    
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
+
     public Set<FishingArea> getFishingAreas() {
         return fishingAreas;
     }
@@ -32,9 +48,8 @@ public class Keeper extends User implements Serializable {
 
     @Override
     public String toString() {
-        return "Keeper [fishingAreas=" + fishingAreas + "]";
+        return "Keeper [licenseNumber=" + licenseNumber + ", fishingAreas=" + fishingAreas + "]";
     }
 
-    
     
 }

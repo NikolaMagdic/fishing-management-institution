@@ -81,6 +81,7 @@ public class KeeperService {
         keeper.setFirstName(newKeeper.getFirstName());
         keeper.setLastName(newKeeper.getLastName());
         keeper.setDateOfBirth(newKeeper.getDateOfBirth());
+        keeper.setLicenseNumber(newKeeper.getLicenseNumber());
         
         Set<Authority> authorities = authService.findByName("ROLE_KEEPER");
         keeper.setAuthorities(authorities);
@@ -106,6 +107,7 @@ public class KeeperService {
         keeper.setFirstName(keeperDTO.getFirstName());
         keeper.setLastName(keeperDTO.getLastName());
         keeper.setDateOfBirth(keeperDTO.getDateOfBirth());
+        keeper.setLicenseNumber(keeperDTO.getLicenseNumber());
         
         return keeperRepository.save(keeper);
     }

@@ -31,7 +31,7 @@ export class LoginComponent {
       next: res => {
         let role = localStorage.getItem('role');
         if(role === "ROLE_ADMIN") {
-          this.router.navigate(['/fishsing-areas']);
+          this.router.navigate(['/fishing-areas']);
         } else if(role === "ROLE_FISHERMAN") {
           this.router.navigate(['/fishing-areas']);
         } else if(role == "ROLE_KEEPER") {

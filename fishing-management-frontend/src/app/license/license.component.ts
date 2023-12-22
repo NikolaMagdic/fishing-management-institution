@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { License } from '../models/license';
+import { FishermanService } from '../services/fisherman.service';
 import { LicenseService } from '../services/license.service';
 
 @Component({
@@ -17,11 +18,12 @@ export class LicenseComponent {
   licenseDateStart: Date | any;
   licenseDateEnd: Date | any;
   multiDayLicenses: any = [];
+  professionalFishermanLoggedIn: boolean = false;
 
   modalMessage = "";
   @ViewChild('openModal') openModal: ElementRef | any;
 
-  constructor(private licenseService: LicenseService) { }
+  constructor(private licenseService: LicenseService, private fishermanService: FishermanService) { }
 
   ngOnInit() {
     this.licenseService.getExistingValidLicenses().subscribe({
@@ -31,6 +33,16 @@ export class LicenseComponent {
           this.license = data;
         } 
       }
+    });
+
+    this.fishermanService.getCategoryOfLoggedFisherman().subscribe({
+      next: data => {
+        let category: string = data as string;
+        console.log(category);
+        if(category === "Profesionalni") {
+          this.professionalFishermanLoggedIn = true;
+        } 
+      }  
     });
 
     this.getDailyLicenses();

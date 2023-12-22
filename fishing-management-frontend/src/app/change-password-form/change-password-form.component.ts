@@ -16,6 +16,7 @@ export class ChangePasswordFormComponent {
   passwordsMatch: boolean = false;
   @ViewChild('openModal') openModal: ElementRef | any;
   modalText = "";
+  passwordLengthOk: boolean = false;
 
   constructor(private authService: AuthenticationService) {}
 
@@ -38,6 +39,12 @@ export class ChangePasswordFormComponent {
       this.passwordsMatch = true;
     } else {
       this.passwordsMatch = false;
+    }
+
+    if(this.passwordChangeRequest.newPassword.length < 8) {
+      this.passwordLengthOk = false;
+    } else {
+      this.passwordLengthOk = true;
     }
   }
 

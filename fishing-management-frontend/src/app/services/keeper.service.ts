@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Keeper } from "../models/keeper";
+import { RegistrationKeeper } from "../models/registration-keeper";
 import { RegistrationRequest } from "../models/registration-request";
 
 @Injectable({
@@ -20,7 +21,7 @@ export class KeeperService {
         return this.http.get(this.url + '/' + id);
     }
 
-    registerKeeper(keeper: RegistrationRequest) {
+    registerKeeper(keeper: RegistrationKeeper) {
         return this.http.post(this.url, keeper);
     }
 
