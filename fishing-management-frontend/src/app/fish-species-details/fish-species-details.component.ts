@@ -22,6 +22,7 @@ export class FishSpeciesDetailsComponent {
 
   fishForm: FormGroup;
 
+  adminLoggedIn = false;
   updateButtonVisible = false;
   permanentFishingBan = false;
 
@@ -69,6 +70,7 @@ export class FishSpeciesDetailsComponent {
 
     const role = localStorage.getItem('role');
     if(role == "ROLE_ADMIN") {
+      this.adminLoggedIn = true;
       this.updateButtonVisible = true;
     }
   }

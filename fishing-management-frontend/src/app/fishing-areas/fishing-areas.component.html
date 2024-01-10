@@ -67,6 +67,10 @@
                                 <label class="form-label">Opis</label>
                                 <textarea name="description" class="form-control" rows="5" [(ngModel)]="fishingArea.description"></textarea>
                             </div>
+                            <div class="form-check">
+                                <label class="form-label">Dozvoljen ribolov</label>
+                                <input type="checkbox" class="form-check-input" name="allowedFishing" [(ngModel)]="fishingArea.allowedFishing">
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label">Ribolovna voda čiji je deo</label>
                                 <select class="form-select" name="parentArea" [(ngModel)]="fishingArea.parentArea">

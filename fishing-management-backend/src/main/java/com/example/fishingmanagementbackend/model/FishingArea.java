@@ -34,6 +34,9 @@ public class FishingArea {
     @Enumerated(EnumType.ORDINAL)
     private FishingAreaType areaType;
     
+    @Column(name = "allowed_fishing")
+    private boolean allowedFishing;
+    
     // trenutno su slike samo String sa linkom
     @Column(name = "image")
     private String image;
@@ -50,10 +53,11 @@ public class FishingArea {
     
     public FishingArea() {}
     
-    public FishingArea(String name, String description, FishingAreaType type, String image) {
+    public FishingArea(String name, String description, FishingAreaType type, boolean allowedFishing, String image) {
         this.name = name;
         this.description = description;
         this.areaType = type;
+        this.allowedFishing = allowedFishing;
         this.image = image;
     }
 
@@ -88,6 +92,14 @@ public class FishingArea {
     public void setType(FishingAreaType type) {
         this.areaType = type;
     }
+    
+    public boolean isAllowedFishing() {
+        return allowedFishing;
+    }
+
+    public void setAllowedFishing(boolean allowedFishing) {
+        this.allowedFishing = allowedFishing;
+    }
 
     public String getImage() {
         return image;
@@ -116,7 +128,8 @@ public class FishingArea {
     @Override
     public String toString() {
         return "FishingArea [id=" + id + ", name=" + name + ", description=" + description + ", areaType=" + areaType
-                + ", image=" + image + ", fishSpecies=" + fishSpecies + ", parentArea=" + parentArea + "]";
+                + ", allowedFishing=" + allowedFishing + ", image=" + image + ", fishSpecies=" + fishSpecies
+                + ", parentArea=" + parentArea + "]";
     }
     
 }

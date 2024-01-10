@@ -11,6 +11,8 @@ public class FishingAreaDTO {
     
     private String description;
     
+    private boolean allowedFishing;
+    
     private FishingAreaType type;
     
     private Long parentArea;
@@ -24,6 +26,7 @@ public class FishingAreaDTO {
         this.name = fishingArea.getName();
         this.description = fishingArea.getDescription();
         this.type = fishingArea.getType();
+        this.allowedFishing = fishingArea.isAllowedFishing();
         this.parentArea = fishingArea.getParentArea() == null ? null : fishingArea.getParentArea().getId();
         this.image = fishingArea.getImage();
     }
@@ -60,6 +63,14 @@ public class FishingAreaDTO {
         this.type = type;
     }
     
+    public boolean isAllowedFishing() {
+        return allowedFishing;
+    }
+
+    public void setAllowedFishing(boolean allowedFishing) {
+        this.allowedFishing = allowedFishing;
+    }
+
     public Long getParentArea() {
         return parentArea;
     }
@@ -78,8 +89,8 @@ public class FishingAreaDTO {
 
     @Override
     public String toString() {
-        return "FishingAreaDTO [id=" + id + ", name=" + name + ", description=" + description + ", type=" + type
-                + ", parentArea=" + parentArea + ", image=" + image + "]";
+        return "FishingAreaDTO [id=" + id + ", name=" + name + ", description=" + description + ", allowedFishing="
+                + allowedFishing + ", type=" + type + ", parentArea=" + parentArea + ", image=" + image + "]";
     }
-    
+
 }

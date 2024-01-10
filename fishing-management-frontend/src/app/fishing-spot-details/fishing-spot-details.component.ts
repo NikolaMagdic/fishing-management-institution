@@ -18,6 +18,8 @@ import { LicenseService } from '../services/license.service';
 import { License } from '../models/license';
 import { FishingAreaService } from '../services/fishing-area.service';
 import { FishingArea } from '../models/fishing-area';
+import { FishermanService } from '../services/fisherman.service';
+import { initTimestamp } from 'ngx-bootstrap/chronos/units/timestamp';
 
 @Component({
   selector: 'app-fishing-spot-details',
@@ -47,11 +49,13 @@ export class FishingSpotDetailsComponent {
   fishermanLoggedIn = false;
   licenseId: any;
   fishingAreaName = '';
+  professionalFishermanLoggedIn = false;
 
   constructor(private fishingSpotService: FishingSpotService,
               private reservationService: ReservationService,
               private licenseService: LicenseService, 
               private fishingAreaService: FishingAreaService,
+              private fishermanService: FishermanService,
               private route: ActivatedRoute,
               private router: Router) {
                }
@@ -62,6 +66,7 @@ export class FishingSpotDetailsComponent {
 
     const role = localStorage.getItem('role');
     if(role == "ROLE_FISHERMAN") {
+      this.getFishermanCategory();
       this.fishermanLoggedIn = true;
       this.getExistingValidLicenses();
     }
@@ -73,39 +78,12 @@ export class FishingSpotDetailsComponent {
         this.fishingSpot = data;
         console.log(this.fishingSpot);
   
-        this.map = new Map({
-          target: 'map',
-          layers: [
-            new TileLayer({
-              source: new OSM(),
-            }),
-            new VectorLayer({
-              source: new VectorSource({
-                features: [
-                  new Feature({
-                    geometry: new Point(fromLonLat([this.fishingSpot.longitude, this.fishingSpot.latitude]))
-                  })
-                ]
-              }),
-              style: new Style({
-                image: new Icon({
-                  anchor: [0.5, 0.73],
-                  anchorXUnits: 'fraction',
-                  anchorYUnits: 'fraction',
-                  src: '../../assets/marker.png'
-                })
-              })
-            })
-          ],
-          view: new View({
-            center: fromLonLat([this.fishingSpot.longitude, this.fishingSpot.latitude]),
-            zoom: 15
-          })
-        });
+        // Iz nekog razloga nece da se prikaze mapa unutar bootstrap kontejnera bez timeouta
+        setTimeout(()=> {this.initMap();}, 200);
       }
       
     });
-
+    
     this.reservationService.getOccupiedDatesForFishingSpot(spotId, areaId).subscribe({
       next: data => {
         var dates = data as Date[];
@@ -118,6 +96,38 @@ export class FishingSpotDetailsComponent {
       }
     })
 
+  }
+
+  initMap() {
+    this.map = new Map({
+      target: 'map',
+      layers: [
+        new TileLayer({
+          source: new OSM(),
+        }),
+        new VectorLayer({
+          source: new VectorSource({
+            features: [
+              new Feature({
+                geometry: new Point(fromLonLat([this.fishingSpot.longitude, this.fishingSpot.latitude]))
+              })
+            ]
+          }),
+          style: new Style({
+            image: new Icon({
+              anchor: [0.5, 0.73],
+              anchorXUnits: 'fraction',
+              anchorYUnits: 'fraction',
+              src: '../../assets/marker.png'
+            })
+          })
+        })
+      ],
+      view: new View({
+        center: fromLonLat([this.fishingSpot.longitude, this.fishingSpot.latitude]),
+        zoom: 15
+      })
+    });
   }
 
   getExistingValidLicenses() {
@@ -216,15 +226,22 @@ export class FishingSpotDetailsComponent {
     console.log(this.dateRange);
   }
 
-  toggleReservationType() {
-    this.multiDayReservationForm = !this.multiDayReservationForm;
-  }
-
   getFishingAreaName(areaId: number) {
     this.fishingAreaService.getFishingAreaById(areaId).subscribe({
       next: data => {
         let fishingArea = data as FishingArea;
         this.fishingAreaName = fishingArea.name;
+      }
+    });
+  }
+
+  getFishermanCategory() {
+    this.fishermanService.getCategoryOfLoggedFisherman().subscribe({
+      next: data => {
+        let category: string = data as string;
+        if(category === "Profesionalni") {
+          this.professionalFishermanLoggedIn = true;
+        }
       }
     });
   }

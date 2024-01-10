@@ -1,6 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { FishingArea } from '../models/fishing-area';
 import { FishingAreaService } from '../services/fishing-area.service';
 import { ImageService } from '../services/image.service';
@@ -24,7 +23,7 @@ export class FishingAreasListComponent {
     fishingAreas: any = []
 
     errorMessage: string = "";
-    fishingArea: FishingArea = new FishingArea(0, "", "", "", null, "");
+    fishingArea: FishingArea = new FishingArea(0, "", "", "",true, null, "");
 
     isAddButtonVisible = false;
     image: any;

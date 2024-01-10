@@ -40,7 +40,7 @@ public class FishingAreaService {
     
     public FishingArea createFishingArea(FishingAreaDTO fishingAreaDTO) {
         
-        FishingArea fishingArea = new FishingArea(fishingAreaDTO.getName(), fishingAreaDTO.getDescription(), fishingAreaDTO.getType(), fishingAreaDTO.getImage());
+        FishingArea fishingArea = new FishingArea(fishingAreaDTO.getName(), fishingAreaDTO.getDescription(), fishingAreaDTO.getType(), fishingAreaDTO.isAllowedFishing(), fishingAreaDTO.getImage());
         
         // Ukoliko je u sklopu neke druge ribolovne vode
         if(fishingAreaDTO.getParentArea() != null) {
@@ -84,6 +84,7 @@ public class FishingAreaService {
         fishingArea.setName(fishingAreaDTO.getName());
         fishingArea.setDescription(fishingAreaDTO.getDescription());
         fishingArea.setType(fishingAreaDTO.getType());
+        fishingArea.setAllowedFishing(fishingAreaDTO.isAllowedFishing());
         fishingArea.setImage(fishingAreaDTO.getImage());
         
         return fishingAreaRepository.save(fishingArea);

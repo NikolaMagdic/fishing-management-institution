@@ -2,8 +2,10 @@
 <div class="card" *ngIf="fishingArea"> <!--ngIf ako se fishingArea ne ucita odmah posto je http asinhron, pa da ne pise undefined-->
     <div class="card-header">
         <h5 class="card-title d-flex justify-content-between align-items-center">
-            {{(fishingArea.type | fishingAreaPipe) + " " + fishingArea.name}}
-        
+            <div>
+                {{(fishingArea.type | fishingAreaPipe) + " " + fishingArea.name}} &nbsp;
+            <button *ngIf="!fishingArea.allowedFishing" class="btn btn-danger" disabled>Zabranjen ribolov</button>
+            </div>
             <a class="btn btn-outline-secondary float-end" (click)="onBack()" style="width:180px">
                 <i class="fa fa-chevron-left"></i> Prethodna strana
             </a>
@@ -69,10 +71,6 @@
                                 <div *ngIf="!areaForm.get('name')!.valid && (!areaForm.get('name')!.pristine || areaForm.get('name')!.touched)" class="alert alert-danger">Ovo polje je obavezno</div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Opis</label>
-                                <textarea name="description" class="form-control" rows="5" formControlName="description"></textarea>
-                            </div>
-                            <div class="mb-3">
                                 <label class="form-label">Tip</label>
                                 <select class="form-select" name="type" required formControlName="type">
                                     <option value="RIVER">Reka</option>
@@ -80,6 +78,14 @@
                                     <option value="POND">Bara</option>
                                     <option value="CANAL">Kanal</option>
                                 </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Opis</label>
+                                <textarea name="description" class="form-control" rows="5" formControlName="description"></textarea>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">Dozvoljen ribolov</label>
+                                <input type="checkbox" class="form-check-input" name="allowedFishing" formControlName="allowedFishing">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Slika</label>

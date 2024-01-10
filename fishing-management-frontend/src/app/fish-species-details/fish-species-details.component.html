@@ -11,7 +11,7 @@
                     </div>
                     <div class="row row-cols-2">
                         <div class="col">
-                            <h5>Podaci</h5>
+                            <h5>Osnovni podaci</h5>
                             <hr/>
                             <div class="mb-3">
                                 <label class="form-label">Naziv</label>
@@ -87,10 +87,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Trajni lovostaj</label>
+                            <div *ngIf="adminLoggedIn" class="form-check form-switch">
+                                <label class="form-check-label">Trajni lovostaj</label>
                                 <input type="checkbox" class="form-check-input" [checked]="fishSpecies.permanentFishingBan" name="permanentFishingBan" formControlName="permanentFishingBan" (change)="permanentFishingBanChecked()">
                             </div>
+                            <div *ngIf="!adminLoggedIn" class="mb-3">
+                                <label class="form-label">Trajni lovostaj &nbsp;</label>
+                                <button *ngIf="fishSpecies.permanentFishingBan" disabled class="btn btn-danger">DA</button>
+                                <button *ngIf="!fishSpecies.permanentFishingBan" disabled class="btn btn-outline-primary">NE</button>
+                            </div>
+                            <br/>
                             <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden" [disabled]="!form.form.valid">Potvrdi izmenu</button>
                         </div>
                     </div>

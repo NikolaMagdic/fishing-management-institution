@@ -1,7 +1,7 @@
 <div>
     <h1>Mesta za ribolov za zakazivanje</h1>
     <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishingSpotButtonVisible"><i class="fa fa-plus"></i>&nbsp;Dodaj ribolovno mesto</button>
-    <table class="table table-striped">
+    <table class="table table-striped table-hover align-middle">
         <thead>
             <tr>
                 <th>Slika</th>
@@ -21,8 +21,8 @@
                 <td>
                     {{spot.type}}
                 </td>
-                <td>
-                    <button class="btn btn-primary" (click)="viewFishingSpotDetails(spot.id)">Detalji</button>
+                <td class="text-center"> 
+                    <button class="btn btn-primary" (click)="viewFishingSpotDetails(spot.id)">Detalji i zakazivanje termina</button>
                 </td>
             </tr>
         </tbody>
@@ -32,7 +32,7 @@
             <div class="modal-content">
                 <form (ngSubmit)="createFishingSpot()" #form="ngForm">
                     <div class="modal-header">
-                        <h5 class="modal-title">Dodaj novo zakazivo mesto za ribolov</h5>
+                        <h5 class="modal-title">Dodaj novo mesto za ribolov na kome mogu da se rezervišu termini</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
@@ -54,6 +54,8 @@
                             <label class="form-label">Geografska dužina</label>
                             <input class="form-control" type="number" name="longitude" [(ngModel)]="newFishingSpot.longitude" disabled required>
                         </div>
+                        <h5>Označite na mapi lokaciju mesta za ribolov</h5>
+                        <div id="map" style="height: 400px; width: 100%"></div>
                         <div class="mb-3">
                             <label class="form-label">Slika</label>
                             <input class="form-control" type="file" accept="image/*" name="image" #image (change)="processImage(image)">
@@ -66,8 +68,6 @@
                 </form>
             </div>
         </div>
-        <h5>Označite na mapi lokaciju mesta za ribolov</h5>
-        <div id="map" style="height: 400px; width: 100%"></div>
     </div>
     <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #openModal></button>
     <div class="modal" id="success-modal" tabindex="-1">

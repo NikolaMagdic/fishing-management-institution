@@ -31,7 +31,8 @@ export class FishingAreaDetailsComponent implements OnInit{
                 this.areaForm = new FormGroup({
                   name: new FormControl(),
                   description: new FormControl(),
-                  type: new FormControl()
+                  type: new FormControl(),
+                  allowedFishing: new FormControl()
                 });
               }
 
@@ -45,7 +46,8 @@ export class FishingAreaDetailsComponent implements OnInit{
         this.areaForm.setValue({
           name: this.fishingArea.name,
           description: this.fishingArea.description,
-          type: this.fishingArea.type
+          type: this.fishingArea.type,
+          allowedFishing: this.fishingArea.allowedFishing
         });
       }
     });
@@ -121,6 +123,7 @@ export class FishingAreaDetailsComponent implements OnInit{
     this.fishingArea.name = this.areaForm.value.name;
     this.fishingArea.description = this.areaForm.value.description;
     this.fishingArea.type = this.areaForm.value.type;
+    this.fishingArea.allowedFishing = this.areaForm.value.allowedFishing;
     if(this.image) {
       this.imageService.uploadImage(this.image).subscribe({
         next: imagePath => {

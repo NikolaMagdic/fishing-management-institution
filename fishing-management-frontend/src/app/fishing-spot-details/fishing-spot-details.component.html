@@ -6,61 +6,75 @@
         <div class="row">
             <div class="col">
                 <h5>{{fishingSpot.type}}</h5>
-                <img src="{{fishingSpot.image}}" alt="Slika ribolovnog mesta nedostupna" [style.width.px]="500" [style.height.px]="315">
+                <img src="{{fishingSpot.image}}" alt="Slika ribolovnog mesta nedostupna" [style.width.px]="580" [style.height.px]="400">
                 <br/>
                 <br/>
-                <div *ngIf="fishermanLoggedIn">
-                    <button class="btn btn-primary" (click)="toggleReservationType()" *ngIf="!multiDayReservationForm">Rezerviši višednevni termin</button>
-                    <button class="btn btn-primary" (click)="toggleReservationType()" *ngIf="multiDayReservationForm">Rezerviši jednodnevni termin</button>
-                </div>
                 <div *ngIf="!fishermanLoggedIn">
                     <button class="btn btn-primary" (click)="showReservations()">Prikaži rezervacije</button>
                 </div>
             </div>
             <div class="col">
-                <div *ngIf="fishermanLoggedIn" class="container">
-                    <div *ngIf="!multiDayReservationForm">
-                        <h5>Izaberite datum</h5>
-                        <form (ngSubmit)="createReservation()">
-                            <bs-datepicker-inline 
-                                        [bsConfig]="{containerClass: 'theme-dark-blue'}"
-                                        [minDate]="minDate"
-                                        [datesDisabled]="datesReserved"
-                                        name = "date"
-                                        (bsValueChange)="onDateChange($event)"
-                            >
-                            </bs-datepicker-inline>
-                            <br><br>
-                            <div class="d-grid gap-2 col-6">
-                                <button class="btn btn-success" type="submit">Rezerviši</button>
-                            </div>        
-                        </form>
+                <div *ngIf="fishermanLoggedIn && !professionalFishermanLoggedIn" class="container">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#oneDayReservationForm">Rezerviši jednodnevni termin</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#multiDayReservationForm">Rezerviši višednevni termin</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="oneDayReservationForm" tabindex="0">
+                            <h5>Izaberite datum</h5>
+                            <form (ngSubmit)="createReservation()">
+                                <bs-datepicker-inline 
+                                            [bsConfig]="{containerClass: 'theme-dark-blue'}"
+                                            [minDate]="minDate"
+                                            [datesDisabled]="datesReserved"
+                                            name = "date"
+                                            (bsValueChange)="onDateChange($event)"
+                                >
+                                </bs-datepicker-inline>
+                                <br><br>
+                                <div class="d-grid gap-2 col-6">
+                                    <button class="btn btn-success" type="submit">Rezerviši</button>
+                                </div>        
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="multiDayReservationForm" tabindex="0">
+                            <h5>Izaberite početni i krajnji datum termina</h5>
+                            <form (ngSubmit)="createMultiDayReservation()">
+                                <bs-daterangepicker-inline
+                                    ngDefaultControl
+                                    [bsConfig]="{containerClass: 'theme-dark-blue'}"
+                                    [minDate]="minDate"  
+                                    [datesDisabled]="datesReserved"
+                                    name = "dateRange"
+                                    (bsValueChange)="onDateRangeChange($event)">
+                                </bs-daterangepicker-inline>
+                                <div *ngIf="errorMessageShown" class="alert alert-danger">Datumi koje ste izabrali su zauzeti</div>
+                                <br><br>
+                                <div class="d-grid gap-2 col-11 mx-auto">
+                                    <button class="btn btn-success" type="submit">Rezerviši</button>
+                                </div>        
+                            </form>
+                        </div>
                     </div>
-                    <div *ngIf="multiDayReservationForm">
-                        <h5>Izaberite početni i krajnji datum termina</h5>
-                        <form (ngSubmit)="createMultiDayReservation()">
-                            <bs-daterangepicker-inline
-                                ngDefaultControl
-                                [bsConfig]="{containerClass: 'theme-dark-blue'}"
-                                [minDate]="minDate"  
-                                [datesDisabled]="datesReserved"
-                                name = "dateRange"
-                                (bsValueChange)="onDateRangeChange($event)">
-                            </bs-daterangepicker-inline>
-                            <div *ngIf="errorMessageShown" class="alert alert-danger">Datumi koje ste izabrali su zauzeti</div>
-                            <br><br>
-                            <div class="d-grid gap-2 col-11 mx-auto">
-                                <button class="btn btn-success" type="submit">Rezerviši</button>
-                            </div>        
-                        </form>
-                    </div>
+                </div>
+                <div *ngIf="!fishermanLoggedIn || (fishermanLoggedIn && professionalFishermanLoggedIn)">
+                    <h4>Lokacija ribolovnog mesta</h4>
+                    <div id="map" style="height: 400px; width: 100%"></div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="card-footer">
+        <div *ngIf="fishermanLoggedIn && !professionalFishermanLoggedIn">
+            <h4>Lokacija ribolovnog mesta</h4>
+            <div id="map" style="height: 400px; width: 100%"></div>
+        </div>
+    </div>
 </div>
-<h4>Lokacija ribolovnog mesta</h4>
-<div id="map" style="height: 400px; width: 100%"></div>
 <div>
     <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #successModal></button>
     <div class="modal" id="success-modal" tabindex="-1">

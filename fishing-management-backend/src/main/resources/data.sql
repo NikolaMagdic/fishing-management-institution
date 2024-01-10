@@ -2,7 +2,7 @@ INSERT INTO app_user (username, password, enabled) VALUES ('admin', '$2a$12$/8O0
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('fisherman', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Nikola', 'Magdić', '1996-11-15');
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('keeper', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Čuvar', 'Čuvarkić', '1988-05-01');
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('drugi', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Milan', 'Milanović', '1997-10-05');
-INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('treci', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Jovan', 'Jovanović', '1991-11-11');
+INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('privredni', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Jovan', 'Jovanović', '1991-11-11');
 --
 INSERT INTO authority (name) VALUES ('ROLE_ADMIN');
 INSERT INTO authority (name) VALUES ('ROLE_FISHERMAN');
@@ -25,9 +25,10 @@ INSERT INTO professional_fisherman(id) VALUES (5);
 --
 INSERT INTO keeper (id) VALUES (3);
 --
-INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Dunav', 0, 'Dunav je druga najduža reka u Evropi. Prolazi kroz 7 zemalja. Uliva se u Crno More.', 'http://localhost:8080/sava-dunav-usce.jpg');
-INSERT INTO fishing_area (name, area_type, image) VALUES ('Sava', 0, 'http://localhost:8080/sava.jpg');
-INSERT INTO fishing_area (name, area_type, description, image) VALUES ('Borkovac', 1, 'Ovo jezero je divno jedini problem je što nema ribe!', 'http://localhost:8080/borkovac(1).jpg');
+INSERT INTO fishing_area (name, area_type, description, allowed_fishing, image) VALUES ('Dunav', 0, 'Dunav je druga najduža reka u Evropi. Prolazi kroz 7 zemalja. Uliva se u Crno More.', true, 'http://localhost:8080/sava-dunav-usce.jpg');
+INSERT INTO fishing_area (name, area_type, allowed_fishing, image) VALUES ('Sava', 0, true, 'http://localhost:8080/sava.jpg');
+INSERT INTO fishing_area (name, area_type, description, allowed_fishing, image) VALUES ('Borkovac', 1, 'Ovo jezero je divno jedini problem je što nema ribe!', true, 'http://localhost:8080/borkovac(1).jpg');
+INSERT INTO fishing_area (name, area_type, description, allowed_fishing, image) VALUES ('Kanal DTD', 3, 'Kanal DTD odnosno kanal Dunav-Tisa-Dunav je nastao za vrema Austro-Ugarske.', true, 'http://localhost:8080/kanal-dtd.jpg');
 --
 INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 1, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/dunav-novi-sad-mesto.jpg');
 INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 1, 2, 45.04011918564572, 19.81751806040365, 'http://localhost:8080/sava-mesto.jpg');
