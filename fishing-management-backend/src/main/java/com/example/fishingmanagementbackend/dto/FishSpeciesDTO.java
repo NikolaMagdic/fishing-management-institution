@@ -13,17 +13,17 @@ public class FishSpeciesDTO {
     
     private FishCategory category;
     
-    private int minSize;
+    private Integer minSize;
     
-    private int maxQuantity;
+    private Integer maxQuantity;
     
-    private int fishingBanStartDay;
+    private Integer fishingBanStartDay;
     
-    private int fishingBanStartMonth;
+    private Integer fishingBanStartMonth;
     
-    private int fishingBanEndDay;
+    private Integer fishingBanEndDay;
     
-    private int fishingBanEndMonth;
+    private Integer fishingBanEndMonth;
     
     private boolean permanentFishingBan;
     
@@ -83,51 +83,51 @@ public class FishSpeciesDTO {
         this.category = category;
     }
 
-    public int getMinSize() {
+    public Integer getMinSize() {
         return minSize;
     }
 
-    public void setMinSize(int minSize) {
+    public void setMinSize(Integer minSize) {
         this.minSize = minSize;
     }
 
-    public int getMaxQuantity() {
+    public Integer getMaxQuantity() {
         return maxQuantity;
     }
 
-    public void setMaxQuantity(int maxQuantity) {
+    public void setMaxQuantity(Integer maxQuantity) {
         this.maxQuantity = maxQuantity;
     }
 
-    public int getFishingBanStartDay() {
+    public Integer getFishingBanStartDay() {
         return fishingBanStartDay;
     }
 
-    public void setFishingBanStartDay(int fishingBanStartDay) {
+    public void setFishingBanStartDay(Integer fishingBanStartDay) {
         this.fishingBanStartDay = fishingBanStartDay;
     }
 
-    public int getFishingBanStartMonth() {
+    public Integer getFishingBanStartMonth() {
         return fishingBanStartMonth;
     }
 
-    public void setFishingBanStartMonth(int fishingBanStartMonth) {
+    public void setFishingBanStartMonth(Integer fishingBanStartMonth) {
         this.fishingBanStartMonth = fishingBanStartMonth;
     }
 
-    public int getFishingBanEndDay() {
+    public Integer getFishingBanEndDay() {
         return fishingBanEndDay;
     }
 
-    public void setFishingBanEndDay(int fishingBanEndDay) {
+    public void setFishingBanEndDay(Integer fishingBanEndDay) {
         this.fishingBanEndDay = fishingBanEndDay;
     }
 
-    public int getFishingBanEndMonth() {
+    public Integer getFishingBanEndMonth() {
         return fishingBanEndMonth;
     }
 
-    public void setFishingBanEndMonth(int fishingBanEndMonth) {
+    public void setFishingBanEndMonth(Integer fishingBanEndMonth) {
         this.fishingBanEndMonth = fishingBanEndMonth;
     }
 

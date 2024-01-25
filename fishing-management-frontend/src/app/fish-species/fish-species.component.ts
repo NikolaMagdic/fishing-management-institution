@@ -12,13 +12,18 @@ import { ImageService } from '../services/image.service';
 })
 export class FishSpeciesComponent {
   
-  fishSpecies: any = [];
+  fishSpecies: FishSpecies[] = [];
   newFishForm: FormGroup;
   addFishButtonVisible = false;
   imposibleDate = false;
   permanentFishingBan = false;
   image: any;
   @ViewChild('openModal') openModal: ElementRef | any;
+
+  filteredFishSpecies: any = [];
+  filterName: string = "";
+  filterLatinName: string = "";
+  filterCategory: string = "Sve kategorije";
 
   constructor(private fishSpeciesService: FishSpeciesService,
               private imageService: ImageService,
@@ -96,7 +101,9 @@ export class FishSpeciesComponent {
   getAllFishSpecies() {
     this.fishSpeciesService.getFishSpecies().subscribe({
       next: data => {
-        this.fishSpecies = data;
+        let fish = data as FishSpecies[];
+        this.fishSpecies = fish;
+        this.filteredFishSpecies = fish;
       }
     })
   }
@@ -136,6 +143,20 @@ export class FishSpeciesComponent {
     this.image = file;
   }
   
+  filterFishSpecies() {
+    if(!this.filterName && !this.filterLatinName && this.filterCategory === "Sve kategorije") {
+      this.filteredFishSpecies = this.fishSpecies;
+    }
+
+    this.filteredFishSpecies = this.fishSpecies.filter(
+      fish => ((fish?.name.toLowerCase())
+      .includes(this.filterName.toLowerCase()) && 
+      (fish?.latinName.toLowerCase())
+      .includes(this.filterLatinName.toLowerCase()) && 
+      (fish?.category === this.filterCategory || this.filterCategory === "Sve kategorije"))
+    )
+  }
+
   reloadPage() {
     this.getAllFishSpecies();
     this.newFishForm.reset();

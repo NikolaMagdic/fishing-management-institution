@@ -1,6 +1,17 @@
 
 <div>
     <h1>Vrste riba</h1>    
+    <div class="input-group mb-3">
+        <span class="input-group-text">Pretraga</span>
+        <input class="form-control" (input)="filterFishSpecies()" [(ngModel)]="filterName" placeholder="Naziv"/>
+        <input class="form-control" (input)="filterFishSpecies()" [(ngModel)]="filterLatinName" placeholder="Latinski naziv" />
+        <select class="form-select" (change)="filterFishSpecies()" [(ngModel)]="filterCategory">
+            <option>Sve kategorije</option>
+            <option value="NOBLE">Plemenita</option>
+            <option value="INDIGENOUS">Autohtona</option>
+            <option value="NON_NATIVE">Alohtona</option>
+        </select>
+    </div>
     <button type="button" class="btn btn-primary float-end m3-3" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishButtonVisible"><i class="fa fa-plus"></i>&nbsp;Dodaj novu vrstu ribe</button>
     <table class="table table-striped align-middle" *ngIf="fishSpecies.length">
         <thead>
@@ -12,7 +23,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody *ngFor="let fish of fishSpecies">
+        <tbody *ngFor="let fish of filteredFishSpecies">
             <tr>
                 <!--Ovo je property binding, prakticno isto sto i interpolacija (obadva su one-way), 
                         ako zelimo da dobijemo isti rezultat interpolacijom pisemo src="{{fish.image}}"-->
@@ -113,7 +124,7 @@
                             </div>
                             <div *ngIf="endDateInvalid()" class="alert alert-danger">Nepravilan datum</div>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-check">
                             <input type="checkbox" class="form-check-input" name="permanentFishingBan" formControlName="permanentFishingBan" (change)="permanentFishingBanChecked()">
                             <label class="form-check-label">Trajni lovostaj</label>
                         </div>

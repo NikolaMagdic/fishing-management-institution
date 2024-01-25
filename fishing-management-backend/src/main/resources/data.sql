@@ -36,7 +36,9 @@ INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image)
 --
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Štuka', 'Esox lucius', 0, 40, 3, 1, 3, 31, 3, false, 'http://localhost:8080/stuka.jpg');
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Smuđ', 'Stizostedion lucioperca', 0, 40, 3, 1, 3, 30, 4, false, 'http://localhost:8080/smudj.jpg');
-INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Som', 'Silurus glanis', 0, 60, 3, 1, 5, 15, 6, false, 'http://localhost:8080/evropski-som-silurus-glanis.jpg');
+INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Som', 'Silurus glanis', 0, 60, 3, 1, 5, 15, 6, false, 'http://localhost:8080/som.jpg');
+INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Crvenperka', 'Scardinius erythrophthalmus', 1, false, 'http://localhost:8080/crvenperka.jpg');
+INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Babuška, srebrni karaš', 'Carassius auratus', 2, false, 'http://localhost:8080/srebrni karas.jpg');
 --
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 1);
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 2);
