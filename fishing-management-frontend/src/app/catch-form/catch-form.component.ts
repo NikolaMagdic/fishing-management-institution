@@ -75,7 +75,7 @@ export class CatchFormComponent {
       this.catchItemForm.value.quantity,
       this.catchItemForm.value.weight
     );
-  
+      
     // Mora ovako jer ako se doda samo newItem to je samo referenca i svi objekti u nizu ce imati trenutnu vrednost newItem, bice isti
     // Na ovaj nacin pravim novi objekat pre dodavanja u niz
     this.catch.catchItems.push(JSON.parse(JSON.stringify(newItem)));
@@ -105,6 +105,14 @@ export class CatchFormComponent {
     console.log(index);
     this.catch.catchItems.splice(index, 1);
   }  
+
+  checkIfNoble() {
+    if(this.selectedFish.category == "NOBLE") {
+      this.catchItemForm.controls['quantity'].setValue(1);
+    } else {
+      this.catchItemForm.controls['quantity'].reset();
+    }
+  }
 
   reloadPage() {
     window.location.reload();

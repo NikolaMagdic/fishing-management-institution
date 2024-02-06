@@ -14,6 +14,7 @@ import com.example.fishingmanagementbackend.dto.CatchItemDTO;
 import com.example.fishingmanagementbackend.dto.CatchResponseDTO;
 import com.example.fishingmanagementbackend.dto.YearlyCatchDTO;
 import com.example.fishingmanagementbackend.enumerations.CatchItemStatus;
+import com.example.fishingmanagementbackend.enumerations.FishCategory;
 import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Catch;
 import com.example.fishingmanagementbackend.model.CatchItem;
@@ -83,6 +84,47 @@ public class CatchService {
             yearlyCatch.setYearWeight(Double.parseDouble(c[1].toString()));
             FishSpecies fishSpecies = fishSpeciesRepository.getReferenceById(Long.parseLong(c[2].toString()));
             FishingArea fishingArea = fishingAreaRepository.getReferenceById(Long.parseLong(c[3].toString()));
+            yearlyCatch.setFishSpeciesName(fishSpecies.getName());
+            yearlyCatch.setFishingAreaName(fishingArea.getName());
+            catchesDTO.add(yearlyCatch);
+        }
+        
+        return catchesDTO;
+    }
+    
+    /** Vraca ukupnu evidenciju ulova na ribolovnoj vodi u trazenoj godini grupisanu po vrsti ribe*/
+    public List<YearlyCatchDTO> getAllCatchesInFishingAreaForYear(Long areaId, int year) {
+        List<Object[]> catchItems = catchItemRepository.findAllCatchItemsInFishingAreaForYear(areaId, year);
+        
+        List<YearlyCatchDTO> catchesDTO = new ArrayList<>();
+        for(Object[] c : catchItems) {
+            YearlyCatchDTO yearlyCatch = new YearlyCatchDTO();
+            yearlyCatch.setYearQuantity(Integer.parseInt(c[0].toString()));
+            yearlyCatch.setYearWeight(Double.parseDouble(c[1].toString()));
+            FishSpecies fishSpecies = fishSpeciesRepository.getReferenceById(Long.parseLong(c[2].toString()));
+            FishingArea fishingArea = fishingAreaRepository.getReferenceById(areaId);
+            yearlyCatch.setFishSpeciesName(fishSpecies.getName());
+            yearlyCatch.setFishingAreaName(fishingArea.getName());
+            catchesDTO.add(yearlyCatch);
+        }
+        
+        return catchesDTO;
+    }
+    
+    /**Vraca ukupnu evidenciju ulova na ribolovnoj vodi u trazenoj godini, ali samo za plemenite vrste riba*/
+    public List<YearlyCatchDTO> getAllCatchesOfNobleFishSpeciesInFishingAreaForYear(Long areaId, int year) {
+        List<Object[]> catchItems = catchItemRepository.findAllCatchItemsInFishingAreaForYear(areaId, year);
+        
+        List<YearlyCatchDTO> catchesDTO = new ArrayList<>();
+        for(Object[] c : catchItems) {
+            FishSpecies fishSpecies = fishSpeciesRepository.getReferenceById(Long.parseLong(c[2].toString()));
+            if(!fishSpecies.getCategory().equals(FishCategory.NOBLE))
+                continue;
+            YearlyCatchDTO yearlyCatch = new YearlyCatchDTO();
+            yearlyCatch.setYearQuantity(Integer.parseInt(c[0].toString()));
+            yearlyCatch.setYearWeight(Double.parseDouble(c[1].toString()));
+            
+            FishingArea fishingArea = fishingAreaRepository.getReferenceById(areaId);
             yearlyCatch.setFishSpeciesName(fishSpecies.getName());
             yearlyCatch.setFishingAreaName(fishingArea.getName());
             catchesDTO.add(yearlyCatch);

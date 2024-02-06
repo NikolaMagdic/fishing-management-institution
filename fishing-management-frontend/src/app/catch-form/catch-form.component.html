@@ -16,34 +16,35 @@
     </form>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [disabled]="!form.form.valid">Dodaj stavku ulova</button>
     </div>
-    <div class="col">
-    <table class="table table-striped" *ngIf="catch.catchItems.length > 0">
-        <thead>
-            <tr>
-                <th>Riba</th>
-                <th>Količina</th>
-                <th>Težina</th>
-                <th>Ukloni</th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let item of catch.catchItems; let indexOfItem=index">
-            <tr>
-                <td>
-                    {{findFishNameById(item.fishId)}}
-                </td>
-                <td>
-                    {{item.quantity}}
-                </td>
-                <td>
-                    <div *ngIf="item.weight">{{item.weight}} kg</div>
-                </td>
-                <td>
-                    <button class="btn-close" (click)="removeCatchItem(indexOfItem)"></button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-primary" (click)="createCatch()" [hidden]="!catch.catchItems.length">Potvrdi evidenciju ulova</button>
+    <div class="col-7">
+        <img src="../../assets/udica.png" *ngIf="catch.catchItems.length < 1" height="70%">
+        <table class="table table-striped" *ngIf="catch.catchItems.length > 0">
+            <thead>
+                <tr>
+                    <th>Riba</th>
+                    <th>Količina</th>
+                    <th>Težina</th>
+                    <th>Ukloni</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let item of catch.catchItems; let indexOfItem=index">
+                <tr>
+                    <td>
+                        {{findFishNameById(item.fishId)}}
+                    </td>
+                    <td>
+                        {{item.quantity}}
+                    </td>
+                    <td>
+                        <div *ngIf="item.weight">{{item.weight}} kg</div>
+                    </td>
+                    <td>
+                        <button class="btn-close" (click)="removeCatchItem(indexOfItem)"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" (click)="createCatch()" [hidden]="!catch.catchItems.length">Potvrdi evidenciju ulova</button>
     </div>
     </div>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
@@ -57,7 +58,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Vrsta ribe</label> <!--[ngModelOptions] je neophodan zato sto u formi kombinujem template-driven i reactive forme-->
-                            <select class="form-select" name="fishSpecies" id="fishSpecies" [(ngModel)]="selectedFish" [ngModelOptions]="{standalone: true}">
+                            <select class="form-select" name="fishSpecies" id="fishSpecies" [(ngModel)]="selectedFish" [ngModelOptions]="{standalone: true}" (change)="checkIfNoble()">
                                 <option *ngFor="let fish of fishSpecies" [ngValue]="fish">{{fish.name}}</option>
                             </select>
                         </div>

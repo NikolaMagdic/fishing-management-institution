@@ -32,4 +32,14 @@ export class CatchService {
         let queryParams = new HttpParams().append("year", year);
         return this.http.get(this.url + "/fisherman/" + fishermanId + "/year", {params: queryParams});
     }
+
+    getYearlyCatchesInFishingArea(areaId: number, year: number) {
+        let queryParams = new HttpParams().append("year", year);
+        return this.http.get(this.url + "/fishing-area/" + areaId + "/year", {params: queryParams});
+    }
+
+    getYearlyCatchesOfNobleFishSpeciesInFishingArea(areaId: number, year: number) {
+        let queryParams = new HttpParams().append("year", year);
+        return this.http.get(this.url + "/noble/fishing-area/" + areaId + "/year", {params: queryParams});
+    }
 }

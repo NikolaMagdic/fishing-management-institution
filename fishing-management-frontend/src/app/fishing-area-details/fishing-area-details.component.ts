@@ -160,4 +160,9 @@ export class FishingAreaDetailsComponent implements OnInit{
     this.image = file;
   }  
 
+  showStatistics() {
+    let id = Number(this._route.snapshot.paramMap.get('id'));
+    this._router.navigate(['/area-catches/' + id]);
+  }
+
 }

@@ -54,6 +54,9 @@
             <div class="col">
                 <button class="btn btn-primary" (click)="showChildAreas()" [hidden]="!viewChildsButtonShown">Delovi ribolovne vode</button>
             </div>
+            <div class="col ms-auto">
+                <button class="btn btn-primary" (click)="showStatistics()" [hidden]="!adminLoggedIn">Prikaži statistiku ulova</button>
+            </div>
         </div>
     </div>
         <div class="modal" id="modalArea" tabindex="-1" aria-hidden="true">

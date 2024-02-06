@@ -91,10 +91,10 @@ public class FishermanDTO {
 
     @Override
     public String toString() {
-        return "FishermanDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
-                + ", address=" + address + ", city=" + city + ", category=" + category + "]";
+        return "FishermanDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
+                + dateOfBirth + ", address=" + address + ", city=" + city + ", category=" + category + "]";
     }
-    
-    
+
+
     
 }

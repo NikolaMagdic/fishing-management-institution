@@ -17,6 +17,7 @@ export class FishStockingComponent {
   fishingAreas: FishingArea[] = [];
   fishSpecies: FishSpecies[] = [];
   fishStockingForm: FormGroup;
+  addFishStockingButtonVisible = false;
 
   constructor(
     private fishStockingService: FishStockingService,
@@ -37,6 +38,11 @@ export class FishStockingComponent {
     this.getAllFishStockings();
     this.getAllFishingAreas();
     this.getAllFishSpecies();
+
+    const role = localStorage.getItem('role');
+    if(role == "ROLE_KEEPER") {
+      this.addFishStockingButtonVisible = true;
+    }
   }
 
   getAllFishStockings() {

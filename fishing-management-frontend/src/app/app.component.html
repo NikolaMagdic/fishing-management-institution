@@ -39,7 +39,7 @@
                 <li class="nav-item" *ngIf="role == 'ROLE_ADMIN'">
                     <a class="nav-link" routerLink="keepers">Ribočuvari</a>
                 </li>
-                <li class="nav-item" *ngIf="role == 'ROLE_KEEPER'">
+                <li class="nav-item" *ngIf="role == 'ROLE_KEEPER' || role == 'ROLE_ADMIN'">
                     <a class="nav-link" routerLink="fish-stocking">Poribljavanje</a>
                 </li>
                 <li class="nav-item" *ngIf="isLoggedIn">

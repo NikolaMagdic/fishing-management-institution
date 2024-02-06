@@ -17,8 +17,22 @@
         <thead>
             <tr>
                 <th>Slika</th>
-                <th>Naziv</th>
-                <th>Latinski naziv</th>
+                <th>
+                    Naziv 
+                    <button class="btn btn-outline-primary btn-sm" (click)="sortFishSpeciesByName()">
+                        <i *ngIf="!sortNameAsc && !sortNameDesc" class="fa fa-sort"></i>
+                        <i *ngIf="sortNameAsc" class="fa fa-sort-asc"></i>
+                        <i *ngIf="sortNameDesc" class="fa fa-sort-desc"></i>
+                    </button>
+                </th>
+                <th>
+                    Latinski naziv 
+                    <button class="btn btn-outline-primary btn-sm" (click)="sortFishSpeciesByLatinName()">
+                        <i *ngIf="!sortLatinNameAsc && !sortLatinNameDesc" class="fa fa-sort"></i>
+                        <i *ngIf="sortLatinNameAsc" class="fa fa-sort-asc"></i>
+                        <i *ngIf="sortLatinNameDesc" class="fa fa-sort-desc"></i>
+                    </button>
+                </th>
                 <th>Kategorija</th>
                 <th></th>
             </tr>

@@ -14,13 +14,15 @@
                         <button class="btn btn-primary btn-lg px-4" (click)="obtainLicence()">Pošalji zahtev</button>
                     </div>
                 </div>
+            </div>
+            <div class="col">
                 <div *ngIf="validLicense && license.status === 'CONFIRMED'">
                     <p class="fs-5">
                         <img src="../../assets/confirmed.png">
                         Vi imate važeću dozvolu za ribolov za {{license.year}}. godinu.
                     </p>
                 </div>
-                <div *ngIf="validLicense && license.status === 'CREATED'">
+                <div *ngIf="validLicense && license.status === 'CREATED'" class="align-self-end">
                     <p class="fs-5">
                         Zahtev za izdavanje dozvole za ribolov za {{license.year}}. godinu poslat.
                     </p>

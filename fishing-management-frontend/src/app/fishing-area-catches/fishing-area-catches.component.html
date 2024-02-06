@@ -1,0 +1,39 @@
+<div class="container">
+    <h1>Evidencija godišnjeg ulova na ribolovnoj vodi: {{fishingAreaName}}</h1>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Godina</span>
+        <input type="number" min="2016" max="2100" class="form-control" name="year" [(ngModel)]="year"/>
+        <button class="btn btn-primary" (click)="changeYear()">Prikaži godišnji ulov za navedenu godinu</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Vrsta ribe</th>
+                <th>Broj komada</th>
+                <th>Ukupna težina (kg)</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let item of catches">
+            <tr>
+                <td>
+                    {{item.fishSpeciesName}}
+                </td>
+                <td>
+                    {{item.yearQuantity}}
+                </td>
+                <td>
+                    {{item.yearWeight}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <h2>Statistika ulova plemenitih riba</h2>
+        <div class="col" style="width: 400px;">
+           <canvas id="chart-2"></canvas>
+        </div>
+        <div class="col" style="height: 400px;">
+            <canvas id="chart"></canvas> 
+        </div>
+    </div>
+</div>

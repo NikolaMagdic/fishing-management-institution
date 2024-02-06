@@ -8,6 +8,7 @@ import { FishSpeciesComponent } from './fish-species/fish-species.component';
 import { FishStockingComponent } from './fish-stocking/fish-stocking.component';
 import { FishermanDetailsComponent } from './fisherman-details/fisherman-details.component';
 import { FishermansComponent } from './fishermans/fishermans.component';
+import { FishingAreaCatchesComponent } from './fishing-area-catches/fishing-area-catches.component';
 import { FishingAreaDetailsComponent } from './fishing-area-details/fishing-area-details.component';
 import { FishingAreasListComponent } from './fishing-areas/fishing-areas.component';
 import { FishingSpotDetailsComponent } from './fishing-spot-details/fishing-spot-details.component';
@@ -137,7 +138,7 @@ const routes: Routes = [
         path: "fish-stocking",
         component: FishStockingComponent,
         canActivate: [AuthGuard],
-        data: {roles: ["ROLE_KEEPER"]}
+        data: {roles: ["ROLE_KEEPER", "ROLE_ADMIN"]}
       },
       {
         path: "penalties",
@@ -153,6 +154,12 @@ const routes: Routes = [
         path: "fisherman/:id/penalties",
         component: PenaltiesOfFishermanComponent,
         canActivate: [AuthGuard]
+      },
+      {
+        path: "area-catches/:id",
+        component: FishingAreaCatchesComponent,
+        canActivate: [AuthGuard],
+        data: {roles: ["ROLE_ADMIN"]}
       },
       { 
         path: "", component: LoginComponent 

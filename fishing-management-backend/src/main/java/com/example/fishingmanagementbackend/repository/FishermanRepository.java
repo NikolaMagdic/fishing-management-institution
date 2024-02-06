@@ -17,7 +17,7 @@ public interface FishermanRepository extends JpaRepository<Fisherman, Long> {
     Page<Fisherman> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndCategory(Pageable pageable, String firstName, String lastName, FishermanCategory category);
     
     // 0 AS clazz_ zbog https://stackoverflow.com/questions/49804053/psqlexception-the-column-name-clazz-was-not-found-in-this-resultset
-    @Query(value = "SELECT DISTINCT *, 2 AS clazz_ "
+    @Query(value = "SELECT DISTINCT u.id, u.first_name, u.last_name, u.enabled, u.date_of_birth, u.username, u.password, u.last_password_reset_date, f.category, f.address, f.city, 2 AS clazz_ "
             + "FROM fisherman f LEFT OUTER JOIN catch c ON f.id = c.fisherman_id "
             + "LEFT OUTER JOIN fishing_area fa ON c.fishing_area_id = fa.id "
             + "LEFT OUTER JOIN keeps kee ON kee.fishing_area_id = fa.id "

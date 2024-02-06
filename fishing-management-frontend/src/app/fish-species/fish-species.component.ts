@@ -24,6 +24,10 @@ export class FishSpeciesComponent {
   filterName: string = "";
   filterLatinName: string = "";
   filterCategory: string = "Sve kategorije";
+  sortNameAsc: boolean = false;
+  sortNameDesc: boolean = false;
+  sortLatinNameAsc: boolean = false; 
+  sortLatinNameDesc: boolean = false;
 
   constructor(private fishSpeciesService: FishSpeciesService,
               private imageService: ImageService,
@@ -161,4 +165,37 @@ export class FishSpeciesComponent {
     this.getAllFishSpecies();
     this.newFishForm.reset();
   }
+
+  sortFishSpeciesByName() {
+    if(this.sortNameAsc) {
+      this.filteredFishSpecies.sort((a: FishSpecies, b: FishSpecies) => 
+        b.name.localeCompare(a.name)
+      );  
+      this.sortNameAsc = false;
+      this.sortNameDesc = true;
+    } else {
+      this.filteredFishSpecies.sort((a: FishSpecies, b: FishSpecies) => 
+        a.name.localeCompare(b.name)
+      );
+      this.sortNameAsc = true;
+      this.sortNameDesc = false;
+    }
+  }
+
+  sortFishSpeciesByLatinName() {
+    if(this.sortLatinNameAsc) {
+      this.filteredFishSpecies.sort((a: FishSpecies, b: FishSpecies) =>
+        b.latinName.localeCompare(a.latinName)
+      );
+      this.sortLatinNameAsc = false;
+      this.sortLatinNameDesc = true;
+    } else {
+      this.filteredFishSpecies.sort((a: FishSpecies, b: FishSpecies) =>
+        a.latinName.localeCompare(b.latinName)
+      );
+      this.sortLatinNameAsc = true;
+      this.sortLatinNameDesc = false;
+    }
+  }
+
 }

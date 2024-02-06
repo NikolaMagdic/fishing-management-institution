@@ -55,6 +55,18 @@ public class CatchController {
         return ResponseEntity.ok(yearlyCatches);
     }
     
+    @GetMapping("/fishing-area/{id}/year")
+    public ResponseEntity<List<YearlyCatchDTO>> getAllCatchesInFishingAreaForYear(@PathVariable("id") Long areaId, @RequestParam int year) {
+        List<YearlyCatchDTO> yearlyCatches = catchService.getAllCatchesInFishingAreaForYear(areaId, year);
+        return ResponseEntity.ok(yearlyCatches);
+    }
+    
+    @GetMapping("/noble/fishing-area/{id}/year")
+    public ResponseEntity<List<YearlyCatchDTO>> getAllCatchesOfNobleFishSpeciesInFishingAreaForYear(@PathVariable("id") Long areaId, @RequestParam int year) {
+        List<YearlyCatchDTO> yearlyCatches = catchService.getAllCatchesOfNobleFishSpeciesInFishingAreaForYear(areaId, year);
+        return ResponseEntity.ok(yearlyCatches);
+    }
+    
     @PostMapping
     @PreAuthorize("hasRole('FISHERMAN')")
     public ResponseEntity<CatchDTO> createCatch(@RequestBody CatchDTO catchDTO, Principal principal) {

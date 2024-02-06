@@ -3,6 +3,8 @@ INSERT INTO app_user (username, password, enabled, first_name, last_name, date_o
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('keeper', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Čuvar', 'Čuvarkić', '1988-05-01');
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('drugi', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Milan', 'Milanović', '1997-10-05');
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('privredni', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Jovan', 'Jovanović', '1991-11-11');
+INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('zenaribolovac', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Milica', 'Miličić', '1999-05-18');
+INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('pecaros', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Zdravko', 'Magdić', '1948-02-14');
 --
 INSERT INTO authority (name) VALUES ('ROLE_ADMIN');
 INSERT INTO authority (name) VALUES ('ROLE_FISHERMAN');
@@ -13,13 +15,19 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2);
 INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3);
 INSERT INTO user_authority (user_id, authority_id) VALUES (4, 2);
 INSERT INTO user_authority (user_id, authority_id) VALUES (5, 2);
+INSERT INTO user_authority (user_id, authority_id) VALUES (6, 2);
+INSERT INTO user_authority (user_id, authority_id) VALUES (7, 2);
 --
 INSERT INTO fisherman (id, address, city, category) VALUES (2, 'JNA 117', 'Ruma', 0);
 INSERT INTO fisherman (id, address, city, category) VALUES (4, 'Vojvode Mišića 2A', 'Novi Sad', 0);
 INSERT INTO fisherman (id, address, city, category) VALUES (5, 'Bulevar Kralja Petra 100', 'Novi Sad', 1);
+INSERT INTO fisherman (id, address, city, category) VALUES (6, 'Stari šor 32', 'Sremska Mitrovica', 0);
+INSERT INTO fisherman (id, address, city, category) VALUES (7, 'JNA 117', 'Ruma', 0);
 --
 INSERT INTO recreational_fisherman (id) VALUES (2);
 INSERT INTO recreational_fisherman (id) VALUES (4);
+INSERT INTO recreational_fisherman (id) VALUES (6);
+INSERT INTO recreational_fisherman (id) VALUES (7);
 --
 INSERT INTO professional_fisherman(id) VALUES (5);
 --
@@ -39,6 +47,8 @@ INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fi
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Som', 'Silurus glanis', 0, 60, 3, 1, 5, 15, 6, false, 'http://localhost:8080/som.jpg');
 INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Crvenperka', 'Scardinius erythrophthalmus', 1, false, 'http://localhost:8080/crvenperka.jpg');
 INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Babuška, srebrni karaš', 'Carassius auratus', 2, false, 'http://localhost:8080/srebrni karas.jpg');
+INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Linjak', 'Tinca tinca', 0, true, 'http://localhost:8080/linjak.jpg');
+INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Američki patuljasti som, terpan', 'Ictalurus nebulosus', 2, false, 'http://localhost:8080/patuljasti somic.jpg');
 --
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 1);
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 2);

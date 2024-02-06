@@ -107,5 +107,6 @@ public class RegistrationDTO {
                 + dateOfBirth + ", address=" + address + ", city=" + city + ", category=" + category + "]";
     }
 
-    
+
+
 }

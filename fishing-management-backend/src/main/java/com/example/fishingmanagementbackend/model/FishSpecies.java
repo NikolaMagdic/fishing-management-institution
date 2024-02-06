@@ -50,6 +50,7 @@ public class FishSpecies {
     @Column
     private boolean permanentFishingBan;
     
+    @Column(length = 1024)
     private String description;
     
     @Column
