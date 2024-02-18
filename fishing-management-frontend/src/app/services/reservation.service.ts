@@ -26,4 +26,8 @@ export class ReservationService {
     getAllReservationsForFishingSpot(spotId: number, areaId: number) {
         return this.http.get(this.url + "/spot/" + spotId + "/area/" + areaId);
     }
+
+    cancelReservation(reservationId: number) {
+        return this.http.delete(this.url + "/" + reservationId);
+    }
 }

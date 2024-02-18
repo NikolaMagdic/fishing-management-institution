@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,5 +64,12 @@ public class ReservationController {
         }
         
         return ResponseEntity.status(201).body(new ReservationDTO(reservation));
+    }
+    
+    @DeleteMapping("/{reservationId}")
+    @PreAuthorize("hasRole('FISHERMAN')")
+    public ResponseEntity<?> cancelReservation(@PathVariable("reservationId") Long reservationId) {
+        reservationService.cancelReservation(reservationId);
+        return ResponseEntity.noContent().build();
     }
 }

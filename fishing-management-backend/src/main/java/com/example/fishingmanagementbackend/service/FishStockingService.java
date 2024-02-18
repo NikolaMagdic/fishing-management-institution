@@ -41,7 +41,7 @@ public class FishStockingService {
     
     public FishStocking makeStocking(FishStockingRequestDTO stockingRequestDTO) {
         
-        FishStocking fishStocking = new FishStocking(stockingRequestDTO.getDate(), stockingRequestDTO.getNumber());
+        FishStocking fishStocking = new FishStocking(stockingRequestDTO.getDate(), stockingRequestDTO.getTotalWeight(), stockingRequestDTO.getAmount());
         
         FishingArea area = fishingAreaRepository.getReferenceById(stockingRequestDTO.getFishingAreaId());
         FishSpecies fish = fishSpeciesRepository.getReferenceById(stockingRequestDTO.getFishSpeciesId());

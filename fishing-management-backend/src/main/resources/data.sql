@@ -38,9 +38,14 @@ INSERT INTO fishing_area (name, area_type, allowed_fishing, image) VALUES ('Sava
 INSERT INTO fishing_area (name, area_type, description, allowed_fishing, image) VALUES ('Borkovac', 1, 'Ovo jezero je divno jedini problem je što nema ribe!', true, 'http://localhost:8080/borkovac(1).jpg');
 INSERT INTO fishing_area (name, area_type, description, allowed_fishing, image) VALUES ('Kanal DTD', 3, 'Kanal DTD odnosno kanal Dunav-Tisa-Dunav je nastao za vrema Austro-Ugarske.', true, 'http://localhost:8080/kanal-dtd.jpg');
 --
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 1, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/dunav-novi-sad-mesto.jpg');
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 1, 2, 45.04011918564572, 19.81751806040365, 'http://localhost:8080/sava-mesto.jpg');
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 2, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/novi_sad_dunav-mesto.jpg'); 
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 1, 0, 45.231616, 19.850564, 'http://localhost:8080/dunav-novi-sad-mesto.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (2, 1, 2, 44.758760, 19.719062, 'http://localhost:8080/sava-mesto.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 2, 0, 45.231616, 19.850564, 'http://localhost:8080/novi_sad_dunav-mesto.jpg'); 
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 3, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/Aluminum_Fishing_Boat.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 1, 0, 45.048526, 19.822185, 'http://localhost:8080/borkovac stapovi.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 2, 3, 45.044915, 19.820679, 'http://localhost:8080/borkovac vikendica.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 3, 0, 45.044090, 19.820559, 'http://localhost:8080/borkovac mesto.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 4, 1, 45.039117, 19.817662, 'http://localhost:8080/Aluminum_Fishing_Boat.jpg');
 --
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Štuka', 'Esox lucius', 0, 40, 3, 1, 3, 31, 3, false, 'http://localhost:8080/stuka.jpg');
 INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Smuđ', 'Stizostedion lucioperca', 0, 40, 3, 1, 3, 30, 4, false, 'http://localhost:8080/smudj.jpg');
@@ -54,10 +59,10 @@ INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 1);
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 2);
 INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (2, 1);
 
-INSERT INTO keeps(fishing_area_id, keeper_id) VALUES(1, 3);
+INSERT INTO keeping(fishing_area_id, keeper_id) VALUES(1, 3);
 
 INSERT INTO penalty (name, fine) VALUES ('Lov, posedovanje i uništavanje riblje mlađi i primeraka ribe u vreme mresta i lovostaja', 10000);
 INSERT INTO penalty (name, fine) VALUES ('Lov ribe neposredno rukom', 5000);
 INSERT INTO penalty (name, description, fine) VALUES ('Lov ribe nedozvoljenim sredstvima i alatima', 'Lov ribe eksplozivom i drugim rasprskavajućim sredstvima, harpunom, ostima, podvodnom puškom, vatrenim oružjem, strujom, veštačkim izvorom svetlosti, drugim hemijskim sredstvima...', 20000);
 INSERT INTO penalty (name, description, fine) VALUES ('Prekoračenje težine ulova', 'Ulov više od 5kg ribe', 10000);
-INSERT INTO penalized(fisherman_id, penalty_id, keeper_id) VALUES (4, 1, 3);
+INSERT INTO penalized(fisherman_id, penalty_id, keeper_id, area_id) VALUES (4, 1, 3, 1);

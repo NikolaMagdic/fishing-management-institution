@@ -107,7 +107,7 @@ CREATE TABLE containing (
 	PRIMARY KEY (fish_species_id, fishing_area_id)
 );
 
-CREATE TABLE keeps (
+CREATE TABLE keeping (
 	fishing_area_id  INTEGER NOT NULL,
 	keeper_id		 INTEGER NOT NULL,
 	PRIMARY KEY (fishing_area_id, keeper_id)
@@ -180,6 +180,7 @@ CREATE TABLE penalized (
 	fisherman_id	INTEGER NOT NULL,
 	penalty_id		INTEGER NOT NULL,
 	keeper_id		INTEGER NOT NULL,
+	area_id			INTEGER NOT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -261,6 +262,9 @@ REFERENCES fisherman (id);
 
 ALTER TABLE penalized ADD CONSTRAINT fk_records FOREIGN KEY (keeper_id)
 REFERENCES keeper (id);
+
+ALTER TABLE penalized ADD CONSTRAINT fk_recorded_on FOREIGN KEY (area_id)
+REFERENCES fishing_area (id);
 
 ALTER TABLE verification_token ADD CONSTRAINT fk_token FOREIGN KEY (user_id)
 REFERENCES app_user (id);

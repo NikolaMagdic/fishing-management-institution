@@ -29,7 +29,8 @@ export class FishStockingComponent {
         fishingArea: new FormControl(),
         fishSpecies: new FormControl(),
         date: new FormControl(),
-        number: new FormControl()
+        totalWeight: new FormControl(),
+        amount: new FormControl()
       });
     }
 
@@ -74,7 +75,8 @@ export class FishStockingComponent {
       "fishingAreaId": this.fishStockingForm.value.fishingArea.id,
       "fishSpeciesId": this.fishStockingForm.value.fishSpecies.id,
       "date": this.fishStockingForm.value.date,
-      "number": this.fishStockingForm.value.number
+      "totalWeight": this.fishStockingForm.value.totalWeight,
+      "amount": this.fishStockingForm.value.amount
     }
 
     this.fishStockingService.makeFishStocking(newFishStocking).subscribe({

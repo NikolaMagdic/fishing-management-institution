@@ -8,7 +8,9 @@ public class FishStockingRequestDTO {
     
     private LocalDate date;
     
-    private int number;
+    private Integer totalWeight;
+    
+    private Integer amount;
     
     private Long fishingAreaId;
     
@@ -16,10 +18,11 @@ public class FishStockingRequestDTO {
     
     public FishStockingRequestDTO() {}
     
-    public FishStockingRequestDTO(Long id, LocalDate date, int number, Long fishingAreaId, Long fishSpeciesId) {
+    public FishStockingRequestDTO(Long id, LocalDate date, Integer totalWeight, Integer amount, Long fishingAreaId, Long fishSpeciesId) {
         this.id = id;
         this.date = date;
-        this.number = number;
+        this.totalWeight = totalWeight;
+        this.amount = amount;
         this.fishingAreaId = fishingAreaId;
         this.fishSpeciesId = fishSpeciesId;
     }
@@ -40,12 +43,20 @@ public class FishStockingRequestDTO {
         this.date = date;
     }
 
-    public int getNumber() {
-        return number;
+    public Integer getTotalWeight() {
+        return totalWeight;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setTotalWeight(Integer totalWeight) {
+        this.totalWeight = totalWeight;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public Long getFishingAreaId() {

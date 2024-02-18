@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -32,8 +33,11 @@ public class Penalized {
     private Penalty penalty;
     
     @ManyToOne
-    @JoinColumn(name = "keeper_id", referencedColumnName = "id")
-    private Keeper keeper;
+    @JoinColumns({
+        @JoinColumn(name = "keeper_id", referencedColumnName = "keeper_id"),
+        @JoinColumn(name = "area_id", referencedColumnName = "fishing_area_id")
+    })
+    private Keeping keeping;
     
     public Penalized() {}
     
@@ -83,13 +87,13 @@ public class Penalized {
     public void setReport(String report) {
         this.report = report;
     }
-    
-    public Keeper getKeeper() {
-        return keeper;
+
+    public Keeping getKeeping() {
+        return keeping;
     }
 
-    public void setKeeper(Keeper keeper) {
-        this.keeper = keeper;
+    public void setKeeping(Keeping keeping) {
+        this.keeping = keeping;
     }
 
     @Override

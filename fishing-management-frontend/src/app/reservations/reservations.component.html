@@ -1,16 +1,18 @@
 <div class="container">
-    <h1>Rezervacije</h1>
+    <h1 *ngIf="fishermanLoggedIn">Moje rezervacije</h1>
+    <h1 *ngIf="!fishermanLoggedIn">Rezervacije za ribolovno mesto {{this.spotId}}</h1>
     <h4 *ngIf="(reservations.length == 0) && fishermanLoggedIn">Nemate prethodno rezervisanih termina za ribolov.</h4>
     <h4 *ngIf="(reservations.length == 0) && !fishermanLoggedIn">Ne postoje prethodno rezervisani termini za ribolov na ovom ribolovnom mestu.</h4>
     <table class="table table-striped" *ngIf="reservations.length > 0">
         <thead>
             <tr>
                 <th *ngIf="fishermanLoggedIn">Ribolovna voda</th>
+                <th *ngIf="fishermanLoggedIn">Oznaka ribolovnog mesta</th>
                 <th *ngIf="fishermanLoggedIn">Tip ribolovnog mesta</th>
-                <th *ngIf="fishermanLoggedIn">Ribolovno mesto</th>
                 <th *ngIf="!fishermanLoggedIn">Ribolovac</th>
                 <th>Početni datum</th>
                 <th>Krajnji datum</th>
+                <th *ngIf="fishermanLoggedIn"></th>
             </tr>
         </thead>
         <tbody *ngFor="let reservation of reservations">
@@ -19,10 +21,10 @@
                     {{reservation.fishingAreaName}}
                 </td>
                 <td *ngIf="fishermanLoggedIn">
-                    {{reservation.fishingSpotType}}
+                    {{reservation.fishingSpotId}}
                 </td>
                 <td *ngIf="fishermanLoggedIn">
-                    {{reservation.fishingSpotId}}
+                    {{reservation.fishingSpotType}}
                 </td>
                 <td *ngIf="!fishermanLoggedIn">
                     {{reservation.fishermanFirstName + " " + reservation.fishermanLastName}}
@@ -32,6 +34,11 @@
                 </td>
                 <td>
                     {{reservation.departureDate | date: "dd.MM.yyyy"}}
+                </td>
+                <td>
+                    <button *ngIf="fishermanLoggedIn && checkIfCancelingReservationPossible(reservation.arrivalDate)" class="btn btn-danger" (click)="cancelReservation(reservation.reservationId)">
+                        Otkaži
+                    </button>
                 </td>
             </tr>
         </tbody>

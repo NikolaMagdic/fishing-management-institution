@@ -22,6 +22,10 @@ public class PenalizedDTO {
     
     private String keeperName;
     
+    private Long areaId;
+    
+    private String areaName;
+    
     public PenalizedDTO() { }
     
     public PenalizedDTO(Penalized penalized) {
@@ -32,7 +36,9 @@ public class PenalizedDTO {
         this.penaltyId = penalized.getId();
         this.penaltyName = penalized.getPenalty().getName();
         this.penaltyFine = penalized.getPenalty().getFine();
-        this.keeperName = penalized.getKeeper().getFirstName() + " " + penalized.getKeeper().getLastName();
+        this.keeperName = penalized.getKeeping().getKeeper().getFirstName() + " " + penalized.getKeeping().getKeeper().getLastName();
+        this.areaId = penalized.getKeeping().getArea().getId();
+        this.areaName = penalized.getKeeping().getArea().getName();
     }
 
     public Long getId() {
@@ -97,6 +103,22 @@ public class PenalizedDTO {
 
     public void setKeeperName(String keeperName) {
         this.keeperName = keeperName;
+    }
+
+    public Long getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(Long areaId) {
+        this.areaId = areaId;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
     
     

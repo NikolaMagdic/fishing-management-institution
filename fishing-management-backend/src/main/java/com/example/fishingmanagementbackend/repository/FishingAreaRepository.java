@@ -9,11 +9,11 @@ import com.example.fishingmanagementbackend.model.FishingArea;
 
 public interface FishingAreaRepository extends JpaRepository<FishingArea, Long>{
 
-    @Query(value = "SELECT * FROM fishing_area fa LEFT OUTER JOIN keeps k ON fa.id = k.fishing_area_id WHERE keeper_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM fishing_area fa LEFT OUTER JOIN keeping k ON fa.id = k.fishing_area_id WHERE keeper_id = ?1", nativeQuery = true)
     List<FishingArea> findKeptByKeeper(Long keeperId);
     
     @Query(value = "SELECT * FROM fishing_area fa WHERE fa.id NOT IN "
-            + "(SELECT fishing_area_id FROM fishing_area fa LEFT OUTER JOIN keeps k ON fa.id = k.fishing_area_id WHERE keeper_id = ?1)", nativeQuery = true)
+            + "(SELECT fishing_area_id FROM fishing_area fa LEFT OUTER JOIN keeping k ON fa.id = k.fishing_area_id WHERE keeper_id = ?1)", nativeQuery = true)
     List<FishingArea> findNotKeptByKeeper(Long keeperId);
     
     @Query(value = "SELECT * FROM fishing_area fa WHERE fa.parent_fishing_area_id = ?1", nativeQuery = true)

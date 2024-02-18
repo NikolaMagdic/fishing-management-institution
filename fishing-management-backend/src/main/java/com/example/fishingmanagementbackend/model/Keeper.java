@@ -19,7 +19,7 @@ public class Keeper extends User implements Serializable {
     private String licenseNumber;
     
     @ManyToMany
-    @JoinTable(name = "keeps",
+    @JoinTable(name = "keeping",
                joinColumns = @JoinColumn(name = "keeper_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "fishing_area_id", referencedColumnName = "id"))
     private Set<FishingArea> fishingAreas = new HashSet<>();

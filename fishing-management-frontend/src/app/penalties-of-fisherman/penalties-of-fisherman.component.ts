@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { FishingAreaService } from '../services/fishing-area.service';
+import { KeeperService } from '../services/keeper.service';
 import { PenaltyService } from '../services/penalty.service';
 
 @Component({
@@ -15,15 +17,18 @@ export class PenaltiesOfFishermanComponent {
   fishermanId: number = 0;
   imposePenaltyForm: FormGroup;
   keeperLoggedIn = false;
+  areas: any = [];
 
   constructor(
     private penaltyService: PenaltyService,
+    private fishingAreaService: FishingAreaService,
     private route: ActivatedRoute
   ) {
     this.imposePenaltyForm = new FormGroup({
       penaltyForm: new FormControl(),
       report: new FormControl(),
-      date: new FormControl()
+      date: new FormControl(),
+      area: new FormControl()
     });
   }
 
@@ -31,6 +36,7 @@ export class PenaltiesOfFishermanComponent {
     this.fishermanId = Number(this.route.snapshot.paramMap.get('id'));
     this.getAllPenalties();
     this.getAllPenaltiesOfFisherman(this.fishermanId);
+    this.getAllFishingAreasThatKeeperKeeps();
     
     const role = localStorage.getItem('role');
     if(role == 'ROLE_KEEPER') {
@@ -50,18 +56,28 @@ export class PenaltiesOfFishermanComponent {
     this.penaltyService.getAllPenalitesOfFisherman(fishermanId).subscribe({
       next: data => {
         this.penaltiesOfFisherman = data;
-        console.log(this.penaltiesOfFisherman);
+      }
+    });
+  }
+
+  getAllFishingAreasThatKeeperKeeps() {
+    let keeperId = Number(localStorage.getItem('correspondingTableId'));
+    this.fishingAreaService.getFishingAreasManagedByKeeper(keeperId).subscribe({
+      next: data => {
+        this.areas = data;
       }
     });
   }
 
   imposeAPenalty() {
     let penaltyId = this.imposePenaltyForm.value.penaltyForm.id;
+    let areaId = this.imposePenaltyForm.value.area.id;
     let penalized = {
       "penaltyId": penaltyId,
       "fishermanId": this.fishermanId,
       "date": this.imposePenaltyForm.value.date,
-      "report": this.imposePenaltyForm.value.report
+      "report": this.imposePenaltyForm.value.report,
+      "areaId": areaId
     }
     this.penaltyService.imposeAPenalty(penalized).subscribe({
       next: () => {

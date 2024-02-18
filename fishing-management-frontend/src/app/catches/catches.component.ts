@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Catch } from '../models/catch';
 import { CatchService } from '../services/catch.service';
@@ -15,6 +15,8 @@ export class CatchesComponent {
   keeperLoggedIn = false;
   yearCatchesHidden = true;
   year = new Date().getFullYear();
+
+  @ViewChild('failureModal') failureModal: ElementRef | any;
 
   constructor(
     private catchService: CatchService,
@@ -40,6 +42,9 @@ export class CatchesComponent {
     this.catchService.confirmCatch(itemId).subscribe({
       next: () => {
         window.location.reload();
+      },
+      error: () => {
+        this.failureModal.nativeElement.click();
       }
     });
   }
@@ -48,6 +53,9 @@ export class CatchesComponent {
     this.catchService.rejectCatch(itemId).subscribe({
       next: () => {
         window.location.reload();
+      },
+      error: () => {
+        this.failureModal.nativeElement.click();
       }
     });
   }

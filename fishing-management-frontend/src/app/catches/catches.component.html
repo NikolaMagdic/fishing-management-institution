@@ -11,7 +11,7 @@
     <div class="tab-content">
     <div class="tab-pane show active" id="dailyCatchesTab" tabindex="0">
         <h2>Evidencija dnevnog ulova</h2>
-        <h5 *ngIf="catches.length < 1">Nemate evidentirane ulove</h5>
+        <h5 *ngIf="catches.length < 1">Nema evidentiranih ulova</h5>
         <table class="table" *ngIf="catches.length > 0">
             <thead>
                 <tr>
@@ -94,5 +94,18 @@
             </tbody>
         </table>
     </div>
+    <button data-bs-toggle="modal" data-bs-target="#failure-modal" hidden #failureModal></button>
+    <div class="modal" id="failure-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="alert alert-danger">Ne možete potvrditi/odbiti ulov koji je ostvaren na ribolovnoj vodi za koju niste zaduženi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zatvori</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

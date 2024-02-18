@@ -1,5 +1,6 @@
 <div class="container">
     <h1>Izvršena poribljavanja</h1>
+    <button type="button" class="btn btn-primary float-end m3-3" data-bs-toggle="modal" data-bs-target="#modal" *ngIf="addFishStockingButtonVisible"><i class="fa fa-plus"></i>&nbsp;Novo poribljavanje</button>
     <table class="table table-striped" *ngIf="stockings.length > 0">
         <thead>
             <tr>
@@ -7,6 +8,7 @@
                 <th>Vrsta ribe</th>
                 <th>Datum</th>
                 <th>Količina</th>
+                <th>Broj jedinki</th>
             </tr>
         </thead>
         <tbody *ngFor="let stock of stockings">
@@ -21,13 +23,15 @@
                     {{stock.date | date: "dd.MM.yyyy."}}
                 </td>
                 <td>
-                    {{stock.number}}
+                    {{stock.totalWeight}} kg
+                </td>
+                <td>
+                    {{stock.amount}}
                 </td>
             </tr>
         </tbody>
     </table>
     <h3 *ngIf="stockings.length < 1">Nema evidentiranih poribljavanja</h3>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" *ngIf="addFishStockingButtonVisible">Novo poribljavanje</button>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -54,8 +58,12 @@
                             <input type="date" class="form-control" required formControlName="date">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Broj jedinki *</label>
-                            <input type="number" class="form-control" required formControlName="number">
+                            <label class="form-label">Količina (kg)</label>
+                            <input type="number" class="form-control" formControlName="totalWeight">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Broj jedinki </label>
+                            <input type="number" class="form-control" formControlName="amount">
                         </div>
                     </div>
                     <div class="modal-footer">

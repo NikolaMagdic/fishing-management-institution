@@ -21,7 +21,10 @@ public class FishStocking {
     private LocalDate date;
     
     @Column
-    private int number;
+    private Integer totalWeight;
+    
+    @Column
+    private Integer amount;
     
     @ManyToOne(optional = false)
     @JoinColumn(name = "fishing_area_id", referencedColumnName = "id")
@@ -33,9 +36,10 @@ public class FishStocking {
     
     public FishStocking() {}
 
-    public FishStocking(LocalDate date, int number) {
+    public FishStocking(LocalDate date, Integer totalWeight, Integer amount) {
         this.date = date;
-        this.number = number;
+        this.totalWeight = totalWeight;
+        this.amount = amount;
     }
 
     public Long getId() {
@@ -54,12 +58,20 @@ public class FishStocking {
         this.date = date;
     }
 
-    public int getNumber() {
-        return number;
+    public Integer getTotalWeight() {
+        return totalWeight;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setTotalWeight(Integer totalWeight) {
+        this.totalWeight = totalWeight;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public FishingArea getFishingArea() {
@@ -80,10 +92,9 @@ public class FishStocking {
 
     @Override
     public String toString() {
-        return "FishStocking [id=" + id + ", date=" + date + ", number=" + number + ", fishingArea=" + fishingArea
-                + ", fishSpecies=" + fishSpecies + "]";
+        return "FishStocking [id=" + id + ", date=" + date + ", totalWeight=" + totalWeight + ", amount=" + amount
+                + ", fishingArea=" + fishingArea + ", fishSpecies=" + fishSpecies + "]";
     }
-    
-    
+
     
 }

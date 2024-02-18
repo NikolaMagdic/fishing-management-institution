@@ -9,6 +9,6 @@ import com.example.fishingmanagementbackend.model.Penalized;
 
 public interface PenalizedRepository extends JpaRepository<Penalized, Long>{
 
-    @Query(value = "SELECT p.id, p.date, p.report, p.penalty_id, p.fisherman_id, p.keeper_id FROM penalized p LEFT OUTER JOIN penalty pt ON p.penalty_id = pt.id WHERE p.fisherman_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT p.id, p.date, p.report, p.penalty_id, p.fisherman_id, p.keeper_id, p.area_id FROM penalized p LEFT OUTER JOIN penalty pt ON p.penalty_id = pt.id WHERE p.fisherman_id = ?1", nativeQuery = true)
     List<Penalized> findAllByFisherman(Long fishermanId);
 }

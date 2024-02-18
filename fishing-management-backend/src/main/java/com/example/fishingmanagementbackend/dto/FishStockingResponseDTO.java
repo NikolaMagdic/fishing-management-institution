@@ -10,7 +10,9 @@ public class FishStockingResponseDTO {
     
     private LocalDate date;
     
-    private int number;
+    private Integer totalWeight;
+    
+    private Integer amount;
     
     private String fishingAreaName;
     
@@ -21,7 +23,8 @@ public class FishStockingResponseDTO {
     public FishStockingResponseDTO(FishStocking fishStocking) {
         this.id = fishStocking.getId();
         this.date = fishStocking.getDate();
-        this.number = fishStocking.getNumber();
+        this.totalWeight = fishStocking.getTotalWeight();
+        this.amount = fishStocking.getAmount();
         this.fishingAreaName = fishStocking.getFishingArea().getName();
         this.fishSpeciesName = fishStocking.getFishSpecies().getName();
     }
@@ -42,12 +45,20 @@ public class FishStockingResponseDTO {
         this.date = date;
     }
 
-    public int getNumber() {
-        return number;
+    public Integer getTotalWeight() {
+        return totalWeight;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setTotalWeight(Integer totalWeight) {
+        this.totalWeight = totalWeight;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public String getFishingAreaName() {

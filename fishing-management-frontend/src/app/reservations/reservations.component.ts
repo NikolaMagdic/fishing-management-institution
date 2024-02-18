@@ -11,6 +11,8 @@ export class ReservationsComponent {
   
   reservations: any = [];
   fishermanLoggedIn = false;
+  spotId = Number(this.route.snapshot.paramMap.get('spotId'));
+  currentDate = new Date();
   
   constructor(
     private reservationService: ReservationService,
@@ -42,9 +44,26 @@ export class ReservationsComponent {
   getAllReservationsForFishingSpot() {
     let areaId = Number(this.route.snapshot.paramMap.get('areaId'));
     let spotId = Number(this.route.snapshot.paramMap.get('spotId'));
-    this.reservationService.getAllReservationsForFishingSpot(areaId, spotId).subscribe({
+    this.reservationService.getAllReservationsForFishingSpot(spotId, areaId).subscribe({
       next: data => {
         this.reservations = data;
+      }
+    });
+  }
+
+  checkIfCancelingReservationPossible(arrivalDate: string) {
+    let arDate = new Date(arrivalDate);
+    if(arDate > this.currentDate) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  cancelReservation(reservationId: number) {
+    this.reservationService.cancelReservation(reservationId).subscribe({
+      next: () => {
+        this.getAllReservationsOfFisherman();
       }
     });
   }

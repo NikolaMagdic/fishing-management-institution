@@ -8,6 +8,7 @@
                 <th>Izveštaj</th>
                 <th>Ribočuvar</th>
                 <th>Datum</th>
+                <th>Ribolovna voda</th>
                 <th>Cena</th>
             </tr>
         </thead>
@@ -24,6 +25,9 @@
                 </td>
                 <td>
                     {{penalty.date | date: "dd.MM.yyyy."}}
+                </td>
+                <td>
+                    {{penalty.areaName}}
                 </td>
                 <td>
                     {{penalty.penaltyFine}}
@@ -54,6 +58,12 @@
                         <div class="mb-3">
                             <label class="form-label">Datum *</label>
                             <input type="date" class="form-control" required formControlName="date">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ribolovna voda</label>
+                            <select class="form-select" name="area" required formControlName="area">
+                                <option *ngFor="let a of areas" [ngValue]="a">{{a.name}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -2,18 +2,14 @@
     <h1>Ribolovci sa zahtevima za izdavanje ribolovne dozvole</h1>
     <table class="table table-striped" *ngIf="licenseRequests.length > 0">
         <thead>
-            <th>Ime</th>
-            <th>Prezime</th>
+            <th>Ime i prezime</th>
             <th>Tip dozvole</th>
             <th>Kategorija ribolovca</th>
         </thead>
         <tbody *ngFor="let request of licenseRequests">
             <tr>
                 <td>
-                    {{request.fishermanFirstName}}
-                </td>
-                <td>
-                    {{request.fishermanLastName}}
+                    {{request.fishermanFirstName + " " + request.fishermanLastName}}
                 </td>
                 <td>
                     {{request.type}}
@@ -25,7 +21,7 @@
                     <button class="btn btn-primary" (click)="showFishermanDetails(request.fishermanId)">Detalji</button>
                 </td>
                 <td>
-                    <button class="btn btn-primary" (click)="acceptLicenseRequest(request.licenseId)">Potvrdi zahtev</button>
+                    <button class="btn btn-success" (click)="acceptLicenseRequest(request.licenseId)">Potvrdi zahtev</button>
                 </td>
                 <td>
                     <button class="btn btn-secondary" (click)="rejectLicenseRequest(request.licenseId)">Odbij zahtev</button>

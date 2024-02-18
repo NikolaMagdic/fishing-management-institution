@@ -46,12 +46,10 @@ public class ReservationService {
         for(Reservation r: futureReservations) {
             if(r.getDepartureDate() != null) {
                 // Visednevni termin
-                System.out.println("USAO U IF");
                 List<LocalDate> datesBetWeen = findAllDatesBetween(r.getArrivalDate(), r.getDepartureDate());
                 occupiedDates.addAll(datesBetWeen);
             } else {
                 // Jednodnevni termin
-                System.out.println("USAO U ELSE");
                 occupiedDates.add(r.getArrivalDate());
             }
         }
@@ -72,7 +70,7 @@ public class ReservationService {
     public List<ReservationResponseDTO> getAllReservationsForFishingSpot(Long fishingSpotId, Long fishingAreaId) {
         List<Reservation> reservations = reservationRepository.findByFishingSpot(fishingSpotId, fishingAreaId);
         List<ReservationResponseDTO> reservationsDTO = new ArrayList<>();
-        
+
         for(Reservation r : reservations) {
             ReservationResponseDTO reservationDTO = new ReservationResponseDTO(r);
             reservationsDTO.add(reservationDTO);
@@ -131,6 +129,13 @@ public class ReservationService {
         } else {
             return false;
         }
+    }
+    
+    public void cancelReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.getReferenceById(reservationId);
+        if(reservation.getArrivalDate().isAfter(LocalDate.now()))
+            reservationRepository.deleteById(reservationId);
+        
     }
     
 }
