@@ -1,7 +1,7 @@
 
 <div class="card" *ngIf="fishingArea"> <!--ngIf ako se fishingArea ne ucita odmah posto je http asinhron, pa da ne pise undefined-->
     <div class="card-header">
-        <h5 class="card-title d-flex justify-content-between align-items-center">
+        <h3 class="card-title d-flex justify-content-between align-items-center">
             <div>
                 {{(fishingArea.type | fishingAreaPipe) + " " + fishingArea.name}} &nbsp;
             <button *ngIf="!fishingArea.allowedFishing" class="btn btn-danger" disabled>Zabranjen ribolov</button>
@@ -9,12 +9,13 @@
             <a class="btn btn-outline-secondary float-end" (click)="onBack()" style="width:180px">
                 <i class="fa fa-chevron-left"></i> Prethodna strana
             </a>
-       </h5>
+       </h3>
     </div>
     <div class="card-body">
         <div class="row row-cols-2">
             <div class="col">
                 <img src="{{fishingArea.image}}" alt="Slika ribolovne vode nije dostupna" title="{{fishingArea.name}}" style="width: 600px;">
+                <p class="">{{fishingArea.description}}</p>
             </div>
             <div class="col">
                 <h5>Prisutne vrste riba</h5>
@@ -35,15 +36,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <p>{{fishingArea.description}}</p>
-            </div>
         </div>
     </div>
     <div class="card-footer">
         <div class="row row-cols-auto">
             <div class="col">
-                <button class="btn btn-primary" (click)="showFishingSpots()">Prikaži ribolovna mesta</button>
+                <button class="btn btn-primary" (click)="showFishingSpots()"><i class="fa fa-map-marker"></i> Prikaži ribolovna mesta</button>
             </div>
             <div class="col">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArea" [hidden]="!adminLoggedIn">Izmeni ribolovnu vodu</button>
@@ -55,7 +53,7 @@
                 <button class="btn btn-primary" (click)="showChildAreas()" [hidden]="!viewChildsButtonShown">Delovi ribolovne vode</button>
             </div>
             <div class="col ms-auto">
-                <button class="btn btn-primary" (click)="showStatistics()" [hidden]="!adminLoggedIn">Prikaži statistiku ulova</button>
+                <button class="btn btn-primary" (click)="showStatistics()" [hidden]="!adminLoggedIn"><i class="fa fa-line-chart"></i> Prikaži statistiku ulova</button>
             </div>
         </div>
     </div>

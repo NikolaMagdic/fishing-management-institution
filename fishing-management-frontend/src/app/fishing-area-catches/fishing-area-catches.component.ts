@@ -90,9 +90,11 @@ export class FishingAreaCatchesComponent {
             label: 'Broj primeraka',
             data: this.fishNumber,
             backgroundColor: [
-              'rgb(255, 99, 132)',
+              'rgb(255, 205, 86)',
               'rgb(54, 162, 235)',
-              'rgb(255, 205, 86)'
+              'rgb(255, 99, 132)',
+              'rgb(23, 191, 68)',
+              'rgb(181, 28, 184)'
             ],
             hoverOffset: 4
           }]

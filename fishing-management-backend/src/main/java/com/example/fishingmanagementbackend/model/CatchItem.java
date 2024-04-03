@@ -14,12 +14,12 @@ import jakarta.persistence.SequenceGenerator;
 
 @Entity
 @IdClass(CatchItemPK.class)
-@SequenceGenerator(name = "sequence_generator", sequenceName = "catch_item_id", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "item_sequence_generator", sequenceName = "catch_item_id", initialValue = 1, allocationSize = 1)
 public class CatchItem {
 
     // Kod kompozitnih kljuceva se mora koristiti sekvenca jer IDENTITY nacin generisanja kljuceva ne radi
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_sequence_generator")
     private Long itemId;
     
     @Column

@@ -180,7 +180,7 @@ public class LicenseService {
         License license = licenseRepository.getReferenceById(licenseId);
         license.setStatus(LicenseStatus.CONFIRMED);
         
-        sendEmailAboutConfirmation(license, true);
+        // sendEmailAboutConfirmation(license, true);
         
         return licenseRepository.save(license);
         
@@ -199,7 +199,7 @@ public class LicenseService {
         
         license.setStatus(LicenseStatus.REJECTED);
         
-        sendEmailAboutConfirmation(license, false);
+        //sendEmailAboutConfirmation(license, false);
         
         return licenseRepository.save(license);
     }

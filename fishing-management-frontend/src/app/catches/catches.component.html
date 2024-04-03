@@ -12,6 +12,11 @@
     <div class="tab-pane show active" id="dailyCatchesTab" tabindex="0">
         <h2>Evidencija dnevnog ulova</h2>
         <h5 *ngIf="catches.length < 1">Nema evidentiranih ulova</h5>
+        <div class="input-group mb-3 w-50">
+            <span class="input-group-text">Godina</span>
+            <input type="number" min="2016" max="2100" class="form-control" name="selectedYear" [(ngModel)]="selectedYear"/>
+            <button class="btn btn-primary" (click)="filterCatches()">Prikaži evidenciju ulova za navedenu godinu</button>
+        </div>
         <table class="table" *ngIf="catches.length > 0">
             <thead>
                 <tr>
@@ -54,7 +59,7 @@
                             <button class="btn btn-primary" (click)="confirmCatch(item.id)">Potvrdi</button>
                         </td>
                         <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
-                            <button class="btn btn-secondary" (click)="rejectCatch(item.id)">Odbij</button>
+                            <button class="btn btn-danger" (click)="rejectCatch(item.id)">Odbij</button>
                         </td>
                     </tr>     
             </tbody>
@@ -62,7 +67,7 @@
     </div>
     <div class="tab-pane" id="yearlyCatchesTab" tabindex="0">
         <h2>Evidencija godišnjeg ulova</h2>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 w-50">
             <span class="input-group-text">Godina</span>
             <input type="number" min="2016" max="2100" class="form-control" name="year" [(ngModel)]="year"/>
             <button class="btn btn-primary" (click)="showYearlyCatch()">Prikaži godišnji ulov</button>

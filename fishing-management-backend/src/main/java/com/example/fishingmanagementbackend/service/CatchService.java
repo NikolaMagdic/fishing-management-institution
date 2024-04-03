@@ -73,6 +73,19 @@ public class CatchService {
         
     }
     
+    /** Vraca sve ulove ribolovca u prosledjenoj godini*/
+    public List<CatchResponseDTO> getCatchesOfFishermanForYear(Long fishermanId, int year) {
+        List<Catch> catches = catchRepository.findAllCatchesByFishermanForYear(fishermanId, year);
+        
+        List<CatchResponseDTO> catchesDTO = new ArrayList<>();
+        for (Catch c : catches) {
+            CatchResponseDTO catchDTO = new CatchResponseDTO(c);
+            catchesDTO.add(catchDTO);
+        }
+        
+        return catchesDTO;
+    }
+    
     /** Vraca evidenciju ulova za trazenog ribolovca u trazenoj godini grupisanu po vrsti ribe*/
     public List<YearlyCatchDTO> getYearCatchesOfFisherman(Long fishermanId, int year) {
         List<Object[]> catchItems = catchItemRepository.findAllCatchItemsByFishermanInYear(fishermanId, year);

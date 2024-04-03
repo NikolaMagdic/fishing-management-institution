@@ -15,6 +15,8 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { toStringHDMS } from 'ol/coordinate';
 import { ImageService } from '../services/image.service';
+import { FishingAreaService } from '../services/fishing-area.service';
+import { FishingArea } from '../models/fishing-area';
 
 @Component({
   selector: 'app-fishing-spots',
@@ -27,11 +29,14 @@ export class FishingSpotsComponent {
   newFishingSpot: FishingSpot = new FishingSpot(0, "", 0, 0, "", 0);
   map: Map | undefined;
   image: any;
+  fishingAreaName: string = "";
 
   addFishingSpotButtonVisible = false;
-  @ViewChild('openModal') openModal: ElementRef | any;
+  @ViewChild('openSuccessModal') openSuccessModal: ElementRef | any;
+  @ViewChild('openFailureModal') openFailureModal: ElementRef | any;
 
   constructor(private fishingSpotService: FishingSpotService,
+              private fishingAreaService: FishingAreaService, 
               private imageService: ImageService,
               private route: ActivatedRoute,
               private router: Router) {}
@@ -44,6 +49,8 @@ export class FishingSpotsComponent {
       }
     });
     this.newFishingSpot.fishingAreaId = id;
+
+    this.getFishingAreaName(id);
 
     // Mapa
     this.map = new Map({
@@ -99,18 +106,36 @@ export class FishingSpotsComponent {
         next: imagePath => {
           this.newFishingSpot.image = imagePath as string;
           this.fishingSpotService.createSpot(this.newFishingSpot).subscribe({}); 
-          this.openModal.nativeElement.click();
+          this.openSuccessModal.nativeElement.click();
+        },
+        error: () => {
+          this.openFailureModal.nativeElement.click();
         }
       });
     } else {
-      this.fishingSpotService.createSpot(this.newFishingSpot).subscribe({}); 
-      this.openModal.nativeElement.click();
+      this.fishingSpotService.createSpot(this.newFishingSpot).subscribe({
+        next: () => {
+          this.openSuccessModal.nativeElement.click();
+        },
+        error: () => {
+          this.openFailureModal.nativeElement.click();
+        }
+      });
     }
   }
 
   viewFishingSpotDetails(spotId: number) {
     let areaId = Number(this.route.snapshot.paramMap.get('id'));
     this.router.navigate(['/fishing-spot-details/area/' + areaId + "/spot/" + spotId]);
+  }
+
+  getFishingAreaName(id: number) {
+    this.fishingAreaService.getFishingAreaById(id).subscribe({
+      next: data => {
+        let area = data as FishingArea;
+        this.fishingAreaName = area.name;
+      }
+    });
   }
 
   processImage(imageFile: any) {

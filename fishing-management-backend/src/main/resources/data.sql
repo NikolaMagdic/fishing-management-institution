@@ -64,5 +64,5 @@ INSERT INTO keeping(fishing_area_id, keeper_id) VALUES(1, 3);
 INSERT INTO penalty (name, fine) VALUES ('Lov, posedovanje i uništavanje riblje mlađi i primeraka ribe u vreme mresta i lovostaja', 10000);
 INSERT INTO penalty (name, fine) VALUES ('Lov ribe neposredno rukom', 5000);
 INSERT INTO penalty (name, description, fine) VALUES ('Lov ribe nedozvoljenim sredstvima i alatima', 'Lov ribe eksplozivom i drugim rasprskavajućim sredstvima, harpunom, ostima, podvodnom puškom, vatrenim oružjem, strujom, veštačkim izvorom svetlosti, drugim hemijskim sredstvima...', 20000);
-INSERT INTO penalty (name, description, fine) VALUES ('Prekoračenje težine ulova', 'Ulov više od 5kg ribe', 10000);
+INSERT INTO penalty (name, description, fine) VALUES ('Prekoračenje težine ulova', 'Ulov više od 5kg ribe', 8000);
 INSERT INTO penalized(fisherman_id, penalty_id, keeper_id, area_id) VALUES (4, 1, 3, 1);

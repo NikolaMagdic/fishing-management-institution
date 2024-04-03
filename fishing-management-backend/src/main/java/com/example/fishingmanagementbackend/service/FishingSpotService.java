@@ -44,6 +44,9 @@ public class FishingSpotService {
         FishingArea fishingArea = fishingAreaRepository.getReferenceById(fishingSpotDTO.getFishingAreaId());
         fishingSpot.setFishingArea(fishingArea);
         
+        Long fishingSpotId = generateFishingSpotId(fishingSpotDTO.getFishingAreaId());
+        fishingSpot.setId(fishingSpotId);
+        
         return fishingSpotRepository.save(fishingSpot);
     }
     
@@ -57,5 +60,9 @@ public class FishingSpotService {
         return fishingSpotRepository.save(fishingSpot);
     }
         
+    public Long generateFishingSpotId(Long fishingAreaId) {
+        int maxId = this.getAllFishingSpotsInArea(fishingAreaId).size();
+        return maxId + 1L;
+    }
 
 }

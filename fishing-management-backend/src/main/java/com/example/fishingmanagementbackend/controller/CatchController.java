@@ -49,6 +49,12 @@ public class CatchController {
         return ResponseEntity.ok(catchesDTO);
     }
     
+    @GetMapping("/fisherman/{id}/for-year")
+    public ResponseEntity<List<CatchResponseDTO>> getAllCatchesOfFishermanForYear(@PathVariable("id") Long fishermanId, @RequestParam int year) {
+        List<CatchResponseDTO> catchesDTO = catchService.getCatchesOfFishermanForYear(fishermanId, year);
+        return ResponseEntity.ok(catchesDTO);
+    }
+    
     @GetMapping("/fisherman/{id}/year")
     public ResponseEntity<List<YearlyCatchDTO>> getAllCatchesOfFishermanInYear(@PathVariable("id") Long fishermanId, @RequestParam int year) {
         List<YearlyCatchDTO> yearlyCatches = catchService.getYearCatchesOfFisherman(fishermanId, year);

@@ -1,7 +1,7 @@
 package com.example.fishingmanagementbackend.enumerations;
 
 public enum FishingSpotType {
-    ARRANGED_PLACE("Uređeno mesto"), BOAT("Čamac"), RAFT("Splav"), FISHING_HOUSE("Vikendica za ribolov");
+    ARRANGED_PLACE("Uređeno mesto"), BOAT("Čamac"), PIER("Splav"), FISHING_HOUSE("Vikendica za ribolov");
     
     private String name;
     

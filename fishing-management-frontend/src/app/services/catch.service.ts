@@ -27,6 +27,11 @@ export class CatchService {
         return this.http.patch(this.url + "/reject/" + itemId, null);
     }
 
+    getAllCatchesOfFishermanForYear(fishermanId: number, year: number) {
+        let queryParams = new HttpParams().append("year", year);
+        return this.http.get(this.url + "/fisherman/" + fishermanId + "/for-year", {params: queryParams});
+    }
+
     getYearlyCatchesOfFisherman(fishermanId: number, year: number) {
         // Primer dodavanja Query parametara u GET zahtev
         let queryParams = new HttpParams().append("year", year);

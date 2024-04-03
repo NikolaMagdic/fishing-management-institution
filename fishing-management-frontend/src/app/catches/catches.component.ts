@@ -14,7 +14,11 @@ export class CatchesComponent {
   yearCatches: any = [];
   keeperLoggedIn = false;
   yearCatchesHidden = true;
+  // Izbor godine za prikaz godinsnjeg ulova
   year = new Date().getFullYear();
+
+  // Filtracija dnevnog ulova po godinama
+  selectedYear = new Date().getFullYear();
 
   @ViewChild('failureModal') failureModal: ElementRef | any;
 
@@ -67,6 +71,16 @@ export class CatchesComponent {
       next: data => {
         this.yearCatches = data;
         this.yearCatchesHidden = false;
+      }
+    });
+  }
+
+  filterCatches() {
+    let fishermanId = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.catchService.getAllCatchesOfFishermanForYear(fishermanId, this.selectedYear).subscribe({
+      next: data => {
+        this.catches = data;
       }
     });
   }

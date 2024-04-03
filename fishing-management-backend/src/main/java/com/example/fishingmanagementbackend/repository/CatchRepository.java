@@ -16,4 +16,6 @@ public interface CatchRepository extends JpaRepository<Catch, Long>{
     @Query(value = "SELECT * FROM catch c LEFT OUTER JOIN catch_item ci ON c.id = ci.catch_id WHERE ci.item_id = ?1", nativeQuery = true)
     Catch findByCatchItemId(Long catcItemId);
     
+    @Query(value = "SELECT * FROM catch c WHERE fisherman_id = ?1 AND YEAR(date) = ?2", nativeQuery = true)
+    List<Catch> findAllCatchesByFishermanForYear(Long fishermanId, int year);
 }

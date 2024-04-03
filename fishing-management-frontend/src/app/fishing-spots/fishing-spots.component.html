@@ -1,32 +1,25 @@
-<div>
-    <h1>Mesta za ribolov za zakazivanje</h1>
-    <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishingSpotButtonVisible"><i class="fa fa-plus"></i>&nbsp;Dodaj ribolovno mesto</button>
-    <table class="table table-striped table-hover align-middle">
-        <thead>
-            <tr>
-                <th>Slika</th>
-                <th>Oznaka mesta</th>
-                <th>Tip</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let spot of fishingSpots">
-            <tr>
-                <td>
-                    <img src="{{spot.image}}" alt="Slika ribolovnog mesta nedostupna" [style.width.px]="200">
-                </td>
-                <td>
-                    {{spot.id}}
-                </td>
-                <td>
-                    {{spot.type}}
-                </td>
-                <td class="text-center"> 
-                    <button class="btn btn-primary" (click)="viewFishingSpotDetails(spot.id)">Detalji i zakazivanje termina</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="d-flex justify-content-center">
+<div class="w-75">
+    <button class="btn btn-primary float-end mt-2" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishingSpotButtonVisible"><i class="fa fa-plus"></i>&nbsp;Dodaj ribolovno mesto</button>
+    <h1>{{fishingAreaName}}: ribolovna mesta za zakazivanje</h1>
+    <div class="row row-cols-2">
+        <div class="col" *ngFor="let spot of fishingSpots">
+            <div class="card">
+                <img [src]="spot.image" alt="Slika ribolovnog mesta nedostupna">
+                <div class="card-body">
+                    <ul class="d-flex list-unstyled mt-auto">
+                        <li class="me-auto">
+                            <h5 class="card-title">Oznaka mesta: {{spot.id}}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{spot.type}}</h6>
+                        </li>
+                        <li class="me-3">
+                            <button class="btn btn-primary me-3" (click)="viewFishingSpotDetails(spot.id)">Detalji i zakazivanje termina</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -41,7 +34,7 @@
                             <select class="form-select" name="type" [(ngModel)]="newFishingSpot.type" required #type="ngModel">
                                 <option value="ARRANGED_PLACE">Uređeno mesto</option>
                                 <option value="BOAT">Čamac</option>
-                                <option value="RAFT">Splav</option>
+                                <option value="PIER">Splav</option>
                                 <option value="FISHING_HOUSE">Vikendica za ribolov</option>
                             </select>
                             <div [hidden]="type.valid || type.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
@@ -69,7 +62,7 @@
             </div>
         </div>
     </div>
-    <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #openModal></button>
+    <button data-bs-toggle="modal" data-bs-target="#success-modal" hidden #openSuccessModal></button>
     <div class="modal" id="success-modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -83,4 +76,19 @@
             </div>
         </div>
     </div>
+    <button data-bs-toggle="modal" data-bs-target="#failure-modal" hidden #openFailureModal></button>
+    <div class="modal" id="failure-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title alert alert-danger">Nemoguće dodati ribolovno mesto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="reloadPage()"></button>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="reloadPage()">Zatvori</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

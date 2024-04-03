@@ -13,7 +13,9 @@
         </select>
     </div>
     <button type="button" class="btn btn-primary float-end m3-3" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishButtonVisible"><i class="fa fa-plus"></i>&nbsp;Dodaj novu vrstu ribe</button>
-    <table class="table table-striped align-middle" *ngIf="fishSpecies.length">
+    <h4>Izaberite vrstu ribe za prikaz detalja o njoj</h4>
+    <br>
+    <table class="table table-striped border align-middle" *ngIf="fishSpecies.length">
         <thead>
             <tr>
                 <th>Slika</th>
