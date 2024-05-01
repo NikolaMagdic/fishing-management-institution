@@ -1,43 +1,55 @@
 <div class="container">
-    <h1>Izvršena poribljavanja</h1>
-    <button type="button" class="btn btn-primary float-end m3-3" data-bs-toggle="modal" data-bs-target="#modal" *ngIf="addFishStockingButtonVisible"><i class="fa fa-plus"></i>&nbsp;Novo poribljavanje</button>
-    <table class="table table-striped" *ngIf="stockings.length > 0">
+    <h1>Izvršena poribljavanja i selektivni ribolov</h1>
+    <button type="button" class="btn btn-primary float-end m3-3" data-bs-toggle="modal" data-bs-target="#modal1" *ngIf="addFishStockingButtonVisible"><i class="fa fa-plus"></i>&nbsp;Dodaj novo</button>
+    <div class="input-group mb-3 w-50">
+        <span class="input-group-text">Prikaži</span>
+        <select class="form-select" (change)="filterModifications()" [(ngModel)]="filterValue">
+            <option>Sve</option>
+            <option value="Poribljavanje">Poribljavanja</option>
+            <option value="Selektivni ribolov">Selektivni ribolov</option>
+        </select>
+    </div>
+    <table class="table table-striped" *ngIf="filteredModifications.length > 0">
         <thead>
             <tr>
                 <th>Ribolovna voda</th>
                 <th>Vrsta ribe</th>
                 <th>Datum</th>
-                <th>Količina</th>
+                <th>Količina (kg)</th>
                 <th>Broj jedinki</th>
+                <th></th>
             </tr>
         </thead>
-        <tbody *ngFor="let stock of stockings">
+        <tbody *ngFor="let modification of filteredModifications">
             <tr>
                 <td>
-                    {{stock.fishingAreaName}}
+                    {{modification.fishingAreaName}}
                 </td>
                 <td>
-                    {{stock.fishSpeciesName}}
+                    {{modification.fishSpeciesName}}
                 </td>
                 <td>
-                    {{stock.date | date: "dd.MM.yyyy."}}
+                    {{modification.date | date: "dd.MM.yyyy."}}
                 </td>
                 <td>
-                    {{stock.totalWeight}} kg
+                    {{modification.totalWeight}}
                 </td>
                 <td>
-                    {{stock.amount}}
+                    {{modification.amount}}
+                </td>
+                <td>
+                    {{modification.modificationType}}
                 </td>
             </tr>
         </tbody>
     </table>
-    <h3 *ngIf="stockings.length < 1">Nema evidentiranih poribljavanja</h3>
-    <div class="modal" id="modal" tabindex="-1" aria-hidden="true">
+    <h3 *ngIf="modifications.length < 1">Nema evidentiranih poribljavanja ili selektivnog ribolova</h3>
+    <div class="modal" id="modal1" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form (ngSubmit)="makeFishStocking()" #form="ngForm" [formGroup]="fishStockingForm">
+                <form #form="ngForm" [formGroup]="fishStockingForm">
                     <div class="modal-header">
-                        <h5 class="modal-title">Unesite podatke o poribljavanju</h5>
+                        <h5 class="modal-title">Unesite podatke o poribljavanju ili selektivnom ribolovu</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
@@ -48,14 +60,42 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Vrsta ribe *</label>
-                            <select class="form-select" name="fishSpecies" required formControlName="fishSpecies">
-                                <option *ngFor="let fish of fishSpecies" [ngValue]="fish">{{fish.name}}</option>
-                            </select>
+                            <label class="form-label">Datum *</label>
+                            <input type="date" class="form-control" required formControlName="date">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Datum poribljavanja *</label>
-                            <input type="date" class="form-control" required formControlName="date">
+                            <label class="form-label">Tip izmene ribljeg fonda *</label>
+                            <select class="form-select" name="modificationType" required formControlName="modificationType">
+                                <option value="FISH_STOCKING">Poribljavanje</option>
+                                <option value="SELECTIVE_FISHING">Selektivni ribolov</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="me-auto">* Obavezna polja</div>
+                        <button type="button" class="btn btn-primary" [disabled]="!fishStockingForm.get('fishingArea')!.valid || !fishStockingForm.get('date')!.valid || !fishStockingForm.get('modificationType')!.valid " data-bs-toggle="modal" data-bs-target="#modal2" (click)="changeModificationType()">Dalje</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="modal2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="makeFishStocking()" #form="ngForm" [formGroup]="fishStockingForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Unesite podatke o vrsti i količini ribe</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Vrsta ribe *</label>
+                            <select class="form-select" name="fishSpecies" required formControlName="fishSpecies" *ngIf="!typeIsFishStocking">
+                                <option *ngFor="let fish of fishSpecies" [ngValue]="fish">{{fish.name}}</option>
+                            </select>
+                            <select class="form-select" name="fishSpecies" required formControlName="fishSpecies" *ngIf="typeIsFishStocking">
+                                <option *ngFor="let fish of nativeFishSpecies" [ngValue]="fish">{{fish.name}}</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Količina (kg)</label>
@@ -68,6 +108,7 @@
                     </div>
                     <div class="modal-footer">
                         <div class="me-auto">* Obavezna polja</div>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal1">Nazad</button>
                         <button type="submit" class="btn btn-primary" [disabled]="!form.form.valid" data-bs-dismiss="modal">Potvrdi</button>
                     </div>
                 </form>

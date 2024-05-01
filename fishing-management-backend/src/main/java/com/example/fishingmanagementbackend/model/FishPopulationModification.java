@@ -2,6 +2,8 @@ package com.example.fishingmanagementbackend.model;
 
 import java.time.LocalDate;
 
+import com.example.fishingmanagementbackend.enumerations.FishPopulationModificationType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class FishStocking {
+public class FishPopulationModification {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,9 @@ public class FishStocking {
     @Column
     private Integer amount;
     
+    @Column
+    private FishPopulationModificationType modificationType;
+    
     @ManyToOne(optional = false)
     @JoinColumn(name = "fishing_area_id", referencedColumnName = "id")
     private FishingArea fishingArea;
@@ -34,12 +39,13 @@ public class FishStocking {
     @JoinColumn(name = "fish_species_id", referencedColumnName = "id")
     private FishSpecies fishSpecies;
     
-    public FishStocking() {}
+    public FishPopulationModification() {}
 
-    public FishStocking(LocalDate date, Integer totalWeight, Integer amount) {
+    public FishPopulationModification(LocalDate date, Integer totalWeight, Integer amount, FishPopulationModificationType modificationType) {
         this.date = date;
         this.totalWeight = totalWeight;
         this.amount = amount;
+        this.modificationType = modificationType;
     }
 
     public Long getId() {
@@ -73,6 +79,14 @@ public class FishStocking {
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
+    
+    public FishPopulationModificationType getModificationType() {
+        return modificationType;
+    }
+
+    public void setModificationType(FishPopulationModificationType modificationType) {
+        this.modificationType = modificationType;
+    }
 
     public FishingArea getFishingArea() {
         return fishingArea;
@@ -92,8 +106,9 @@ public class FishStocking {
 
     @Override
     public String toString() {
-        return "FishStocking [id=" + id + ", date=" + date + ", totalWeight=" + totalWeight + ", amount=" + amount
-                + ", fishingArea=" + fishingArea + ", fishSpecies=" + fishSpecies + "]";
+        return "FishPopulationModification [id=" + id + ", date=" + date + ", totalWeight=" + totalWeight + ", amount="
+                + amount + ", modificationType=" + modificationType + ", fishingArea=" + fishingArea + ", fishSpecies="
+                + fishSpecies + "]";
     }
 
     

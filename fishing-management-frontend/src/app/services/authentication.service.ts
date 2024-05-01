@@ -49,6 +49,8 @@ export class AuthenticationService {
     localStorage.removeItem('role');
     localStorage.removeItem('correspondingTableId');
 
+    localStorage.clear();
+
     this.logoutEvent.emit(true);
     this.router.navigate(['/']);
   }

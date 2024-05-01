@@ -2,9 +2,9 @@ package com.example.fishingmanagementbackend.dto;
 
 import java.time.LocalDate;
 
-import com.example.fishingmanagementbackend.model.FishStocking;
+import com.example.fishingmanagementbackend.model.FishPopulationModification;
 
-public class FishStockingResponseDTO {
+public class FishPopulationModificationResponseDTO {
 
     private Long id;
     
@@ -18,15 +18,18 @@ public class FishStockingResponseDTO {
     
     private String fishSpeciesName;
     
-    public FishStockingResponseDTO() {}
+    private String modificationType;
     
-    public FishStockingResponseDTO(FishStocking fishStocking) {
-        this.id = fishStocking.getId();
-        this.date = fishStocking.getDate();
-        this.totalWeight = fishStocking.getTotalWeight();
-        this.amount = fishStocking.getAmount();
-        this.fishingAreaName = fishStocking.getFishingArea().getName();
-        this.fishSpeciesName = fishStocking.getFishSpecies().getName();
+    public FishPopulationModificationResponseDTO() {}
+    
+    public FishPopulationModificationResponseDTO(FishPopulationModification fishPopulationModification) {
+        this.id = fishPopulationModification.getId();
+        this.date = fishPopulationModification.getDate();
+        this.totalWeight = fishPopulationModification.getTotalWeight();
+        this.amount = fishPopulationModification.getAmount();
+        this.modificationType = fishPopulationModification.getModificationType().toString();
+        this.fishingAreaName = fishPopulationModification.getFishingArea().getName();
+        this.fishSpeciesName = fishPopulationModification.getFishSpecies().getName();
     }
 
     public Long getId() {
@@ -59,6 +62,14 @@ public class FishStockingResponseDTO {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public String getModificationType() {
+        return modificationType;
+    }
+
+    public void setModificationType(String modificationType) {
+        this.modificationType = modificationType;
     }
 
     public String getFishingAreaName() {

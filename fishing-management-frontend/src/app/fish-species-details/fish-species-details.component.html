@@ -33,7 +33,11 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Opis</label>
-                                <textarea rows="5" class="form-control" formControlName="description"></textarea>
+                                <textarea *ngIf="updateButtonVisible" rows="5" class="form-control" formControlName="description"></textarea>
+                                <div *ngIf="!updateButtonVisible">
+                                    <textarea rows="2" style="overflow: hidden; resize: none;" class="form-control" formControlName="description"></textarea>
+                                    <a class="" data-bs-toggle="offcanvas" href="#offcanvas" role="button"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prikaži detaljan opis</a>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
@@ -105,6 +109,18 @@
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" (click)="enableForm()" #changeButton [hidden]="!updateButtonVisible">Izmeni</button>
+        </div>
+    </div>
+    <!--Offcanvas za opis vrste ribe-->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">{{fishSpecies.name}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                {{fishSpecies.description}}
+            </div>
         </div>
     </div>
 </div>

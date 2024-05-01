@@ -11,12 +11,12 @@
     <div class="tab-content">
     <div class="tab-pane show active" id="dailyCatchesTab" tabindex="0">
         <h2>Evidencija dnevnog ulova</h2>
-        <h5 *ngIf="catches.length < 1">Nema evidentiranih ulova</h5>
         <div class="input-group mb-3 w-50">
             <span class="input-group-text">Godina</span>
             <input type="number" min="2016" max="2100" class="form-control" name="selectedYear" [(ngModel)]="selectedYear"/>
             <button class="btn btn-primary" (click)="filterCatches()">Prikaži evidenciju ulova za navedenu godinu</button>
         </div>
+        <h5 *ngIf="catches.length < 1">Nema evidentiranih ulova</h5>
         <table class="table" *ngIf="catches.length > 0">
             <thead>
                 <tr>

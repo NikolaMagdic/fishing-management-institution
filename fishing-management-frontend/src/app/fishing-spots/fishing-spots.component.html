@@ -2,6 +2,7 @@
 <div class="w-75">
     <button class="btn btn-primary float-end mt-2" data-bs-toggle="modal" data-bs-target="#modal" [hidden]="!addFishingSpotButtonVisible"><i class="fa fa-plus"></i>&nbsp;Dodaj ribolovno mesto</button>
     <h1>{{fishingAreaName}}: ribolovna mesta za zakazivanje</h1>
+    <h3 *ngIf="fishingSpots.length < 1">Na ribolovnoj vodi nema dostupnih ribolovnih mesta za zakazivanje</h3>
     <div class="row row-cols-2">
         <div class="col" *ngFor="let spot of fishingSpots">
             <div class="card">

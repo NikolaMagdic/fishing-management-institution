@@ -1,6 +1,7 @@
 <div class="container">
     <h1>Evidencija godišnjeg ulova na ribolovnoj vodi: {{fishingAreaName}}</h1>
-    <div class="input-group mb-3">
+    <br>
+    <div class="input-group mb-3 w-50">
         <span class="input-group-text">Godina</span>
         <input type="number" min="2016" max="2100" class="form-control" name="year" [(ngModel)]="year"/>
         <button class="btn btn-primary" (click)="changeYear()">Prikaži godišnji ulov za navedenu godinu</button>

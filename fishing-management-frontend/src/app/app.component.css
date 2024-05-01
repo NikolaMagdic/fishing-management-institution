@@ -5,3 +5,9 @@
 .nav-link:focus {
     color: white;
 }
+
+.active-link {
+    color: white;
+    border-left: white;
+    border-right: white;
+}

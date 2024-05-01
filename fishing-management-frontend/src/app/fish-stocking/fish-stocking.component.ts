@@ -13,11 +13,17 @@ import { FishingAreaService } from '../services/fishing-area.service';
 })
 export class FishStockingComponent {
 
-  stockings: any = [];
+  modifications: any = [];
   fishingAreas: FishingArea[] = [];
   fishSpecies: FishSpecies[] = [];
+  nativeFishSpecies: FishSpecies[] = [];
   fishStockingForm: FormGroup;
   addFishStockingButtonVisible = false;
+  
+  filterValue = "Sve";
+  filteredModifications: any = [];
+
+  typeIsFishStocking = true;
 
   constructor(
     private fishStockingService: FishStockingService,
@@ -28,6 +34,7 @@ export class FishStockingComponent {
       this.fishStockingForm = new FormGroup({
         fishingArea: new FormControl(),
         fishSpecies: new FormControl(),
+        modificationType: new FormControl(),
         date: new FormControl(),
         totalWeight: new FormControl(),
         amount: new FormControl()
@@ -39,6 +46,7 @@ export class FishStockingComponent {
     this.getAllFishStockings();
     this.getAllFishingAreas();
     this.getAllFishSpecies();
+    this.getNativeFishSpecies();
 
     const role = localStorage.getItem('role');
     if(role == "ROLE_KEEPER") {
@@ -49,7 +57,8 @@ export class FishStockingComponent {
   getAllFishStockings() {
     this.fishStockingService.getAllFishStockings().subscribe({
       next: data => {
-        this.stockings = data;
+        this.modifications = data;
+        this.filteredModifications = this.modifications;
       }
     });
   }
@@ -63,9 +72,17 @@ export class FishStockingComponent {
   }
 
   getAllFishSpecies() {
-    this.fishSpeciesService.getNativeFishSpecies().subscribe({
+    this.fishSpeciesService.getFishSpecies().subscribe({
       next: data => {
         this.fishSpecies = data as FishSpecies[];
+      }
+    });
+  }
+
+  getNativeFishSpecies() {
+    this.fishSpeciesService.getNativeFishSpecies().subscribe({
+      next: data => {
+        this.nativeFishSpecies = data as FishSpecies[];
       }
     });
   }
@@ -75,6 +92,7 @@ export class FishStockingComponent {
       "fishingAreaId": this.fishStockingForm.value.fishingArea.id,
       "fishSpeciesId": this.fishStockingForm.value.fishSpecies.id,
       "date": this.fishStockingForm.value.date,
+      "modificationType": this.fishStockingForm.value.modificationType,
       "totalWeight": this.fishStockingForm.value.totalWeight,
       "amount": this.fishStockingForm.value.amount
     }
@@ -85,5 +103,20 @@ export class FishStockingComponent {
         this.fishStockingForm.reset();
       }
     });
+  }
+
+  filterModifications() {
+    this.filteredModifications = this.modifications.filter(
+      (modification: {modificationType: string}) =>
+      (modification?.modificationType === this.filterValue || this.filterValue === "Sve")
+    );
+  }
+
+  changeModificationType() {
+    if(this.fishStockingForm.value.modificationType === "FISH_STOCKING") {
+      this.typeIsFishStocking = true;
+    } else {
+      this.typeIsFishStocking = false;
+    }
   }
 }

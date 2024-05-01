@@ -15,17 +15,26 @@
         <div class="row row-cols-2">
             <div class="col">
                 <img src="{{fishingArea.image}}" alt="Slika ribolovne vode nije dostupna" title="{{fishingArea.name}}" style="width: 600px;">
+                <br>
+                <br>
                 <p class="">{{fishingArea.description}}</p>
             </div>
             <div class="col">
-                <h5>Prisutne vrste riba</h5>
+                <div class="row row-cols-auto mb-2">
+                    <div class="col">
+                        <h5>Prisutne vrste riba</h5>
+                    </div>
+                    <div class="col ms-auto">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFish" [hidden]="!adminLoggedIn"><i class="fa fa-plus"></i>&nbsp;Dodaj vrstu ribe</button>
+                    </div>
+                </div>
                 <div class="row row-cols-2">
                     <div class="col" *ngFor="let fish of fishSpeciesInArea">
-                        <div class="card">
+                        <div class="card mb-3">
                             <div class="card-header">
                                 <div>
                                     <a [routerLink]="['/fish-species-details', fish.id]"><i class="fa fa-search" aria-hidden="true"></i></a>
-                                    <span><b>{{fish.name}}</b></span>
+                                    <span><b>&nbsp;{{fish.name}}</b></span>
                                     <span [hidden]="!adminLoggedIn"><button class="btn btn-danger btn-sm float-end" (click)="removeFishFromArea(fish.id)">Ukloni</button></span>
                                 </div>
                             </div>
@@ -33,6 +42,7 @@
                                 <img src="{{fish.image}}" [style.width.px]="250" [style.height.px]="100">
                             </div>
                         </div>
+                
                     </div>
                 </div>
             </div>
@@ -45,9 +55,6 @@
             </div>
             <div class="col">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArea" [hidden]="!adminLoggedIn">Izmeni ribolovnu vodu</button>
-            </div>
-            <div class="col">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFish" [hidden]="!adminLoggedIn">Dodaj vrstu ribe</button>              
             </div>
             <div class="col">
                 <button class="btn btn-primary" (click)="showChildAreas()" [hidden]="!viewChildsButtonShown">Delovi ribolovne vode</button>

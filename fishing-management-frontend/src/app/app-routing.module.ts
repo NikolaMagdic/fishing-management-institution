@@ -135,7 +135,7 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: "fish-stocking",
+        path: "fish-population-modification",
         component: FishStockingComponent,
         canActivate: [AuthGuard],
         data: {roles: ["ROLE_KEEPER", "ROLE_ADMIN"]}

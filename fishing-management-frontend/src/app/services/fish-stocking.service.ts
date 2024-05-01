@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class FishStockingService {
 
-  private url = "http://localhost:8080/api/fish-stocking";
+  private url = "http://localhost:8080/api/fish-population-modification";
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +15,6 @@ export class FishStockingService {
   }
 
   makeFishStocking(fishStocking: any) {
-    console.log(fishStocking);
     return this.http.post(this.url, fishStocking); 
   }
 

@@ -5,48 +5,78 @@
                 <img src="../assets/plovak.png" height="32px" width="32px">
                 Fishing Management
             </a>
-            <ul class="nav navbar-nav me-auto mb-2 mb-lg-0 nav-link-hover-color: brown">
-                <li class="nav-item" *ngIf="!isLoggedIn">
+            <ul class="nav navbar-nav ms-auto mb-2 mb-lg-0" *ngIf="!isLoggedIn" style="margin-right: 100px;">
+                <li class="nav-item">
                     <a class="nav-link" routerLink="">Prijava</a>
                 </li>
-                <li class="nav-item" *ngIf="isLoggedIn">
-                    <a class="nav-link" routerLink="fishing-areas">Ribolovne vode</a>
-                </li>
-                <li class="nav-item" *ngIf="isLoggedIn">
-                    <a class="nav-link" routerLink="fish-species">Ribe</a>
-                </li>
-                <li class="nav-item" *ngIf="role == 'ROLE_KEEPER'">
-                    <a class="nav-link" routerLink="fishermans">Ribolovci</a>
-                </li>
-                <li class="nav-item" *ngIf="!isLoggedIn">
-                    <a class="nav-link" routerLink="registration">Registracija</a>
-                </li>
-                <li class="nav-item" *ngIf="role == 'ROLE_FISHERMAN'">
-                    <a class="nav-link" routerLink="catch-form">Evidencija ulova</a>
-                </li>
-                <li class="nav-item" *ngIf="role == 'ROLE_FISHERMAN'">
-                    <a class="nav-link" routerLink="fisherman/{{correspondingTableId}}/catches">Ulovi</a>
-                </li>
-                <li class="nav-item" *ngIf="role == 'ROLE_FISHERMAN'">
-                    <a class="nav-link" routerLink="license">Dozvola</a>
-                </li>
-                <li class="nav-item" *ngIf="role == 'ROLE_FISHERMAN'">
-                    <a class="nav-link" [routerLink]="['reservations', correspondingTableId]">Rezervisani termini</a>
-                </li>
-                <li class="nav-item" *ngIf="role == 'ROLE_ADMIN'">
-                    <a class="nav-link" routerLink="license-requests">Zahtevi za dozvolu</a>
-                </li>
-                <li class="nav-item" *ngIf="role == 'ROLE_ADMIN'">
-                    <a class="nav-link" routerLink="keepers">Ribočuvari</a>
-                </li>
-                <li class="nav-item" *ngIf="role == 'ROLE_KEEPER' || role == 'ROLE_ADMIN'">
-                    <a class="nav-link" routerLink="fish-stocking">Poribljavanje</a>
-                </li>
-                <li class="nav-item" *ngIf="isLoggedIn">
-                    <a class="nav-link" routerLink="penalties">Registar prekršaja</a>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="registration" routerLinkActive="active-link">Registracija</a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav ms-auto mb-2 mb-lg-0" style="margin-right: 100px;">
+            <!--Meni za admina-->
+            <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" *ngIf="role == 'ROLE_ADMIN'">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fishing-areas" routerLinkActive="active-link">Ribolovne vode</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fish-species" routerLinkActive="active-link">Ribe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="license-requests" routerLinkActive="active-link">Zahtevi za dozvole</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="keepers" routerLinkActive="active-link">Ribočuvari</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fish-population-modification" routerLinkActive="active-link">Upravljanje ribljim fondom</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="penalties" routerLinkActive="active-link">Registar prekršaja</a>
+                </li>
+            </ul>
+            <!--Meni za ribolovca-->
+            <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" *ngIf="role == 'ROLE_FISHERMAN'">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fishing-areas" routerLinkActive="active-link">Ribolovne vode</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fish-species" routerLinkActive="active-link">Ribe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="catch-form" routerLinkActive="active-link">Evidentiranje ulova</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fisherman/{{correspondingTableId}}/catches" routerLinkActive="active-link">Ulovi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="license" routerLinkActive="active-link">Dozvola</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['reservations', correspondingTableId]" routerLinkActive="active-link">Rezervisani termini</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="penalties" routerLinkActive="active-link">Prekršaji i zabrane</a>
+                </li>
+            </ul>
+            <!--Meni za ribocuvara-->
+            <ul class="nav navbar-nav me-auto mb-2 mb-lg-0" *ngIf="role == 'ROLE_KEEPER'">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fishing-areas" routerLinkActive="active-link">Ribolovne vode</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fish-species" routerLinkActive="active-link">Ribe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fishermans" routerLinkActive="active-link">Ribolovci</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="fish-population-modification" routerLinkActive="active-link">Upravljanje ribljim fondom</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="penalties" routerLinkActive="active-link">Registar prekršaja</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ms-auto mb-2 mb-lg-0" style="margin-right: 100px;" *ngIf="isLoggedIn">
                 <li class="nav-item dropdown" *ngIf="isLoggedIn">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-user" aria-hidden="true"></i>
@@ -54,13 +84,13 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark bg-primary">
                         <li *ngIf="role == 'ROLE_FISHERMAN'">
-                            <a class="dropdown-item" [routerLink]="['fisherman', correspondingTableId]">Moji podaci</a>
+                            <a class="dropdown-item" [routerLink]="['fisherman', correspondingTableId]" routerLinkActive="active-link">Moji podaci</a>
                         </li>
                         <li *ngIf="role == 'ROLE_KEEPER'"> 
-                            <a class="dropdown-item" [routerLink]="['keeper', correspondingTableId]">Moji podaci</a>
+                            <a class="dropdown-item" [routerLink]="['keeper', correspondingTableId]" routerLinkActive="active-link">Moji podaci</a>
                         </li>
                         <li *ngIf="isLoggedIn">
-                            <a class="dropdown-item" routerLink="change-password">Promena lozinke</a>
+                            <a class="dropdown-item" routerLink="change-password" routerLinkActive="active-link">Promena lozinke</a>
                         </li>
                     </ul>
                 </li>

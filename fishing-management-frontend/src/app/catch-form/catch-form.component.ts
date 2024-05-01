@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { toStringHDMS } from 'ol/coordinate';
 import { Catch } from '../models/catch';
 import { CatchItem } from '../models/catch-item';
 import { FishSpecies } from '../models/fish-species';
@@ -19,8 +18,8 @@ export class CatchFormComponent {
   fishSpecies: FishSpecies[] = [];
   selectedFish: any; 
   fishingAreas: FishingArea[] = [];
-  selectedArea: any;
   catch: Catch = new Catch(0, [], null);
+  catchForm: FormGroup;
   catchItemForm: FormGroup;
 
   // Da ne mogu da se dodaju stavke dok se ne izabere ribolovna voda (jer se na osnovu vode traze ponudjene vrste riba)
@@ -34,6 +33,10 @@ export class CatchFormComponent {
   constructor(private catchService: CatchService,
               private fishSpeciesService: FishSpeciesService,
               private fishingAreaService: FishingAreaService) {
+                this.catchForm = new FormGroup({
+                  selectedArea: new FormControl(),
+                  date: new FormControl()
+                }),
                 this.catchItemForm = new FormGroup({
                   quantity: new FormControl(),
                   weight: new FormControl()
@@ -44,6 +47,19 @@ export class CatchFormComponent {
   ngOnInit() {
     this.getFishingAreas();
     this.getFishSpecies();
+
+    var c = localStorage.getItem("catch");
+    var area = localStorage.getItem("selectedArea");
+    if(c != null) {
+      this.catch = JSON.parse(c);
+      this.catchForm.controls['date'].setValue(this.catch.date);
+    }
+    if(area != null) {
+      this.catchForm.controls['selectedArea'].setValue(JSON.parse(area));
+      
+      console.log(this.catchForm.value.selectedArea);
+    }
+    
   }
 
   getFishingAreas() {
@@ -85,13 +101,20 @@ export class CatchFormComponent {
     this.alertShown = false;
     this.catchItemModelClose.nativeElement.click();
     
+    // Cuvam trenutno dodate stavke ulova u lokalnu memoriju - prakticno pravim Cart
+    this.catch.date = this.catchForm.value.date;
+    localStorage.setItem("catch", JSON.stringify(this.catch));
+    localStorage.setItem("selectedArea", JSON.stringify(this.catchForm.value.selectedArea));
   }
 
   createCatch() {
-    this.catch.fishingAreaId = this.selectedArea.id;
+    this.catch.fishingAreaId = this.catchForm.value.selectedArea;
+    this.catch.date = this.catchForm.value.date;
     this.catchService.createCatch(this.catch).subscribe({
       next: () => {
         this.openModal.nativeElement.click();
+        localStorage.removeItem("catch");
+        localStorage.removeItem("selectedArea");
       }
     });
   }
@@ -104,6 +127,8 @@ export class CatchFormComponent {
   removeCatchItem(index: number) {
     console.log(index);
     this.catch.catchItems.splice(index, 1);
+
+    localStorage.setItem("catch", JSON.stringify(this.catch));
   }  
 
   checkIfNoble() {

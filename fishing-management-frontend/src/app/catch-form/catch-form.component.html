@@ -2,23 +2,23 @@
     <h1>Unesite podatke o ulovu</h1>
     <div class="row">
     <div class="col">
-    <form #form="ngForm">
+    <form #form="ngForm" [formGroup]="catchForm">
         <div class="mb-3">
             <label class="form-label">Ribolovna voda</label>
-            <select class="form-select" name="fishgingAreas" id="fishingAreas" [(ngModel)]="selectedArea" required>
-                <option *ngFor="let area of fishingAreas" [ngValue]="area">{{area.name}}</option>
+            <select class="form-select" name="fishingAreas" id="fishingAreas" formControlName="selectedArea" required>
+                <option *ngFor="let area of fishingAreas" [ngValue]="area['id']">{{area.name}}</option> <!--area['id'] zbog carta, ako je samo area ne azurira se prikaz dropdowna-->
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Datum</label>
-            <input class="form-control" type="date" name="date" [(ngModel)]="catch.date" required>
+            <input class="form-control" type="date" name="date" formControlName="date" required>
         </div>
     </form>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" [disabled]="!form.form.valid">Dodaj stavku ulova</button>
     </div>
     <div class="col-7">
         <img src="../../assets/udica.png" *ngIf="catch.catchItems.length < 1" height="70%">
-        <table class="table table-striped" *ngIf="catch.catchItems.length > 0">
+        <table class="table table-striped" *ngIf="(catch.catchItems.length > 0) && (fishSpecies.length > 0) ">
             <thead>
                 <tr>
                     <th>Riba</th>
