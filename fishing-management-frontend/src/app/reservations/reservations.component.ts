@@ -37,6 +37,7 @@ export class ReservationsComponent {
     this.reservationService.getAllReservationsOfFisherman(fishermanId).subscribe({
       next: data => {
         this.reservations = data;
+        console.log(this.reservations);
       }
     });
   }

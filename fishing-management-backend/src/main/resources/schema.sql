@@ -1,4 +1,4 @@
-/*
+
 SET foreign_key_checks = 0;
 
 DROP TABLE IF EXISTS app_user;
@@ -6,17 +6,19 @@ DROP TABLE IF EXISTS authority;
 DROP TABLE IF EXISTS user_authority;
 DROP TABLE IF EXISTS admin;
 DROP TABLE IF EXISTS fisherman;
+DROP TABLE IF EXISTS recreational_fisherman;
+DROP TABLE IF EXISTS professional_fisherman;
 DROP TABLE IF EXISTS keeper;
 DROP TABLE IF EXISTS fishing_area;
 DROP TABLE IF EXISTS fishing_spot;
 DROP TABLE IF EXISTS fish_species;
 DROP TABLE IF EXISTS containing;
-DROP TABLE IF EXISTS keeps;
+DROP TABLE IF EXISTS keeping;
 DROP TABLE IF EXISTS license;
 DROP TABLE IF EXISTS catch;
 DROP TABLE IF EXISTS catch_item;
 DROP TABLE IF EXISTS reservation;
-DROP TABLE IF EXISTS fish_stocking;
+DROP TABLE IF EXISTS fish_population_modification;
 DROP TABLE IF EXISTS penalty;
 DROP TABLE IF EXISTS penalized;
 DROP TABLE IF EXISTS verification_token;
@@ -40,15 +42,13 @@ CREATE TABLE authority (
 );
 
 CREATE TABLE user_authority (
-	user_id      INTEGER NOT NULL,
-	authority_id  INTEGER NOT NULL,
+	user_id 		INTEGER NOT NULL,
+	authority_id  	INTEGER NOT NULL,
 	PRIMARY KEY (user_id, authority_id)
 );
 
 CREATE TABLE admin (
 	id       INTEGER     NOT NULL AUTO_INCREMENT,
-	username VARCHAR(20) NOT NULL,
-	password VARCHAR(200) NOT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -60,17 +60,30 @@ CREATE TABLE fisherman (
 	PRIMARY KEY(id)
 );
 
+CREATE TABLE recreational_fisherman (
+	id		INTEGER NOT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE professional_fisherman (
+	id		INTEGER  NOT NULL,
+	PRIMARY KEY(id)
+);
+
 CREATE TABLE keeper (
-	id                INTEGER NOT NULL AUTO_INCREMENT, 
+	id                INTEGER NOT NULL, 
+	license_number	  VARCHAR(30),
 	PRIMARY KEY(id)
 );
 
 CREATE TABLE fishing_area (
-	id 			INTEGER 	NOT NULL AUTO_INCREMENT,
-	name 		VARCHAR(20) NOT NULL,
-	area_type 	INTEGER,
-	description VARCHAR(255),
-	image		VARCHAR(255),
+	id 						INTEGER 	NOT NULL AUTO_INCREMENT,
+	name 					VARCHAR(20) NOT NULL,
+	area_type 				INTEGER,
+	description 			VARCHAR(1024),
+	allowed_fishing			BOOLEAN,
+	image					VARCHAR(255),
+	parent_fishing_area_id 	INTEGER,
 	PRIMARY KEY (id)
 );
 
@@ -85,10 +98,10 @@ CREATE TABLE fishing_spot (
 );
 
 CREATE TABLE fish_species (
-	id 			 	  		INTEGER NOT NULL AUTO_INCREMENT,
-	name 		 	  		VARCHAR(20) NOT NULL,
+	id 			 	  		INTEGER 	NOT NULL AUTO_INCREMENT,
+	name 		 	  		VARCHAR(31) NOT NULL,
 	latin_name   	  		VARCHAR(30) NOT NULL,
-	category	 	  		INTEGER NOT NULL,
+	category	 	  		INTEGER	    NOT NULL,
 	min_size	 	  		INTEGER,
 	max_quantity 	  		INTEGER,
 	fishing_ban_start_month INTEGER,
@@ -97,7 +110,7 @@ CREATE TABLE fish_species (
 	fishing_ban_end_day 	INTEGER,
 	permanent_fishing_ban 	BOOLEAN,
 	description				VARCHAR(1024),
-	image					VARCHAR(1024),
+	image					VARCHAR(255),
 	PRIMARY KEY (id)
 );
 
@@ -114,14 +127,15 @@ CREATE TABLE keeping (
 );
 
 CREATE TABLE license (
-	license_id		INTEGER NOT NULL AUTO_INCREMENT,
-	type 			INTEGER NOT NULL,
-	status			INTEGER, 
-	year			INTEGER, 
-	date			DATE,
-	end_date		DATE,
-	fisherman_id	INTEGER NOT NULL,
-	spot_id			INTEGER,
+	license_id					INTEGER NOT NULL AUTO_INCREMENT,
+	type 						INTEGER NOT NULL,
+	status						INTEGER, 
+	year						INTEGER, 
+	date						DATE,
+	end_date					DATE,
+	fisherman_id				INTEGER,
+	professional_fisherman_id 	INTEGER,
+	dtype						VARCHAR(31) NOT NULL,
 	PRIMARY KEY (license_id)
 );
 
@@ -135,13 +149,13 @@ CREATE TABLE catch (
 );
 
 CREATE TABLE catch_item (
-	item_id			INTEGER NOT NULL AUTO_INCREMENT,
-	quantity		INTEGER,
-	weight			FLOAT,
-	confirmed		BOOLEAN,
-	catch_id		INTEGER NOT NULL,
-	fish_id			INTEGER NOT NULL,
-	keeper_id		INTEGER,
+	item_id				INTEGER NOT NULL AUTO_INCREMENT,
+	quantity			INTEGER,
+	weight				FLOAT,
+	confirmation_status	INTEGER,
+	catch_id			INTEGER NOT NULL,
+	fish_id				INTEGER NOT NULL,
+	keeper_id			INTEGER,
 	PRIMARY KEY (item_id, catch_id)
 );
 
@@ -149,6 +163,7 @@ CREATE TABLE reservation (
 	id				INTEGER NOT NULL AUTO_INCREMENT,
 	arrival_date	DATE NOT NULL,
 	departure_date	DATE,
+	cancelled		BOOLEAN,
 	fisherman_id	INTEGER NOT NULL,
 	fishing_spot_id	INTEGER NOT NULL,
 	fishing_area_id INTEGER NOT NULL,
@@ -156,12 +171,14 @@ CREATE TABLE reservation (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE fish_stocking (
-	id				INTEGER NOT NULL AUTO_INCREMENT,
-	date			DATE, 
-	number			INTEGER,
-	fishing_area_id INTEGER NOT NULL,
-	fish_species_id INTEGER NOT NULL,
+CREATE TABLE fish_population_modification (
+	id					INTEGER NOT NULL AUTO_INCREMENT,
+	date				DATE, 
+	amount				INTEGER,
+	total_weight		INTEGER,
+	modification_type	INTEGER,
+	fishing_area_id 	INTEGER NOT NULL,
+	fish_species_id 	INTEGER NOT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -203,8 +220,17 @@ REFERENCES app_user (id);
 ALTER TABLE fisherman ADD CONSTRAINT fk_fisherman FOREIGN KEY (id)
 REFERENCES app_user (id);
 
+ALTER TABLE recreational_fisherman ADD CONSTRAINT fk_recreational_fisherman FOREIGN KEY (id)
+REFERENCES fisherman (id);
+
+ALTER TABLE professional_fisherman ADD CONSTRAINT fk_professional_fisherman FOREIGN KEY (id)
+REFERENCES fisherman (id);
+
 ALTER TABLE keeper ADD CONSTRAINT fk_keeper FOREIGN KEY (id)
 REFERENCES app_user (id);
+
+ALTER TABLE fishing_area ADD constraint fk_parent_fishing_area FOREIGN KEY (parent_fishing_area_id)
+REFERENCES fishing_area (id);
 
 ALTER TABLE fishing_spot ADD CONSTRAINT fk_has FOREIGN KEY (fishing_area_id)
 REFERENCES fishing_area (id);
@@ -215,10 +241,10 @@ REFERENCES fishing_area (id);
 ALTER TABLE containing ADD CONSTRAINT fk_contains2 FOREIGN KEY (fish_species_id)
 REFERENCES fish_species (id);
 
-ALTER TABLE keeps ADD CONSTRAINT fk_keeps FOREIGN KEY (keeper_id)
+ALTER TABLE keeping ADD CONSTRAINT fk_keeps FOREIGN KEY (keeper_id)
 REFERENCES keeper (id);
 
-ALTER TABLE keeps ADD CONSTRAINT fk_keeps2 FOREIGN KEY (fishing_area_id)
+ALTER TABLE keeping ADD CONSTRAINT fk_keeps2 FOREIGN KEY (fishing_area_id)
 REFERENCES fishing_area (id);
 
 ALTER TABLE license ADD CONSTRAINT fk_license FOREIGN KEY (fisherman_id)
@@ -248,10 +274,10 @@ REFERENCES fisherman (id);
 ALTER TABLE reservation ADD CONSTRAINT fk_reservation_license FOREIGN KEY (license_id)
 REFERENCES license (license_id);
 
-ALTER TABLE fish_stocking ADD CONSTRAINT fk_includes FOREIGN KEY (fish_species_id)
+ALTER TABLE fish_population_modification ADD CONSTRAINT fk_includes FOREIGN KEY (fish_species_id)
 REFERENCES fish_species (id);
 
-ALTER TABLE fish_stocking ADD CONSTRAINT fk_takes_place FOREIGN KEY (fishing_area_id)
+ALTER TABLE fish_population_modification ADD CONSTRAINT fk_takes_place FOREIGN KEY (fishing_area_id)
 REFERENCES fishing_area (id);
 
 ALTER TABLE penalized ADD CONSTRAINT fk_recorded FOREIGN KEY (penalty_id)
@@ -270,4 +296,3 @@ ALTER TABLE verification_token ADD CONSTRAINT fk_token FOREIGN KEY (user_id)
 REFERENCES app_user (id);
 
 set foreign_key_checks = 1;
-*/

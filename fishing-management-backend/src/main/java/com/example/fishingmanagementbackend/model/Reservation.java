@@ -25,6 +25,9 @@ public class Reservation {
     @Column
     private LocalDate departureDate;
     
+    @Column
+    private boolean cancelled;
+    
     @ManyToOne(optional = false)
     @JoinColumns({
         @JoinColumn(name = "fishing_area_id", referencedColumnName = "fishing_area_id"),
@@ -35,7 +38,7 @@ public class Reservation {
     @ManyToOne(optional = false)
     private RecreationalFisherman fisherman;
     
-    // Polje potrebno zbog brisanja rezervisanih termina ukoliko je zahtev za dnevnu ili visednevnu dozvolu odbijen
+    // Polje potrebno zbog otkazivanja rezervisanih termina ukoliko je zahtev za dnevnu ili visednevnu dozvolu odbijen
     @OneToOne(optional = true)
     @JoinColumn(name = "license_id")
     private License license;
@@ -73,6 +76,14 @@ public class Reservation {
         this.departureDate = departureDate;
     }
     
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
     public FishingSpot getFishingSpot() {
         return fishingSpot;
     }
@@ -100,7 +111,8 @@ public class Reservation {
     @Override
     public String toString() {
         return "Reservation [id=" + id + ", arrivalDate=" + arrivalDate + ", departureDate=" + departureDate
-                + ", fishingSpot=" + fishingSpot + ", fisherman=" + fisherman + ", license=" + license + "]";
+                + ", cancelled=" + cancelled + ", fishingSpot=" + fishingSpot + ", fisherman=" + fisherman
+                + ", license=" + license + "]";
     }
-    
+
 }

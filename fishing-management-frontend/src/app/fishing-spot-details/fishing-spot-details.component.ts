@@ -9,17 +9,17 @@ import OSM from 'ol/source/OSM';
 import VectorSource from 'ol/source/Vector';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, transform } from 'ol/proj';
 import { Point } from 'ol/geom';
 import { ReservationService } from '../services/reservation.service';
 import { Reservation } from '../models/reservation';
-import { FormControl, FormGroup } from '@angular/forms';
 import { LicenseService } from '../services/license.service';
 import { License } from '../models/license';
 import { FishingAreaService } from '../services/fishing-area.service';
 import { FishingArea } from '../models/fishing-area';
 import { FishermanService } from '../services/fisherman.service';
 import { initTimestamp } from 'ngx-bootstrap/chronos/units/timestamp';
+import { ImageService } from '../services/image.service';
 
 @Component({
   selector: 'app-fishing-spot-details',
@@ -30,6 +30,7 @@ export class FishingSpotDetailsComponent {
 
   fishingSpot: FishingSpot | any;
   map: Map | undefined;
+  updateMap: Map | undefined;
 
   futureReservations: Reservation[] = [];
   datesReserved: Date[] = [];
@@ -50,15 +51,18 @@ export class FishingSpotDetailsComponent {
   licenseId: any;
   fishingAreaName = '';
   professionalFishermanLoggedIn = false;
+  updatedFishingSpot: FishingSpot = new FishingSpot(0, "", 0, 0, "", 0);
+  image: any;
 
   constructor(private fishingSpotService: FishingSpotService,
               private reservationService: ReservationService,
               private licenseService: LicenseService, 
               private fishingAreaService: FishingAreaService,
               private fishermanService: FishermanService,
+              private imageService: ImageService,
               private route: ActivatedRoute,
               private router: Router) {
-               }
+  }
 
   ngOnInit() {
     let areaId = Number(this.route.snapshot.paramMap.get('areaId'));
@@ -76,10 +80,12 @@ export class FishingSpotDetailsComponent {
     this.fishingSpotService.getFishingSpotById(spotId, areaId).subscribe({
       next: data => {
         this.fishingSpot = data;
-        console.log(this.fishingSpot);
-  
+        this.updatedFishingSpot = new FishingSpot(this.fishingSpot.id, this.fishingSpot.type, this.fishingSpot.latitude, this.fishingSpot.longitude, this.fishingSpot.image, this.fishingSpot.fishingAreaId);
+
         // Iz nekog razloga nece da se prikaze mapa unutar bootstrap kontejnera bez timeouta
         setTimeout(()=> {this.initMap();}, 200);
+
+        this.initUpdateMap();
       }
       
     });
@@ -95,7 +101,7 @@ export class FishingSpotDetailsComponent {
         });
       }
     })
-
+    
   }
 
   initMap() {
@@ -128,6 +134,54 @@ export class FishingSpotDetailsComponent {
         zoom: 15
       })
     });
+  }
+
+  initUpdateMap() {
+    this.updateMap = new Map({
+      target: 'updateMap',
+      layers: [
+        new TileLayer({
+          source: new OSM(),
+        }),
+      ],
+      view: new View({
+        center: fromLonLat([this.updatedFishingSpot.longitude, this.updatedFishingSpot.latitude]),
+        zoom: 15,
+      }),
+    });
+
+    this.updateMap.on('singleclick', (event) => {
+
+      let coords = transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
+      this.updatedFishingSpot.latitude = coords[1];
+      this.updatedFishingSpot.longitude = coords[0];
+      let marker = new Feature({
+        geometry: new Point(fromLonLat([this.updatedFishingSpot.longitude, this.updatedFishingSpot.latitude]))
+      });
+      markers.getSource()?.clear();
+      markers.getSource()?.addFeature(marker);
+
+    });
+
+    var markers = new VectorLayer({
+      source: new VectorSource({
+        features: [
+          new Feature({
+            geometry: new Point(fromLonLat([this.updatedFishingSpot.longitude, this.updatedFishingSpot.latitude]))
+          })
+        ]
+      }),
+      style: new Style({
+        image: new Icon({
+          anchor: [0.5, 0.73],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'fraction',
+          src: '../../assets/marker.png'
+        })
+      })
+    });
+
+    this.updateMap.addLayer(markers);
   }
 
   getExistingValidLicenses() {
@@ -244,6 +298,37 @@ export class FishingSpotDetailsComponent {
         }
       }
     });
+  }
+
+  updateFishingSpot() {
+    if(this.image) {
+      this.imageService.uploadImage(this.image).subscribe({
+        next: imagePath => {
+          this.updatedFishingSpot.image = imagePath as string;
+          this.fishingSpotService.updateFishingSpot(this.updatedFishingSpot.id, this.updatedFishingSpot).subscribe({
+            next: () => {
+              window.location.reload();
+            }
+          });
+        }
+      });
+    } else {
+      this.fishingSpotService.updateFishingSpot(this.updatedFishingSpot.id, this.updatedFishingSpot).subscribe({
+        next: () => {
+          window.location.reload();
+        }
+      });
+    }
+  }
+
+  processFile(imageFile: any) {
+    const file: File = imageFile.files[0];
+    this.image = file;
+  }
+
+  viewReservations() {
+    let fishermanId = localStorage.getItem("correspondingTableId");
+    this.router.navigate(["/reservations/" + fishermanId]);
   }
 
 }

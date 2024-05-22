@@ -22,6 +22,8 @@ public class ReservationResponseDTO {
     
     private LocalDate departureDate;
     
+    private boolean cancelled;
+    
     public ReservationResponseDTO() {}
     
     public ReservationResponseDTO(Reservation reservation) {
@@ -33,6 +35,7 @@ public class ReservationResponseDTO {
         this.fishermanLastName = reservation.getFisherman().getLastName();
         this.arrivalDate = reservation.getArrivalDate();
         this.departureDate = reservation.getDepartureDate();
+        this.cancelled = reservation.isCancelled();
     }
 
     public Long getReservationId() {
@@ -98,7 +101,14 @@ public class ReservationResponseDTO {
     public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
     }
-    
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
     
     
 }

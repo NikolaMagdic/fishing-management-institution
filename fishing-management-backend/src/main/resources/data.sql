@@ -1,6 +1,6 @@
 INSERT INTO app_user (username, password, enabled) VALUES ('admin', '$2a$12$/8O0nK5JEXsXk6LxgzIsEu8vyxZDyRRIjjxmnCSdPAnIx0mXxs12C', true);
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('fisherman', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Nikola', 'Magdić', '1996-11-15');
-INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('keeper', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Čuvar', 'Čuvarkić', '1988-05-01');
+INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('keeper', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Sergej', 'Čuvarkić', '1988-05-01');
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('drugi', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Milan', 'Milanović', '1997-10-05');
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('privredni', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Jovan', 'Jovanović', '1991-11-11');
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('zenaribolovac', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Milica', 'Miličić', '1999-05-18');

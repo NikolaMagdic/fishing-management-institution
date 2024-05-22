@@ -36,9 +36,10 @@
                     {{reservation.departureDate | date: "dd.MM.yyyy"}}
                 </td>
                 <td>
-                    <button *ngIf="fishermanLoggedIn && checkIfCancelingReservationPossible(reservation.arrivalDate)" class="btn btn-danger" (click)="cancelReservation(reservation.reservationId)">
+                    <button *ngIf="fishermanLoggedIn && checkIfCancelingReservationPossible(reservation.arrivalDate) && !reservation.cancelled" class="btn btn-danger" (click)="cancelReservation(reservation.reservationId)">
                         Otkaži
                     </button>
+                    <span *ngIf="reservation.cancelled">Otkazana</span>
                 </td>
             </tr>
         </tbody>

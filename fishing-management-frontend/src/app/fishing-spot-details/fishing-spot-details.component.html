@@ -9,9 +9,6 @@
                 <img src="{{fishingSpot.image}}" alt="Slika ribolovnog mesta nedostupna" [style.width.px]="580" [style.height.px]="400">
                 <br/>
                 <br/>
-                <div *ngIf="!fishermanLoggedIn">
-                    <button class="btn btn-primary" (click)="showReservations()">Prikaži rezervacije</button>
-                </div>
             </div>
             <div class="col">
                 <div *ngIf="fishermanLoggedIn && !professionalFishermanLoggedIn" class="container">
@@ -73,6 +70,14 @@
             <h4>Lokacija ribolovnog mesta</h4>
             <div id="map" style="height: 400px; width: 100%"></div>
         </div>
+        <div *ngIf="!fishermanLoggedIn" class="row row-cols-auto">
+            <div class="col">
+                <button class="btn btn-primary" (click)="showReservations()">Prikaži rezervacije</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update-modal">Izmeni ribolovno mesto</button>
+            </div>
+        </div>
     </div>
 </div>
 <div>
@@ -85,6 +90,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="reloadPage()"></button>
                 </div>
                 <div class="modal-footer justify-content-center">
+                    <button *ngIf="validLicense" type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="viewReservations()">Prikaži rezervacije</button>
                     <button *ngIf="validLicense" type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="reloadPage()">Zatvori</button>
                 </div>
             </div>
@@ -95,7 +101,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 *ngIf="!validLicense" class="alert alert-danger">Nemate važeću dozvolu. Da li želite da kupite dnevnu dozvolu za navedeni termin?</h5>
+                    <h5 *ngIf="!validLicense" class="alert alert-danger">Nemate važeću dozvolu. Da li želite da izvadite dnevnu dozvolu za navedeni termin?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="reloadPage()"></button>
                 </div>
                 <div class="modal-footer justify-content-center">
@@ -115,6 +121,47 @@
                 <div class="modal-footer justify-content-center">
                     <button *ngIf="!validLicense" type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="obtainMultiDayLicense()">Izvadi višednevnu dozvolu za navedene datume</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="update-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="updateFishingSpot()" #form="ngForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ažuriraj ribolovno mesto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Tip</label>
+                            <select class="form-select" name="type" [(ngModel)]="updatedFishingSpot.type" required>
+                                <option value="Uređeno mesto">Uređeno mesto</option>
+                                <option value="Čamac">Čamac</option>
+                                <option value="Splav">Splav</option>
+                                <option value="Vikendica za ribolov">Vikendica za ribolov</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nova slika</label>
+                            <input type="file" accept="image/*" name="image" class="form-control" #image (change)="processFile(image)">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Geografska širina</label>
+                            <input class="form-control" type="number" name="latitude" [(ngModel)]="updatedFishingSpot.latitude" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Geografska dužina</label>
+                            <input class="form-control" type="number" name="longitude" [(ngModel)]="updatedFishingSpot.longitude" disabled>
+                        </div>
+                        <h5>Označite na mapi lokaciju mesta za ribolov</h5>
+                        <div id="updateMap" style="height: 400px; width: 100%;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Izmeni</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

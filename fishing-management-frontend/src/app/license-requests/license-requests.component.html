@@ -1,5 +1,6 @@
 <div class="container">
     <h1>Ribolovci sa zahtevima za izdavanje ribolovne dozvole</h1>
+    <h3 *ngIf="licenseRequests.length < 1">Svi zahtevi za ribolovne dozvole su obrađeni</h3>
     <table class="table table-striped" *ngIf="licenseRequests.length > 0">
         <thead>
             <th>Ime i prezime</th>

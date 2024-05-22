@@ -52,10 +52,11 @@ public class FishingSpotService {
     
     public FishingSpot updateFishingSpot(Long id, FishingSpotDTO fishingSpotDTO) {
         FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(new FishingSpotPK(id, fishingSpotDTO.getFishingAreaId()));
-        
-        fishingSpot.setType(FishingSpotType.valueOf(fishingSpotDTO.getType()));
+
+        fishingSpot.setType(FishingSpotType.getType(fishingSpotDTO.getType()).orElseThrow());
         fishingSpot.setLatitude(fishingSpotDTO.getLatitude());
         fishingSpot.setLongitude(fishingSpotDTO.getLongitude());
+        fishingSpot.setImage(fishingSpotDTO.getImage());
         
         return fishingSpotRepository.save(fishingSpot);
     }

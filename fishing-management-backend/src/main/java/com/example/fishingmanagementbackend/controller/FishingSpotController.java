@@ -60,12 +60,12 @@ public class FishingSpotController {
         return ResponseEntity.status(201).body(new FishingSpotDTO(fishingSpot));
     }
     
-    @PutMapping("/{id}")
+    @PutMapping("/{spotId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<FishingSpotDTO> updateFishingSpot(@PathVariable("id}") Long id, @RequestBody FishingSpotDTO fishingSpotDTO) {
+    public ResponseEntity<FishingSpotDTO> updateFishingSpot(@PathVariable("spotId") Long spotId, @RequestBody FishingSpotDTO fishingSpotDTO) {
         FishingSpot fishingSpot;
         try {
-            fishingSpot = fishingSpotService.updateFishingSpot(id, fishingSpotDTO);
+            fishingSpot = fishingSpotService.updateFishingSpot(spotId, fishingSpotDTO);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }

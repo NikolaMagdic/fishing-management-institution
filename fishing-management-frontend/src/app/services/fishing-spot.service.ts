@@ -23,4 +23,8 @@ export class FishingSpotService {
     return this.http.post(this.url, fishingSpot);
   }
 
+  updateFishingSpot(spotId: number, fishingSpot: FishingSpot) {
+    return this.http.put(this.url + "/" + spotId, fishingSpot);
+  }
+
 }

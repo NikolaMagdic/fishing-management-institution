@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.fishingmanagementbackend.dto.ReservationDTO;
 import com.example.fishingmanagementbackend.dto.ReservationResponseDTO;
+import com.example.fishingmanagementbackend.enumerations.LicenseStatus;
 import com.example.fishingmanagementbackend.model.FishingSpot;
 import com.example.fishingmanagementbackend.model.FishingSpotPK;
 import com.example.fishingmanagementbackend.model.License;
@@ -92,10 +93,11 @@ public class ReservationService {
         
         Reservation reservation = new Reservation(reservationDTO.getArrivalDate(),
                 reservationDTO.getDepartureDate());
+        reservation.setCancelled(false);
         
         FishingSpotPK id = new FishingSpotPK(reservationDTO.getFishingSpotId(), reservationDTO.getFishingAreaId());
         FishingSpot fishingSpot = fishingSpotRepository.getReferenceById(id);
-        System.out.println("DOSAO DOVDE");
+
         RecreationalFisherman fisherman = (RecreationalFisherman) fishermanRepository.getReferenceById(fishermanId);
         System.out.println(fisherman);
         reservation.setFishingSpot(fishingSpot);
@@ -121,7 +123,7 @@ public class ReservationService {
     
     // Provera da slucajno uneseni datumi ne obuhvataju vec neki termin
     private boolean checkIfDatesAreValid(Long fishingSpotId, Long fishingAreaId, LocalDate startDate, LocalDate endDate) {
-        System.out.println("OVDE SAM");
+        
         List<Reservation> conflictResevations = reservationRepository.findReservationsInInterval(fishingSpotId, fishingAreaId, startDate, endDate);
 
         if(conflictResevations.isEmpty()) {
@@ -133,8 +135,16 @@ public class ReservationService {
     
     public void cancelReservation(Long reservationId) {
         Reservation reservation = reservationRepository.getReferenceById(reservationId);
-        if(reservation.getArrivalDate().isAfter(LocalDate.now()))
-            reservationRepository.deleteById(reservationId);
+        if(reservation.getArrivalDate().isAfter(LocalDate.now())) {
+            reservation.setCancelled(true);
+            reservationRepository.save(reservation);
+            
+            // Brisanje zahteva za povezanu dozvolu ukoliko postoji i ukoliko jos nije odobren
+            if(reservation.getLicense() != null) {
+                License license = licenseRepository.getReferenceById(reservation.getLicense().getLicenseId());
+                license.setStatus(LicenseStatus.REJECTED);
+            }
+        }
         
     }
     

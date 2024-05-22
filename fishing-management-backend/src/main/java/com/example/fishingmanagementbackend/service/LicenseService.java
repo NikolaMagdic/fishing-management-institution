@@ -82,6 +82,7 @@ public class LicenseService {
         List<License> licencesForThisDay = licenseRepository.getLicencesOfFishermanOnThisDay(fishermanId, licenseDTO.getDate());
         // Vec je izvadjena dozvola za taj dan
         if(!licencesForThisDay.isEmpty()) {
+            // TODO: vratiti nesto pametnije
             return null;
         }
         
@@ -195,6 +196,13 @@ public class LicenseService {
             List<Reservation> reservations = reservationRepository.findByLicense(licenseId);
             Reservation reservation = reservations.get(0);
             reservationRepository.delete(reservation);
+        } else {
+            // Ako je odbijen zahtev za godisnju dozvolu a postoje rezervisani termini oni se brisu (ribolovcima je omoguceno 
+            // da zakazuju termine i dok zahtev za godisnju dozvolu nije odobren a poslat je)
+            List<Reservation> reservations = reservationRepository.findFutureByFisherman(license.getFisherman().getId());
+            for (Reservation r : reservations) {
+                reservationRepository.delete(r);
+            }
         }
         
         license.setStatus(LicenseStatus.REJECTED);
