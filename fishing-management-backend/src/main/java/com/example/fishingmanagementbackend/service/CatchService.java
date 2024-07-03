@@ -18,6 +18,7 @@ import com.example.fishingmanagementbackend.enumerations.FishCategory;
 import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Catch;
 import com.example.fishingmanagementbackend.model.CatchItem;
+import com.example.fishingmanagementbackend.model.CatchItemPK;
 import com.example.fishingmanagementbackend.model.FishSpecies;
 import com.example.fishingmanagementbackend.model.Fisherman;
 import com.example.fishingmanagementbackend.model.FishingArea;
@@ -174,9 +175,24 @@ public class CatchService {
         return new CatchDTO(updatedDailyCatch);
     }
     
+    /**Metoda za izmenu stavke ulova
+     * @throws Exception */
+    public CatchItemDTO updateCatchItem(CatchItemDTO catchItemDTO, Long catchId, Long itemId) throws Exception {
+        CatchItem catchItem = catchItemRepository.getReferenceById(new CatchItemPK(itemId, catchId));
+        
+        if(!catchItem.getStatus().equals(CatchItemStatus.NOT_VERIFIED)) {
+            throw new Exception("Ne možete menjati ulov koji je već pregledan od strane ribočuvara.");
+        }
+        
+        catchItem.setQuantity(catchItemDTO.getQuantity());
+        catchItem.setWeight(catchItemDTO.getWeight());
+        catchItemRepository.save(catchItem);
+        return new CatchItemDTO(catchItem.getQuantity(), catchItem.getWeight(), catchItem.getFish().getId());
+    }
+    
     /**Metoda kojom ribocuvar potvrdjuje evidentirani ulov*/
-    public boolean processCatchItem(Long catchItemId, CatchItemStatus status, Principal principal) throws ForbiddenException {
-        Catch dailyCatch = catchRepository.findByCatchItemId(catchItemId);
+    public boolean processCatchItem(Long catchId, Long catchItemId, CatchItemStatus status, Principal principal) throws ForbiddenException {
+        Catch dailyCatch = catchRepository.getReferenceById(catchId);
         
         /* Omogucavamo samo ribocuvarima koji su zaduzeni za ribolovnu vodu na kojoj je ostvaren ulov
          da ga potvrde */
@@ -187,13 +203,8 @@ public class CatchService {
             throw new ForbiddenException("Ne možete potvrđivati ulov na ribolovnoj vodi za koju niste zaduženi.");
         }
         
-        CatchItem item = new CatchItem();
-        for (CatchItem ci : dailyCatch.getCatchItems()) {
-            if(ci.getId().equals(catchItemId)) {
-                item = ci;
-                break;
-            }
-        }
+        CatchItem item = catchItemRepository.getReferenceById(new CatchItemPK(catchItemId, catchId));
+        
         item.setStatus(status);
         item.setKeeper(keeper);
         catchRepository.save(dailyCatch);

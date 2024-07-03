@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fishingmanagementbackend.dto.CatchDTO;
+import com.example.fishingmanagementbackend.dto.CatchItemDTO;
 import com.example.fishingmanagementbackend.dto.CatchResponseDTO;
 import com.example.fishingmanagementbackend.dto.YearlyCatchDTO;
 import com.example.fishingmanagementbackend.enumerations.CatchItemStatus;
@@ -91,27 +92,41 @@ public class CatchController {
         return ResponseEntity.ok(updatedCatchDTO);
     }
     
-    @PatchMapping("/confirm/{itemId}")
+    @PutMapping("/{catchId}/{itemId}")
+    @PreAuthorize("hasRole('FISHERMAN')")
+    public ResponseEntity<CatchItemDTO> updateCatchItem(@RequestBody CatchItemDTO catchItemDTO, @PathVariable("catchId") Long catchId, @PathVariable("itemId") Long itemId) {
+        CatchItemDTO updatedItemDTO;
+        try {
+            updatedItemDTO = this.catchService.updateCatchItem(catchItemDTO, catchId, itemId);
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).build();
+        }
+        return ResponseEntity.ok(updatedItemDTO);
+        
+    }
+    
+    @PatchMapping("/confirm/{catchId}/{itemId}")
     @PreAuthorize("hasRole('KEEPER')")
-    public ResponseEntity<Boolean> confirmCatchItem(@PathVariable("itemId") Long id, Principal principal) {
+    public ResponseEntity<Boolean> confirmCatchItem(@PathVariable("catchId") Long catchId, @PathVariable("itemId") Long id, Principal principal) {
         Boolean success;
         try {
-            success = catchService.processCatchItem(id, CatchItemStatus.CONFIRMED, principal);
+            success = catchService.processCatchItem(catchId, id, CatchItemStatus.CONFIRMED, principal);
         } catch (ForbiddenException fex) {
             return ResponseEntity.status(403).build();
         }
         return ResponseEntity.ok(success);
     }
     
-    @PatchMapping("/reject/{itemId}")
+    @PatchMapping("/reject/{catchId}/{itemId}")
     @PreAuthorize("hasRole('KEEPER')")
-    public ResponseEntity<Boolean> rejectCatchItem(@PathVariable("itemId") Long id, Principal principal) {
+    public ResponseEntity<Boolean> rejectCatchItem(@PathVariable("catchId") Long catchId, @PathVariable("itemId") Long id, Principal principal) {
         Boolean success;
         try {
-            success = catchService.processCatchItem(id, CatchItemStatus.CONFISCATED, principal);
+            success = catchService.processCatchItem(catchId, id, CatchItemStatus.CONFISCATED, principal);
         } catch (ForbiddenException fex) {
             return ResponseEntity.status(403).build();
         }
         return ResponseEntity.ok(success);
     }
+    
 }

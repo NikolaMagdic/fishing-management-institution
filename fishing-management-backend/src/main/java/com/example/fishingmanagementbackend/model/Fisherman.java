@@ -8,6 +8,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 
@@ -28,6 +30,7 @@ public class Fisherman extends User implements Serializable {
     private String city;
     
     @Column
+    @Enumerated(EnumType.STRING)
     private FishermanCategory category;
     
     public Fisherman() {}

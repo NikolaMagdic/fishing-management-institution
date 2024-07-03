@@ -24,6 +24,6 @@ public interface FishermanRepository extends JpaRepository<Fisherman, Long> {
             + "LEFT OUTER JOIN keeper k ON k.id = kee.keeper_id "
             + "LEFT OUTER JOIN catch_item ci ON ci.catch_id = c.id "
             + "LEFT OUTER JOIN app_user u ON f.id = u.id "
-            + "WHERE k.id = ?1 AND ci.confirmation_status = 2", nativeQuery = true)
+            + "WHERE k.id = ?1 AND ci.confirmation_status = 3", nativeQuery = true)
     Page<Fisherman> findAllFishermansWithNonConfirmedCatches(Pageable page, Long keeperId);
 }

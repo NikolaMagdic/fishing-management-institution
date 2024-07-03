@@ -4,6 +4,8 @@ import com.example.fishingmanagementbackend.enumerations.CatchItemStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,6 +31,7 @@ public class CatchItem {
     private double weight;
     
     @Column
+    @Enumerated(EnumType.STRING)
     private CatchItemStatus confirmationStatus;
     
     // Strani kljuc je deo primarnog kljuca

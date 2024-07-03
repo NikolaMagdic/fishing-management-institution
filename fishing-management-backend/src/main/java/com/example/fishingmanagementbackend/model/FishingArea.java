@@ -31,10 +31,10 @@ public class FishingArea {
     private String description;
     
     @Column(name = "area_type")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private FishingAreaType areaType;
     
-    @Column(name = "allowed_fishing")
+    @Column(name = "fishing_allowed")
     private boolean allowedFishing;
     
     // trenutno su slike samo String sa linkom
@@ -42,7 +42,7 @@ public class FishingArea {
     private String image;
     
     @ManyToMany
-    @JoinTable(name = "containing", 
+    @JoinTable(name = "inhabiting", 
                 joinColumns = @JoinColumn(name = "fishing_area_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "fish_species_id", referencedColumnName = "id"))
     private Set<FishSpecies> fishSpecies = new HashSet<>();

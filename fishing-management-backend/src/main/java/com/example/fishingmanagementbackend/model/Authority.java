@@ -19,7 +19,7 @@ public class Authority implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column
+    @Column(name = "role_name")
     private String name;
     
     @Override

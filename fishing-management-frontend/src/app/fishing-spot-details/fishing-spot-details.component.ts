@@ -48,6 +48,7 @@ export class FishingSpotDetailsComponent {
 
   validLicense: boolean = false;
   fishermanLoggedIn = false;
+  adminLoggedIn = false;
   licenseId: any;
   fishingAreaName = '';
   professionalFishermanLoggedIn = false;
@@ -62,6 +63,7 @@ export class FishingSpotDetailsComponent {
               private imageService: ImageService,
               private route: ActivatedRoute,
               private router: Router) {
+                this.minDate.setDate(this.minDate.getDate() + 1);
   }
 
   ngOnInit() {
@@ -73,6 +75,8 @@ export class FishingSpotDetailsComponent {
       this.getFishermanCategory();
       this.fishermanLoggedIn = true;
       this.getExistingValidLicenses();
+    } else if(role == "ROLE_ADMIN") {
+      this.adminLoggedIn = true;
     }
 
     this.getFishingAreaName(areaId);

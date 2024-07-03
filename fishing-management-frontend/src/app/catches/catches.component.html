@@ -31,13 +31,13 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody *ngFor="let catch of catches">
-                    <tr *ngFor="let item of catch.catchItemsResponse">
+            <tbody *ngFor="let dailyCatch of catches">
+                    <tr *ngFor="let item of dailyCatch.catchItemsResponse">
                         <td>
-                            {{catch.date | date: "dd.MM.yyyy."}}
+                            {{dailyCatch.date | date: "dd.MM.yyyy."}}
                         </td>
                         <td>
-                            {{catch.fishingAreaName}}
+                            {{dailyCatch.fishingAreaName}}
                         </td>
                         <td>
                             {{item.fishSpeciesName}}
@@ -56,10 +56,13 @@
                             {{item.keeperName}}
                         </td>
                         <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
-                            <button class="btn btn-primary" (click)="confirmCatch(item.id)">Potvrdi</button>
+                            <button class="btn btn-primary" (click)="confirmCatch(dailyCatch.id, item.id)">Potvrdi</button>
                         </td>
                         <td *ngIf="item.status === 'NOT_VERIFIED' && keeperLoggedIn">
-                            <button class="btn btn-danger" (click)="rejectCatch(item.id)">Odbij</button>
+                            <button class="btn btn-danger" (click)="rejectCatch(dailyCatch.id, item.id)">Odbij</button>
+                        </td>
+                        <td *ngIf="item.status === 'NOT_VERIFIED' && fishermanLoggedIn">
+                            <button class="btn btn-secondary" (click)="openUpdateCatchModal(dailyCatch, item)">Izmeni</button>
                         </td>
                     </tr>     
             </tbody>
@@ -110,6 +113,43 @@
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zatvori</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <button data-bs-toggle="modal" data-bs-target="#updateItemModal" hidden #updateItemModal></button>
+    <div class="modal" id="updateItemModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form (ngSubmit)="updateCatchItem()" #form="ngForm" [formGroup]="updateItemForm">
+                    <div class="modal-header">
+                        <h5>Izmenite podatke o ulovu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <fieldset [disabled]="true">
+                            <div class="mb-3">
+                                <label class="form-label">Datum</label>
+                                <input type="date" class="form-control" formControlName="date">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Vrsta ribe</label>
+                                <input type="text" class="form-control" formControlName="fish">
+                            </div>
+                        </fieldset>
+                        <div class="mb-3">
+                            <label class="form-label">Broj komada</label>
+                            <input type="number" class="form-control" formControlName="quantity" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ukupna težina</label>
+                            <input type="number" class="form-control" formControlName="weight" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Potvrdi izmenu</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

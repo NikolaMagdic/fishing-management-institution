@@ -6,9 +6,9 @@ INSERT INTO app_user (username, password, enabled, first_name, last_name, date_o
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('zenaribolovac', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Milica', 'Miličić', '1999-05-18');
 INSERT INTO app_user (username, password, enabled, first_name, last_name, date_of_birth) VALUES ('pecaros', '$2a$10$/M2rdVYDZAI7DHPTZVfNUeo8SmEgjdqM.YXpkQOO7Tf/F6ip6/k16', true, 'Zdravko', 'Magdić', '1948-02-14');
 --
-INSERT INTO authority (name) VALUES ('ROLE_ADMIN');
-INSERT INTO authority (name) VALUES ('ROLE_FISHERMAN');
-INSERT INTO authority (name) VALUES ('ROLE_KEEPER');
+INSERT INTO authority (role_name) VALUES ('ROLE_ADMIN');
+INSERT INTO authority (role_name) VALUES ('ROLE_FISHERMAN');
+INSERT INTO authority (role_name) VALUES ('ROLE_KEEPER');
 --
 INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1);
 INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2);
@@ -18,11 +18,11 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (5, 2);
 INSERT INTO user_authority (user_id, authority_id) VALUES (6, 2);
 INSERT INTO user_authority (user_id, authority_id) VALUES (7, 2);
 --
-INSERT INTO fisherman (id, address, city, category) VALUES (2, 'JNA 117', 'Ruma', 0);
-INSERT INTO fisherman (id, address, city, category) VALUES (4, 'Vojvode Mišića 2A', 'Novi Sad', 0);
-INSERT INTO fisherman (id, address, city, category) VALUES (5, 'Bulevar Kralja Petra 100', 'Novi Sad', 1);
-INSERT INTO fisherman (id, address, city, category) VALUES (6, 'Stari šor 32', 'Sremska Mitrovica', 0);
-INSERT INTO fisherman (id, address, city, category) VALUES (7, 'JNA 117', 'Ruma', 0);
+INSERT INTO fisherman (id, address, city, category) VALUES (2, 'JNA 117', 'Ruma', 1);
+INSERT INTO fisherman (id, address, city, category) VALUES (4, 'Vojvode Mišića 2A', 'Novi Sad', 1);
+INSERT INTO fisherman (id, address, city, category) VALUES (5, 'Bulevar Kralja Petra 100', 'Novi Sad', 2);
+INSERT INTO fisherman (id, address, city, category) VALUES (6, 'Stari šor 32', 'Sremska Mitrovica', 1);
+INSERT INTO fisherman (id, address, city, category) VALUES (7, 'JNA 117', 'Ruma', 1);
 --
 INSERT INTO recreational_fisherman (id) VALUES (2);
 INSERT INTO recreational_fisherman (id) VALUES (4);
@@ -33,31 +33,31 @@ INSERT INTO professional_fisherman(id) VALUES (5);
 --
 INSERT INTO keeper (id) VALUES (3);
 --
-INSERT INTO fishing_area (name, area_type, description, allowed_fishing, image) VALUES ('Dunav', 0, 'Dunav je druga najduža reka u Evropi. Prolazi kroz 7 zemalja. Uliva se u Crno More.', true, 'http://localhost:8080/sava-dunav-usce.jpg');
-INSERT INTO fishing_area (name, area_type, allowed_fishing, image) VALUES ('Sava', 0, true, 'http://localhost:8080/sava.jpg');
-INSERT INTO fishing_area (name, area_type, description, allowed_fishing, image) VALUES ('Borkovac', 1, 'Ovo jezero je divno jedini problem je što nema ribe!', true, 'http://localhost:8080/borkovac(1).jpg');
-INSERT INTO fishing_area (name, area_type, description, allowed_fishing, image) VALUES ('Kanal DTD', 3, 'Kanal DTD odnosno kanal Dunav-Tisa-Dunav je nastao za vrema Austro-Ugarske.', true, 'http://localhost:8080/kanal-dtd.jpg');
+INSERT INTO fishing_area (name, area_type, description, fishing_allowed, image) VALUES ('Dunav', 1, 'Dunav je druga najduža reka u Evropi. Prolazi kroz 7 zemalja. Uliva se u Crno More.', true, 'http://localhost:8080/sava-dunav-usce.jpg');
+INSERT INTO fishing_area (name, area_type, fishing_allowed, image) VALUES ('Sava', 1, true, 'http://localhost:8080/sava.jpg');
+INSERT INTO fishing_area (name, area_type, description, fishing_allowed, image) VALUES ('Borkovac', 2, 'Ovo jezero je divno jedini problem je što nema ribe!', true, 'http://localhost:8080/borkovac(1).jpg');
+INSERT INTO fishing_area (name, area_type, description, fishing_allowed, image) VALUES ('Kanal DTD', 4, 'Kanal DTD odnosno kanal Dunav-Tisa-Dunav je nastao za vrema Austro-Ugarske.', true, 'http://localhost:8080/kanal-dtd.jpg');
 --
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 1, 0, 45.231616, 19.850564, 'http://localhost:8080/dunav-novi-sad-mesto.jpg');
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (2, 1, 2, 44.758760, 19.719062, 'http://localhost:8080/sava-mesto.jpg');
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 2, 0, 45.231616, 19.850564, 'http://localhost:8080/novi_sad_dunav-mesto.jpg'); 
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (1, 3, 1, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/Aluminum_Fishing_Boat.jpg');
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 1, 0, 45.048526, 19.822185, 'http://localhost:8080/borkovac stapovi.jpg');
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 2, 3, 45.044915, 19.820679, 'http://localhost:8080/borkovac vikendica.jpg');
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 3, 0, 45.044090, 19.820559, 'http://localhost:8080/borkovac mesto.jpg');
-INSERT INTO fishing_spot (fishing_area_id, id, type, latitude, longitude, image) VALUES (3, 4, 1, 45.039117, 19.817662, 'http://localhost:8080/Aluminum_Fishing_Boat.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, spot_type, latitude, longitude, image) VALUES (1, 1, 1, 45.231616, 19.850564, 'http://localhost:8080/dunav-novi-sad-mesto.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, spot_type, latitude, longitude, image) VALUES (2, 1, 3, 44.758760, 19.719062, 'http://localhost:8080/sava-mesto.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, spot_type, latitude, longitude, image) VALUES (1, 2, 1, 45.231616, 19.850564, 'http://localhost:8080/novi_sad_dunav-mesto.jpg'); 
+INSERT INTO fishing_spot (fishing_area_id, id, spot_type, latitude, longitude, image) VALUES (1, 3, 2, 45.223554325463994, 19.804557545929946, 'http://localhost:8080/Aluminum_Fishing_Boat.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, spot_type, latitude, longitude, image) VALUES (3, 1, 1, 45.048526, 19.822185, 'http://localhost:8080/borkovac stapovi.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, spot_type, latitude, longitude, image) VALUES (3, 2, 4, 45.044915, 19.820679, 'http://localhost:8080/borkovac vikendica.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, spot_type, latitude, longitude, image) VALUES (3, 3, 1, 45.044090, 19.820559, 'http://localhost:8080/borkovac mesto.jpg');
+INSERT INTO fishing_spot (fishing_area_id, id, spot_type, latitude, longitude, image) VALUES (3, 4, 2, 45.039117, 19.817662, 'http://localhost:8080/Aluminum_Fishing_Boat.jpg');
 --
-INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Štuka', 'Esox lucius', 0, 40, 3, 1, 3, 31, 3, false, 'http://localhost:8080/stuka.jpg');
-INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Smuđ', 'Stizostedion lucioperca', 0, 40, 3, 1, 3, 30, 4, false, 'http://localhost:8080/smudj.jpg');
-INSERT INTO fish_species (name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Som', 'Silurus glanis', 0, 60, 3, 1, 5, 15, 6, false, 'http://localhost:8080/som.jpg');
-INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Crvenperka', 'Scardinius erythrophthalmus', 1, false, 'http://localhost:8080/crvenperka.jpg');
-INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Babuška, srebrni karaš', 'Carassius auratus', 2, false, 'http://localhost:8080/srebrni karas.jpg');
-INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Linjak', 'Tinca tinca', 0, true, 'http://localhost:8080/linjak.jpg');
-INSERT INTO fish_species (name, latin_name, category, permanent_fishing_ban, image) VALUES ('Američki patuljasti som, terpan', 'Ictalurus nebulosus', 2, false, 'http://localhost:8080/patuljasti somic.jpg');
+INSERT INTO fish_species (common_name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Štuka', 'Esox lucius', 1, 40, 3, 1, 3, 31, 3, false, 'http://localhost:8080/stuka.jpg');
+INSERT INTO fish_species (common_name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Smuđ', 'Stizostedion lucioperca', 1, 40, 3, 1, 3, 30, 4, false, 'http://localhost:8080/smudj.jpg');
+INSERT INTO fish_species (common_name, latin_name, category, min_size, max_quantity, fishing_ban_start_day, fishing_ban_start_month, fishing_ban_end_day, fishing_ban_end_month, permanent_fishing_ban, image) VALUES ('Som', 'Silurus glanis', 1, 60, 3, 1, 5, 15, 6, false, 'http://localhost:8080/som.jpg');
+INSERT INTO fish_species (common_name, latin_name, category, permanent_fishing_ban, image) VALUES ('Crvenperka', 'Scardinius erythrophthalmus', 2, false, 'http://localhost:8080/crvenperka.jpg');
+INSERT INTO fish_species (common_name, latin_name, category, permanent_fishing_ban, image) VALUES ('Babuška, srebrni karaš', 'Carassius auratus', 3, false, 'http://localhost:8080/srebrni karas.jpg');
+INSERT INTO fish_species (common_name, latin_name, category, permanent_fishing_ban, image) VALUES ('Linjak', 'Tinca tinca', 1, true, 'http://localhost:8080/linjak.jpg');
+INSERT INTO fish_species (common_name, latin_name, category, permanent_fishing_ban, image) VALUES ('Američki patuljasti som, terpan', 'Ictalurus nebulosus', 3, false, 'http://localhost:8080/patuljasti somic.jpg');
 --
-INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 1);
-INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (1, 2);
-INSERT INTO containing (fishing_area_id, fish_species_id) VALUES (2, 1);
+INSERT INTO inhabiting (fishing_area_id, fish_species_id) VALUES (1, 1);
+INSERT INTO inhabiting (fishing_area_id, fish_species_id) VALUES (1, 2);
+INSERT INTO inhabiting (fishing_area_id, fish_species_id) VALUES (2, 1);
 
 INSERT INTO keeping(fishing_area_id, keeper_id) VALUES(1, 3);
 

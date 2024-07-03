@@ -4,6 +4,8 @@ import com.example.fishingmanagementbackend.enumerations.FishingSpotType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
@@ -16,7 +18,8 @@ public class FishingSpot {
     @Id
     private Long id;
     
-    @Column
+    @Column(name = "spot_type")
+    @Enumerated(EnumType.STRING)
     private FishingSpotType type;
     
     @Column

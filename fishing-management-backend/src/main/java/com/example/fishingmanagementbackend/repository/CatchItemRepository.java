@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.fishingmanagementbackend.model.CatchItem;
+import com.example.fishingmanagementbackend.model.CatchItemPK;
 
-public interface CatchItemRepository extends JpaRepository<CatchItem, Long>{
+public interface CatchItemRepository extends JpaRepository<CatchItem, CatchItemPK>{
 
     @Query(value = "SELECT sum(quantity), sum(weight), fish_id, fishing_area_id "
             + " FROM catch_item ci LEFT OUTER JOIN catch c ON ci.catch_id = c.id"

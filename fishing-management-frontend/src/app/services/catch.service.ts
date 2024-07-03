@@ -19,12 +19,12 @@ export class CatchService {
         return this.http.post(this.url, c);
     }
 
-    confirmCatch(itemId: number) {
-        return this.http.patch(this.url + "/confirm/" + itemId, null);
+    confirmCatch(catchId: number, itemId: number) {
+        return this.http.patch(this.url + "/confirm/" + catchId + "/" + itemId, null);
     }
 
-    rejectCatch(itemId: number) {
-        return this.http.patch(this.url + "/reject/" + itemId, null);
+    rejectCatch(catchId: number, itemId: number) {
+        return this.http.patch(this.url + "/reject/" + catchId + "/" + itemId, null);
     }
 
     getAllCatchesOfFishermanForYear(fishermanId: number, year: number) {
@@ -46,5 +46,9 @@ export class CatchService {
     getYearlyCatchesOfNobleFishSpeciesInFishingArea(areaId: number, year: number) {
         let queryParams = new HttpParams().append("year", year);
         return this.http.get(this.url + "/noble/fishing-area/" + areaId + "/year", {params: queryParams});
+    }
+
+    updateCatchItem(catchItem: any, catchId: number, itemId: number) {
+        return this.http.put(this.url + "/" + catchId + "/" + itemId, catchItem);
     }
 }

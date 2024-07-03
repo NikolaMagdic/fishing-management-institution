@@ -7,6 +7,8 @@ import com.example.fishingmanagementbackend.enumerations.FishCategory;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,13 +21,14 @@ public class FishSpecies {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column
+    @Column(name = "common_name")
     private String name;
     
     @Column
     private String latinName;
     
     @Column
+    @Enumerated(EnumType.STRING)
     private FishCategory category;
     
     @Column
