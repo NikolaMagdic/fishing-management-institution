@@ -24,12 +24,18 @@
                 <label class="form-label">Grad</label>
                 <input type="string" class="form-control" name="city" formControlName="city">
             </div>
-            <div class="mb-3">
-                <label class="form-label">Kategorija</label>
-                <select class="form-select" name="category" formControlName="category">
-                    <option value="RECREATIONAL">Rekreativni</option>
-                    <option value="PROFESSIONAL">Profesionalni</option>
-                </select>
+            <fieldset [disabled]="true">
+                <div class="mb-3">
+                    <label class="form-label">Kategorija</label>
+                    <select class="form-select" name="category" formControlName="category">
+                        <option value="RECREATIONAL">Rekreativni</option>
+                        <option value="PROFESSIONAL">Privredni</option>
+                    </select>
+                </div>
+            </fieldset>
+            <div class="mb-3" *ngIf="fisherman.category === 'PROFESSIONAL'">
+                <label class="form-label">Broj u registru privrednih ribolovaca</label>
+                <input type="number" class="form-control" name="registryNumber" formControlName="registryNumber">
             </div>
             <button type="submit" class="btn btn-success" [hidden]="submitButtonHidden" [disabled]="!form.form.valid">Potvrdi izmene</button>
             <!-- <button type="button" class="btn btn-secondary" [hidden]="!updateButtonHidden">Odustani</button> -->

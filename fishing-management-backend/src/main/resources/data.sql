@@ -29,7 +29,7 @@ INSERT INTO recreational_fisherman (id) VALUES (4);
 INSERT INTO recreational_fisherman (id) VALUES (6);
 INSERT INTO recreational_fisherman (id) VALUES (7);
 --
-INSERT INTO professional_fisherman(id) VALUES (5);
+INSERT INTO professional_fisherman(id, registry_number) VALUES (5, 121);
 --
 INSERT INTO keeper (id) VALUES (3);
 --

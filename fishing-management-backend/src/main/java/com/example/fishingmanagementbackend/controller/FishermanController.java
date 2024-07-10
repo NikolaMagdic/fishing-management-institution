@@ -94,7 +94,7 @@ public class FishermanController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('FISHERMAN')")
     public ResponseEntity<FishermanDTO> updateFisherman(@PathVariable("id") Long id, @RequestBody FishermanDTO fishermanDTO, Principal principal) {
-        Fisherman fisherman;
+        FishermanDTO fisherman;
         try {
             fisherman = fishermanService.updateFisherman(id, fishermanDTO, principal);
         } catch (EntityNotFoundException ex) {
@@ -102,7 +102,7 @@ public class FishermanController {
         } catch (ForbiddenException fe) {
             return ResponseEntity.status(403).build();
         }
-        return ResponseEntity.ok().body(new FishermanDTO(fisherman));
+        return ResponseEntity.ok().body(fisherman);
     }
     
     @GetMapping("/category")

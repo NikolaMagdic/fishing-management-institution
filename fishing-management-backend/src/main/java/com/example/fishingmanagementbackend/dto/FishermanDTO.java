@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
 import com.example.fishingmanagementbackend.model.Fisherman;
+import com.example.fishingmanagementbackend.model.ProfessionalFisherman;
 
 public class FishermanDTO {
     
@@ -21,8 +22,10 @@ public class FishermanDTO {
     
     private FishermanCategory category;
     
-    public FishermanDTO() {}
+    private Integer registryNumber;
     
+    public FishermanDTO() {}
+
     public FishermanDTO(Fisherman fisherman) {
         this.id = fisherman.getId();
         this.firstName = fisherman.getFirstName();
@@ -31,6 +34,17 @@ public class FishermanDTO {
         this.address = fisherman.getAddress();
         this.city = fisherman.getCity();
         this.category = fisherman.getCategory();
+    }
+    
+    public FishermanDTO(ProfessionalFisherman fisherman) {
+        this.id = fisherman.getId();
+        this.firstName = fisherman.getFirstName();
+        this.lastName = fisherman.getLastName();
+        this.dateOfBirth = fisherman.getDateOfBirth();
+        this.address = fisherman.getAddress();
+        this.city = fisherman.getCity();
+        this.category = fisherman.getCategory();
+        this.registryNumber = fisherman.getRegistryNumber();
     }
     
     public Long getId() {
@@ -89,12 +103,20 @@ public class FishermanDTO {
         this.category = category;
     }
 
+    public Integer getRegistryNumber() {
+        return registryNumber;
+    }
+
+    public void setRegistryNumber(Integer registryNumber) {
+        this.registryNumber = registryNumber;
+    }
+
     @Override
     public String toString() {
         return "FishermanDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
-                + dateOfBirth + ", address=" + address + ", city=" + city + ", category=" + category + "]";
+                + dateOfBirth + ", address=" + address + ", city=" + city + ", category=" + category
+                + ", registryNumber=" + registryNumber + "]";
     }
-
 
     
 }

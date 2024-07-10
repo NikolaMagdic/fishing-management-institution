@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.example.fishingmanagementbackend.dto.FishermanDTO;
 import com.example.fishingmanagementbackend.dto.RegistrationDTO;
 import com.example.fishingmanagementbackend.enumerations.FishermanCategory;
+import com.example.fishingmanagementbackend.exceptions.BadRequestException;
 import com.example.fishingmanagementbackend.exceptions.ForbiddenException;
 import com.example.fishingmanagementbackend.model.Authority;
 import com.example.fishingmanagementbackend.model.Fisherman;
@@ -24,6 +25,7 @@ import com.example.fishingmanagementbackend.model.ProfessionalFisherman;
 import com.example.fishingmanagementbackend.model.RecreationalFisherman;
 import com.example.fishingmanagementbackend.model.User;
 import com.example.fishingmanagementbackend.repository.FishermanRepository;
+import com.example.fishingmanagementbackend.repository.ProfessionalFishermanRepository;
 import com.example.fishingmanagementbackend.repository.UserRepository;
 
 @Service
@@ -34,6 +36,9 @@ public class FishermanService {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private ProfessionalFishermanRepository professionalFishermanRepository ;
     
     @Autowired
     private UserService userService;
@@ -140,18 +145,25 @@ public class FishermanService {
         }
         
         Fisherman fisherman = fishermanRepository.getReferenceById(id);
+        // Ukoliko je u pitanju privredni ribolovac moram ga dobaviti iz specificnog repozitorijuma zbog dodatnog polja registry number
+        if(fisherman.getCategory().equals(FishermanCategory.PROFESSIONAL)) {
+            ProfessionalFisherman professionalFisherman = professionalFishermanRepository.getReferenceById(id);
+            return new FishermanDTO(professionalFisherman);
+        }
+        
         return new FishermanDTO(fisherman);
     }
     
     /**Registrovanje novog ribolovca*/
-    public Fisherman createNewFisherman(RegistrationDTO registrationDTO) {
+    public Fisherman createNewFisherman(RegistrationDTO registrationDTO) throws BadRequestException {
         User existingUser = userService.findUserByUsername(registrationDTO.getUsername());
+        //TODO: vratiti smisleniji exception
         if(existingUser != null) {
             return null;
         }
-        // TODO: Ovde bi trebalo vratiti bad request
+        
         if(!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
-            return null;
+            throw new BadRequestException("Lozinke nisu jednake.");
         }
         
         Fisherman fisherman;
@@ -179,13 +191,28 @@ public class FishermanService {
         return fisherman;
     }
     
-    public Fisherman updateFisherman(Long id, FishermanDTO fishermanDTO, Principal principal) throws ForbiddenException {
+    public FishermanDTO updateFisherman(Long id, FishermanDTO fishermanDTO, Principal principal) throws ForbiddenException {
         
         if(!userRepository.findByUsername(principal.getName()).getId().equals(id)) {
             throw new ForbiddenException("Nemate privilegije da menjate podatke ovog ribolovca");
         }
+        
+        if(fishermanDTO.getCategory().equals(FishermanCategory.PROFESSIONAL)) {
+            ProfessionalFisherman professionalFisherman = professionalFishermanRepository.getReferenceById(id);
+            professionalFisherman.setFirstName(fishermanDTO.getFirstName());
+            professionalFisherman.setLastName(fishermanDTO.getLastName());
+            professionalFisherman.setDateOfBirth(fishermanDTO.getDateOfBirth());
+            professionalFisherman.setAddress(fishermanDTO.getAddress());
+            professionalFisherman.setCity(fishermanDTO.getCity());
+            professionalFisherman.setCategory(fishermanDTO.getCategory());
+            professionalFisherman.setRegistryNumber(fishermanDTO.getRegistryNumber());
             
+            professionalFisherman = fishermanRepository.save(professionalFisherman);
+            return new FishermanDTO(professionalFisherman);
+        }
+        
         Fisherman fisherman = fishermanRepository.getReferenceById(id);
+        
         fisherman.setFirstName(fishermanDTO.getFirstName());
         fisherman.setLastName(fishermanDTO.getLastName());
         fisherman.setDateOfBirth(fishermanDTO.getDateOfBirth());
@@ -193,7 +220,8 @@ public class FishermanService {
         fisherman.setCity(fishermanDTO.getCity());
         fisherman.setCategory(fishermanDTO.getCategory());
         
-        return fishermanRepository.save(fisherman);
+        fisherman = fishermanRepository.save(fisherman);
+        return new FishermanDTO(fisherman) ;
     }
     
     private RecreationalFisherman createNewRecreationalFisherman(RegistrationDTO registrationDTO) {
@@ -217,7 +245,7 @@ public class FishermanService {
     
     private ProfessionalFisherman createNewProfessionalFisherman(RegistrationDTO registrationDTO) {
         
-        ProfessionalFisherman fisherman = new ProfessionalFisherman();
+        ProfessionalFisherman fisherman = new ProfessionalFisherman(registrationDTO.getRegistryNumber());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         
         fisherman.setUsername(registrationDTO.getUsername());

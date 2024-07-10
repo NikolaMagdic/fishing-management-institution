@@ -1,7 +1,7 @@
-.ng-valid[required], .ng-valid.required  {
+.ng-valid[required], .ng-valid.required, .registry-number-entered {
     border-left: 5px solid #42A948;
 }
   
-.ng-invalid:not(form) {
+.ng-invalid:not(form), .registry-number-not-entered {
     border-left: 5px solid #a94442;
 }

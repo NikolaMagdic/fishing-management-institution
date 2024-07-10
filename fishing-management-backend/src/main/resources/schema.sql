@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS verification_token;
 
 CREATE TABLE app_user (
 	id 		 				 INTEGER 	   NOT NULL AUTO_INCREMENT,
-	username 				 VARCHAR(20)   NOT NULL,
+	username 				 VARCHAR(320)  NOT NULL,
 	password 				 VARCHAR(60)   NOT NULL,
 	first_name 		  		 VARCHAR(20),
 	last_name 		  		 VARCHAR(30),
@@ -66,7 +66,8 @@ CREATE TABLE recreational_fisherman (
 );
 
 CREATE TABLE professional_fisherman (
-	id		INTEGER  NOT NULL,
+	id				INTEGER  NOT NULL,
+	registry_number INTEGER  NOT NULL UNIQUE,
 	PRIMARY KEY(id)
 );
 

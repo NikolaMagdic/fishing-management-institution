@@ -30,7 +30,8 @@ export class FishermanDetailsComponent {
       dateOfBirth: new FormControl(),
       address: new FormControl(),
       city: new FormControl(),
-      category: new FormControl()
+      category: new FormControl({disabled: true}),
+      registryNumber: new FormControl()
     });
   }
 
@@ -54,7 +55,8 @@ export class FishermanDetailsComponent {
           dateOfBirth: formatDate(this.fisherman.dateOfBirth, 'yyyy-MM-dd', 'en'),
           address: this.fisherman.address,
           city: this.fisherman.city,
-          category: this.fisherman.category
+          category: this.fisherman.category,
+          registryNumber: this.fisherman.registryNumber
         });
       }
     })
@@ -68,6 +70,7 @@ export class FishermanDetailsComponent {
       this.fishermanForm.value.address,
       this.fishermanForm.value.city,
       this.fishermanForm.value.category);
+      f.registryNumber = this.fishermanForm.value.registryNumber;
 
       this.fishermanService.updateFisherman(f).subscribe({
         next: () => {

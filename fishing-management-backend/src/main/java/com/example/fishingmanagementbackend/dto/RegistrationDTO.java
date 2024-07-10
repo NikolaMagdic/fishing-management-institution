@@ -24,6 +24,8 @@ public class RegistrationDTO {
     
     private FishermanCategory category;
     
+    private Integer registryNumber; 
+    
     public RegistrationDTO() {
         
     }
@@ -100,13 +102,21 @@ public class RegistrationDTO {
         this.category = category;
     }
 
+    public Integer getRegistryNumber() {
+        return registryNumber;
+    }
+
+    public void setRegistryNumber(Integer registryNumber) {
+        this.registryNumber = registryNumber;
+    }
+
     @Override
     public String toString() {
         return "RegistrationDTO [username=" + username + ", password=" + password + ", confirmPassword="
                 + confirmPassword + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
-                + dateOfBirth + ", address=" + address + ", city=" + city + ", category=" + category + "]";
+                + dateOfBirth + ", address=" + address + ", city=" + city + ", category=" + category
+                + ", registryNumber=" + registryNumber + "]";
     }
-
 
 
 }

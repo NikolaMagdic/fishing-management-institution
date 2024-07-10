@@ -3,8 +3,9 @@
     <form (ngSubmit)="register()" #form="ngForm">
         <div class="mb-3">
             <label class="form-label">Imejl-adresa *</label>
-            <input type="email" class="form-control" name="username" required [(ngModel)]="registration.username" #username="ngModel">
+            <input type="email" class="form-control" name="username" required [(ngModel)]="registration.username" #username="ngModel" (ngModelChange)="checkIfEmailIsValid()">
             <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
+            <div [hidden]="emailValid || username.pristine" class="alert alert-warning">Imejl-adresa mora biti u pravilnom formatu</div>
         </div>
         <div class="mb-3">
             <label class="form-label">Lozinka *</label>
@@ -41,10 +42,16 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Kategorija ribolovca *</label>
-            <select class="form-select" name="category" [(ngModel)]="registration.category" required>
+            <select class="form-select" name="category" [(ngModel)]="registration.category" required (change)="addFormField()">
                 <option value="RECREATIONAL">Rekreativni</option>
-                <option value="PROFESSIONAL">Profesionalni</option>
+                <option value="PROFESSIONAL">Privredni</option>
             </select>
+        </div>
+        <div class="mb-3" [hidden]="!professionalFishermanSelected">
+            <label class="form-label">Broj u registru privrednih ribolovaca *</label>
+            <input type="number" class="form-control" name="registryNumber" [(ngModel)]="registration.registryNumber" #registryNumber="ngModel" 
+            [ngClass]="{'registry-number-entered': registration.registryNumber, 'registry-number-not-entered': !registration.registryNumber }"> <!--Primer dinamicke dodele klase html elementu u angularu-->
+            <div *ngIf="registration.registryNumber == null && !registryNumber.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
         </div>
         <div>* Obavezna polja</div>
         <br/>

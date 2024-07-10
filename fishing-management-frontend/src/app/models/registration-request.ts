@@ -8,9 +8,10 @@ export class RegistrationRequest {
     public address: string;
     public city: string;
     public category: string;
+    public registryNumber: number | null;
 
     constructor($username: string, $password: string, $confirmPassword: string, $firstName: string, 
-        $lastName:string, $dateOfBirth: Date, $address: string, $city: string, $category: string) {
+        $lastName:string, $dateOfBirth: Date, $address: string, $city: string, $category: string, $registryNumber: number | null) {
         this.username = $username;
         this.password = $password;
         this.confirmPassword = $confirmPassword;
@@ -20,5 +21,6 @@ export class RegistrationRequest {
         this.address = $address;
         this.city = $city;
         this.category = $category;
+        this.registryNumber = $registryNumber;
     }
 }
