@@ -97,6 +97,7 @@ export class FishStockingComponent {
       "amount": this.fishStockingForm.value.amount
     }
 
+
     this.fishStockingService.makeFishStocking(newFishStocking).subscribe({
       next: () => {
         this.getAllFishStockings();

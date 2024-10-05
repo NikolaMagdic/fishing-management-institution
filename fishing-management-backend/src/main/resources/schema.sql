@@ -47,11 +47,6 @@ CREATE TABLE user_authority (
 	PRIMARY KEY (user_id, authority_id)
 );
 
-CREATE TABLE admin (
-	id       INTEGER     NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (id)
-);
-
 CREATE TABLE fisherman (
 	id                INTEGER NOT NULL,
 	address 		  VARCHAR(50),
@@ -145,7 +140,6 @@ CREATE TABLE catch (
 	date			DATE,
 	fisherman_id	INTEGER NOT NULL,
 	fishing_area_id	BIGINT NOT NULL,
-	reservation_id	INTEGER,
 	PRIMARY KEY (id)
 );
 
@@ -177,7 +171,7 @@ CREATE TABLE fish_population_modification (
 	date				DATE, 
 	amount				INTEGER,
 	total_weight		INTEGER,
-	modification_type	ENUM('FISH_STOCKING', 'SELECTIVE_FISHING'),
+	modification_type	ENUM('FISH_STOCKING', 'SELECTIVE_FISHING') NOT NULL,
 	fishing_area_id 	BIGINT NOT NULL,
 	fish_species_id 	INTEGER NOT NULL,
 	PRIMARY KEY (id)
@@ -213,9 +207,6 @@ ALTER TABLE user_authority ADD CONSTRAINT fk_authority FOREIGN KEY (authority_id
 REFERENCES authority (id);
 
 ALTER TABLE user_authority ADD CONSTRAINT fk_user FOREIGN KEY (user_id) 
-REFERENCES app_user (id);
-
-ALTER TABLE admin ADD CONSTRAINT fk_admin FOREIGN KEY (id)
 REFERENCES app_user (id);
 
 ALTER TABLE fisherman ADD CONSTRAINT fk_fisherman FOREIGN KEY (id)

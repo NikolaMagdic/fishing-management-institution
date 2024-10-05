@@ -29,6 +29,9 @@ export class CatchFormComponent {
   @ViewChild('catchItemModalClose') catchItemModelClose: ElementRef | any;
   // Za success modal
   @ViewChild('openModal') openModal: ElementRef | any;
+  @ViewChild('modal') modal: ElementRef | any;
+  itemChange = false;
+  updatingItemIndex = 0;
   
   constructor(private catchService: CatchService,
               private fishSpeciesService: FishSpeciesService,
@@ -105,6 +108,8 @@ export class CatchFormComponent {
     this.catch.date = this.catchForm.value.date;
     localStorage.setItem("catch", JSON.stringify(this.catch));
     localStorage.setItem("selectedArea", JSON.stringify(this.catchForm.value.selectedArea));
+
+    this.itemChange = false;
   }
 
   createCatch() {
@@ -125,11 +130,40 @@ export class CatchFormComponent {
   }
 
   removeCatchItem(index: number) {
-    console.log(index);
+
     this.catch.catchItems.splice(index, 1);
 
     localStorage.setItem("catch", JSON.stringify(this.catch));
   }  
+
+  changeCatchItem(index: number) {
+    let catchItem = this.catch.catchItems[index];
+    
+    this.itemChange = true;
+    this.modal.nativeElement.click();
+    this.catchItemForm.setValue({
+      quantity: catchItem.quantity,
+      weight: catchItem.weight
+    });
+    this.selectedFish = this.fishSpecies.find(fish => fish.id === catchItem.fishId);
+    this.updatingItemIndex = index;
+  }
+
+  updateItem() {
+    var newItem = new CatchItem(
+      this.selectedFish.id, 
+      this.catchItemForm.value.quantity,
+      this.catchItemForm.value.weight
+    );
+    this.catch.catchItems.splice(this.updatingItemIndex, 1, newItem);
+    this.itemChange = false;
+    this.catchItemForm.reset();
+    this.alertShown = false;
+    this.catchItemModelClose.nativeElement.click();
+    
+    localStorage.setItem("catch", JSON.stringify(this.catch));
+
+  }
 
   checkIfNoble() {
     if(this.selectedFish.category == "NOBLE") {
@@ -137,6 +171,11 @@ export class CatchFormComponent {
     } else {
       this.catchItemForm.controls['quantity'].reset();
     }
+  }
+
+  updateCart() {
+    this.catch.fishingAreaId = this.catchForm.value.selectedArea.id;
+    localStorage.setItem("catch", JSON.stringify(this.catch));
   }
 
   reloadPage() {

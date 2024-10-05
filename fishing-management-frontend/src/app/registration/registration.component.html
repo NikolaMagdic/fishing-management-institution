@@ -49,7 +49,7 @@
         </div>
         <div class="mb-3" [hidden]="!professionalFishermanSelected">
             <label class="form-label">Broj u registru privrednih ribolovaca *</label>
-            <input type="number" class="form-control" name="registryNumber" [(ngModel)]="registration.registryNumber" #registryNumber="ngModel" 
+            <input type="number" class="form-control" name="registryNumber" [required]="professionalFishermanSelected" [(ngModel)]="registration.registryNumber" #registryNumber="ngModel" 
             [ngClass]="{'registry-number-entered': registration.registryNumber, 'registry-number-not-entered': !registration.registryNumber }"> <!--Primer dinamicke dodele klase html elementu u angularu-->
             <div *ngIf="registration.registryNumber == null && !registryNumber.pristine" class="alert alert-danger">Ovo polje je obavezno</div>
         </div>

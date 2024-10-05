@@ -181,7 +181,7 @@ public class LicenseService {
         License license = licenseRepository.getReferenceById(licenseId);
         license.setStatus(LicenseStatus.CONFIRMED);
         
-        // sendEmailAboutConfirmation(license, true);
+        sendEmailAboutConfirmation(license, true);
         
         return licenseRepository.save(license);
         
